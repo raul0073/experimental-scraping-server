@@ -1,0 +1,54 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+env/
+venv/
+ENV/
+
+# Editor/IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Environment files
+.env
+.env.*
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Coverage and test output
+.coverage
+htmlcov/
+.tox/
+.nox/
+.cache/
+.pytest_cache/
+
+# MyPy
+.mypy_cache/
+
+# Pydantic compiled models
+*.schema.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# FastAPI generated OpenAPI docs
+openapi.json
+
+# Database
+*.sqlite3
+*.db
+
+# Misc
+*.bak
+*.tmp
