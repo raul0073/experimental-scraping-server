@@ -31,10 +31,10 @@ class TeamDataService:
             best_11=[],
         )
 
+        players = AIService.complete_player_details(players)
         # BestXIService
         best_11, formation = BestXIService().run(intermediate_team_model)
             
-        players = AIService.complete_player_details(players)
         
         zones = ZoneService().compute_all_zones(players, team_stats)
 

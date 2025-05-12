@@ -82,8 +82,9 @@ SCORE_CONFIG = {
     "GK": {
         "pros": {
             "keeper": ["Penalties Saved", "Crosses Stopped %", "Clean Sheet %"],
-            "keeper_adv": ["Launch %", "Passes Attempted"],
-            "passing": ["Pass Completion %"]
+            "keeper_adv": ["Launch %"],
+            "passing": ["Pass Completion %"],
+           
         },
         "cons": {
             "keeper": ["Own Goals", "Defensive Errors"],
@@ -100,7 +101,8 @@ SCORE_CONFIG = {
                 "Tackles + Interceptions", "Blocks", "Clearances", "Challenge Tackle Success %"
             ],
             "misc": ["Aerial Duels Win %"],
-            "passing": ["Progressive Passes", "Total Pass Completion %", "types_Switches"]
+            "passing": ["Progressive Passes", "Total Pass Completion %", "types_Switches"],
+            "possession": ["Touches in Attacking Penalty Area"]
         },
         "cons": {
             "defense": ["Errors Leading to Shot", "Own Goals"],
@@ -109,7 +111,7 @@ SCORE_CONFIG = {
         },
         "important": {
             "defense": ["Tackles in Defensive Third", "Tackles Won", "Blocks"],
-            "standard": ["xG / 90", "xAG / 90"]
+            "standard": ["Goals"]
         }
     },
     "MID": {
@@ -119,9 +121,9 @@ SCORE_CONFIG = {
                 "Progressive Passes", "Passes into Final Third", "types_Switches", "types_Through Balls"
             ],
             "possession": [
-                "Progressive Carries", "Carries into Final Third", "Touches (All)"
+                "Progressive Carries", "Carries into Final Third", "Touches (All)", "Touches in Attacking Penalty Area"
             ],
-            "standard": ["Assists", "xG"]
+            "standard": ["Assists", "xG", "Goals"],
         },
         "cons": {
             "possession": ["Dispossessed", "Miscontrols"],
@@ -145,7 +147,7 @@ SCORE_CONFIG = {
             ]
         },
         "cons": {
-            "shooting": ["Shots Off Target", "Big Chances Missed"],
+            "shooting": ["Big Chances Missed"],
             "possession": ["Dispossessed", "Miscontrols"],
             "misc": ["Fouls Committed", "Offsides"]
         },

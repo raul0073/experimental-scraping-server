@@ -58,24 +58,24 @@ class SoccerDataUtils:
     @staticmethod
     def format_player_stats_for_display(player_stats: pd.DataFrame) -> List[Dict[str, Any]]:
         """
-        Converts a player stats DataFrame into a list of {label, val, rank} dicts for UI display.
+        Converts a player stats DataFrame into a *flat* list of {label, val, rank} dicts,
+        skipping meta-columns and any '<col>_rank' columns.
         """
-        result = []
-        skip_keys = {"player", "team", "league", "season", "url", "born", "nation", "pos", "age"}
+        result: List[Dict[str, Any]] = []
+        skip_keys = {"player", "team", "league", "season", "url",
+                    "born", "nation", "pos", "age"}
 
-        for index, row in player_stats.iterrows():
-            row_result = []
+        for _, row in player_stats.iterrows():
             for key, val in row.items():
                 if key in skip_keys or key.endswith("_rank"):
                     continue
-                rank_key = f"{key}_rank"
-                rank_val = row.get(rank_key)
-                row_result.append({
+                # Look up the corresponding rank column
+                rank_val = row.get(f"{key}_rank", None)
+                result.append({
                     "label": key,
                     "val": val,
                     "rank": rank_val
                 })
-            result.append(row_result)
 
         return result
 

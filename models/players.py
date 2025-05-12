@@ -19,6 +19,7 @@ ALL_POSITIONS = [
 
 
 class PlayerModel(BaseModel):
+    id: str = ""
     name: str
     team: str
     position: str
@@ -37,6 +38,7 @@ class PlayerModel(BaseModel):
     def from_df_row(row) -> "PlayerModel":
         position = row.get("standard_pos", "")
         return PlayerModel(
+            id=f"{row["player"]}-{row["team"]}",
             name=row["player"],
             team=row["team"],
             position=position,

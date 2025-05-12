@@ -52,7 +52,7 @@ class AIService:
 
             # v1.75.0
             response = client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4.1-nano",
                 messages=[
                     {"role": "system", "content": "You are a football/soccer data analyst."},
                     {"role": "user", "content": prompt},
@@ -84,7 +84,7 @@ class AIService:
             prompt = AIService.build_prompt(players)
 
             response = client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4.1-nano",
                 messages=[
                     {
                         "role": "system",

@@ -1,146 +1,153 @@
-import sys
-from typing import List, Dict, Tuple
-from collections import defaultdict, Counter
+from typing import List, Tuple, Dict
 import logging
+from collections import defaultdict
+
 from models.players import PlayerModel
 from models.stats_aware.stats_aware import SCORE_CONFIG, SCORE_CONFIG_WEIGHTS
 from models.team import TeamModel
-from typing import List, Dict, Tuple
-from collections import defaultdict
-import logging
-FORMATION_WEIGHTS = {
-    "4-3-3": 1.0,
-    "4-2-3-1": 0.95,
-    "4-4-2": 0.9,
-    "3-5-2": 0.85,
-    "5-3-2": 0.75,
-    "5-2-3": 0.7,
-}
 
-class BaseXIService:
+# Role‐ordering for final XI
+DEF_ROLE_ORDER = {3:["CB","CB","CB"],4:["LB","CB","CB","RB"],5:["LB","LCB","RCB","CB","RB"]}
+MID_ROLE_ORDER = {2:["CDM","CDM"],3:["LCM","CM","RCM"],4:["LM","LCM","RCM","RM"],5:["LWB","LCM","CDM","RCM","RWB"]}
+FWD_ROLE_ORDER = {1:["ST"],2:["ST","ST"],3:["LW","ST","RW"]}
+
+
+class BestXIService:
     def map_to_simple_position(self, pos_str: str) -> str:
-        if not pos_str:
-            return ""
-        
-        # Clean up and prioritize based on order
-        parts = [p.strip() for p in pos_str.split(",")]
-
-        for part in parts:
-            if part == "GK":
-                return "GK"
-            elif part == "DF":
-                return "DEF"
-            elif part == "MF":
-                return "MID"
-            elif part == "FW":
-                return "FWD"
-
+        if not pos_str: return ""
+        for key in ("GK","FW","MF","DF"):
+            if key in pos_str:
+                return {"GK":"GK","FW":"FWD","MF":"MID","DF":"DEF"}[key]
         return ""
 
-    def is_eligible(self, player: PlayerModel) -> bool:
-        stats = player.stats.get("standard", [])
-        minutes = next((s["val"] for s in stats if s["label"] == "Minutes Played"), 0)
-        return minutes >= 910
+    def is_eligible(self, p: PlayerModel) -> bool:
+        mins = next((s["val"] for s in p.stats.get("standard",[]) if s["label"]=="Minutes Played"), 0)
+        return mins >= 910
 
-    def get_score(self, player: PlayerModel) -> float:
-        pos = self.map_to_simple_position(player.position)
-        config = SCORE_CONFIG.get(pos, {})
-        weights = SCORE_CONFIG_WEIGHTS.get(pos, {"pros": 1.0, "important": 2.0, "cons": 1.0})
-        score = 0.0
+    def assign_line_roles(self, players: List[PlayerModel], order: List[str]) -> List[PlayerModel]:
+        assigned, rem = [], players.copy()
+        order = order[: len(players)]
+        for role in order:
+            exact = [p for p in rem if p.role==role]
+            pick  = max(exact, key=lambda x: x.rating) if exact else max(rem, key=lambda x: x.rating)
+            assigned.append(pick)
+            rem.remove(pick)
+        return assigned
 
-        for impact, stat_map in config.items():
-            polarity = 1.0 if impact != "cons" else -1.0
-            weight = weights.get(impact, 1.0)
-            for stat_type, labels in stat_map.items():
-                stat_list = player.stats.get(stat_type, [])
-                for label in labels:
-                    for stat in stat_list:
-                        if stat["label"] == label:
-                            val = stat["val"]
-                            if isinstance(val, (int, float)) and val > 0:
-                                score += polarity * weight * val
-                                # DEBUG
-                                # print(f"✓ {player.name}: {label} = {val}, weight = {weight}, impact = {impact}")
-        return round(score, 2)
+    def select_best_xi(self, team: TeamModel) -> Tuple[List[PlayerModel], str]:
+        # 1) Filter & collect per-90 stats & track max per label
+        eligible = [p for p in team.players if self.is_eligible(p)]
+        if not eligible:
+            logging.error("No eligible players.")
+            return [], ""
 
-    def group_by_position(self, players: List[PlayerModel]) -> Dict[str, List[PlayerModel]]:
-        grouped = defaultdict(list)
-        for player in players:
-            pos = self.map_to_simple_position(player.position)
-            if pos:
-                grouped[pos].append(player)
-        return grouped
+        per90_list: List[Tuple[PlayerModel, Dict[str, float]]] = []
+        label_max: Dict[str, float] = defaultdict(float)
+        max_mins = 0
 
-    def get_formation_templates(self) -> List[Tuple[int, int, int]]:
-        return [(4, 3, 3), (4, 2, 3), (3, 5, 2), (5, 3, 2)]
+        for p in eligible:
+            mins = next(
+                (s["val"] for s in p.stats.get("standard", [])
+                 if s["label"] == "Minutes Played"),
+                0
+            )
+            max_mins = max(max_mins, mins)
+            statmap: Dict[str, float] = {}
 
-    def select_best_xi(self, players: List[PlayerModel]) -> Tuple[List[PlayerModel], str]:
-        eligible_players = [p for p in players if self.is_eligible(p)]
+            pos = self.map_to_simple_position(p.position)
+            conf = SCORE_CONFIG.get(pos, {})
 
-        for player in eligible_players:
-            player.rating = self.get_score(player)
+            # build statmap of per-90 or percent metrics
+            for impact in conf.values():
+                for labels in impact.values():
+                    for lbl in labels:
+                        for sts in p.stats.get("standard", []):
+                            if sts["label"] == lbl and isinstance(sts["val"], (int, float)):
+                                val = sts["val"]
+                                norm = val if lbl.endswith("%") else (val / (mins/90) if mins > 0 else 0.0)
+                                statmap[lbl] = norm
+                                label_max[lbl] = max(label_max[lbl], norm)
 
-        grouped = self.group_by_position(eligible_players)
+            per90_list.append((p, statmap))
 
-        for pos in grouped:
-            grouped[pos].sort(key=lambda p: p.rating, reverse=True)
+        # 2) Build percentiles
+        pct_map: Dict[str, Dict[float, float]] = {}
+        for lbl, mx in label_max.items():
+            vals = [statmap.get(lbl, 0.0) for (_, statmap) in per90_list]
+            sorted_vals = sorted(vals)
+            n = len(sorted_vals)
+            pct_map[lbl] = { v: (sorted_vals.index(v) + 1) / n for v in sorted_vals }
 
-        best_total_score = 0
-        best_xi = []
-        best_formation = ""
+        # 3) Score each player 0–100
+        for p, statmap in per90_list:
+            pos = self.map_to_simple_position(p.position)
+            conf = SCORE_CONFIG.get(pos, {})
+            wts  = SCORE_CONFIG_WEIGHTS
 
-        for def_n, mid_n, fwd_n in self.get_formation_templates():
-            logging.info(f"Trying formation DEF:{def_n}, MID:{mid_n}, FWD:{fwd_n}...")
-            gk = grouped.get("GK", [])[:1]
-            defs = grouped.get("DEF", [])[:def_n]
-            mids = grouped.get("MID", [])[:mid_n]
-            fwds = grouped.get("FWD", [])[:fwd_n]
+            contribs: List[float] = []
+            for impact, stat_groups in conf.items():
+                sign = 1 if impact != "cons" else -1
+                w    = wts.get(impact, 1.0)
+                for labels in stat_groups.values():
+                    for lbl in labels:
+                        if lbl in statmap:
+                            norm = statmap[lbl]
+                            pct  = pct_map[lbl].get(norm, 0.0)
+                            contribs.append(sign * w * pct)
 
-            if len(gk) < 1 or len(defs) < def_n or len(mids) < mid_n or len(fwds) < fwd_n:
-                logging.warning("Not enough players for formation")
-                continue
+            perf_01 = sum(contribs) / len(contribs) if contribs else 0.0
 
-            temp_xi = gk + defs + mids + fwds
-            temp_score = sum(p.rating for p in temp_xi)
-            
-            temp_score *= FORMATION_WEIGHTS.get(f"{def_n}-{mid_n}-{fwd_n}", 1.0)
-            
-            if temp_score > best_total_score:
-                best_total_score = temp_score
-                best_xi = temp_xi
-                best_formation = f"{def_n}-{mid_n}-{fwd_n}"
+            mins = next(
+                (s["val"] for s in p.stats.get("standard", [])
+                 if s["label"] == "Minutes Played"),
+                0
+            )
+            avail = mins / max_mins if max_mins > 0 else 0.0
+
+            p.rating = round((0.8 * perf_01 + 0.2 * avail) * 100, 1)
+
+        # 4) Group & sort by line
+        buckets = {"GK":[], "DEF":[], "MID":[], "FWD":[]}
+        for p in eligible:
+            line = self.map_to_simple_position(p.position)
+            if line in buckets:
+                buckets[line].append(p)
+        for lst in buckets.values():
+            lst.sort(key=lambda x: x.rating, reverse=True)
+
+        logging.info(
+            f"Counts -> GK={len(buckets['GK'])}, DEF={len(buckets['DEF'])}, "
+            f"MID={len(buckets['MID'])}, FWD={len(buckets['FWD'])}"
+        )
+
+        # 5) Flexible XI search
+        best_score, best_xi, best_cfg = -1, [], (0,0,0)
+        for dn in range(3,6):
+            for mn in range(2,6):
+                fn = 10 - dn - mn
+                if not (1<=fn<=3): continue
+                if len(buckets["DEF"])<dn or len(buckets["MID"])<mn or len(buckets["FWD"])<fn:
+                    continue
+                xi = buckets["GK"][:1] + buckets["DEF"][:dn] + buckets["MID"][:mn] + buckets["FWD"][:fn]
+                total = sum(p.rating for p in xi)
+                if total>best_score:
+                    best_score, best_xi, best_cfg = total, xi, (dn,mn,fn)
 
         if not best_xi:
-            logging.error("No valid formation could be satisfied from eligible players.")
+            logging.error("No valid formation.")
+            return [], ""
 
-        return best_xi, best_formation
+        # 6) Final role ordering
+        dn,mn,fn = best_cfg
+        final = []
+        final += best_xi[:1]
+        final += self.assign_line_roles(best_xi[1:1+dn], DEF_ROLE_ORDER[dn])
+        final += self.assign_line_roles(best_xi[1+dn:1+dn+mn], MID_ROLE_ORDER[mn])
+        final += self.assign_line_roles(best_xi[-fn:], FWD_ROLE_ORDER[fn])
 
+        formation = f"1-{dn}-{mn}-{fn}"
+        logging.info(f"Chosen {formation} score={best_score}")
+        return final, formation
 
-
-class BestXIService(BaseXIService):
-    def init(self, team: TeamModel):
-        self.team = team
-        self.players = team.players
-        self.league = team.league
-        self.season = team.season
-        self.name = team.name
-        logging.info(f"BestXIService initialized for {self.name} / {self.season}")
-
-    def run(self, team: TeamModel) -> List[PlayerModel]:
-        self.team = team
-        self.players = team.players
-        self.league = team.league
-        self.season = team.season
-        self.name = team.name
-        return self.select_best_xi(self.players)
-
-class LeagueBestXIService(BaseXIService):
-    def init(self, teams: List[TeamModel]):
-        self.teams = teams
-        self.players = [p for team in teams for p in team.players]
-        logging.info(f"LeagueBestXIService initialized with {len(self.players)} players from {len(self.teams)} teams.")
-
-    def run(self) -> Tuple[List[PlayerModel], str]:
-        return self.select_best_xi(self.players)
-
-
+    def run(self, team: TeamModel) -> Tuple[List[PlayerModel], str]:
+        return self.select_best_xi(team)
