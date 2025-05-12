@@ -1,5 +1,4 @@
 from typing import List, Optional
-from bson import ObjectId
 from core.db import mongo_collection
 from models.team import TeamInitPayload, TeamModel
 
