@@ -1,7 +1,6 @@
 from typing import List, Tuple, Dict
 import logging
 from collections import defaultdict
-
 from models.players import PlayerModel
 from models.stats_aware.stats_aware import SCORE_CONFIG, SCORE_CONFIG_WEIGHTS
 from models.team import TeamModel
@@ -35,6 +34,7 @@ class BestXIService:
         return assigned
 
     def select_best_xi(self, team: TeamModel) -> Tuple[List[PlayerModel], str]:
+        
         # 1) Filter & collect per-90 stats & track max per label
         eligible = [p for p in team.players if self.is_eligible(p)]
         if not eligible:

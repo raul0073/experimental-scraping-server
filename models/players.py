@@ -6,13 +6,10 @@ from pydantic import BaseModel
 ALL_POSITIONS = [
     # Goalkeeper
     "GK",
-
     # Defenders
     "RB", "RWB", "CB", "LB", "LWB",
-
     # Midfielders
     "CDM", "CM", "CAM", "RM", "LM",
-
     # Forwards
     "RW", "LW", "CF", "ST", "SS"
 ]
@@ -42,7 +39,7 @@ class PlayerModel(BaseModel):
             name=row["player"],
             team=row["team"],
             position=position,
-            role=position,  # ✅ ensure role is always set
+            role=position, 
             age=row.get("standard_age", ""),
             nationality=row.get("standard_nation", ""),
             stats=PlayerModel.group_stats_by_type(row)

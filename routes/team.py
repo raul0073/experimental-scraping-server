@@ -1,6 +1,4 @@
-from typing import List
 from fastapi import APIRouter, Body, HTTPException
-
 from models.team import TeamInitPayload, TeamModel
 from services.db_service import DBService
 from services.team_init_service import TeamDataService

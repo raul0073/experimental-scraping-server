@@ -1,14 +1,10 @@
-# app/core/db.py
 from contextlib import contextmanager
 from pymongo import MongoClient
-from pymongo.collection import Collection
 from dotenv import load_dotenv
 import os
 
-# Load environment variables
 load_dotenv()
 
-# Fetch env vars
 mongodb_uri = os.getenv("MONGODB_URI")
 db_name = os.getenv("DB_NAME")
 

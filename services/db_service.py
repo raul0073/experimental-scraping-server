@@ -1,6 +1,6 @@
 from typing import List, Optional
 from core.db import mongo_collection
-from models.team import TeamInitPayload, TeamModel
+from models.team import TeamModel
 
 class DBService:
     TEAM_COLLECTION = "teams"

@@ -13,12 +13,14 @@ class TeamDataService:
 
     @staticmethod
     def init_team(payload: TeamModel) -> TeamModel:
-        sds = SoccerDataService(league=payload.league, season=payload.season)
         
-        team_stats = sds.get_team_stats(team=payload.name, stats_type=StatsOptions.STANDARD, against=False)
+        sds = SoccerDataService(league=payload.league, season=payload.season)
+        team_stats = sds.get_all_team_stats(team=payload.name, against=False)
+        team_stats_against = sds.get_all_team_stats(team=payload.name, against=True)
         player_df = sds.get_all_player_stats(team=payload.name)
         players = [PlayerModel.from_df_row(row) for _, row in player_df.iterrows()]
-        
+
+
         # intermediate model to pass into BestXIService
         intermediate_team_model = TeamModel(
             name=payload.name,
@@ -27,16 +29,16 @@ class TeamDataService:
             league=payload.league,
             season=payload.season,
             stats=team_stats,
+            stats_against=team_stats_against,
             players=players,
             best_11=[],
         )
 
         players = AIService.complete_player_details(players)
-        # BestXIService
+        
         best_11, formation = BestXIService().run(intermediate_team_model)
             
-        
-        zones = ZoneService().compute_all_zones(players, team_stats)
+        zones = ZoneService(sds).compute_all_zones(players, team_stats, team_stats_against)
 
         return TeamModel(
             name=payload.name,
@@ -45,6 +47,7 @@ class TeamDataService:
             league=payload.league,
             season=payload.season,
             stats=team_stats,
+            stats_against=team_stats_against,
             players=players,
             best_11=best_11,
             formation=formation,

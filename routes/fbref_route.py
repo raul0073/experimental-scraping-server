@@ -4,7 +4,6 @@ from services.fbref_data_service import SoccerDataService
 
 router = APIRouter()
 
-
 @router.get("/")
 async def get_team_stats(
     team: str = Query(..., description="Team name (e.g., 'Arsenal')"),

@@ -6,7 +6,6 @@ from typing import List, Dict
 from fastapi import HTTPException
 from openai import OpenAI
 from models.players import PlayerModel
-from models.stats_aware.stats_aware import IMPORTANT_STATS  
 import logging
 import json
 load_dotenv()
@@ -66,18 +65,6 @@ class AIService:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"OpenAI summary generation failed: {str(e)}")
 
-    def get_important_stats_for_position(position: str, stats_type: str) -> List[str]:
-        """
-        Given a player's position and a stats type, return a list of relevant stat labels.
-        
-        :param position: Player's position (e.g., 'GK', 'CB', 'FB', 'CDM', 'MC', 'W', 'ST')
-        :param stats_type: Type of stats to filter (e.g., 'passing', 'shooting', etc.)
-        :return: List of important stat labels
-        """
-        if stats_type in IMPORTANT_STATS and position in IMPORTANT_STATS[stats_type]:
-            return IMPORTANT_STATS[stats_type][position]
-        return [] 
-
     @staticmethod
     def complete_player_details(players: List[PlayerModel]) -> List[PlayerModel]:
         try:
@@ -89,10 +76,12 @@ class AIService:
                     {
                         "role": "system",
                         "content": (
-                            "You are a football analyst. Based on player names and their general positions, "
-                            "assign realistic shirt numbers (1–99) and precise roles (e.g., LB, RCB, LCD, CDM, CM, CAM, RW, LW, ST) "
-                            "important - for the 2024–25 season in the English Premier League. "
-                            "Only use roles appropriate for each position group (GK, DF, MF, FW). "
+                            "You are an expert football data analyst for the 2024–25 season."
+                            "Given a player profile, your job is to assign the **most accurate tactical role** (e.g., LB, LWB, RCB, LCD, RB, RWB, CDM, CM, LCM, RCM, RM,LM, CAM, RW, LW, CF, ST)"
+                            "You must return **exactly one** tactical role that best fits how this player is deployed in the current 2024–25 season."
+                            "In addition to the role, return: full player name, most accurate tactical role, current squad number at club (simulated lookup if unknown) and dominant foot"
+                            "your output on *club-level data only* and ignore national team deployments."
+                            "Be strict: **no guesses**, no 'hybrid', 'either', or dual-position answers."
                             "Respond with a valid JSON list of objects with keys: name, role, shirt_number, and dominant foot."
                         )
                     },

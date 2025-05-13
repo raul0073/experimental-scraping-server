@@ -1,6 +1,7 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 from pydantic import BaseModel
 from models.players import PlayerModel
+from models.stats_type import TeamStatBlock
 from models.zones.zones_config import ZoneData
 
 class TeamInitPayload(BaseModel):
@@ -18,7 +19,7 @@ class TeamModel(BaseModel):
     slug: str
     logo: Optional[str]
     formation: Optional[str] = ""
-    stats: List[List[Dict[str, Any]]] 
+    stats: List[TeamStatBlock]
     players: List[PlayerModel]
     best_11: List[PlayerModel]
     zones: Optional[Dict[str, ZoneData]] = None

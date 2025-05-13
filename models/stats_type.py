@@ -1,11 +1,26 @@
 from enum import Enum
-from typing import Optional, Type
+from typing import Any, Dict, List, Optional, Type
 from pydantic import BaseModel, Field, model_serializer
 from typing import Optional
 
+class TeamStatBlock(BaseModel):
+    stat_type: str
+    rows: List[Dict[str, Any]]
 
+class TeamStatsToFetchInit(str, Enum):
+    STANDARD = "standard"
+    KEEPER = "keeper"
+    KEEPER_ADVANCED = "keeper_adv"
+    SHOOTING = "shooting"
+    PASSING = "passing"
+    PASSING_TYPES = "passing_types"
+    GOAL_SHOT_CREATION = "goal_shot_creation"
+    DEFENSE = "defense"
+    POSSESSION = "possession"
+    PLAYING_TIME = "playing_time"
+    MISCELLANEOUS = "misc"
 
-
+    
 class StatsOptions(str, Enum):
     STANDARD = "standard"
     KEEPER = "keeper"
@@ -209,3 +224,15 @@ STAT_TYPE_CLASS_MAP: dict[str, Type[BaseModel]] = {
     "playing_time": PlayingTimeStats,
     "misc": MiscellaneousStats,
 }
+
+class StatType(BaseModel):
+    label: str
+    val: float
+    rank: int
+    
+
+class PlayerStatsRequest(BaseModel):
+    stats: List[StatType]
+    stats_type: StatsOptions
+    player_name: str
+    player_role: str
