@@ -8,11 +8,11 @@ from services.rating.zones_service import ZoneService
 
 class TeamAnalysisService:
     @staticmethod
-    def analyze(team: TeamModel, user_config: dict) -> TeamModel:
+    def analyze(team: TeamModel, user_config: dict, user_id: str) -> TeamModel:
         zone_config = user_config.get("zone_config", {})
         zone_scalers   = user_config.get("zone_scalers", {})
 
-        best_11, formation = BestXIService().run(team)
+        best_11, formation = BestXIService(user_id).run(team)
 
         zone_service = ZoneService(data_service=None)
         zones = zone_service.compute_all_zones(

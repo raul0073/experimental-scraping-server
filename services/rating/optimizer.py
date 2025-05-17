@@ -99,14 +99,14 @@ class ConfigOptimizer:
             optimizer=True
         )
         logger.info("ai_default config updated successfully")
-
+        user_id = 'ai_default'
         # Step 4: recompute teams with new config
         for idx, team in enumerate(teams, start=1):
             logger.info(f"[Recompute {idx}/{total}] Team: {team.name}")
             try:
                 ts = team.stats
                 tas = team.stats_against
-                best11, form = BestXIService().run(team)
+                best11, form = BestXIService(user_id).run(team)
                 for idx, team in enumerate(teams, start=1):
                     logger.info(f"[Recompute {idx}/{total}] Team: {team.name}")
                     raw_zone_cfg = {

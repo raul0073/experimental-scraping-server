@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Body, HTTPException
-from models.users.user import PlayerConfigModel, UserModelInit, UserPlayerConfig
+from models.users.user import PlayerConfigModel, UserZonesConfigInit, UserPlayerConfig
 from services.db.user_config_service import UserConfigService
 
 router = APIRouter()
@@ -10,7 +10,7 @@ def get_user_config(user_id: str):
 
 
 @router.post("/config")
-def save_user_config(payload: UserModelInit = Body(...)):
+def save_user_config(payload: UserZonesConfigInit = Body(...)):
     if not payload.user_id:
         raise HTTPException(400, detail="Missing user_id")
     

@@ -30,7 +30,7 @@ class UserModel(BaseModel):
     updated_at: Optional[datetime]
 
 
-class UserModelInit(BaseModel):
+class UserZonesConfigInit(BaseModel):
     user_id: str
     zones_config: UserConfigModel
 

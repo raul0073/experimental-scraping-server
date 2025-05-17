@@ -44,7 +44,7 @@ def analyze_team(payload: UserAnalyzeTeam = Body(...)):
 
         user_config = UserConfigService.get_user_config(payload.user_id)
        
-        result = TeamAnalysisService.analyze(team, user_config)
+        result = TeamAnalysisService.analyze(team, user_config, payload.id)
         return result
 
     except Exception as e:

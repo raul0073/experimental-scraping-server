@@ -175,7 +175,6 @@ class ZoneService:
         mins_list = [(p, self._get_minutes_played(p)) for p in players]
         total_minutes = sum(m for _, m in mins_list) or 1.0
 
-
         # sum up rating * pos_weight * (mins/total)
         score = 0.0
         for p, mins in mins_list:
@@ -191,7 +190,7 @@ class ZoneService:
             # 1) If the player’s exact role is in the config, use it:
             if role in config:
                 return config[role]
-
+            
             # 2) Otherwise see if there’s a mapped fallback (e.g. RCM → CM)
             fallback = POSITIONS_FALLBACK_MAP.get(role)
             if fallback and fallback in config:
@@ -202,7 +201,7 @@ class ZoneService:
             return 0.0
              
         
-    def _score_player_metrics(
+    def _score_player_metrics_for_zones(
         self,
         player: PlayerModel,
         keys_config: Dict[str, List[str]],
