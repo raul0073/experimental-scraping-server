@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware as Cors
-from routes import fbref_route, AI, team
+from routes import fbref_route, AI, team, user, admin
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -12,6 +12,8 @@ app = FastAPI(title="Arsenal Overview 25", version="0.1.0")
 app.include_router(fbref_route.router, prefix="/api/v2/team-stats")
 app.include_router(AI.router, prefix="/api/v2/ai")
 app.include_router(team.router, prefix="/api/v2/team")
+app.include_router(user.router, prefix="/api/v2/user")
+app.include_router(admin.router, prefix="/admin/optimizer")
 
 # root
 @app.get("/", tags=["Root"])

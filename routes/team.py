@@ -1,6 +1,10 @@
-from fastapi import APIRouter, Body, HTTPException
+import logging
+from fastapi import APIRouter, Body, HTTPException, Query
 from models.team import TeamInitPayload, TeamModel
-from services.db_service import DBService
+from models.users.user import UserAnalyzeTeam
+from services.db.db_service import DBService
+from services.db.user_config_service import UserConfigService
+from services.rating.analysis_service import TeamAnalysisService
 from services.team_init_service import TeamDataService
 
 router = APIRouter()
@@ -13,7 +17,7 @@ def init_team(team: TeamInitPayload = Body(...)):
             return existing
         else:
             team_model: TeamModel = TeamDataService.init_team(team)
-            team_id = DBService.save_team(team_model)
+            team_id = DBService.update_team(team_model)
             return team_model
     
     except Exception as e:
@@ -27,3 +31,23 @@ def get_all_teams():
         return DBService.get_all_teams()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch teams: {str(e)}")
+    
+    
+@router.post("/analyze")
+def analyze_team(payload: UserAnalyzeTeam = Body(...)):
+    try:
+        if not payload.team_name:
+            raise HTTPException(403, detail="Team name is undifined")
+        team = DBService.get_team_by_name(payload.team_name)
+        if not team:
+            raise HTTPException(404, detail="Team not found in db")
+
+        user_config = UserConfigService.get_user_config(payload.user_id)
+       
+        result = TeamAnalysisService.analyze(team, user_config)
+        return result
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Failed to analyze team: {str(e)}")

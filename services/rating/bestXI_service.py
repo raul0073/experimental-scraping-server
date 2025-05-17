@@ -1,14 +1,16 @@
 from typing import List, Tuple, Dict
 import logging
 from collections import defaultdict
+
+import numpy as np
 from models.players import PlayerModel
 from models.stats_aware.stats_aware import SCORE_CONFIG, SCORE_CONFIG_WEIGHTS
 from models.team import TeamModel
 
 # Role‐ordering for final XI
-DEF_ROLE_ORDER = {3:["CB","CB","CB"],4:["LB","CB","CB","RB"],5:["LB","LCB","RCB","CB","RB"]}
+DEF_ROLE_ORDER = {3:["CB","CB","CB"],4:["LB","CB","CB","RB"],5:["LB","LCB","CB","RCB","RB"]}
 MID_ROLE_ORDER = {2:["CDM","CDM"],3:["LCM","CM","RCM"],4:["LM","LCM","RCM","RM"],5:["LWB","LCM","CDM","RCM","RWB"]}
-FWD_ROLE_ORDER = {1:["ST"],2:["ST","ST"],3:["LW","ST","RW"]}
+FWD_ROLE_ORDER = {1:["ST"],2:["CF","ST"],3:["LW","ST","RW"],4:["LW","CF","ST","RW"]}
 
 
 class BestXIService:
@@ -26,8 +28,16 @@ class BestXIService:
     def assign_line_roles(self, players: List[PlayerModel], order: List[str]) -> List[PlayerModel]:
         assigned, rem = [], players.copy()
         order = order[: len(players)]
-        for role in order:
-            exact = [p for p in rem if p.role==role]
+
+        def role_match(player_role: str, template: str) -> bool:
+            """LCB matches CB, RCM matches CM, CAM matches AM/CM/CF as needed."""
+            if player_role == template:
+                return True
+            # loose: template at the end (LCB → CB) or inside (CAM contains AM)
+            return player_role.endswith(template) or template in player_role
+
+        for template_role in order:
+            exact = [p for p in rem if role_match(p.role, template_role)]
             pick  = max(exact, key=lambda x: x.rating) if exact else max(rem, key=lambda x: x.rating)
             assigned.append(pick)
             rem.remove(pick)
@@ -121,17 +131,34 @@ class BestXIService:
         )
 
         # 5) Flexible XI search
-        best_score, best_xi, best_cfg = -1, [], (0,0,0)
-        for dn in range(3,6):
-            for mn in range(2,6):
-                fn = 10 - dn - mn
-                if not (1<=fn<=3): continue
-                if len(buckets["DEF"])<dn or len(buckets["MID"])<mn or len(buckets["FWD"])<fn:
+        best_score, best_xi, best_cfg = -1, [], (0, 0, 0)
+        for dn in range(3, 6):          
+            for mn in range(2, 6):      
+                fn = 10 - dn - mn       
+                if not (1 <= fn <= 4):  
                     continue
-                xi = buckets["GK"][:1] + buckets["DEF"][:dn] + buckets["MID"][:mn] + buckets["FWD"][:fn]
-                total = sum(p.rating for p in xi)
-                if total>best_score:
-                    best_score, best_xi, best_cfg = total, xi, (dn,mn,fn)
+                if len(buckets["DEF"]) < dn or len(buckets["MID"]) < mn or len(buckets["FWD"]) < fn:
+                    continue
+                xi = (
+                    buckets["GK"][:1]
+                    + buckets["DEF"][:dn]
+                    + buckets["MID"][:mn]
+                    + buckets["FWD"][:fn]
+                )
+
+                gk_rating = xi[0].rating
+
+                def line_avg(code):
+                    return np.mean([p.rating for p in xi if self.map_to_simple_position(p.position) == code])
+                
+                avg_def = line_avg("DEF")
+                avg_mid = line_avg("MID")
+                avg_fwd = line_avg("FWD")
+
+                total = (gk_rating + avg_def + avg_mid + avg_fwd) / 4      # neutral metric
+
+                if total > best_score:
+                    best_score, best_xi, best_cfg = total, xi, (dn, mn, fn)
 
         if not best_xi:
             logging.error("No valid formation.")

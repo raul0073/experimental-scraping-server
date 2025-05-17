@@ -206,7 +206,7 @@ class SoccerDataService:
         print(f"df against: {against}: {df.head()}")
         if df.empty:
             raise ValueError(f"No data found for {team} with stats type: {stats_type}.")
-        
+
         df = df.copy()
         df = df.reset_index()
         df = SoccerDataUtils.flatten_columns(df)
@@ -255,9 +255,9 @@ class SoccerDataService:
             detail = "; ".join(f"{k}: {v}" for k, v in errors.items())
             raise HTTPException(
                 status_code=500,
-                detail=f"No team stats could be fetched. Errors: {detail}"
+                detail=f"No team stats could be fetched. Errors: {detail}",
             )
-        
+
         # result = SoccerDataService.convert_team_stats_to_dict_format(result)
         return result
 
@@ -267,7 +267,9 @@ class SoccerDataService:
         tables exist (e.g. "standard", "passing", "keeper_adv", etc.).
         """
         return [opt.value for opt in StatsOptions]
-    
 
-    def convert_team_stats_to_dict_format(stats: List[TeamStatBlock]) -> Dict[str, List[Dict[str, Any]]]:
+    @staticmethod
+    def convert_team_stats_to_dict_format(
+        stats: List[TeamStatBlock],
+    ) -> Dict[str, List[Dict[str, Any]]]:
         return {block.stat_type: block.rows for block in stats}

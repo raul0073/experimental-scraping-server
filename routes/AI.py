@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, HTTPException, Query
 from typing import Dict, List
 from pydantic import BaseModel
 from models.stats_type import PlayerStatsRequest, StatsOptions
-from services.ai_service import AIService
+from services.ai.ai_service import AIService
 
 
 router = APIRouter()

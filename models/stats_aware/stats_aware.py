@@ -1,11 +1,14 @@
 
+from typing import Dict, List
+
+
 SCORE_CONFIG_WEIGHTS = {
     "pros": 1.0,
     "cons": -1.0,
     "important": 2.0,
 }
 
-SCORE_CONFIG = {
+SCORE_CONFIG:Dict[str, Dict[str, Dict[str, List[str]]]] = {
     "GK": {
         "pros": {
             "keeper": ["Penalties Saved", "Crosses Stopped %", "Clean Sheet %"],
@@ -25,7 +28,7 @@ SCORE_CONFIG = {
     "DEF": {
         "pros": {
             "defense": [
-                "Tackles + Interceptions", "Blocks", "Clearances", "Challenge Tackle Success %"
+                "Tackles + Interceptions", "Blocks", "Clearances", "Challenge Tackle Success %", "Tackles Won"
             ],
             "misc": ["Aerial Duels Win %"],
             "passing": ["Progressive Passes", "Total Pass Completion %", "types_Switches"],

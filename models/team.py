@@ -20,6 +20,7 @@ class TeamModel(BaseModel):
     logo: Optional[str]
     formation: Optional[str] = ""
     stats: List[TeamStatBlock]
+    stats_against: List[TeamStatBlock]
     players: List[PlayerModel]
     best_11: List[PlayerModel]
     zones: Optional[Dict[str, ZoneData]] = None

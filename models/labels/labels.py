@@ -1,4 +1,4 @@
-# label mappings for different stat types
+# label mappings for different stat types from fbref soccer data stats. config to readable labels.
 LABELS_CONFIG = {
     "standard": {
         # Playing Time

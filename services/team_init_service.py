@@ -4,10 +4,11 @@ import pandas as pd
 from models.players import PlayerModel
 from models.stats_type import StatsOptions
 from models.team import TeamInitPayload, TeamModel
-from services.ai_service import AIService
-from services.bestXI_service import BestXIService
-from services.fbref_data_service import SoccerDataService
-from services.zones_service import ZoneService
+from services.ai.ai_service import AIService
+from services.db.db_service import DBService
+from services.rating.bestXI_service import BestXIService
+from services.fbref.fbref_data_service import SoccerDataService
+from services.rating.zones_service import ZoneService
 
 class TeamDataService:
 
@@ -35,11 +36,12 @@ class TeamDataService:
         )
 
         players = AIService.complete_player_details(players)
+        DBService.save_team(intermediate_team_model) 
         
+        # return intermediate_team_model
         best_11, formation = BestXIService().run(intermediate_team_model)
-            
         zones = ZoneService(sds).compute_all_zones(players, team_stats, team_stats_against)
-
+        
         return TeamModel(
             name=payload.name,
             slug=payload.slug,

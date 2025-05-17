@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Optional
 from core.db import mongo_collection
 from models.team import TeamModel
@@ -12,7 +13,17 @@ class DBService:
             data["_id"] = team.name  
             col.replace_one({"_id": team.name}, data, upsert=True)
             return team.name
-
+        
+    @staticmethod
+    def update_team(team: TeamModel) -> str:
+        with mongo_collection("teams") as col:
+            col.update_one(
+                {"name": team.name},
+                {"$set": team.model_dump()},
+                upsert=True
+            )
+            return team.name
+        
     @classmethod
     def get_team_by_name(cls, name: str) -> TeamModel | None:
         with mongo_collection(cls.TEAM_COLLECTION) as col:

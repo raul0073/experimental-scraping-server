@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Query
 from models.stats_type import StatsOptions
-from services.fbref_data_service import SoccerDataService
+from services.fbref.fbref_data_service import SoccerDataService
 
 router = APIRouter()
 
