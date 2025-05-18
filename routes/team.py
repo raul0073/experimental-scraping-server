@@ -43,8 +43,8 @@ def analyze_team(payload: UserAnalyzeTeam = Body(...)):
             raise HTTPException(404, detail="Team not found in db")
 
         user_config = UserConfigService.get_user_config(payload.user_id)
-       
-        result = TeamAnalysisService.analyze(team, user_config, payload.id)
+        user_id = payload.user_id
+        result = TeamAnalysisService.analyze(team, user_config, user_id)
         return result
 
     except Exception as e:

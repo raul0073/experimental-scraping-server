@@ -90,7 +90,7 @@ class ConfigOptimizer:
         )
             for zid, zcfg in updated_config.zone_config.items()
         }
-        UserConfigService.save(
+        UserConfigService.update_zone_config(
             
             "ai_default",
             serializable_zone_config,

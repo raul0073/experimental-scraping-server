@@ -28,7 +28,7 @@ class BestXIService:
             self.score_weights = config_model.score_weights
         except Exception as e:
             import logging
-            logging.warning(f"Invalid player config for user {user_id}: {e}")
+            logging.warning(f"Invalid player config for user {user_id}: {players_config_raw} {e}")
             self.score_config = SCORE_CONFIG
             self.score_weights = SCORE_CONFIG_WEIGHTS
             
@@ -98,7 +98,7 @@ class BestXIService:
         for p, statmap in per90_list:
             pos = self.map_to_simple_position(p.position)
             conf = self.score_config.get(pos, {})
-            wts = self.score_weights
+            wts = self.score_weights.model_dump()
 
             contribs = []
             for impact, stat_groups in conf.items():
