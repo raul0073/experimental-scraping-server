@@ -23,7 +23,6 @@ def ping_self():
     except Exception as e:
         print(f"Ping failed: {e}")
 
-# Start scheduler only once
 scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(ping_self, "interval", minutes=13)
 scheduler.start()

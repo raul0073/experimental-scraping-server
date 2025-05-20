@@ -108,9 +108,9 @@ class PlottingService:
         ranked_cats = [cat for cat, _ in sorted_cats]
 
         # 3. Assign colors to categories
-        COLOR_HIGH = "#22C55E"  # emerald
-        COLOR_MID = "#3B82F6"   # blue
-        COLOR_LOW = "#EF4444"   # red
+        COLOR_HIGH = "#1a78cf"  # emerald
+        COLOR_MID = "#ff9300"   # blue
+        COLOR_LOW = "#d70232"   # red
 
         def fade(hex_color: str, alpha: float = 0.80):
             return to_rgba(hex_color, alpha=alpha)
