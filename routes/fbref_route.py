@@ -5,7 +5,7 @@ from services.fbref.fbref_data_service import SoccerDataService
 router = APIRouter()
 
 @router.get("/")
-async def get_team_stats(
+def get_team_stats(
     team: str = Query(..., description="Team name (e.g., 'Arsenal')"),
     stats_type: StatsOptions = Query(..., description="Type of statistics"),
     against: bool = Query(..., description="Whether to fetch opponent stats"),
@@ -66,7 +66,7 @@ def get_player_stats(
 
 
 @router.get("/season")
-async def get_team_season_stats(
+def get_team_season_stats(
     team: str = Query(..., description="Team name (e.g., 'Arsenal')"),
     stats_type: StatsOptions = Query(..., description="Type of statistics"),
     against: bool = Query(..., description="Whether to fetch opponent stats"),

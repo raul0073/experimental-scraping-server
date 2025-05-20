@@ -1,4 +1,6 @@
 from datetime import datetime
+import logging
+import time
 from typing import List, Optional
 from core.db import mongo_collection
 from models.team import TeamModel
@@ -42,5 +44,14 @@ class DBService:
         
     @classmethod
     def get_all_teams(cls) -> List[TeamModel]:
+        start = time.perf_counter()
         with mongo_collection(cls.TEAM_COLLECTION) as col:
-            return [TeamModel(**doc) for doc in col.find()]
+            logging.info("Querying MongoDB...")
+            raw_docs = list(col.find())  # force evaluation
+            logging.info(f"Mongo returned {len(raw_docs)} docs in {time.perf_counter() - start:.2f}s")
+
+        start = time.perf_counter()
+        teams = [TeamModel(**doc) for doc in raw_docs]
+        logging.info(f"Pydantic parsing took {time.perf_counter() - start:.2f}s")
+
+        return teams

@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware as Cors
-from routes import fbref_route, AI, team, user, admin
+from routes import fbref_route, AI, team, user, admin, plot
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -14,6 +14,7 @@ app.include_router(AI.router, prefix="/api/v2/ai")
 app.include_router(team.router, prefix="/api/v2/team")
 app.include_router(user.router, prefix="/api/v2/user")
 app.include_router(admin.router, prefix="/admin/optimizer")
+app.include_router(plot.router, prefix="/api/v2/test")
 
 # root
 @app.get("/", tags=["Root"])
@@ -24,7 +25,7 @@ async def read_root():
         return {"error": str(e)}
 
 # cors
-# TODO: db url
+# TODO: add DB url. add srver url.
 app.add_middleware(
     Cors,
     allow_origins=["*"],

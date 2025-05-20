@@ -101,6 +101,9 @@ class BestXIService:
             wts = self.score_weights.model_dump()
 
             contribs = []
+            contrib_sum = 0.0
+            weight_sum = 0.0
+
             for impact, stat_groups in conf.items():
                 sign = 1 if impact != "cons" else -1
                 w = wts.get(impact, 1.0)
@@ -109,12 +112,13 @@ class BestXIService:
                         if lbl in statmap:
                             norm = statmap[lbl]
                             pct = pct_map[lbl].get(norm, 0.0)
-                            contribs.append(sign * w * pct)
+                            contrib_sum += sign * w * pct
+                            weight_sum += abs(w)
 
-            perf_01 = sum(contribs) / len(contribs) if contribs else 0.0
+            perf_01 = contrib_sum / weight_sum if weight_sum > 0 else 0.0
             mins = next((s["val"] for s in p.stats.get("standard", []) if s["label"] == "Minutes Played"), 0)
             avail = mins / max_mins if max_mins > 0 else 0.0
-            p.rating = round((0.8 * perf_01 + 0.2 * avail) * 100, 1)
+            p.rating = round((0.7 * perf_01 + 0.3 * avail) * 100, 1)
 
     def select_best_xi(self, team: TeamModel) -> Tuple[List[PlayerModel], str]:
         eligible = [p for p in team.players if self.is_eligible(p)]
