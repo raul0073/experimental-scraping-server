@@ -15,7 +15,7 @@ app.include_router(team.router, prefix="/api/v2/team")
 app.include_router(user.router, prefix="/api/v2/user")
 app.include_router(admin.router, prefix="/admin/optimizer")
 app.include_router(plot.router, prefix="/api/v2/test")
-app.include_router(plot.router)
+app.include_router(ping.router)
 
 # root
 @app.get("/", tags=["Root"])
