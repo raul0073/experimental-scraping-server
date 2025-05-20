@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware as Cors
-from routes import fbref_route, AI, team, user, admin, plot
+from routes import fbref_route, AI, team, user, admin, plot, ping
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -15,6 +15,7 @@ app.include_router(team.router, prefix="/api/v2/team")
 app.include_router(user.router, prefix="/api/v2/user")
 app.include_router(admin.router, prefix="/admin/optimizer")
 app.include_router(plot.router, prefix="/api/v2/test")
+app.include_router(plot.router)
 
 # root
 @app.get("/", tags=["Root"])
