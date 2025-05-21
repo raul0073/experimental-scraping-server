@@ -30,6 +30,7 @@ def generate_chart(request: ChartRequest = Body(...)):
         if request.chart_type == "pizza":
             image_base64 = PlottingService.generate_pizza_chart_mplsoccer(
                 player_name=request.player_name,
+                player_position=request.player_position,
                 metrics=request.metrics
             )
         elif request.chart_type == "radar":

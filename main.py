@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+import logging
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware as Cors
@@ -5,8 +7,14 @@ from routes import fbref_route, AI, team, user, admin, plot, ping
 from dotenv import load_dotenv
 load_dotenv()
 
+
+
+    
 # meta
-app = FastAPI(title="Arsenal Overview 25", version="0.1.0")
+app = FastAPI(
+    title="EPL Overview 25",
+    version="0.1.0",
+)
 
 # routes
 app.include_router(fbref_route.router, prefix="/api/v2/team-stats")
@@ -35,6 +43,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+
+
+    
+    
 # run
 if __name__ == "__main__":
     import uvicorn

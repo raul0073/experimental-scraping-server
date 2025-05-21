@@ -7,7 +7,8 @@ from models.team import TeamModel
 
 class DBService:
     TEAM_COLLECTION = "teams"
-
+    BENCHMARK_COLLECTION = "benchmarks"
+    
     @classmethod
     def save_team(cls, team: TeamModel) -> str:
         with mongo_collection(cls.TEAM_COLLECTION) as col:
@@ -55,3 +56,23 @@ class DBService:
         logging.info(f"Pydantic parsing took {time.perf_counter() - start:.2f}s")
 
         return teams
+    
+    
+    @classmethod
+    def save_benchmarks(cls, benchmark_data: dict) -> None:
+        with mongo_collection(cls.BENCHMARK_COLLECTION) as col:
+            col.replace_one(
+                {"_id": "player_benchmarks"},
+                {"_id": "player_benchmarks", "data": benchmark_data},
+                upsert=True
+            )
+
+    @classmethod
+    def get_benchmarks(cls, pos: Optional[str] = None) -> dict:
+        with mongo_collection(cls.BENCHMARK_COLLECTION) as col:
+            doc = col.find_one({"_id": "player_benchmarks"})
+            data = doc.get("data", {}) if doc else {}
+
+            if pos:
+                return data.get(pos.upper(), {})  # Always uppercase!
+            return data

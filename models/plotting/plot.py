@@ -6,11 +6,12 @@ class ChartMetric(BaseModel):
     key: str
     value: float
     category: str
-    rawkey: str = Field(..., alias='rawKey')
-    
+    raw_key: str
+
     
 class ChartRequest(BaseModel):
     player_name: str
+    player_position: str
     stat_type: Optional[str] = None
     chart_type: str  # "radar" or "pizza"
     metrics: List[ChartMetric]
