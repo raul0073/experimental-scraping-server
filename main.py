@@ -22,7 +22,7 @@ app.include_router(AI.router, prefix="/api/v2/ai")
 app.include_router(team.router, prefix="/api/v2/team")
 app.include_router(user.router, prefix="/api/v2/user")
 app.include_router(admin.router, prefix="/admin/optimizer")
-app.include_router(plot.router, prefix="/api/v2/test")
+app.include_router(plot.router, prefix="/api/v2/plot")
 app.include_router(ping.router)
 
 # root

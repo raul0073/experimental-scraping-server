@@ -12,6 +12,5 @@ class ChartMetric(BaseModel):
 class ChartRequest(BaseModel):
     player_name: str
     player_position: str
-    stat_type: Optional[str] = None
-    chart_type: str  # "radar" or "pizza"
-    metrics: List[ChartMetric]
+    pizza_metrics: List[ChartMetric]
+    radar_metrics: List[ChartMetric]
