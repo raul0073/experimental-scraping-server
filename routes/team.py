@@ -33,17 +33,22 @@ def get_all_teams():
         raise HTTPException(status_code=500, detail=f"Failed to fetch teams: {str(e)}")
     
     
-@router.post("/analyze")
-def analyze_team(payload: UserAnalyzeTeam = Body(...)):
+@router.get("/analyze")
+def analyze_team(
+    team_name: str = Query(..., description="Name of the team"),
+    user_id: str = Query(..., description="User ID to fetch user config"),
+):
     try:
-        if not payload.team_name:
+        if not team_name:
             raise HTTPException(403, detail="Team name is undifined")
-        team = DBService.get_team_by_name(payload.team_name)
+        
+        team = DBService.get_team_by_name(team_name)
+        
         if not team:
             raise HTTPException(404, detail="Team not found in db")
 
-        user_config = UserConfigService.get_user_config(payload.user_id)
-        user_id = payload.user_id
+        user_config = UserConfigService.get_user_config(user_id)
+        user_id = user_id
         result = TeamAnalysisService.analyze(team, user_config, user_id)
         return result
 
