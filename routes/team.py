@@ -1,5 +1,5 @@
 import logging
-from fastapi import APIRouter, Body, HTTPException, Query
+from fastapi import APIRouter, Body, HTTPException, Query, logger
 from models.team import TeamInitPayload, TeamModel
 from models.users.user import UserAnalyzeTeam
 from services.db.db_service import DBService
@@ -30,7 +30,14 @@ def get_all_teams():
     try:
         return DBService.get_all_teams()
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to fetch teams: {str(e)}")
+        logger.exception("Error fetching teams from DBService")
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "message": "Failed to fetch teams",
+                "error": str(e)
+            }
+        )
     
     
 @router.get("/analyze")

@@ -94,23 +94,24 @@ class PlottingService:
             color='#fcfcfc',
             fontproperties=font_bold.prop  
         )
-
-        radar.draw_param_labels(
-            ax=axs['radar'],
-            fontsize=22,
-            color='#fcfcfc',
-            fontproperties=font_bold.prop
-        )
+        for i, cat in enumerate(ranked_cats[:3]):
+            color = cat_color_map[cat]
+            axs['title'].text(0.01, 0.15 - i * 0.50, f"{cat.title()}",
+                            fontsize=18, fontproperties=font_bold.prop,
+                            ha='left', va='center', color=color)
+            radar.draw_param_labels(
+                ax=axs['radar'],
+                fontsize=22,
+                color='#e4dded',
+                fontproperties=font_bold.prop
+            )
 
         # Title section
         axs['title'].text(0.01, 0.65, player_name,
                         fontsize=30, fontproperties=font_bold.prop,
                         ha='left', va='center', color='#e4dded')
 
-        axs['title'].text(0.04, 0.18, player_position.title(),
-                        fontsize=20, fontproperties=font_bold.prop,
-                        ha='right', va='center', color='#cc2a3f')
-
+        
         # Footer
         axs['endnote'].text(0.99, 0.5, 'Inspired By: mplsoccer | Stats By fbref',
                             color='#fcfcfc', fontproperties=font_bold.prop,

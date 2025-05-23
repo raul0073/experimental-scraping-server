@@ -4,11 +4,22 @@ from models.players import PlayerModel
 
 class ZoneBreakdownEntry(BaseModel):
     score: float
-    keys: List[str]
+    raw: float
+    pros: List[str]
+    cons: List[str]
+    weight: float
+
+class ZonePlayerContribution(BaseModel):
+    name: str
+    rating: float
+    minutes: float
+    position_weight: float
 
 class ZonePlayerBreakdown(BaseModel):
     score: float
-    players: List[PlayerModel]  
+    raw: float
+    weight: float
+    contributions: List[ZonePlayerContribution]
 
 class ZoneBreakdown(BaseModel):
     team: ZoneBreakdownEntry
@@ -19,6 +30,8 @@ class ZoneData(BaseModel):
     label: str
     rating: float
     breakdown: ZoneBreakdown
+    
+    
     
 class ZoneConfig(BaseModel):
     label: str
@@ -494,33 +507,27 @@ ZONE_CONFIG =  {
 
 POSITIONS_FALLBACK_MAP = {
     # Fullbacks and Wingbacks
-    "LB": "LWB",
-    "LWB": "LB",
-    "RB": "RWB",
-    "RWB": "RB",
+    "LB": "LWB", "LWB": "LM", "LM": "LB",
+    "RB": "RWB", "RWB": "RM", "RM": "RB",
+
     # Center Backs
-    "LCB": "CB",
-    "RCB": "CB",
-    "CB": "RCB",  # Default fallback for generic CB is one specific side
+    "LCB": "CB", "RCB": "CB", "CB": "LCB",
+
     # Defensive Midfield
-    "CDM": "CM",
-    "DM": "CM",
+    "CDM": "CM", "DM": "CM", "LDM": "CDM", "RDM": "CDM",
+
     # Central Midfield
-    "CM": "CDM",
-    "LCM": "CM",
-    "RCM": "CM",
+    "CM": "CDM", "LCM": "CM", "RCM": "CM",
+
     # Attacking Midfield
-    "CAM": "CM",
-    "AM": "CM",
+    "CAM": "CM", "AM": "CM",
+
     # Wide Midfielders
-    "LM": "LW",
-    "RM": "RW",
-    # Wingers
-    "LW": "LM",
-    "RW": "RM",
+    "LW": "LM", "LM": "LW", "RW": "RM", "RM": "RW",
+
     # Strikers
-    "CF": "ST",
-    "ST": "CF",
+    "CF": "ST", "ST": "CF", "STR": "ST", "STL": "ST",
+
     # Goalkeeper
-    "GK": "GK",  # No fallback for keeper
+    "GK": "GK"
 }
