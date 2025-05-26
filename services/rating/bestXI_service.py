@@ -98,7 +98,7 @@ class BestXIService:
         for p, statmap in per90_list:
             pos = self.map_to_simple_position(p.position)
             conf = self.score_config.get(pos, {})
-            wts = self.score_weights.model_dump()
+            wts = self.score_weights
 
             contribs = []
             contrib_sum = 0.0
@@ -106,7 +106,7 @@ class BestXIService:
 
             for impact, stat_groups in conf.items():
                 sign = 1 if impact != "cons" else -1
-                w = wts.get(impact, 1.0)
+                w = getattr(wts, impact, 1.0)
                 for labels in stat_groups.values():
                     for lbl in labels:
                         if lbl in statmap:

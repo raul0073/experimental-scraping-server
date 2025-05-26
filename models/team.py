@@ -23,4 +23,4 @@ class TeamModel(BaseModel):
     stats_against: List[TeamStatBlock]
     players: List[PlayerModel]
     best_11: List[PlayerModel]
-    zones: Optional[Dict[str, Any]] = None
+    zones: Optional[Dict[str, ZoneData]] = None

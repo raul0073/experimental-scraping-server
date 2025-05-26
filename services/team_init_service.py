@@ -40,7 +40,19 @@ class TeamDataService:
         
         # return intermediate_team_model
         best_11, formation = BestXIService().run(intermediate_team_model)
-        zones = ZoneService(sds).compute_all_zones(players, team_stats, team_stats_against)
+        def is_empty_or_zero(stat_blocks: list[dict]) -> bool:
+            flat = {}
+            for block in stat_blocks:
+                for row in block.get("rows", []):
+                    if isinstance(row.get("val"), (int, float)):
+                        flat[row["label"]] = row["val"]
+            return all(v == 0 for v in flat.values()) or len(flat) == 0
+        
+        if is_empty_or_zero(team_stats) and is_empty_or_zero(team_stats_against):
+            print("[ZoneGuard] Skipping zone computation: all stats zero")
+            zones = {}
+        else:
+            zones = ZoneService(sds).compute_all_zones(players, team_stats, team_stats_against)
         
         return TeamModel(
             name=payload.name,

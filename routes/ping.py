@@ -1,10 +1,7 @@
-# plot.py or keep_alive.py
 import os
 import requests
 from fastapi import APIRouter
-from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
-
 load_dotenv()
 
 router = APIRouter()
@@ -23,6 +20,3 @@ def ping_self():
     except Exception as e:
         print(f"Ping failed: {e}")
 
-scheduler = BackgroundScheduler(daemon=True)
-scheduler.add_job(ping_self, "interval", minutes=13)
-scheduler.start()
