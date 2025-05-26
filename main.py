@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 import logging
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware as Cors
 from routes import fbref_route, AI, team, user, admin, plot, ping, predictions
 from dotenv import load_dotenv
@@ -33,6 +33,12 @@ async def read_root():
         return {"message": "Welcome to the Soccer Stats API v2"}
     except Exception as e:
         return {"error": str(e)}
+
+@app.head("/")
+async def head_root():
+    return Response(status_code=200)
+
+
 
 # cors
 # TODO: add DB url. add srver url.
