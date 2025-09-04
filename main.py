@@ -3,29 +3,21 @@ import logging
 import os
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware as Cors
-from routes import fbref_route, AI, team, user, admin, plot, ping, predictions
-from dotenv import load_dotenv
-load_dotenv()
-
-
+from core.config import settings
+import routes.fbref.league.league as leagueRoute
+import routes.fbref.players.players as playerRoute
+import routes.fbref.mental as mentalRoute
 
     
 # meta
 app = FastAPI(
-    title="EPL Overview 25",
+   title=settings.APP_NAME,
     version="0.1.0",
 )
 
-# routes
-app.include_router(fbref_route.router, prefix="/api/v2/team-stats")
-app.include_router(AI.router, prefix="/api/v2/ai")
-app.include_router(team.router, prefix="/api/v2/team")
-app.include_router(user.router, prefix="/api/v2/user")
-app.include_router(admin.router, prefix="/admin/optimizer")
-app.include_router(plot.router, prefix="/api/v2/plot")
-app.include_router(predictions.router, prefix="/api/v2/predictions")
-app.include_router(ping.router)
-
+app.include_router(leagueRoute.router, prefix="/api/v2")
+app.include_router(playerRoute.router, prefix="/api/v2")
+app.include_router(mentalRoute.router, prefix="/api/v2")
 # root
 @app.get("/", tags=["Root"])
 async def read_root():
@@ -58,5 +50,5 @@ app.add_middleware(
 # run
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8080)))
+    uvicorn.run(app, host="0.0.0.0", port=settings.PORT)
     
