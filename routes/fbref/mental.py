@@ -1,14 +1,21 @@
+from io import BytesIO
+import anyio
 from fastapi import APIRouter, HTTPException
 from typing import List, Optional
 
+from fastapi.params import Query
 from fastapi.responses import JSONResponse
+from matplotlib.pylab import mean
 import numpy as np
 
 from routes.fbref.players.normalize import sanitize_for_json
+from routes.fbref.utils.mental_route_utils import build_team_meta, normalize_mental_scores, pick_best_xi
 from services.fbref.loader import FBRefLoaderService
 from services.fbref.player.player_service import FBRefPlayerService
 from services.mental.best_11_service import BestXIBuilder
 from services.mental.mental_service import MentalRankingService
+from services.plotting.player.plotting_service_player import PlayerPlottingService
+from services.plotting.team.team_plotting_service import TeamPlottingService
 
 router = APIRouter(prefix="/mental", tags=["Mental Ranking"])
 
@@ -16,60 +23,56 @@ router = APIRouter(prefix="/mental", tags=["Mental Ranking"])
 # get by league
 @router.get("/{league}/{season}/all")
 def get_league_mental_scores(league: str, season: int):
-    # Load raw players
+    # 1️ Load players
     players = FBRefLoaderService.load_all_players(league, season)
     if not players:
         raise HTTPException(status_code=404, detail="No players found for league/season")
 
-    # Score them
-    ranked = MentalRankingService(players).score_team_players()
-    filtered = [p for p in ranked if p.get("mental", {}).get("m_raw") is not None]
-    filtered.sort(key=lambda p: p["mental"]["m"], reverse=True)
+    # 2️ Compute mental scores
+    ranked_players = MentalRankingService(players).score_team_players()
+    filtered_players = [p for p in ranked_players if p.get("mental", {}).get("m_raw") is not None]
+    if not filtered_players:
+        raise HTTPException(status_code=404, detail="No mental scores found for league/season")
 
-    # Top 50 players
-    top_players = filtered[:100]
+    normalize_mental_scores(filtered_players)
+    filtered_players.sort(key=lambda p: p["mental"]["m"], reverse=True)
 
-    # League meta
+    # 3️ Top players
+    top_players = filtered_players[:100]
+
+    # 4️ Teams meta
+    teams_sorted = build_team_meta(filtered_players, league, season)
+
+    # 5️ Best XI
+    best_xi = pick_best_xi(filtered_players)
+
+    # 6️ League meta
     league_meta = {
         "league": league,
         "season": season,
-        "teams_count": len(set(p["__meta__"]["team"] for p in filtered)),
-        "players_count": len(filtered),
-        "avg_m": round(sum(p["mental"]["m"] for p in filtered) / len(filtered), 2),
-        "spread_m": round(
-            max(p["mental"]["m"] for p in filtered) - min(p["mental"]["m"] for p in filtered),
-            2,
-        ),
+        "teams_count": len(teams_sorted),
+        "players_count": len(filtered_players),
+        "avg_m": round(mean([p["mental"]["m"] for p in filtered_players]), 2),
+        "spread_m": round(max([p["mental"]["m"] for p in filtered_players]) - min([p["mental"]["m"] for p in filtered_players]), 2),
         "top_player": top_players[0]["name"] if top_players else None,
     }
 
-    # Best XI squad
-    best_eleven = BestXIBuilder(filtered).build()
+    # 7️ Teams stats
+    team_stats = FBRefLoaderService.load_teams_stats(league, season)
 
     return JSONResponse(sanitize_for_json({
         "league_meta": league_meta,
         "players": top_players,
-        "best_eleven": best_eleven,
+        "teams": {
+            "mental": teams_sorted,
+            "stats": team_stats
+        },
+        "best_eleven": best_xi
     }))
 
-# get by team
-@router.get("/{league}/{season}/{team}")
-def get_team_mental_scores(league: str, season: int, team: str):
-    players = FBRefLoaderService.load_team_players(league, season, team)
-    if not players:
-        raise HTTPException(status_code=404, detail="Team data not found")
-
-    scored = MentalRankingService(players).score_team_players()
-
-    players = [p for p in scored if p.get("mental", {}).get("m_raw") is not None]
-    players.sort(key=lambda p: p["mental"]["m"], reverse=True)
-
-    top_50 = players[:50]
-    return JSONResponse(sanitize_for_json(top_50))
-
-
+# get all 5 leagues
 @router.get("/all")
-def get_all_players_and_teams():
+async def get_all_players_and_teams():
     import json
     from statistics import mean
     from math import isfinite
@@ -128,8 +131,7 @@ def get_all_players_and_teams():
 
     # 🔥 Top Players
     top_players = sorted(all_players, key=lambda p: p["mental"]["m"], reverse=True)
-    top_50 = top_players[:100]
-
+    
 #  Rebuild team_grouped from normalized players
     team_grouped = defaultdict(list)
     for p in all_players:
@@ -172,50 +174,153 @@ def get_all_players_and_teams():
 
 
     teams_sorted = sorted(team_meta.values(), key=lambda t: t["avg_m"], reverse=True)
+    # Best XI
+    best_xi = pick_best_xi(top_players)
 
-    best_11 = BestXIBuilder(top_players).build()
-    print(f"Best XI: {best_11}")
-    print(f"teams : {teams_sorted}")
+    league_stats= FBRefLoaderService.load_all_leagues_stats(2425)
+    top_players = top_players[:100]
     # Final response
     return JSONResponse(sanitize_for_json({
-        "players": top_50,
-        "teams": teams_sorted,
-        "best_eleven": best_11,
+        "players": top_players,
+        "teams": {
+            "mental": teams_sorted,
+            "stats": league_stats
+        },
+        "best_eleven": best_xi
+    }))
+
+#get by team 
+@router.get("/{league}/{season}/{team}")
+async def get_team_mental_scores(league: str, season: int, team: str):
+    # Load team players
+    team_data = FBRefLoaderService.load_team_players(league, season, team)
+    if not team_data:
+        raise HTTPException(status_code=404, detail="Team data not found")
+
+    # Compute mental scores
+    scored_players = MentalRankingService(team_data).score_team_players()
+    filtered = [p for p in scored_players if p.get("mental", {}).get("m_raw") is not None]
+    filtered_players = [p for p in filtered if np.isfinite(p.get("mental", {}).get("m_raw", float("nan")))]
+    if not filtered_players:
+        raise HTTPException(status_code=404, detail="No mental scores found for this team")
+
+    # Normalize mental scores (0-100)
+    raw_scores = [p["mental"]["m_raw"] for p in filtered_players]
+    min_m, max_m = min(raw_scores), max(raw_scores)
+    spread = max_m - min_m or 1e-9
+    for p in filtered_players:
+        p["mental"]["m"] = round((p["mental"]["m_raw"] - min_m) / spread * 100)
+
+    # Sort players descending by normalized mental score
+    filtered_players.sort(key=lambda p: p["mental"]["m"], reverse=True)
+    print(f"Filtered players count: {len(filtered_players)}")
+    for p in filtered_players:
+        print(p.get('name'), p.get('role'))
+    # Best XI
+     # Best XI
+    best_xi = pick_best_xi(filtered_players)
+
+
+    # Team mental stats
+    team_mental = {
+        "avg_m": round(mean([p["mental"]["m"] for p in filtered_players]), 2),
+        "count_players": len(filtered_players),
+        "leader": {
+            "player": filtered_players[0]["name"],
+            "m": filtered_players[0]["mental"]["m"]
+        },
+        "weakest": {
+            "player": filtered_players[-1]["name"],
+            "m": filtered_players[-1]["mental"]["m"]
+        }
+    }
+
+    # Team stats from FBRefLoader
+    all_team_stats = FBRefLoaderService.load_teams_stats(league, season)
+    team_stats = FBRefLoaderService.filter_stats_by_team(all_team_stats, team)
+    team_charts_data = await TeamPlottingService.get_team_default_chart(league, season, team)
+            
+    return JSONResponse(sanitize_for_json({
+        "players": filtered_players,
+        "stats": {
+            "mental": team_mental,
+            "stats": team_stats
+        },
+        "best_eleven": best_xi,
+        "plot": {
+            "default": team_charts_data
+        }
     }))
 
 
-
-
-@router.get("/{league}/{season}/role/{role}")
-def get_players_by_role(
+# get by tname or role.
+@router.get("/vv/players/{league}/{season}")
+def get_players_by_role_or_name(
     league: str,
     season: int,
-    role: str,
-    top_k: Optional[int] = None,
+    name: Optional[str] = Query(None, description="Filter players by name"),
+    role: Optional[str] = Query(None, description="Filter players by role"),
+    top_k: Optional[int] = Query(None, description="Limit number of players returned")
 ):
-    # Load all players in the league
+    print(f"[DEBUG] Fetching players for league={league}, season={season}, name={name}, role={role}")
+
+    # Load all players
     players = FBRefLoaderService.load_all_players(league, season)
     if not players:
+        print("[DEBUG] No players loaded")
         raise HTTPException(status_code=404, detail="No players found")
 
-    # Score them mentally
-    scored = MentalRankingService(players).score_team_players()
+    # Score players mentally
+    scored_players = MentalRankingService(players).score_team_players()
+    print(f"[DEBUG] Scored {len(scored_players)} players mentally")
 
-    # Filter players by role and valid mental scores
-    filtered = [
-        p for p in scored
-        if p.get("role") == role and p.get("mental", {}).get("m_raw") is not None
-    ]
+    # Filter by role
+    if role:
+        before_count = len(scored_players)
+        scored_players = [
+            p for p in scored_players
+            if p.get("role") == role and p.get("mental", {}).get("m_raw") is not None
+        ]
+        after_count = len(scored_players)
+        print(f"[DEBUG] Role filter '{role}': {before_count} -> {after_count}")
 
-    # Sort by mental score
-    filtered.sort(key=lambda p: p["mental"]["m"], reverse=True)
+    # Filter by name
+    if name:
+        name_norm = name.lower().strip()
+        before_count = len(scored_players)
+        scored_players = [
+            p for p in scored_players
+            if name_norm in (p.get("name") or "").lower().strip()
+        ]
+        after_count = len(scored_players)
+        print(f"[DEBUG] Name filter '{name}': {before_count} -> {after_count}")
+        print("[DEBUG] Matching players:", [p.get("name") for p in scored_players])
 
-    # Slice top_k if provided
+    if not scored_players:
+        print("[DEBUG] No players matched after filtering")
+        raise HTTPException(status_code=404, detail="No matching players found")
+
+    # Sort by mental score descending
+    scored_players.sort(key=lambda p: p.get("mental", {}).get("m", 0), reverse=True)
+
+    # Limit top_k
     if top_k:
-        filtered = filtered[:top_k]
+        scored_players = scored_players[:top_k]
+        print(f"[DEBUG] Limited to top {top_k} players")
+
+    # 🍕 Only plot pizza if a *single exact player* is requested
+    img_base64 = None
+    if name and len(scored_players) == 1:
+        service = PlayerPlottingService(players)
+        img_base64 = service.plot_player_pizza(scored_players[0])
+        print(f"[DEBUG] Generated pizza plot for {scored_players[0]['name']}")
 
     return JSONResponse(sanitize_for_json({
+        "league": league,
+        "season": season,
         "role": role,
-        "players": filtered,
-        "count": len(filtered),
+        "name_query": name,
+        "players": scored_players,
+        "count": len(scored_players),
+        "plot": img_base64
     }))

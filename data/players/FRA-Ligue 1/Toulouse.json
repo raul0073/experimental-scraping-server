@@ -210,7 +210,23 @@
           "Aerial Duels - Won%": 41.4
         }
       },
-      "role": "OTHER"
+      "role": "CB",
+      "ranking": {
+        "performance": 0.438,
+        "breakdown": {
+          "defense:Tkl+Int": 0.3405,
+          "defense:Clr": -0.05374,
+          "defense:Blocks - Blocks": 0.10439,
+          "misc:Aerial Duels - Won%": -0.11757,
+          "defense:Err": -0.0,
+          "standard:Performance - CrdR": 0.02339,
+          "passing:Total - Cmp%": -0.07217,
+          "passing:Total - PrgDist": 0.02284,
+          "possession:Carries - PrgDist": 0.08245,
+          "shooting:Expected - xG": 0.04996,
+          "goal_shot_creation:SCA - SCA90": 0.05844
+        }
+      }
     },
     {
       "name": "Charlie Cresswell",
@@ -421,20 +437,26 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": 1.079,
+        "performance": 0.901,
         "breakdown": {
-          "misc:Aerial Duels - Won%": 0.12657,
-          "defense:Tkl+Int": 0.1397,
-          "defense:Clr": 0.39446,
-          "defense:Blocks - Blocks": 0.20156,
-          "defense:Err": 0.12218,
-          "standard:Performance - CrdY": 0.04382,
-          "standard:Performance - CrdR": -0.02228,
-          "passing:Total - Cmp%": -0.00394,
-          "passing:Total - PrgDist": 0.05537,
-          "possession:Carries - PrgDist": 0.02163
+          "defense:Tkl+Int": 0.19256,
+          "defense:Clr": 0.39465,
+          "defense:Blocks - Blocks": 0.22111,
+          "misc:Aerial Duels - Won%": 0.05325,
+          "defense:Err": -0.13856,
+          "standard:Performance - CrdR": 0.02339,
+          "passing:Total - Cmp%": -0.01276,
+          "passing:Total - PrgDist": 0.05973,
+          "possession:Carries - PrgDist": 0.0227,
+          "shooting:Expected - xG": 0.09001,
+          "goal_shot_creation:SCA - SCA90": -0.0047
         }
-      }
+      },
+      "fbref_id": "4654e5f5",
+      "fbref_url": "https://fbref.com/en/players/4654e5f5/Charlie-Cresswell",
+      "position_text": "DF (CB) ▪",
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/4654e5f5_2022.jpg"
     },
     {
       "name": "Cristian Cásseres Jr.",
@@ -645,20 +667,20 @@
       },
       "role": "CM",
       "ranking": {
-        "performance": 0.726,
+        "performance": 0.271,
         "breakdown": {
-          "defense:Tackles - Tkl": 0.26355,
-          "passing:Total - Cmp%": -0.01135,
-          "passing:Medium - Cmp%": 0.00506,
-          "passing:Long - Cmp%": -0.03087,
-          "passing:Total - PrgDist": 0.06315,
-          "passing:KP": 0.06592,
-          "goal_shot_creation:SCA - SCA90": -0.00073,
-          "goal_shot_creation:GCA - GCA90": -0.00124,
-          "possession:Carries - PrgDist": 0.0592,
-          "possession:Carries - PrgC": 0.0487,
-          "misc:Performance - Fls": 0.11464,
-          "misc:Performance - CrdY": 0.15002
+          "defense:Tackles - Tkl": 0.28502,
+          "passing:Total - Cmp%": -0.00526,
+          "passing:Medium - Cmp%": 0.01051,
+          "passing:Long - Cmp%": -0.02081,
+          "passing:Total - PrgDist": 0.07561,
+          "passing:KP": 0.12285,
+          "goal_shot_creation:SCA - SCA90": -0.00344,
+          "goal_shot_creation:GCA - GCA90": -0.00344,
+          "possession:Carries - PrgDist": 0.05147,
+          "possession:Carries - PrgC": 0.02284,
+          "misc:Performance - Fls": -0.11226,
+          "misc:Performance - CrdY": -0.15255
         }
       }
     },
@@ -871,22 +893,27 @@
       },
       "role": "CM",
       "ranking": {
-        "performance": -0.329,
+        "performance": -0.197,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.08223,
-          "passing:Total - Cmp%": 0.00501,
-          "passing:Medium - Cmp%": 0.00297,
-          "passing:Long - Cmp%": -0.03017,
-          "passing:Total - PrgDist": -0.03885,
-          "passing:KP": -0.02389,
-          "goal_shot_creation:SCA - SCA90": 0.01297,
-          "goal_shot_creation:GCA - GCA90": -0.04142,
-          "possession:Carries - PrgDist": -0.03602,
-          "possession:Carries - PrgC": -0.01908,
-          "misc:Performance - Fls": -0.03218,
-          "misc:Performance - CrdY": -0.04571
+          "defense:Tackles - Tkl": -0.08206,
+          "passing:Total - Cmp%": 0.00976,
+          "passing:Medium - Cmp%": 0.00869,
+          "passing:Long - Cmp%": -0.02015,
+          "passing:Total - PrgDist": -0.03529,
+          "passing:KP": -0.05555,
+          "goal_shot_creation:SCA - SCA90": 0.00889,
+          "goal_shot_creation:GCA - GCA90": -0.04382,
+          "possession:Carries - PrgDist": -0.03802,
+          "possession:Carries - PrgC": -0.02622,
+          "misc:Performance - Fls": 0.03332,
+          "misc:Performance - CrdY": 0.04367
         }
-      }
+      },
+      "fbref_id": "badcdcae",
+      "fbref_url": "https://fbref.com/en/players/badcdcae/Denis-Genreau",
+      "position_text": "MF",
+      "foot": null,
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/badcdcae_2022.jpg"
     },
     {
       "name": "Djibril Sidibé",
@@ -1095,22 +1122,23 @@
           "Aerial Duels - Won%": 63.0
         }
       },
-      "role": "CB",
+      "role": "FB",
       "ranking": {
-        "performance": 0.288,
+        "performance": 0.189,
         "breakdown": {
-          "misc:Aerial Duels - Won%": 0.04886,
-          "defense:Tkl+Int": 0.27891,
-          "defense:Clr": 0.01576,
-          "defense:Blocks - Blocks": -0.04441,
-          "defense:Err": -0.00772,
-          "standard:Performance - CrdY": -0.03354,
-          "standard:Performance - CrdR": -0.02228,
-          "passing:Total - Cmp%": -0.01872,
-          "passing:Total - PrgDist": 0.05383,
-          "possession:Carries - PrgDist": 0.01711
+          "defense:Tackles - Tkl": 0.2034,
+          "defense:Blocks - Blocks": -0.06089,
+          "passing:Total - Cmp%": 0.00938,
+          "passing_types:Pass Types - Crs": 0.00438,
+          "misc:Performance - Fls": -0.01118,
+          "misc:Performance - CrdY": 0.04408
         }
-      }
+      },
+      "fbref_id": "4c5b714f",
+      "fbref_url": "https://fbref.com/en/players/4c5b714f/Djibril-Sidibe",
+      "position_text": "DF-MF (FB, right) ▪",
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/4c5b714f_2022.jpg"
     },
     {
       "name": "Edhy Zuliani",
@@ -1321,20 +1349,26 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": -0.741,
+        "performance": -0.503,
         "breakdown": {
+          "defense:Tkl+Int": -0.24422,
+          "defense:Clr": -0.16148,
+          "defense:Blocks - Blocks": -0.12125,
           "misc:Aerial Duels - Won%": NaN,
-          "defense:Tkl+Int": -0.25262,
-          "defense:Clr": -0.17508,
-          "defense:Blocks - Blocks": -0.1264,
-          "defense:Err": -0.07267,
-          "standard:Performance - CrdY": -0.05288,
-          "standard:Performance - CrdR": -0.02228,
-          "passing:Total - Cmp%": 0.07217,
-          "passing:Total - PrgDist": -0.05735,
-          "possession:Carries - PrgDist": -0.05432
+          "defense:Err": 0.06928,
+          "standard:Performance - CrdR": 0.02339,
+          "passing:Total - Cmp%": 0.08342,
+          "passing:Total - PrgDist": -0.05272,
+          "possession:Carries - PrgDist": -0.05148,
+          "shooting:Expected - xG": -0.02014,
+          "goal_shot_creation:SCA - SCA90": -0.02799
         }
-      }
+      },
+      "fbref_id": "2a74ef47",
+      "fbref_url": "https://fbref.com/en/players/2a74ef47/Edhy-Zuliani",
+      "position_text": "MF",
+      "foot": null,
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/2a74ef47_2022.jpg"
     },
     {
       "name": "Frank Magri",
@@ -1543,21 +1577,23 @@
           "Aerial Duels - Won%": 32.8
         }
       },
-      "role": "W",
+      "role": "CF",
       "ranking": {
-        "performance": -0.216,
+        "performance": 0.006,
         "breakdown": {
-          "possession:Carries - PrgC": -0.05113,
-          "possession:Carries - 1/3": -0.06397,
-          "possession:Take-Ons - Succ": -0.07441,
-          "passing_types:Pass Types - Crs": -0.03414,
-          "passing:KP": -0.02402,
-          "goal_shot_creation:SCA - SCA90": -0.06445,
-          "goal_shot_creation:GCA - GCA90": -0.02635,
-          "shooting:Standard - SoT/90": 0.02725,
-          "misc:Performance - CrdY": 0.09487
+          "shooting:Standard - SoT/90": 0.03597,
+          "shooting:Standard - G/Sh": 0.00157,
+          "passing:KP": 0.00037,
+          "goal_shot_creation:SCA - SCA90": -0.01079,
+          "misc:Performance - Off": 0.00265,
+          "misc:Performance - CrdY": -0.02408
         }
-      }
+      },
+      "fbref_id": "42fdb11d",
+      "fbref_url": "https://fbref.com/en/players/42fdb11d/Frank-Magri",
+      "position_text": "FW ▪",
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/42fdb11d_2022.jpg"
     },
     {
       "name": "Gabriel Suazo",
@@ -1766,18 +1802,28 @@
           "Aerial Duels - Won%": 40.6
         }
       },
-      "role": "FB",
+      "role": "DM",
       "ranking": {
-        "performance": 0.39,
+        "performance": 0.162,
         "breakdown": {
-          "defense:Tackles - Tkl": 0.2411,
-          "defense:Blocks - Blocks": 0.10789,
-          "passing:Total - Cmp%": -0.02915,
-          "passing_types:Pass Types - Crs": 0.04707,
-          "misc:Performance - Fls": 0.09442,
-          "misc:Performance - CrdY": -0.07129
+          "defense:Tackles - Tkl": 0.14931,
+          "defense:Tkl+Int": 0.05992,
+          "defense:Err": -0.00437,
+          "passing:Total - Cmp%": -0.10505,
+          "passing:Total - PrgDist": 0.05946,
+          "passing:Short - Cmp%": -0.0215,
+          "passing:Medium - Cmp%": -0.05837,
+          "passing_types:Pass Types - Sw": 0.03307,
+          "possession:Carries - PrgDist": 0.04109,
+          "misc:Performance - Fls": -0.05183,
+          "misc:Performance - CrdY": 0.06043
         }
-      }
+      },
+      "fbref_id": "39b326ed",
+      "fbref_url": "https://fbref.com/en/players/39b326ed/Gabriel-Suazo",
+      "position_text": "DF-MF (DM-FB, left) ▪",
+      "foot": "Left",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/39b326ed_2022.jpg"
     },
     {
       "name": "Guillaume Restes",
@@ -2050,7 +2096,12 @@
           "keeper_adv:Crosses - Stp": -0.03895,
           "keeper_adv:Sweeper - #OPA/90": 0.04373
         }
-      }
+      },
+      "fbref_id": "6b91b999",
+      "fbref_url": "https://fbref.com/en/players/6b91b999/Guillaume-Restes",
+      "position_text": "GK",
+      "foot": null,
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/6b91b999_2022.jpg"
     },
     {
       "name": "Jaydee Canvot",
@@ -2259,7 +2310,28 @@
           "Aerial Duels - Won%": 55.2
         }
       },
-      "role": "OTHER"
+      "role": "CB",
+      "fbref_id": "3684108d",
+      "fbref_url": "https://fbref.com/en/players/3684108d/Jaydee-Canvot",
+      "position_text": "MF",
+      "foot": null,
+      "profile_img": null,
+      "ranking": {
+        "performance": -0.106,
+        "breakdown": {
+          "defense:Tkl+Int": -0.01174,
+          "defense:Clr": -0.00425,
+          "defense:Blocks - Blocks": -0.04344,
+          "misc:Aerial Duels - Won%": -0.03216,
+          "defense:Err": -0.0,
+          "standard:Performance - CrdR": 0.02339,
+          "passing:Total - Cmp%": 0.00534,
+          "passing:Total - PrgDist": -0.02063,
+          "possession:Carries - PrgDist": -0.01326,
+          "shooting:Expected - xG": -0.01346,
+          "goal_shot_creation:SCA - SCA90": 0.004
+        }
+      }
     },
     {
       "name": "Joshua King",
@@ -2468,21 +2540,29 @@
           "Aerial Duels - Won%": 40.7
         }
       },
-      "role": "W",
+      "role": "AM",
       "ranking": {
-        "performance": 0.066,
+        "performance": -0.162,
         "breakdown": {
-          "possession:Carries - PrgC": 0.01511,
-          "possession:Carries - 1/3": 0.00694,
-          "possession:Take-Ons - Succ": 0.12351,
-          "passing_types:Pass Types - Crs": -0.02824,
-          "passing:KP": -0.00114,
-          "goal_shot_creation:SCA - SCA90": -0.06672,
-          "goal_shot_creation:GCA - GCA90": -0.01949,
-          "shooting:Standard - SoT/90": 0.0281,
-          "misc:Performance - CrdY": 0.00795
+          "goal_shot_creation:SCA - SCA90": -0.09487,
+          "goal_shot_creation:GCA - GCA90": -0.03444,
+          "passing:KP": 0.00719,
+          "passing:Expected - xA": -0.00289,
+          "passing:1/3": -0.01795,
+          "passing:PPA": -0.00819,
+          "passing:Total - PrgDist": -0.02111,
+          "passing:Total - Cmp%": -0.02522,
+          "possession:Carries - PrgDist": 0.00567,
+          "possession:Carries - PrgC": 0.01594,
+          "defense:Err": 0.02389,
+          "misc:Performance - CrdY": -0.01049
         }
-      }
+      },
+      "fbref_id": "43458538",
+      "fbref_url": "https://fbref.com/en/players/43458538/Joshua-King",
+      "position_text": "FW-MF (AM) ▪",
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/43458538_2022.jpg"
     },
     {
       "name": "Kjetil Haug",
@@ -2755,7 +2835,12 @@
           "keeper_adv:Crosses - Stp": -0.03895,
           "keeper_adv:Sweeper - #OPA/90": -0.0868
         }
-      }
+      },
+      "fbref_id": "d3ae48eb",
+      "fbref_url": "https://fbref.com/en/players/d3ae48eb/Kjetil-Haug",
+      "position_text": "GK ▪",
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/d3ae48eb_2022.jpg"
     },
     {
       "name": "Logan Costa",
@@ -2966,20 +3051,26 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": -0.659,
+        "performance": -0.468,
         "breakdown": {
-          "misc:Aerial Duels - Won%": 0.09678,
-          "defense:Tkl+Int": -0.23364,
-          "defense:Clr": -0.16315,
-          "defense:Blocks - Blocks": -0.11149,
-          "defense:Err": -0.07267,
-          "standard:Performance - CrdY": -0.05288,
-          "standard:Performance - CrdR": -0.02228,
-          "passing:Total - Cmp%": 9e-05,
-          "passing:Total - PrgDist": -0.05072,
-          "possession:Carries - PrgDist": -0.04951
+          "defense:Tkl+Int": -0.22308,
+          "defense:Clr": -0.14983,
+          "defense:Blocks - Blocks": -0.10569,
+          "misc:Aerial Duels - Won%": 0.03902,
+          "defense:Err": 0.06928,
+          "standard:Performance - CrdR": 0.02339,
+          "passing:Total - Cmp%": -0.00767,
+          "passing:Total - PrgDist": -0.04611,
+          "possession:Carries - PrgDist": -0.04678,
+          "shooting:Expected - xG": -0.02014,
+          "goal_shot_creation:SCA - SCA90": 7e-05
         }
-      }
+      },
+      "fbref_id": "bfb2056e",
+      "fbref_url": "https://fbref.com/en/players/bfb2056e/Logan-Costa",
+      "position_text": "DF (CB) ▪",
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/bfb2056e_2022.jpg"
     },
     {
       "name": "Mark McKenzie",
@@ -3190,20 +3281,26 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": 0.653,
+        "performance": 0.625,
         "breakdown": {
-          "misc:Aerial Duels - Won%": -0.03662,
-          "defense:Tkl+Int": 0.2093,
-          "defense:Clr": 0.24537,
-          "defense:Blocks - Blocks": 0.10466,
-          "defense:Err": -0.00772,
-          "standard:Performance - CrdY": -0.03354,
-          "standard:Performance - CrdR": 0.08391,
-          "passing:Total - Cmp%": 0.00994,
-          "passing:Total - PrgDist": 0.0545,
-          "possession:Carries - PrgDist": 0.02272
+          "defense:Tkl+Int": 0.27005,
+          "defense:Clr": 0.24907,
+          "defense:Blocks - Blocks": 0.11995,
+          "misc:Aerial Duels - Won%": -0.02473,
+          "defense:Err": -0.0,
+          "standard:Performance - CrdR": -0.0889,
+          "passing:Total - Cmp%": 0.00478,
+          "passing:Total - PrgDist": 0.05886,
+          "possession:Carries - PrgDist": 0.02377,
+          "shooting:Expected - xG": 0.02659,
+          "goal_shot_creation:SCA - SCA90": -0.01396
         }
-      }
+      },
+      "fbref_id": "a5f5d094",
+      "fbref_url": "https://fbref.com/en/players/a5f5d094/Mark-McKenzie",
+      "position_text": "DF (CB, left) ▪",
+      "foot": "Both",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/a5f5d094_2022.jpg"
     },
     {
       "name": "Miha Zajc",
@@ -3412,24 +3509,29 @@
           "Aerial Duels - Won%": 27.3
         }
       },
-      "role": "CM",
+      "role": "AM",
       "ranking": {
-        "performance": -0.353,
+        "performance": -0.357,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.09389,
-          "passing:Total - Cmp%": 0.00501,
-          "passing:Medium - Cmp%": -0.0019,
-          "passing:Long - Cmp%": -0.03017,
-          "passing:Total - PrgDist": -0.03788,
-          "passing:KP": -0.03206,
-          "goal_shot_creation:SCA - SCA90": -0.01136,
-          "goal_shot_creation:GCA - GCA90": -0.04142,
-          "possession:Carries - PrgDist": -0.03535,
-          "possession:Carries - PrgC": -0.02524,
-          "misc:Performance - Fls": -0.03856,
-          "misc:Performance - CrdY": -0.01012
+          "goal_shot_creation:SCA - SCA90": -0.07096,
+          "goal_shot_creation:GCA - GCA90": -0.10495,
+          "passing:KP": -0.07233,
+          "passing:Expected - xA": -0.03627,
+          "passing:1/3": -0.0135,
+          "passing:PPA": -0.02164,
+          "passing:Total - PrgDist": -0.02393,
+          "passing:Total - Cmp%": 0.04108,
+          "possession:Carries - PrgDist": -0.03317,
+          "possession:Carries - PrgC": -0.03502,
+          "defense:Err": 0.02389,
+          "misc:Performance - CrdY": -0.01049
         }
-      }
+      },
+      "fbref_id": "83e4643e",
+      "fbref_url": "https://fbref.com/en/players/83e4643e/Miha-Zajc",
+      "position_text": "MF (AM) ▪",
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/83e4643e_2022.jpg"
     },
     {
       "name": "Naatan Skyttä",
@@ -3640,20 +3742,21 @@
       },
       "role": "CF",
       "ranking": {
-        "performance": -0.556,
+        "performance": -0.164,
         "breakdown": {
-          "shooting:Standard - SoT/90": -0.09354,
+          "shooting:Standard - SoT/90": -0.09089,
           "shooting:Standard - G/Sh": NaN,
-          "shooting:Expected - xG": -0.08684,
-          "shooting:Expected - npxG": -0.08811,
-          "standard:Performance - Gls": -0.07557,
-          "standard:Performance - G-PK": -0.03729,
-          "passing:KP": -0.03992,
-          "goal_shot_creation:SCA - SCA90": -0.05591,
-          "misc:Performance - Off": -0.04261,
-          "misc:Performance - CrdY": -0.0358
+          "passing:KP": -0.04084,
+          "goal_shot_creation:SCA - SCA90": -0.05602,
+          "misc:Performance - Off": 0.01663,
+          "misc:Performance - CrdY": 0.00707
         }
-      }
+      },
+      "fbref_id": "d7547531",
+      "fbref_url": "https://fbref.com/en/players/d7547531/Naatan-Skytta",
+      "position_text": "MF",
+      "foot": null,
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/d7547531_2022.jpg"
     },
     {
       "name": "Niklas Schmidt",
@@ -3862,24 +3965,29 @@
           "Aerial Duels - Won%": 50.0
         }
       },
-      "role": "CM",
+      "role": "AM",
       "ranking": {
-        "performance": -0.182,
+        "performance": 0.059,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.08612,
-          "passing:Total - Cmp%": -0.01093,
-          "passing:Medium - Cmp%": 0.01063,
-          "passing:Long - Cmp%": 0.00334,
-          "passing:Total - PrgDist": -0.03014,
-          "passing:KP": -0.02389,
-          "goal_shot_creation:SCA - SCA90": 0.05448,
-          "goal_shot_creation:GCA - GCA90": 0.06258,
-          "possession:Carries - PrgDist": -0.03748,
-          "possession:Carries - PrgC": -0.04064,
-          "misc:Performance - Fls": -0.03856,
-          "misc:Performance - CrdY": -0.04571
+          "goal_shot_creation:SCA - SCA90": 0.13171,
+          "goal_shot_creation:GCA - GCA90": 0.03608,
+          "passing:KP": -0.06097,
+          "passing:Expected - xA": -0.01958,
+          "passing:1/3": -0.00312,
+          "passing:PPA": -0.02836,
+          "passing:Total - PrgDist": -0.01143,
+          "passing:Total - Cmp%": 0.02008,
+          "possession:Carries - PrgDist": -0.03517,
+          "possession:Carries - PrgC": -0.04298,
+          "defense:Err": 0.02389,
+          "misc:Performance - CrdY": 0.04925
         }
-      }
+      },
+      "fbref_id": "b9ae8560",
+      "fbref_url": "https://fbref.com/en/players/b9ae8560/Niklas-Schmidt",
+      "position_text": "FW-MF (AM) ▪",
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/b9ae8560_2022.jpg"
     },
     {
       "name": "Noah Edjouma",
@@ -4088,21 +4196,29 @@
           "Aerial Duels - Won%": 40.0
         }
       },
-      "role": "W",
+      "role": "CM",
       "ranking": {
-        "performance": -0.36,
+        "performance": -0.47,
         "breakdown": {
-          "possession:Carries - PrgC": -0.07823,
-          "possession:Carries - 1/3": -0.0684,
-          "possession:Take-Ons - Succ": -0.07441,
-          "passing_types:Pass Types - Crs": -0.03178,
-          "passing:KP": -0.0469,
-          "goal_shot_creation:SCA - SCA90": -0.02369,
-          "goal_shot_creation:GCA - GCA90": -0.05725,
-          "shooting:Standard - SoT/90": 0.07042,
-          "misc:Performance - CrdY": -0.05
+          "defense:Tackles - Tkl": -0.10269,
+          "passing:Total - Cmp%": -0.04224,
+          "passing:Medium - Cmp%": -0.03428,
+          "passing:Long - Cmp%": -0.13046,
+          "passing:Total - PrgDist": -0.04201,
+          "passing:KP": -0.08799,
+          "goal_shot_creation:SCA - SCA90": -0.00252,
+          "goal_shot_creation:GCA - GCA90": -0.04382,
+          "possession:Carries - PrgDist": -0.04202,
+          "possession:Carries - PrgC": -0.02845,
+          "misc:Performance - Fls": 0.04282,
+          "misc:Performance - CrdY": 0.04367
         }
-      }
+      },
+      "fbref_id": "92976f0d",
+      "fbref_url": "https://fbref.com/en/players/92976f0d/Noah-Edjouma",
+      "position_text": "FW",
+      "foot": null,
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/92976f0d_2022.jpg"
     },
     {
       "name": "Rafik Messali",
@@ -4311,18 +4427,28 @@
           "Aerial Duels - Won%": 60.0
         }
       },
-      "role": "FB",
+      "role": "CB",
       "ranking": {
-        "performance": -0.516,
+        "performance": -0.254,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.11754,
-          "defense:Blocks - Blocks": -0.06373,
-          "passing:Total - Cmp%": -0.17493,
-          "passing_types:Pass Types - Crs": -0.04772,
-          "misc:Performance - Fls": -0.04086,
-          "misc:Performance - CrdY": -0.07129
+          "defense:Tkl+Int": -0.07514,
+          "defense:Clr": -0.12654,
+          "defense:Blocks - Blocks": -0.05122,
+          "misc:Aerial Duels - Won%": -0.00245,
+          "defense:Err": 0.06928,
+          "standard:Performance - CrdR": 0.02339,
+          "passing:Total - Cmp%": -0.06878,
+          "passing:Total - PrgDist": -0.04051,
+          "possession:Carries - PrgDist": -0.0328,
+          "shooting:Expected - xG": -0.01012,
+          "goal_shot_creation:SCA - SCA90": 0.06069
         }
-      }
+      },
+      "fbref_id": "bbc86fc4",
+      "fbref_url": "https://fbref.com/en/players/bbc86fc4/Rafik-Messali",
+      "position_text": "MF",
+      "foot": null,
+      "profile_img": null
     },
     {
       "name": "Rasmus Nicolaisen",
@@ -4533,20 +4659,26 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": -0.352,
+        "performance": -0.147,
         "breakdown": {
-          "misc:Aerial Duels - Won%": 0.13952,
-          "defense:Tkl+Int": -0.15771,
-          "defense:Clr": -0.10053,
-          "defense:Blocks - Blocks": -0.05186,
-          "defense:Err": -0.07267,
-          "standard:Performance - CrdY": -0.05288,
-          "standard:Performance - CrdR": -0.02228,
-          "passing:Total - Cmp%": 0.01889,
-          "passing:Total - PrgDist": -0.02487,
-          "possession:Carries - PrgDist": -0.02794
+          "defense:Tkl+Int": -0.13855,
+          "defense:Clr": -0.08868,
+          "defense:Blocks - Blocks": -0.04344,
+          "misc:Aerial Duels - Won%": 0.05944,
+          "defense:Err": 0.06928,
+          "standard:Performance - CrdR": 0.02339,
+          "passing:Total - Cmp%": 0.01609,
+          "passing:Total - PrgDist": -0.02032,
+          "possession:Carries - PrgDist": -0.02571,
+          "shooting:Expected - xG": -0.00679,
+          "goal_shot_creation:SCA - SCA90": 0.00849
         }
-      }
+      },
+      "fbref_id": "3f319bb9",
+      "fbref_url": "https://fbref.com/en/players/3f319bb9/Rasmus-Nicolaisen",
+      "position_text": "DF (CB, left) ▪",
+      "foot": "Left",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/3f319bb9_2022.jpg"
     },
     {
       "name": "Shavy Babicka",
@@ -4755,21 +4887,29 @@
           "Aerial Duels - Won%": 29.2
         }
       },
-      "role": "W",
+      "role": "CM",
       "ranking": {
-        "performance": -0.086,
+        "performance": -0.119,
         "breakdown": {
-          "possession:Carries - PrgC": 0.00608,
-          "possession:Carries - 1/3": -0.02408,
-          "possession:Take-Ons - Succ": -0.02972,
-          "passing_types:Pass Types - Crs": 0.00718,
-          "passing:KP": -0.01258,
-          "goal_shot_creation:SCA - SCA90": -0.04271,
-          "goal_shot_creation:GCA - GCA90": 0.00797,
-          "shooting:Standard - SoT/90": -0.00575,
-          "misc:Performance - CrdY": 0.00795
+          "defense:Tackles - Tkl": -0.02432,
+          "passing:Total - Cmp%": -0.05033,
+          "passing:Medium - Cmp%": -0.04246,
+          "passing:Long - Cmp%": -0.05699,
+          "passing:Total - PrgDist": -0.0312,
+          "passing:KP": 0.00932,
+          "goal_shot_creation:SCA - SCA90": -0.01024,
+          "goal_shot_creation:GCA - GCA90": 0.04644,
+          "possession:Carries - PrgDist": -0.00556,
+          "possession:Carries - PrgC": 0.03399,
+          "misc:Performance - Fls": 0.00484,
+          "misc:Performance - CrdY": 0.008
         }
-      }
+      },
+      "fbref_id": "c6f0d5d4",
+      "fbref_url": "https://fbref.com/en/players/c6f0d5d4/Shavy-Babicka",
+      "position_text": "MF",
+      "foot": null,
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/c6f0d5d4_2022.jpg"
     },
     {
       "name": "Vincent Sierro",
@@ -4980,22 +5120,27 @@
       },
       "role": "CM",
       "ranking": {
-        "performance": 0.264,
+        "performance": 0.196,
         "breakdown": {
-          "defense:Tackles - Tkl": 0.06152,
-          "passing:Total - Cmp%": -0.01302,
-          "passing:Medium - Cmp%": -0.00504,
-          "passing:Long - Cmp%": -0.03767,
-          "passing:Total - PrgDist": 0.07126,
-          "passing:KP": 0.07816,
-          "goal_shot_creation:SCA - SCA90": -0.00502,
-          "goal_shot_creation:GCA - GCA90": -0.00596,
-          "possession:Carries - PrgDist": 0.04118,
-          "possession:Carries - PrgC": -0.00059,
-          "misc:Performance - Fls": 0.054,
-          "misc:Performance - CrdY": 0.02547
+          "defense:Tackles - Tkl": 0.07054,
+          "passing:Total - Cmp%": -0.00681,
+          "passing:Medium - Cmp%": 0.00173,
+          "passing:Long - Cmp%": -0.02721,
+          "passing:Total - PrgDist": 0.08443,
+          "passing:KP": 0.14718,
+          "goal_shot_creation:SCA - SCA90": -0.0073,
+          "goal_shot_creation:GCA - GCA90": -0.00819,
+          "possession:Carries - PrgDist": 0.03453,
+          "possession:Carries - PrgC": -0.01284,
+          "misc:Performance - Fls": -0.05213,
+          "misc:Performance - CrdY": -0.02768
         }
-      }
+      },
+      "fbref_id": "92ffb8f9",
+      "fbref_url": "https://fbref.com/en/players/92ffb8f9/Vincent-Sierro",
+      "position_text": "MF (CM-DM) ▪",
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/92ffb8f9_2022.jpg"
     },
     {
       "name": "Warren Kamanzi",
@@ -5204,7 +5349,28 @@
           "Aerial Duels - Won%": 87.5
         }
       },
-      "role": "OTHER"
+      "role": "CB",
+      "fbref_id": "a426a912",
+      "fbref_url": "https://fbref.com/en/players/a426a912/Warren-Kamanzi",
+      "position_text": "DF-MF",
+      "foot": null,
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/a426a912_2022.jpg",
+      "ranking": {
+        "performance": 0.119,
+        "breakdown": {
+          "defense:Tkl+Int": 0.01644,
+          "defense:Clr": -0.08868,
+          "defense:Blocks - Blocks": -0.06679,
+          "misc:Aerial Duels - Won%": 0.16775,
+          "defense:Err": 0.06928,
+          "standard:Performance - CrdR": 0.02339,
+          "passing:Total - Cmp%": -0.01276,
+          "passing:Total - PrgDist": -0.03326,
+          "possession:Carries - PrgDist": -0.00876,
+          "shooting:Expected - xG": 0.02325,
+          "goal_shot_creation:SCA - SCA90": 0.0287
+        }
+      }
     },
     {
       "name": "Yann Gboho",
@@ -5413,21 +5579,29 @@
           "Aerial Duels - Won%": 15.6
         }
       },
-      "role": "W",
+      "role": "AM",
       "ranking": {
-        "performance": 0.751,
+        "performance": 0.433,
         "breakdown": {
-          "possession:Carries - PrgC": 0.24696,
-          "possession:Carries - 1/3": 0.22854,
-          "possession:Take-Ons - Succ": 0.21928,
-          "passing_types:Pass Types - Crs": -0.00817,
-          "passing:KP": 0.03604,
-          "goal_shot_creation:SCA - SCA90": 0.00983,
-          "goal_shot_creation:GCA - GCA90": -0.01091,
-          "shooting:Standard - SoT/90": 0.02133,
-          "misc:Performance - CrdY": 0.00795
+          "goal_shot_creation:SCA - SCA90": 0.0115,
+          "goal_shot_creation:GCA - GCA90": -0.01841,
+          "passing:KP": 0.08103,
+          "passing:Expected - xA": 0.05671,
+          "passing:1/3": 0.04135,
+          "passing:PPA": 0.05233,
+          "passing:Total - PrgDist": 0.02723,
+          "passing:Total - Cmp%": -0.00588,
+          "possession:Carries - PrgDist": 0.10802,
+          "possession:Carries - PrgC": 0.13857,
+          "defense:Err": -0.04855,
+          "misc:Performance - CrdY": -0.01049
         }
-      }
+      },
+      "fbref_id": "6be41a31",
+      "fbref_url": "https://fbref.com/en/players/6be41a31/Yann-Gboho",
+      "position_text": "FW-MF (AM) ▪",
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/6be41a31_2022.jpg"
     },
     {
       "name": "Zakaria Aboukhlal",
@@ -5636,21 +5810,29 @@
           "Aerial Duels - Won%": 36.7
         }
       },
-      "role": "W",
+      "role": "CM",
       "ranking": {
-        "performance": 0.031,
+        "performance": -0.276,
         "breakdown": {
-          "possession:Carries - PrgC": 5e-05,
-          "possession:Carries - 1/3": 0.00694,
-          "possession:Take-Ons - Succ": 0.0022,
-          "passing_types:Pass Types - Crs": 9e-05,
-          "passing:KP": -0.01544,
-          "goal_shot_creation:SCA - SCA90": -0.06943,
-          "goal_shot_creation:GCA - GCA90": -0.00061,
-          "shooting:Standard - SoT/90": 0.0408,
-          "misc:Performance - CrdY": 0.0659
+          "defense:Tackles - Tkl": -0.0202,
+          "passing:Total - Cmp%": -0.06497,
+          "passing:Medium - Cmp%": -0.07575,
+          "passing:Long - Cmp%": -0.04221,
+          "passing:Total - PrgDist": -0.02875,
+          "passing:KP": 0.00121,
+          "goal_shot_creation:SCA - SCA90": -0.0211,
+          "goal_shot_creation:GCA - GCA90": 0.03457,
+          "possession:Carries - PrgDist": -0.00509,
+          "possession:Carries - PrgC": 0.02953,
+          "misc:Performance - Fls": -0.05529,
+          "misc:Performance - CrdY": -0.02768
         }
-      }
+      },
+      "fbref_id": "c2a6033c",
+      "fbref_url": "https://fbref.com/en/players/c2a6033c/Zakaria-Aboukhlal",
+      "position_text": "FW-MF ▪",
+      "foot": "Left",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/c2a6033c_2022.jpg"
     },
     {
       "name": "Álex Domínguez",
@@ -5923,7 +6105,12 @@
           "keeper_adv:Crosses - Stp": -0.05843,
           "keeper_adv:Sweeper - #OPA/90": -0.1936
         }
-      }
+      },
+      "fbref_id": "f240be08",
+      "fbref_url": "https://fbref.com/en/players/f240be08/Alex-Dominguez",
+      "position_text": "GK",
+      "foot": null,
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/f240be08_2022.jpg"
     },
     {
       "name": "Ümit Akdag",
@@ -6134,20 +6321,26 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": -0.346,
+        "performance": -0.222,
         "breakdown": {
-          "misc:Aerial Duels - Won%": 0.16543,
-          "defense:Tkl+Int": -0.13872,
-          "defense:Clr": -0.11842,
-          "defense:Blocks - Blocks": -0.05186,
-          "defense:Err": -0.07267,
-          "standard:Performance - CrdY": -0.0142,
-          "standard:Performance - CrdR": -0.02228,
-          "passing:Total - Cmp%": -0.02319,
-          "passing:Total - PrgDist": -0.03443,
-          "possession:Carries - PrgDist": -0.03528
+          "defense:Tkl+Int": -0.11741,
+          "defense:Clr": -0.10615,
+          "defense:Blocks - Blocks": -0.04344,
+          "misc:Aerial Duels - Won%": 0.07182,
+          "defense:Err": 0.06928,
+          "standard:Performance - CrdR": 0.02339,
+          "passing:Total - Cmp%": -0.03709,
+          "passing:Total - PrgDist": -0.02986,
+          "possession:Carries - PrgDist": -0.03288,
+          "shooting:Expected - xG": -0.0168,
+          "goal_shot_creation:SCA - SCA90": -0.00273
         }
-      }
+      },
+      "fbref_id": "d746900e",
+      "fbref_url": "https://fbref.com/en/players/d746900e/Umit-Akdag",
+      "position_text": "DF",
+      "foot": null,
+      "profile_img": null
     },
     {
       "name": "Dayann Methalie",
@@ -6183,18 +6376,24 @@
       "ranking": {
         "performance": 0.0,
         "breakdown": {
-          "misc:Aerial Duels - Won%": NaN,
           "defense:Tkl+Int": NaN,
           "defense:Clr": NaN,
           "defense:Blocks - Blocks": NaN,
+          "misc:Aerial Duels - Won%": NaN,
           "defense:Err": NaN,
-          "standard:Performance - CrdY": NaN,
           "standard:Performance - CrdR": NaN,
           "passing:Total - Cmp%": NaN,
           "passing:Total - PrgDist": NaN,
-          "possession:Carries - PrgDist": NaN
+          "possession:Carries - PrgDist": NaN,
+          "shooting:Expected - xG": NaN,
+          "goal_shot_creation:SCA - SCA90": NaN
         }
-      }
+      },
+      "fbref_id": "2016b059",
+      "fbref_url": "https://fbref.com/en/players/2016b059/Dayann-Methalie",
+      "position_text": "DF",
+      "foot": null,
+      "profile_img": null
     },
     {
       "name": "Ilyas Azizi",
@@ -6232,16 +6431,17 @@
         "breakdown": {
           "shooting:Standard - SoT/90": NaN,
           "shooting:Standard - G/Sh": NaN,
-          "shooting:Expected - xG": NaN,
-          "shooting:Expected - npxG": NaN,
-          "standard:Performance - Gls": NaN,
-          "standard:Performance - G-PK": NaN,
           "passing:KP": NaN,
           "goal_shot_creation:SCA - SCA90": NaN,
           "misc:Performance - Off": NaN,
           "misc:Performance - CrdY": NaN
         }
-      }
+      },
+      "fbref_id": "fa9a2011",
+      "fbref_url": "https://fbref.com/en/players/fa9a2011/Ilyas-Azizi",
+      "position_text": "FW",
+      "foot": null,
+      "profile_img": null
     },
     {
       "name": "Justin Lacombe",
@@ -6288,7 +6488,12 @@
           "keeper_adv:Crosses - Stp": NaN,
           "keeper_adv:Sweeper - #OPA/90": NaN
         }
-      }
+      },
+      "fbref_id": "18fb0523",
+      "fbref_url": "https://fbref.com/en/players/18fb0523/Justin-Lacombe",
+      "position_text": "GK",
+      "foot": null,
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/18fb0523_2022.jpg"
     },
     {
       "name": "Mamady Bangré",
@@ -6337,7 +6542,12 @@
           "misc:Performance - Fls": NaN,
           "misc:Performance - CrdY": NaN
         }
-      }
+      },
+      "fbref_id": "69e930e4",
+      "fbref_url": "https://fbref.com/en/players/69e930e4/Mamady-Bangre",
+      "position_text": "MF",
+      "foot": null,
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/69e930e4_2022.jpg"
     },
     {
       "name": "Mathis Saka",
@@ -6375,16 +6585,17 @@
         "breakdown": {
           "shooting:Standard - SoT/90": NaN,
           "shooting:Standard - G/Sh": NaN,
-          "shooting:Expected - xG": NaN,
-          "shooting:Expected - npxG": NaN,
-          "standard:Performance - Gls": NaN,
-          "standard:Performance - G-PK": NaN,
           "passing:KP": NaN,
           "goal_shot_creation:SCA - SCA90": NaN,
           "misc:Performance - Off": NaN,
           "misc:Performance - CrdY": NaN
         }
-      }
+      },
+      "fbref_id": "94c800c4",
+      "fbref_url": "https://fbref.com/en/players/94c800c4/Mathis-Saka",
+      "position_text": "FW",
+      "foot": null,
+      "profile_img": null
     },
     {
       "name": "Mathys Niflore",
@@ -6431,7 +6642,12 @@
           "keeper_adv:Crosses - Stp": NaN,
           "keeper_adv:Sweeper - #OPA/90": NaN
         }
-      }
+      },
+      "fbref_id": "abfd1cbe",
+      "fbref_url": "https://fbref.com/en/players/abfd1cbe/Mathys-Niflore",
+      "position_text": "GK",
+      "foot": null,
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/abfd1cbe_2022.jpg"
     }
   ]
 }

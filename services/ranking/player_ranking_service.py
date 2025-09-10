@@ -1,94 +1,13 @@
 from pathlib import Path
 import json
-import re
-from turtle import position
-from typing import Optional
 import numpy as np
 import pandas as pd
+from models.ranking.ranking import LOWER_IS_BETTER, ROLE_BASE_MAP, ROLE_RANK_MAPPING
 
-from models.players.player_type import RoleType
-from models.ranking.ranking import LOWER_IS_BETTER, ROLE_RANK_MAPPING
-STANDARD_ROLES = {"GK", "CB", "FB", "DM", "CM", "AM", "W", "CF"}
 class FBRefPlayerRankingService:
     def __init__(self, league_slug: str):
-        # league_slug must match how you saved the JSONs under data/players/<slug>
         self.league_slug = league_slug
         self.player_dir = Path("data/players") / league_slug
-
-
-
-
-    @staticmethod
-    def infer_role(position_text: Optional[str], position: Optional[str]) -> str:
-        import re
-
-        text = (position_text or "").strip()
-        pos = (position or "").strip().upper()
-        print(f"[INFO] Inferring role for player: position_text='{text}' position='{pos}'")
-
-        # Standard role map
-        role_map = {
-            "GK": "GK",
-            "CB": "CB",
-            "FB": "FB",
-            "DM": "DM",
-            "CM": "CM",
-            "AM": "AM",
-            "W": "W",
-            "CF": "CF"
-        }
-
-        # Normalize text
-        clean_text = text.replace("▪", "").replace(" ", "").upper()
-
-        # Extract parentheses content for more precise info
-        paren_match = re.search(r"\((.*?)\)", clean_text)
-        inner_roles = []
-        side = None
-        if paren_match:
-            inner = paren_match.group(1)
-            # Detect side info
-            side_match = re.search(r"(LEFT|RIGHT|L|R)", inner)
-            if side_match:
-                side = side_match.group(1)[0].upper()
-            # Extract roles inside parentheses
-            inner_roles = [r for r in re.split(r"[-,]", inner) if r and r.upper() not in ("L", "R", "LEFT", "RIGHT")]
-
-        # If no parentheses roles, use main text
-        if not inner_roles:
-            main_roles = re.split(r"[-,]", clean_text)
-            inner_roles = [r for r in main_roles if r and r not in ("L", "R", "LEFT", "RIGHT")]
-
-        # Pick the first role we recognize
-        for r in inner_roles:
-            std_role = role_map.get(r)
-            if std_role:
-                # Apply side suffix for CB, FB, AM, W
-                if side and std_role in ("CB", "FB", "AM", "W"):
-                    if std_role == "CB":
-                        return f"CB"
-                    if std_role == "FB":
-                        return f"FB"
-                    if std_role in ("AM", "W"):
-                        return f"W"
-                return std_role
-
-        # Fallback mapping based on broad position if parsing failed
-        fallback_map = {
-            "GK": "GK",
-            "DF": "CB",
-            "MF": "CM",
-            "FW,MF": "AM",
-            "MF,FW": "AM",
-            "FW": "CF"
-        }
-
-        return fallback_map.get(pos, "CF")  # always return something, default striker
-
-
-
-    
-
 
     def load_players(self) -> list[dict]:
         all_players = []
@@ -98,33 +17,38 @@ class FBRefPlayerRankingService:
 
         for file in self.player_dir.glob("*.json"):
             team_data = json.loads(file.read_text(encoding="utf-8"))
+            team_name = team_data.get("team")
+            league_name = team_data.get("league")
+            season = team_data.get("season")
+
             for player in team_data.get("players", []):
                 player["__meta__"] = {
-                    "team": team_data.get("team"),
-                    "league": team_data.get("league"),
-                    "season": team_data.get("season"),
-                    "file_path": str(file),  # <--- track original file
+                    "team": team_name,
+                    "league": league_name,
+                    "season": season,
+                    "file_path": str(file),
                 }
 
-                position = player.get("position")
-                position_text = player.get("position_text")
-                player["role"] = self.infer_role(position_text, position)
+                # Ensure role exists, but do NOT modify if present
+                if "role" not in player or not player["role"]:
+                    player["role"] = player.get("position", "NA")
 
                 all_players.append(player)
 
         return all_players
+
     def rank_players(self):
         players = self.load_players()
         if not players:
             return
 
-        # Flatten to a wide DF: one row per player
+        # Flatten to a wide DataFrame
         flat_rows = []
         for player in players:
             row = {
                 "name": player.get("name"),
                 "position": player.get("position"),
-                "role": player.get("role"),
+                "role": player.get("role"),          # ORIGINAL role preserved
                 "__player__": player,
             }
             for group, stats in (player.get("stats") or {}).items():
@@ -134,15 +58,15 @@ class FBRefPlayerRankingService:
 
         df = pd.DataFrame(flat_rows)
 
-        for role, weights in ROLE_RANK_MAPPING.items():
-            if "role" not in df.columns:
-                continue
+        # Create base_role only for ranking
+        df["base_role"] = df["role"].map(lambda r: ROLE_BASE_MAP.get(r, r))
 
-            role_df = df[df["role"] == role].copy()
+        for role, weights in ROLE_RANK_MAPPING.items():
+            role_df = df[df["base_role"] == role].copy()
             if role_df.empty:
                 continue
 
-            breakdowns = {}  # {row_idx: {metric: value}}
+            breakdowns = {}
             weighted_parts = []
 
             for key, weight in weights.items():
@@ -160,7 +84,6 @@ class FBRefPlayerRankingService:
                 contribution = z * float(weight)
                 weighted_parts.append(contribution)
 
-                # Store each player's contribution to breakdown
                 for idx, val in zip(role_df.index, contribution):
                     breakdowns.setdefault(idx, {})[key] = float(np.round(val, 5))
 
@@ -174,10 +97,12 @@ class FBRefPlayerRankingService:
                 player.setdefault("ranking", {})["performance"] = float(np.round(row["score"], 3))
                 player["ranking"]["breakdown"] = breakdowns.get(idx, {})
 
+                # ✅ Original role remains untouched
+                assert player["role"] == row["role"], f"Role was changed for {player['name']}!"
+
         self._save_ranked_players(players)
 
     def _save_ranked_players(self, players: list[dict]):
-        # Re-group by original file path to write to correct source
         files_map: dict[str, list[dict]] = {}
 
         for p in players:
@@ -188,7 +113,7 @@ class FBRefPlayerRankingService:
             meta = plist[0]["__meta__"]
 
             for p in plist:
-                p.pop("__meta__", None)  # cleanup before saving
+                p.pop("__meta__", None)
 
             payload = {
                 "league": meta["league"],

@@ -180,3 +180,32 @@ ROLE_RANK_MAPPING = {
 #     "DL": 1.5,
 #     "DC": 2.0
 # }
+
+
+# roles to ranking mapping:
+ROLE_BASE_MAP = {
+    "LCB": "CB",
+    "RCB": "CB",
+    "CB": "CB",
+
+    "LB": "FB",
+    "RB": "FB",
+    "LWB": "FB",
+    "RWB": "FB",
+    "FB": "FB",
+    
+    "CDM": "DM",
+    "CM": "CM",
+    "CAM": "AM",
+    "AM": "AM",
+    "LM": "W",
+    "RM": "W",
+    "LW": "W",
+    "RW": "W",
+    "W": "W",
+
+    "CF": "CF",
+    "ST": "CF",
+
+    "GK": "GK",
+}

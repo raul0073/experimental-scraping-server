@@ -212,25 +212,71 @@
       },
       "role": "DM",
       "ranking": {
-        "performance": -0.112,
+        "performance": -0.168,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.06938,
-          "defense:Tkl+Int": -0.01924,
-          "defense:Err": 0.05263,
-          "passing:Total - Cmp%": -0.04688,
-          "passing:Total - PrgDist": -0.00593,
-          "passing:Short - Cmp%": -0.03156,
-          "passing:Medium - Cmp%": -0.03367,
-          "passing_types:Pass Types - Sw": -0.0272,
-          "possession:Carries - PrgDist": -0.02218,
-          "misc:Performance - Fls": 0.04361,
-          "misc:Performance - CrdY": 0.04807
+          "defense:Tackles - Tkl": -0.04344,
+          "defense:Tkl+Int": -0.01046,
+          "defense:Err": 0.04668,
+          "passing:Total - Cmp%": -0.10269,
+          "passing:Total - PrgDist": 0.00838,
+          "passing:Short - Cmp%": -0.04974,
+          "passing:Medium - Cmp%": -0.05445,
+          "passing_types:Pass Types - Sw": -0.02812,
+          "possession:Carries - PrgDist": -0.01193,
+          "misc:Performance - Fls": 0.03979,
+          "misc:Performance - CrdY": 0.03816
         }
       },
       "fbref_id": "4b542852",
       "fbref_url": "https://fbref.com/en/players/4b542852/Adam-Wharton",
       "position_text": "MF (DM) ▪",
-      "foot": "Left"
+      "foot": "Left",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/4b542852_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.0,
+          "npxG: Non-Penalty xG": 0.01,
+          "Shots Total": 0.56,
+          "Assists": 0.14,
+          "xAG: Exp. Assisted Goals": 0.22,
+          "npxG + xAG": 0.24,
+          "Shot-Creating Actions": 3.83,
+          "Passes Attempted": 47.13,
+          "Pass Completion %": 75.7,
+          "Progressive Passes": 6.69,
+          "Progressive Carries": 0.91,
+          "Successful Take-Ons": 0.35,
+          "Touches (Att Pen)": 0.49,
+          "Progressive Passes Rec": 0.63,
+          "Tackles": 1.95,
+          "Interceptions": 1.25,
+          "Blocks": 1.05,
+          "Clearances": 1.6,
+          "Aerials Won": 0.42
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 13,
+          "npxG: Non-Penalty xG": 5,
+          "Shots Total": 20,
+          "Assists": 78,
+          "xAG: Exp. Assisted Goals": 95,
+          "npxG + xAG": 78,
+          "Shot-Creating Actions": 91,
+          "Passes Attempted": 47,
+          "Pass Completion %": 10,
+          "Progressive Passes": 85,
+          "Progressive Carries": 34,
+          "Successful Take-Ons": 23,
+          "Touches (Att Pen)": 15,
+          "Progressive Passes Rec": 8,
+          "Tackles": 43,
+          "Interceptions": 72,
+          "Blocks": 36,
+          "Clearances": 57,
+          "Aerials Won": 15
+        },
+        "position_pool": "Midfielders"
+      }
     },
     {
       "name": "Asher Agbinone",
@@ -441,26 +487,32 @@
       },
       "role": "CM",
       "ranking": {
-        "performance": -0.218,
+        "performance": 0.046,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.10931,
-          "passing:Total - Cmp%": -0.10291,
-          "passing:Medium - Cmp%": -0.18879,
+          "defense:Tackles - Tkl": -0.09743,
+          "passing:Total - Cmp%": -0.09206,
+          "passing:Medium - Cmp%": -0.16633,
           "passing:Long - Cmp%": NaN,
-          "passing:Total - PrgDist": -0.05282,
-          "passing:KP": -0.08213,
-          "goal_shot_creation:SCA - SCA90": 0.33412,
-          "goal_shot_creation:GCA - GCA90": -0.03732,
-          "possession:Carries - PrgDist": -0.05039,
-          "possession:Carries - PrgC": -0.04089,
-          "misc:Performance - Fls": 0.05728,
-          "misc:Performance - CrdY": 0.05491
+          "passing:Total - PrgDist": -0.04827,
+          "passing:KP": -0.08379,
+          "goal_shot_creation:SCA - SCA90": 0.55885,
+          "goal_shot_creation:GCA - GCA90": -0.04115,
+          "possession:Carries - PrgDist": -0.04702,
+          "possession:Carries - PrgC": -0.03892,
+          "misc:Performance - Fls": 0.05118,
+          "misc:Performance - CrdY": 0.05139
         }
       },
       "fbref_id": "6a10efb3",
       "fbref_url": "https://fbref.com/en/players/6a10efb3/Asher-Agbinone",
       "position_text": "MF",
-      "foot": null
+      "foot": null,
+      "profile_img": null,
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     },
     {
       "name": "Ben Chilwell",
@@ -669,22 +721,28 @@
           "Aerial Duels - Won%": 42.9
         }
       },
-      "role": "FB",
+      "role": "LB",
       "ranking": {
-        "performance": -0.276,
+        "performance": -0.298,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.14892,
-          "defense:Blocks - Blocks": -0.08066,
-          "passing:Total - Cmp%": -0.10413,
-          "passing_types:Pass Types - Crs": -0.0401,
-          "misc:Performance - Fls": 0.05521,
-          "misc:Performance - CrdY": 0.04211
+          "defense:Tackles - Tkl": -0.15254,
+          "defense:Blocks - Blocks": -0.08782,
+          "passing:Total - Cmp%": -0.12136,
+          "passing_types:Pass Types - Crs": -0.03665,
+          "misc:Performance - Fls": 0.05561,
+          "misc:Performance - CrdY": 0.0445
         }
       },
       "fbref_id": "d2424d1b",
       "fbref_url": "https://fbref.com/en/players/d2424d1b/Ben-Chilwell",
       "position_text": "DF-MF (FB, left) ▪",
-      "foot": "Left"
+      "foot": "Left",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/d2424d1b_2022.jpg",
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     },
     {
       "name": "Caleb Kporha",
@@ -895,25 +953,31 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": -0.919,
+        "performance": -0.885,
         "breakdown": {
-          "defense:Tkl+Int": -0.21957,
-          "defense:Clr": -0.15603,
-          "defense:Blocks - Blocks": -0.10705,
-          "misc:Aerial Duels - Won%": -0.30074,
-          "defense:Err": 0.08646,
-          "standard:Performance - CrdR": 0.01553,
-          "passing:Total - Cmp%": -0.09403,
-          "passing:Total - PrgDist": -0.05379,
-          "possession:Carries - PrgDist": -0.04927,
-          "shooting:Expected - xG": -0.02156,
-          "goal_shot_creation:SCA - SCA90": -0.01932
+          "defense:Tkl+Int": -0.21514,
+          "defense:Clr": -0.15487,
+          "defense:Blocks - Blocks": -0.10444,
+          "misc:Aerial Duels - Won%": -0.28444,
+          "defense:Err": 0.08944,
+          "standard:Performance - CrdR": 0.01648,
+          "passing:Total - Cmp%": -0.09114,
+          "passing:Total - PrgDist": -0.05271,
+          "possession:Carries - PrgDist": -0.04855,
+          "shooting:Expected - xG": -0.0218,
+          "goal_shot_creation:SCA - SCA90": -0.01814
         }
       },
       "fbref_id": "c80f8c9d",
       "fbref_url": "https://fbref.com/en/players/c80f8c9d/Caleb-Kporha",
       "position_text": "DF",
-      "foot": null
+      "foot": null,
+      "profile_img": null,
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     },
     {
       "name": "Chadi Riad",
@@ -1124,25 +1188,31 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": -0.604,
+        "performance": -0.581,
         "breakdown": {
-          "defense:Tkl+Int": -0.1876,
-          "defense:Clr": -0.15841,
-          "defense:Blocks - Blocks": -0.10705,
-          "misc:Aerial Duels - Won%": -0.11938,
-          "defense:Err": 0.08646,
-          "standard:Performance - CrdR": 0.01553,
-          "passing:Total - Cmp%": -0.00288,
-          "passing:Total - PrgDist": -0.04729,
-          "possession:Carries - PrgDist": -0.04271,
-          "shooting:Expected - xG": -0.02156,
-          "goal_shot_creation:SCA - SCA90": -0.01932
+          "defense:Tkl+Int": -0.18336,
+          "defense:Clr": -0.15721,
+          "defense:Blocks - Blocks": -0.10444,
+          "misc:Aerial Duels - Won%": -0.11089,
+          "defense:Err": 0.08944,
+          "standard:Performance - CrdR": 0.01648,
+          "passing:Total - Cmp%": -0.00281,
+          "passing:Total - PrgDist": -0.04632,
+          "possession:Carries - PrgDist": -0.04198,
+          "shooting:Expected - xG": -0.0218,
+          "goal_shot_creation:SCA - SCA90": -0.01814
         }
       },
       "fbref_id": "b3b9b8b8",
       "fbref_url": "https://fbref.com/en/players/b3b9b8b8/Chadi-Riad",
       "position_text": "DF",
-      "foot": null
+      "foot": null,
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/b3b9b8b8_2022.jpg",
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     },
     {
       "name": "Cheick Doucouré",
@@ -1351,28 +1421,33 @@
           "Aerial Duels - Won%": 50.0
         }
       },
-      "role": "CM",
+      "role": "DM",
       "ranking": {
-        "performance": -0.061,
+        "performance": -0.142,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.06482,
-          "passing:Total - Cmp%": 0.01012,
-          "passing:Medium - Cmp%": 0.01356,
-          "passing:Long - Cmp%": 0.05597,
-          "passing:Total - PrgDist": -0.03595,
-          "passing:KP": -0.08213,
-          "goal_shot_creation:SCA - SCA90": -0.02574,
-          "goal_shot_creation:GCA - GCA90": 0.06718,
-          "possession:Carries - PrgDist": -0.0383,
-          "possession:Carries - PrgC": -0.04089,
-          "misc:Performance - Fls": 0.03888,
-          "misc:Performance - CrdY": 0.04084
+          "defense:Tackles - Tkl": -0.13219,
+          "defense:Tkl+Int": -0.04278,
+          "defense:Err": 0.01413,
+          "passing:Total - Cmp%": 0.03323,
+          "passing:Total - PrgDist": -0.0532,
+          "passing:Short - Cmp%": 0.00235,
+          "passing:Medium - Cmp%": 0.02158,
+          "passing_types:Pass Types - Sw": -0.03832,
+          "possession:Carries - PrgDist": -0.05265,
+          "misc:Performance - Fls": 0.05354,
+          "misc:Performance - CrdY": 0.05251
         }
       },
       "fbref_id": "ce4f40c7",
       "fbref_url": "https://fbref.com/en/players/ce4f40c7/Cheick-Doucoure",
       "position_text": "MF (CM-DM) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/ce4f40c7_2022.jpg",
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     },
     {
       "name": "Chris Richards",
@@ -1583,25 +1658,71 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": 0.336,
+        "performance": 0.35,
         "breakdown": {
-          "defense:Tkl+Int": 0.1896,
-          "defense:Clr": 0.12905,
-          "defense:Blocks - Blocks": 0.13023,
-          "misc:Aerial Duels - Won%": -0.00718,
-          "defense:Err": 0.08646,
-          "standard:Performance - CrdR": -0.13741,
-          "passing:Total - Cmp%": -0.03934,
-          "passing:Total - PrgDist": -0.00376,
-          "possession:Carries - PrgDist": -0.01821,
-          "shooting:Expected - xG": 0.0181,
-          "goal_shot_creation:SCA - SCA90": -0.01129
+          "defense:Tkl+Int": 0.1917,
+          "defense:Clr": 0.12549,
+          "defense:Blocks - Blocks": 0.12598,
+          "misc:Aerial Duels - Won%": -0.00353,
+          "defense:Err": 0.08944,
+          "standard:Performance - CrdR": -0.12929,
+          "passing:Total - Cmp%": -0.03814,
+          "passing:Total - PrgDist": -0.00355,
+          "possession:Carries - PrgDist": -0.01743,
+          "shooting:Expected - xG": 0.01978,
+          "goal_shot_creation:SCA - SCA90": -0.01047
         }
       },
       "fbref_id": "0a3d6d2b",
       "fbref_url": "https://fbref.com/en/players/0a3d6d2b/Chris-Richards",
       "position_text": "DF (CB) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/0a3d6d2b_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.05,
+          "npxG: Non-Penalty xG": 0.06,
+          "Shots Total": 0.56,
+          "Assists": 0.0,
+          "xAG: Exp. Assisted Goals": 0.0,
+          "npxG + xAG": 0.07,
+          "Shot-Creating Actions": 0.51,
+          "Passes Attempted": 38.73,
+          "Pass Completion %": 79.1,
+          "Progressive Passes": 2.0,
+          "Progressive Carries": 0.19,
+          "Successful Take-Ons": 0.05,
+          "Touches (Att Pen)": 0.84,
+          "Progressive Passes Rec": 0.05,
+          "Tackles": 2.28,
+          "Interceptions": 0.98,
+          "Blocks": 1.95,
+          "Clearances": 5.85,
+          "Aerials Won": 2.46
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 60,
+          "npxG: Non-Penalty xG": 73,
+          "Shots Total": 59,
+          "Assists": 27,
+          "xAG: Exp. Assisted Goals": 11,
+          "npxG + xAG": 47,
+          "Shot-Creating Actions": 14,
+          "Passes Attempted": 6,
+          "Pass Completion %": 6,
+          "Progressive Passes": 11,
+          "Progressive Carries": 11,
+          "Successful Take-Ons": 11,
+          "Touches (Att Pen)": 49,
+          "Progressive Passes Rec": 6,
+          "Tackles": 93,
+          "Interceptions": 41,
+          "Blocks": 96,
+          "Clearances": 76,
+          "Aerials Won": 70
+        },
+        "position_pool": "Center Backs"
+      }
     },
     {
       "name": "Daichi Kamada",
@@ -1812,26 +1933,72 @@
       },
       "role": "AM",
       "ranking": {
-        "performance": -0.051,
+        "performance": -0.042,
         "breakdown": {
-          "goal_shot_creation:SCA - SCA90": -0.02089,
-          "goal_shot_creation:GCA - GCA90": -0.05311,
-          "passing:KP": -0.00556,
-          "passing:Expected - xA": -0.01136,
-          "passing:1/3": 0.01825,
-          "passing:PPA": -0.01227,
-          "passing:Total - PrgDist": 0.02845,
-          "passing:Total - Cmp%": 0.02328,
-          "possession:Carries - PrgDist": -0.00623,
-          "possession:Carries - PrgC": -0.01919,
-          "defense:Err": 0.03283,
-          "misc:Performance - CrdY": -0.02502
+          "goal_shot_creation:SCA - SCA90": -0.02575,
+          "goal_shot_creation:GCA - GCA90": -0.04658,
+          "passing:KP": -0.00441,
+          "passing:Expected - xA": -0.0095,
+          "passing:1/3": 0.01906,
+          "passing:PPA": -0.0113,
+          "passing:Total - PrgDist": 0.03214,
+          "passing:Total - Cmp%": 0.02221,
+          "possession:Carries - PrgDist": -0.00702,
+          "possession:Carries - PrgC": -0.02029,
+          "defense:Err": 0.03134,
+          "misc:Performance - CrdY": -0.02234
         }
       },
       "fbref_id": "15b287da",
       "fbref_url": "https://fbref.com/en/players/15b287da/Daichi-Kamada",
       "position_text": "FW-MF (AM-CM) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/15b287da_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.0,
+          "npxG: Non-Penalty xG": 0.06,
+          "Shots Total": 1.11,
+          "Assists": 0.0,
+          "xAG: Exp. Assisted Goals": 0.11,
+          "npxG + xAG": 0.17,
+          "Shot-Creating Actions": 2.76,
+          "Passes Attempted": 42.45,
+          "Pass Completion %": 80.2,
+          "Progressive Passes": 5.04,
+          "Progressive Carries": 1.17,
+          "Successful Take-Ons": 0.37,
+          "Touches (Att Pen)": 1.54,
+          "Progressive Passes Rec": 2.76,
+          "Tackles": 2.83,
+          "Interceptions": 1.11,
+          "Blocks": 1.35,
+          "Clearances": 0.74,
+          "Aerials Won": 0.25
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 13,
+          "npxG: Non-Penalty xG": 41,
+          "Shots Total": 60,
+          "Assists": 10,
+          "xAG: Exp. Assisted Goals": 69,
+          "npxG + xAG": 58,
+          "Shot-Creating Actions": 70,
+          "Passes Attempted": 29,
+          "Pass Completion %": 27,
+          "Progressive Passes": 62,
+          "Progressive Carries": 51,
+          "Successful Take-Ons": 26,
+          "Touches (Att Pen)": 68,
+          "Progressive Passes Rec": 76,
+          "Tackles": 85,
+          "Interceptions": 60,
+          "Blocks": 71,
+          "Clearances": 6,
+          "Aerials Won": 7
+        },
+        "position_pool": "Midfielders"
+      }
     },
     {
       "name": "Daniel Muñoz",
@@ -2042,25 +2209,71 @@
       },
       "role": "DM",
       "ranking": {
-        "performance": 0.167,
+        "performance": 0.216,
         "breakdown": {
-          "defense:Tackles - Tkl": 0.34372,
-          "defense:Tkl+Int": 0.11188,
-          "defense:Err": 0.01559,
-          "passing:Total - Cmp%": -0.04554,
-          "passing:Total - PrgDist": 0.02536,
-          "passing:Short - Cmp%": -0.01159,
-          "passing:Medium - Cmp%": -0.0607,
-          "passing_types:Pass Types - Sw": -0.01813,
-          "possession:Carries - PrgDist": 0.01489,
-          "misc:Performance - Fls": -0.11287,
-          "misc:Performance - CrdY": -0.0952
+          "defense:Tackles - Tkl": 0.39535,
+          "defense:Tkl+Int": 0.12481,
+          "defense:Err": 0.01413,
+          "passing:Total - Cmp%": -0.10129,
+          "passing:Total - PrgDist": 0.03835,
+          "passing:Short - Cmp%": -0.02558,
+          "passing:Medium - Cmp%": -0.079,
+          "passing_types:Pass Types - Sw": -0.01791,
+          "possession:Carries - PrgDist": 0.02476,
+          "misc:Performance - Fls": -0.08119,
+          "misc:Performance - CrdY": -0.0766
         }
       },
       "fbref_id": "778ef829",
       "fbref_url": "https://fbref.com/en/players/778ef829/Daniel-Munoz",
       "position_text": "DF-MF (DM-FB, right) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/778ef829_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.11,
+          "npxG: Non-Penalty xG": 0.14,
+          "Shots Total": 1.06,
+          "Assists": 0.17,
+          "xAG: Exp. Assisted Goals": 0.19,
+          "npxG + xAG": 0.33,
+          "Shot-Creating Actions": 2.31,
+          "Passes Attempted": 40.01,
+          "Pass Completion %": 75.1,
+          "Progressive Passes": 2.68,
+          "Progressive Carries": 1.73,
+          "Successful Take-Ons": 0.56,
+          "Touches (Att Pen)": 2.93,
+          "Progressive Passes Rec": 5.6,
+          "Tackles": 3.32,
+          "Interceptions": 1.23,
+          "Blocks": 1.03,
+          "Clearances": 3.32,
+          "Aerials Won": 1.56
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 86,
+          "npxG: Non-Penalty xG": 96,
+          "Shots Total": 84,
+          "Assists": 79,
+          "xAG: Exp. Assisted Goals": 93,
+          "npxG + xAG": 95,
+          "Shot-Creating Actions": 68,
+          "Passes Attempted": 14,
+          "Pass Completion %": 28,
+          "Progressive Passes": 20,
+          "Progressive Carries": 42,
+          "Successful Take-Ons": 50,
+          "Touches (Att Pen)": 93,
+          "Progressive Passes Rec": 78,
+          "Tackles": 98,
+          "Interceptions": 81,
+          "Blocks": 44,
+          "Clearances": 74,
+          "Aerials Won": 90
+        },
+        "position_pool": "Fullbacks"
+      }
     },
     {
       "name": "Dean Henderson",
@@ -2320,15 +2533,15 @@
       },
       "role": "GK",
       "ranking": {
-        "performance": 0.201,
+        "performance": 0.215,
         "breakdown": {
           "keeper:Performance - Save%": -0.0298,
           "keeper:Penalty Kicks - Save%": 0.11678,
           "keeper:Performance - CS%": 0.02084,
           "keeper:Performance - CS": 0.08537,
-          "passing:Total - Cmp%": -0.07503,
-          "passing_types:Pass Types - Live": 0.03333,
-          "passing_types:Outcomes - Cmp": 0.03083,
+          "passing:Total - Cmp%": -0.07196,
+          "passing_types:Pass Types - Live": 0.03867,
+          "passing_types:Outcomes - Cmp": 0.03558,
           "keeper_adv:Crosses - Stp%": -0.01633,
           "keeper_adv:Crosses - Stp": 0.04314,
           "keeper_adv:Sweeper - #OPA/90": -0.00779
@@ -2337,7 +2550,41 @@
       "fbref_id": "e5a76dfe",
       "fbref_url": "https://fbref.com/en/players/e5a76dfe/Dean-Henderson",
       "position_text": "GK ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/e5a76dfe_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "PSxG-GA": 0.08,
+          "Goals Against": 1.24,
+          "Save Percentage": 67.6,
+          "PSxG/SoT": 0.33,
+          "Save% (Penalty Kicks)": 50.0,
+          "Clean Sheet Percentage": 34.2,
+          "Touches": 34.74,
+          "Launch %": 46.6,
+          "Goal Kicks": 7.18,
+          "Avg. Length of Goal Kicks": 46.5,
+          "Crosses Stopped %": 5.7,
+          "Def. Actions Outside Pen. Area": 1.03,
+          "Avg. Distance of Def. Actions": 14.0
+        },
+        "percentiles": {
+          "PSxG-GA": 63,
+          "Goals Against": 63,
+          "Save Percentage": 35,
+          "PSxG/SoT": 82,
+          "Save% (Penalty Kicks)": 84,
+          "Clean Sheet Percentage": 77,
+          "Touches": 26,
+          "Launch %": 90,
+          "Goal Kicks": 84,
+          "Avg. Length of Goal Kicks": 59,
+          "Crosses Stopped %": 37,
+          "Def. Actions Outside Pen. Area": 47,
+          "Avg. Distance of Def. Actions": 52
+        },
+        "position_pool": "Goalkeepers"
+      }
     },
     {
       "name": "Eberechi Eze",
@@ -2546,28 +2793,73 @@
           "Aerial Duels - Won%": 15.9
         }
       },
-      "role": "AM",
+      "role": "W",
       "ranking": {
-        "performance": 0.464,
+        "performance": 0.722,
         "breakdown": {
-          "goal_shot_creation:SCA - SCA90": 0.07884,
-          "goal_shot_creation:GCA - GCA90": 0.00276,
-          "passing:KP": 0.18897,
-          "passing:Expected - xA": 0.06444,
-          "passing:1/3": 0.0195,
-          "passing:PPA": 0.05409,
-          "passing:Total - PrgDist": 0.05403,
-          "passing:Total - Cmp%": -0.00379,
-          "possession:Carries - PrgDist": 0.04827,
-          "possession:Carries - PrgC": 0.03379,
-          "defense:Err": -0.10773,
-          "misc:Performance - CrdY": 0.03106
+          "possession:Take-Ons - Att": 0.16338,
+          "possession:Take-Ons - Succ": 0.18988,
+          "possession:Carries - PrgC": 0.0059,
+          "possession:Carries - 1/3": 0.06954,
+          "passing_types:Pass Types - Crs": 0.06658,
+          "passing:KP": 0.07349,
+          "goal_shot_creation:SCA - SCA90": 0.08951,
+          "goal_shot_creation:GCA - GCA90": -0.01547,
+          "shooting:Standard - SoT/90": 0.01944,
+          "shooting:Expected - xG": 0.03203,
+          "misc:Performance - CrdY": 0.02795
         }
       },
       "fbref_id": "ae4fc6a4",
       "fbref_url": "https://fbref.com/en/players/ae4fc6a4/Eberechi-Eze",
       "position_text": "FW-MF (AM-WM) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/ae4fc6a4_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.22,
+          "npxG: Non-Penalty xG": 0.3,
+          "Shots Total": 3.38,
+          "Assists": 0.3,
+          "xAG: Exp. Assisted Goals": 0.22,
+          "npxG + xAG": 0.52,
+          "Shot-Creating Actions": 4.64,
+          "Passes Attempted": 35.49,
+          "Pass Completion %": 73.5,
+          "Progressive Passes": 2.94,
+          "Progressive Carries": 2.08,
+          "Successful Take-Ons": 2.38,
+          "Touches (Att Pen)": 3.08,
+          "Progressive Passes Rec": 4.98,
+          "Tackles": 1.34,
+          "Interceptions": 0.41,
+          "Blocks": 0.97,
+          "Clearances": 0.37,
+          "Aerials Won": 0.26
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 37,
+          "npxG: Non-Penalty xG": 75,
+          "Shots Total": 92,
+          "Assists": 84,
+          "xAG: Exp. Assisted Goals": 67,
+          "npxG + xAG": 76,
+          "Shot-Creating Actions": 83,
+          "Passes Attempted": 47,
+          "Pass Completion %": 32,
+          "Progressive Passes": 31,
+          "Progressive Carries": 14,
+          "Successful Take-Ons": 87,
+          "Touches (Att Pen)": 20,
+          "Progressive Passes Rec": 14,
+          "Tackles": 57,
+          "Interceptions": 45,
+          "Blocks": 64,
+          "Clearances": 24,
+          "Aerials Won": 23
+        },
+        "position_pool": "Att Mid / Wingers"
+      }
     },
     {
       "name": "Eddie Nketiah",
@@ -2778,26 +3070,72 @@
       },
       "role": "AM",
       "ranking": {
-        "performance": -0.278,
+        "performance": -0.264,
         "breakdown": {
-          "goal_shot_creation:SCA - SCA90": -0.03849,
-          "goal_shot_creation:GCA - GCA90": -0.02517,
-          "passing:KP": -0.0414,
-          "passing:Expected - xA": -0.02847,
-          "passing:1/3": -0.02781,
-          "passing:PPA": -0.03616,
-          "passing:Total - PrgDist": -0.03097,
-          "passing:Total - Cmp%": -0.00334,
-          "possession:Carries - PrgDist": -0.01675,
-          "possession:Carries - PrgC": 8e-05,
-          "defense:Err": 0.03283,
-          "misc:Performance - CrdY": -0.06241
+          "goal_shot_creation:SCA - SCA90": -0.04142,
+          "goal_shot_creation:GCA - GCA90": -0.02056,
+          "passing:KP": -0.03863,
+          "passing:Expected - xA": -0.02614,
+          "passing:1/3": -0.02761,
+          "passing:PPA": -0.03375,
+          "passing:Total - PrgDist": -0.02935,
+          "passing:Total - Cmp%": -0.00191,
+          "possession:Carries - PrgDist": -0.017,
+          "possession:Carries - PrgC": -0.00124,
+          "defense:Err": 0.03134,
+          "misc:Performance - CrdY": -0.05801
         }
       },
       "fbref_id": "a53649b7",
       "fbref_url": "https://fbref.com/en/players/a53649b7/Eddie-Nketiah",
       "position_text": "FW ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/a53649b7_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.26,
+          "npxG: Non-Penalty xG": 0.5,
+          "Shots Total": 3.74,
+          "Assists": 0.09,
+          "xAG: Exp. Assisted Goals": 0.15,
+          "npxG + xAG": 0.64,
+          "Shot-Creating Actions": 2.7,
+          "Passes Attempted": 20.98,
+          "Pass Completion %": 74.3,
+          "Progressive Passes": 1.65,
+          "Progressive Carries": 3.57,
+          "Successful Take-Ons": 0.96,
+          "Touches (Att Pen)": 5.83,
+          "Progressive Passes Rec": 6.88,
+          "Tackles": 1.31,
+          "Interceptions": 0.26,
+          "Blocks": 0.87,
+          "Clearances": 1.04,
+          "Aerials Won": 1.83
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 26,
+          "npxG: Non-Penalty xG": 81,
+          "Shots Total": 94,
+          "Assists": 33,
+          "xAG: Exp. Assisted Goals": 73,
+          "npxG + xAG": 80,
+          "Shot-Creating Actions": 73,
+          "Passes Attempted": 55,
+          "Pass Completion %": 73,
+          "Progressive Passes": 51,
+          "Progressive Carries": 97,
+          "Successful Take-Ons": 76,
+          "Touches (Att Pen)": 81,
+          "Progressive Passes Rec": 84,
+          "Tackles": 97,
+          "Interceptions": 66,
+          "Blocks": 88,
+          "Clearances": 71,
+          "Aerials Won": 47
+        },
+        "position_pool": "Forwards"
+      }
     },
     {
       "name": "Ismaila Sarr",
@@ -3006,28 +3344,73 @@
           "Aerial Duels - Won%": 41.6
         }
       },
-      "role": "AM",
+      "role": "W",
       "ranking": {
-        "performance": 0.383,
+        "performance": 0.074,
         "breakdown": {
-          "goal_shot_creation:SCA - SCA90": 0.01783,
-          "goal_shot_creation:GCA - GCA90": 0.01828,
-          "passing:KP": 0.1173,
-          "passing:Expected - xA": 0.11334,
-          "passing:1/3": -0.00665,
-          "passing:PPA": 0.06205,
-          "passing:Total - PrgDist": 0.01583,
-          "passing:Total - Cmp%": -0.04079,
-          "possession:Carries - PrgDist": 0.0365,
-          "possession:Carries - PrgC": 0.04101,
-          "defense:Err": 0.03283,
-          "misc:Performance - CrdY": -0.02502
+          "possession:Take-Ons - Att": -0.00169,
+          "possession:Take-Ons - Succ": -0.04084,
+          "possession:Carries - PrgC": 0.01822,
+          "possession:Carries - 1/3": 0.06513,
+          "passing_types:Pass Types - Crs": -0.0006,
+          "passing:KP": 0.03929,
+          "goal_shot_creation:SCA - SCA90": 0.00612,
+          "goal_shot_creation:GCA - GCA90": -0.00638,
+          "shooting:Standard - SoT/90": 0.02158,
+          "shooting:Expected - xG": 0.0331,
+          "misc:Performance - CrdY": -0.05962
         }
       },
       "fbref_id": "bfdb33aa",
       "fbref_url": "https://fbref.com/en/players/bfdb33aa/Ismaila-Sarr",
       "position_text": "FW-MF (AM-WM) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/bfdb33aa_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.31,
+          "npxG: Non-Penalty xG": 0.39,
+          "Shots Total": 1.87,
+          "Assists": 0.18,
+          "xAG: Exp. Assisted Goals": 0.25,
+          "npxG + xAG": 0.63,
+          "Shot-Creating Actions": 3.41,
+          "Passes Attempted": 23.76,
+          "Pass Completion %": 65.6,
+          "Progressive Passes": 2.82,
+          "Progressive Carries": 2.39,
+          "Successful Take-Ons": 0.55,
+          "Touches (Att Pen)": 4.11,
+          "Progressive Passes Rec": 5.8,
+          "Tackles": 0.77,
+          "Interceptions": 0.31,
+          "Blocks": 0.89,
+          "Clearances": 1.38,
+          "Aerials Won": 1.17
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 62,
+          "npxG: Non-Penalty xG": 90,
+          "Shots Total": 33,
+          "Assists": 51,
+          "xAG: Exp. Assisted Goals": 77,
+          "npxG + xAG": 90,
+          "Shot-Creating Actions": 38,
+          "Passes Attempted": 5,
+          "Pass Completion %": 8,
+          "Progressive Passes": 29,
+          "Progressive Carries": 24,
+          "Successful Take-Ons": 4,
+          "Touches (Att Pen)": 48,
+          "Progressive Passes Rec": 23,
+          "Tackles": 12,
+          "Interceptions": 25,
+          "Blocks": 52,
+          "Clearances": 93,
+          "Aerials Won": 88
+        },
+        "position_pool": "Att Mid / Wingers"
+      }
     },
     {
       "name": "Jean-Philippe Mateta",
@@ -3238,20 +3621,66 @@
       },
       "role": "CF",
       "ranking": {
-        "performance": 0.141,
+        "performance": 0.133,
         "breakdown": {
-          "shooting:Standard - SoT/90": 0.01037,
-          "shooting:Standard - G/Sh": 0.07169,
-          "passing:KP": 0.10168,
-          "goal_shot_creation:SCA - SCA90": 0.00102,
-          "misc:Performance - Off": -0.0421,
-          "misc:Performance - CrdY": -0.00168
+          "shooting:Standard - SoT/90": 0.00225,
+          "shooting:Standard - G/Sh": 0.06289,
+          "passing:KP": 0.1009,
+          "goal_shot_creation:SCA - SCA90": 0.00464,
+          "misc:Performance - Off": -0.03648,
+          "misc:Performance - CrdY": -0.0008
         }
       },
       "fbref_id": "50e6dc35",
       "fbref_url": "https://fbref.com/en/players/50e6dc35/Jean-Philippe-Mateta",
       "position_text": "FW ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/50e6dc35_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.4,
+          "npxG: Non-Penalty xG": 0.4,
+          "Shots Total": 2.36,
+          "Assists": 0.07,
+          "xAG: Exp. Assisted Goals": 0.09,
+          "npxG + xAG": 0.5,
+          "Shot-Creating Actions": 2.03,
+          "Passes Attempted": 15.07,
+          "Pass Completion %": 64.2,
+          "Progressive Passes": 1.73,
+          "Progressive Carries": 1.5,
+          "Successful Take-Ons": 0.7,
+          "Touches (Att Pen)": 3.16,
+          "Progressive Passes Rec": 4.09,
+          "Tackles": 0.6,
+          "Interceptions": 0.13,
+          "Blocks": 0.57,
+          "Clearances": 0.96,
+          "Aerials Won": 2.2
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 60,
+          "npxG: Non-Penalty xG": 64,
+          "Shots Total": 45,
+          "Assists": 27,
+          "xAG: Exp. Assisted Goals": 35,
+          "npxG + xAG": 56,
+          "Shot-Creating Actions": 40,
+          "Passes Attempted": 15,
+          "Pass Completion %": 18,
+          "Progressive Passes": 53,
+          "Progressive Carries": 69,
+          "Successful Take-Ons": 55,
+          "Touches (Att Pen)": 8,
+          "Progressive Passes Rec": 20,
+          "Tackles": 51,
+          "Interceptions": 30,
+          "Blocks": 47,
+          "Clearances": 66,
+          "Aerials Won": 57
+        },
+        "position_pool": "Forwards"
+      }
     },
     {
       "name": "Jefferson Lerma",
@@ -3460,28 +3889,73 @@
           "Aerial Duels - Won%": 51.3
         }
       },
-      "role": "CM",
+      "role": "DM",
       "ranking": {
-        "performance": -0.285,
+        "performance": -0.191,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.00443,
-          "passing:Total - Cmp%": -0.05065,
-          "passing:Medium - Cmp%": -0.0262,
-          "passing:Long - Cmp%": -0.0696,
-          "passing:Total - PrgDist": 0.05245,
-          "passing:KP": -0.02632,
-          "goal_shot_creation:SCA - SCA90": -0.02383,
-          "goal_shot_creation:GCA - GCA90": -0.01642,
-          "possession:Carries - PrgDist": 0.0003,
-          "possession:Carries - PrgC": -0.01435,
-          "misc:Performance - Fls": -0.03469,
-          "misc:Performance - CrdY": -0.07167
+          "defense:Tackles - Tkl": -0.03851,
+          "defense:Tkl+Int": 0.01707,
+          "defense:Err": 0.01413,
+          "passing:Total - Cmp%": -0.10689,
+          "passing:Total - PrgDist": 0.0366,
+          "passing:Short - Cmp%": -0.0203,
+          "passing:Medium - Cmp%": -0.04019,
+          "passing_types:Pass Types - Sw": 0.04333,
+          "possession:Carries - PrgDist": -0.0108,
+          "misc:Performance - Fls": -0.02345,
+          "misc:Performance - CrdY": -0.06225
         }
       },
       "fbref_id": "9b5ce51a",
       "fbref_url": "https://fbref.com/en/players/9b5ce51a/Jefferson-Lerma",
       "position_text": "MF (CM-DM) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/9b5ce51a_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.0,
+          "npxG: Non-Penalty xG": 0.06,
+          "Shots Total": 1.04,
+          "Assists": 0.04,
+          "xAG: Exp. Assisted Goals": 0.04,
+          "npxG + xAG": 0.1,
+          "Shot-Creating Actions": 1.83,
+          "Passes Attempted": 43.01,
+          "Pass Completion %": 75.0,
+          "Progressive Passes": 3.62,
+          "Progressive Carries": 0.52,
+          "Successful Take-Ons": 0.28,
+          "Touches (Att Pen)": 1.23,
+          "Progressive Passes Rec": 1.04,
+          "Tackles": 1.39,
+          "Interceptions": 1.55,
+          "Blocks": 1.47,
+          "Clearances": 3.35,
+          "Aerials Won": 1.67
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 13,
+          "npxG: Non-Penalty xG": 41,
+          "Shots Total": 56,
+          "Assists": 29,
+          "xAG: Exp. Assisted Goals": 26,
+          "npxG + xAG": 26,
+          "Shot-Creating Actions": 33,
+          "Passes Attempted": 32,
+          "Pass Completion %": 8,
+          "Progressive Passes": 24,
+          "Progressive Carries": 7,
+          "Successful Take-Ons": 18,
+          "Touches (Att Pen)": 51,
+          "Progressive Passes Rec": 25,
+          "Tackles": 12,
+          "Interceptions": 90,
+          "Blocks": 78,
+          "Clearances": 99,
+          "Aerials Won": 85
+        },
+        "position_pool": "Midfielders"
+      }
     },
     {
       "name": "Jeffrey Schlupp",
@@ -3692,20 +4166,26 @@
       },
       "role": "FB",
       "ranking": {
-        "performance": -0.208,
+        "performance": -0.235,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.1765,
-          "defense:Blocks - Blocks": -0.08066,
-          "passing:Total - Cmp%": -0.03085,
-          "passing_types:Pass Types - Crs": -0.04338,
-          "misc:Performance - Fls": 0.05952,
-          "misc:Performance - CrdY": 0.06389
+          "defense:Tackles - Tkl": -0.18118,
+          "defense:Blocks - Blocks": -0.08782,
+          "passing:Total - Cmp%": -0.05044,
+          "passing_types:Pass Types - Crs": -0.04015,
+          "misc:Performance - Fls": 0.05982,
+          "misc:Performance - CrdY": 0.06459
         }
       },
       "fbref_id": "3312f911",
       "fbref_url": "https://fbref.com/en/players/3312f911/Jeffrey-Schlupp",
       "position_text": "DF-FW-MF (FB-WM, left) ▪",
-      "foot": "Left"
+      "foot": "Left",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/3312f911_2022.jpg",
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     },
     {
       "name": "Joachim Andersen",
@@ -3916,25 +4396,71 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": -0.326,
+        "performance": -0.317,
         "breakdown": {
-          "defense:Tkl+Int": -0.22596,
-          "defense:Clr": -0.14178,
-          "defense:Blocks - Blocks": -0.10705,
-          "misc:Aerial Duels - Won%": 0.24389,
-          "defense:Err": 0.08646,
-          "standard:Performance - CrdR": 0.01553,
-          "passing:Total - Cmp%": -0.08036,
-          "passing:Total - PrgDist": -0.04779,
-          "possession:Carries - PrgDist": -0.04703,
-          "shooting:Expected - xG": -0.02156,
-          "goal_shot_creation:SCA - SCA90": -0.00021
+          "defense:Tkl+Int": -0.2215,
+          "defense:Clr": -0.14085,
+          "defense:Blocks - Blocks": -0.10444,
+          "misc:Aerial Duels - Won%": 0.23674,
+          "defense:Err": 0.08944,
+          "standard:Performance - CrdR": 0.01648,
+          "passing:Total - Cmp%": -0.07789,
+          "passing:Total - PrgDist": -0.04681,
+          "possession:Carries - PrgDist": -0.04631,
+          "shooting:Expected - xG": -0.0218,
+          "goal_shot_creation:SCA - SCA90": 0.00012
         }
       },
       "fbref_id": "e34fc66d",
       "fbref_url": "https://fbref.com/en/players/e34fc66d/Joachim-Andersen",
       "position_text": "DF (CB) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/e34fc66d_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.0,
+          "npxG: Non-Penalty xG": 0.04,
+          "Shots Total": 0.66,
+          "Assists": 0.0,
+          "xAG: Exp. Assisted Goals": 0.03,
+          "npxG + xAG": 0.08,
+          "Shot-Creating Actions": 1.23,
+          "Passes Attempted": 68.52,
+          "Pass Completion %": 83.0,
+          "Progressive Passes": 3.88,
+          "Progressive Carries": 0.57,
+          "Successful Take-Ons": 0.16,
+          "Touches (Att Pen)": 0.91,
+          "Progressive Passes Rec": 0.09,
+          "Tackles": 1.07,
+          "Interceptions": 1.17,
+          "Blocks": 1.2,
+          "Clearances": 6.53,
+          "Aerials Won": 2.37
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 19,
+          "npxG: Non-Penalty xG": 38,
+          "Shots Total": 75,
+          "Assists": 27,
+          "xAG: Exp. Assisted Goals": 76,
+          "npxG + xAG": 59,
+          "Shot-Creating Actions": 85,
+          "Passes Attempted": 84,
+          "Pass Completion %": 17,
+          "Progressive Passes": 67,
+          "Progressive Carries": 49,
+          "Successful Take-Ons": 44,
+          "Touches (Att Pen)": 62,
+          "Progressive Passes Rec": 16,
+          "Tackles": 18,
+          "Interceptions": 61,
+          "Blocks": 47,
+          "Clearances": 85,
+          "Aerials Won": 67
+        },
+        "position_pool": "Center Backs"
+      }
     },
     {
       "name": "Joel Ward",
@@ -4145,25 +4671,31 @@
       },
       "role": "DM",
       "ranking": {
-        "performance": -0.81,
+        "performance": -0.928,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.21791,
-          "defense:Tkl+Int": -0.07958,
-          "defense:Err": 0.05263,
-          "passing:Total - Cmp%": -0.27898,
-          "passing:Total - PrgDist": -0.08645,
-          "passing:Short - Cmp%": -0.19006,
-          "passing:Medium - Cmp%": -0.03455,
-          "passing_types:Pass Types - Sw": -0.03626,
-          "possession:Carries - PrgDist": -0.07698,
-          "misc:Performance - Fls": 0.07206,
-          "misc:Performance - CrdY": 0.06598
+          "defense:Tackles - Tkl": -0.20121,
+          "defense:Tkl+Int": -0.0727,
+          "defense:Err": 0.04668,
+          "passing:Total - Cmp%": -0.34512,
+          "passing:Total - PrgDist": -0.06873,
+          "passing:Short - Cmp%": -0.24149,
+          "passing:Medium - Cmp%": -0.05524,
+          "passing_types:Pass Types - Sw": -0.03832,
+          "possession:Carries - PrgDist": -0.06617,
+          "misc:Performance - Fls": 0.06179,
+          "misc:Performance - CrdY": 0.05251
         }
       },
       "fbref_id": "8a7ff278",
       "fbref_url": "https://fbref.com/en/players/8a7ff278/Joel-Ward",
       "position_text": "DF-MF (DM-FB, right) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/8a7ff278_2022.jpg",
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     },
     {
       "name": "Jordan Ayew",
@@ -4374,26 +4906,72 @@
       },
       "role": "AM",
       "ranking": {
-        "performance": -0.359,
+        "performance": -0.351,
         "breakdown": {
-          "goal_shot_creation:SCA - SCA90": 0.05538,
-          "goal_shot_creation:GCA - GCA90": -0.10587,
-          "passing:KP": -0.10283,
-          "passing:Expected - xA": -0.05048,
-          "passing:1/3": -0.04151,
-          "passing:PPA": -0.04943,
-          "passing:Total - PrgDist": -0.04693,
-          "passing:Total - Cmp%": 0.02238,
-          "possession:Carries - PrgDist": -0.05425,
-          "possession:Carries - PrgC": -0.04929,
-          "defense:Err": 0.03283,
-          "misc:Performance - CrdY": 0.03106
+          "goal_shot_creation:SCA - SCA90": 0.04212,
+          "goal_shot_creation:GCA - GCA90": -0.09574,
+          "passing:KP": -0.09731,
+          "passing:Expected - xA": -0.04752,
+          "passing:1/3": -0.04148,
+          "passing:PPA": -0.04623,
+          "passing:Total - PrgDist": -0.04587,
+          "passing:Total - Cmp%": 0.0214,
+          "possession:Carries - PrgDist": -0.05256,
+          "possession:Carries - PrgC": -0.05005,
+          "defense:Err": 0.03134,
+          "misc:Performance - CrdY": 0.03116
         }
       },
       "fbref_id": "da052c14",
       "fbref_url": "https://fbref.com/en/players/da052c14/Jordan-Ayew",
       "position_text": "FW-MF (AM) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/da052c14_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.23,
+          "npxG: Non-Penalty xG": 0.13,
+          "Shots Total": 1.69,
+          "Assists": 0.0,
+          "xAG: Exp. Assisted Goals": 0.06,
+          "npxG + xAG": 0.19,
+          "Shot-Creating Actions": 2.22,
+          "Passes Attempted": 29.4,
+          "Pass Completion %": 73.8,
+          "Progressive Passes": 2.45,
+          "Progressive Carries": 2.74,
+          "Successful Take-Ons": 1.34,
+          "Touches (Att Pen)": 3.21,
+          "Progressive Passes Rec": 4.84,
+          "Tackles": 1.4,
+          "Interceptions": 0.7,
+          "Blocks": 1.11,
+          "Clearances": 1.11,
+          "Aerials Won": 2.1
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 43,
+          "npxG: Non-Penalty xG": 16,
+          "Shots Total": 21,
+          "Assists": 1,
+          "xAG: Exp. Assisted Goals": 2,
+          "npxG + xAG": 1,
+          "Shot-Creating Actions": 6,
+          "Passes Attempted": 22,
+          "Pass Completion %": 34,
+          "Progressive Passes": 18,
+          "Progressive Carries": 32,
+          "Successful Take-Ons": 33,
+          "Touches (Att Pen)": 22,
+          "Progressive Passes Rec": 12,
+          "Tackles": 59,
+          "Interceptions": 87,
+          "Blocks": 76,
+          "Clearances": 84,
+          "Aerials Won": 96
+        },
+        "position_pool": "Att Mid / Wingers"
+      }
     },
     {
       "name": "Justin Devenny",
@@ -4604,26 +5182,72 @@
       },
       "role": "CM",
       "ranking": {
-        "performance": -0.348,
+        "performance": -0.314,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.06164,
-          "passing:Total - Cmp%": -0.06949,
-          "passing:Medium - Cmp%": -0.07768,
-          "passing:Long - Cmp%": -0.05584,
-          "passing:Total - PrgDist": -0.03786,
-          "passing:KP": -0.04492,
-          "goal_shot_creation:SCA - SCA90": -0.00204,
-          "goal_shot_creation:GCA - GCA90": -0.00597,
-          "possession:Carries - PrgDist": -0.0358,
-          "possession:Carries - PrgC": -0.03365,
-          "misc:Performance - Fls": 0.03626,
-          "misc:Performance - CrdY": 0.04084
+          "defense:Tackles - Tkl": -0.05103,
+          "passing:Total - Cmp%": -0.06041,
+          "passing:Medium - Cmp%": -0.06567,
+          "passing:Long - Cmp%": -0.04597,
+          "passing:Total - PrgDist": -0.03315,
+          "passing:KP": -0.04925,
+          "goal_shot_creation:SCA - SCA90": 0.00131,
+          "goal_shot_creation:GCA - GCA90": -0.01234,
+          "possession:Carries - PrgDist": -0.03221,
+          "possession:Carries - PrgC": -0.03217,
+          "misc:Performance - Fls": 0.03009,
+          "misc:Performance - CrdY": 0.03635
         }
       },
       "fbref_id": "6c2b66fc",
       "fbref_url": "https://fbref.com/en/players/6c2b66fc/Justin-Devenny",
       "position_text": "MF",
-      "foot": null
+      "foot": null,
+      "profile_img": null,
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.15,
+          "npxG: Non-Penalty xG": 0.12,
+          "Shots Total": 1.69,
+          "Assists": 0.15,
+          "xAG: Exp. Assisted Goals": 0.09,
+          "npxG + xAG": 0.22,
+          "Shot-Creating Actions": 2.62,
+          "Passes Attempted": 35.69,
+          "Pass Completion %": 72.4,
+          "Progressive Passes": 3.38,
+          "Progressive Carries": 1.38,
+          "Successful Take-Ons": 0.31,
+          "Touches (Att Pen)": 2.0,
+          "Progressive Passes Rec": 2.92,
+          "Tackles": 3.23,
+          "Interceptions": 0.0,
+          "Blocks": 1.08,
+          "Clearances": 1.85,
+          "Aerials Won": 0.31
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 21,
+          "npxG: Non-Penalty xG": 11,
+          "Shots Total": 21,
+          "Assists": 39,
+          "xAG: Exp. Assisted Goals": 7,
+          "npxG + xAG": 3,
+          "Shot-Creating Actions": 12,
+          "Passes Attempted": 48,
+          "Pass Completion %": 26,
+          "Progressive Passes": 44,
+          "Progressive Carries": 3,
+          "Successful Take-Ons": 1,
+          "Touches (Att Pen)": 4,
+          "Progressive Passes Rec": 1,
+          "Tackles": 99,
+          "Interceptions": 1,
+          "Blocks": 74,
+          "Clearances": 99,
+          "Aerials Won": 28
+        },
+        "position_pool": "Att Mid / Wingers"
+      }
     },
     {
       "name": "Marc Guéhi",
@@ -4832,27 +5456,73 @@
           "Aerial Duels - Won%": 54.0
         }
       },
-      "role": "CB",
+      "role": "LCB",
       "ranking": {
-        "performance": 0.771,
+        "performance": 0.773,
         "breakdown": {
-          "defense:Tkl+Int": 0.33664,
-          "defense:Clr": 0.22883,
-          "defense:Blocks - Blocks": 0.2192,
-          "misc:Aerial Duels - Won%": -0.00664,
-          "defense:Err": -0.02533,
-          "standard:Performance - CrdR": -0.13741,
-          "passing:Total - Cmp%": -0.01525,
-          "passing:Total - PrgDist": 0.08279,
-          "possession:Carries - PrgDist": 0.04776,
-          "shooting:Expected - xG": 0.0351,
-          "goal_shot_creation:SCA - SCA90": 0.00533
+          "defense:Tkl+Int": 0.33791,
+          "defense:Clr": 0.22362,
+          "defense:Blocks - Blocks": 0.21238,
+          "misc:Aerial Duels - Won%": -0.003,
+          "defense:Err": -0.02678,
+          "standard:Performance - CrdR": -0.12929,
+          "passing:Total - Cmp%": -0.01479,
+          "passing:Total - PrgDist": 0.08149,
+          "possession:Carries - PrgDist": 0.04867,
+          "shooting:Expected - xG": 0.0376,
+          "goal_shot_creation:SCA - SCA90": 0.00542
         }
       },
       "fbref_id": "d0706b27",
       "fbref_url": "https://fbref.com/en/players/d0706b27/Marc-Guehi",
       "position_text": "DF (CB, left) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/d0706b27_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.12,
+          "npxG: Non-Penalty xG": 0.06,
+          "Shots Total": 0.5,
+          "Assists": 0.06,
+          "xAG: Exp. Assisted Goals": 0.05,
+          "npxG + xAG": 0.11,
+          "Shot-Creating Actions": 1.32,
+          "Passes Attempted": 51.02,
+          "Pass Completion %": 83.2,
+          "Progressive Passes": 4.03,
+          "Progressive Carries": 0.68,
+          "Successful Take-Ons": 0.32,
+          "Touches (Att Pen)": 1.21,
+          "Progressive Passes Rec": 0.32,
+          "Tackles": 1.85,
+          "Interceptions": 0.85,
+          "Blocks": 1.5,
+          "Clearances": 4.62,
+          "Aerials Won": 1.88
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 94,
+          "npxG: Non-Penalty xG": 76,
+          "Shots Total": 51,
+          "Assists": 84,
+          "xAG: Exp. Assisted Goals": 91,
+          "npxG + xAG": 87,
+          "Shot-Creating Actions": 90,
+          "Passes Attempted": 32,
+          "Pass Completion %": 18,
+          "Progressive Passes": 70,
+          "Progressive Carries": 59,
+          "Successful Take-Ons": 78,
+          "Touches (Att Pen)": 78,
+          "Progressive Passes Rec": 60,
+          "Tackles": 80,
+          "Interceptions": 24,
+          "Blocks": 77,
+          "Clearances": 42,
+          "Aerials Won": 41
+        },
+        "position_pool": "Center Backs"
+      }
     },
     {
       "name": "Matheus França",
@@ -5063,26 +5733,32 @@
       },
       "role": "AM",
       "ranking": {
-        "performance": -0.388,
+        "performance": -0.376,
         "breakdown": {
-          "goal_shot_creation:SCA - SCA90": 0.09175,
-          "goal_shot_creation:GCA - GCA90": -0.10587,
-          "passing:KP": -0.10795,
-          "passing:Expected - xA": -0.04559,
-          "passing:1/3": -0.04026,
-          "passing:PPA": -0.04943,
-          "passing:Total - PrgDist": -0.0449,
-          "passing:Total - Cmp%": -0.07328,
-          "possession:Carries - PrgDist": -0.05109,
-          "possession:Carries - PrgC": -0.04447,
-          "defense:Err": 0.03283,
-          "misc:Performance - CrdY": 0.04975
+          "goal_shot_creation:SCA - SCA90": 0.07449,
+          "goal_shot_creation:GCA - GCA90": -0.09574,
+          "passing:KP": -0.1022,
+          "passing:Expected - xA": -0.04277,
+          "passing:1/3": -0.04022,
+          "passing:PPA": -0.04623,
+          "passing:Total - PrgDist": -0.04377,
+          "passing:Total - Cmp%": -0.06528,
+          "possession:Carries - PrgDist": -0.04956,
+          "possession:Carries - PrgC": -0.04528,
+          "defense:Err": 0.03134,
+          "misc:Performance - CrdY": 0.049
         }
       },
       "fbref_id": "077faf72",
       "fbref_url": "https://fbref.com/en/players/077faf72/Matheus-Franca",
       "position_text": "FW",
-      "foot": null
+      "foot": null,
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/077faf72_2022.jpg",
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     },
     {
       "name": "Maxence Lacroix",
@@ -5293,25 +5969,71 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": 1.174,
+        "performance": 1.17,
         "breakdown": {
-          "defense:Tkl+Int": 0.54762,
-          "defense:Clr": 0.33336,
-          "defense:Blocks - Blocks": 0.17768,
-          "misc:Aerial Duels - Won%": -0.00391,
-          "defense:Err": -0.02533,
-          "standard:Performance - CrdR": 0.01553,
-          "passing:Total - Cmp%": -0.02697,
-          "passing:Total - PrgDist": 0.06146,
-          "possession:Carries - PrgDist": 0.02326,
-          "shooting:Expected - xG": 0.07476,
-          "goal_shot_creation:SCA - SCA90": -0.00384
+          "defense:Tkl+Int": 0.54769,
+          "defense:Clr": 0.32642,
+          "defense:Blocks - Blocks": 0.17206,
+          "misc:Aerial Duels - Won%": -0.0004,
+          "defense:Err": -0.02678,
+          "standard:Performance - CrdR": 0.01648,
+          "passing:Total - Cmp%": -0.02615,
+          "passing:Total - PrgDist": 0.06052,
+          "possession:Carries - PrgDist": 0.02412,
+          "shooting:Expected - xG": 0.07919,
+          "goal_shot_creation:SCA - SCA90": -0.00335
         }
       },
       "fbref_id": "277c49ed",
       "fbref_url": "https://fbref.com/en/players/277c49ed/Maxence-Lacroix",
       "position_text": "DF (CB) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/277c49ed_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.03,
+          "npxG: Non-Penalty xG": 0.09,
+          "Shots Total": 0.82,
+          "Assists": 0.05,
+          "xAG: Exp. Assisted Goals": 0.04,
+          "npxG + xAG": 0.13,
+          "Shot-Creating Actions": 0.8,
+          "Passes Attempted": 42.05,
+          "Pass Completion %": 82.1,
+          "Progressive Passes": 1.81,
+          "Progressive Carries": 0.21,
+          "Successful Take-Ons": 0.24,
+          "Touches (Att Pen)": 1.33,
+          "Progressive Passes Rec": 0.21,
+          "Tackles": 1.97,
+          "Interceptions": 1.59,
+          "Blocks": 1.44,
+          "Clearances": 6.14,
+          "Aerials Won": 1.91
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 40,
+          "npxG: Non-Penalty xG": 93,
+          "Shots Total": 89,
+          "Assists": 79,
+          "xAG: Exp. Assisted Goals": 81,
+          "npxG + xAG": 92,
+          "Shot-Creating Actions": 43,
+          "Passes Attempted": 8,
+          "Pass Completion %": 12,
+          "Progressive Passes": 8,
+          "Progressive Carries": 13,
+          "Successful Take-Ons": 67,
+          "Touches (Att Pen)": 86,
+          "Progressive Passes Rec": 44,
+          "Tackles": 84,
+          "Interceptions": 89,
+          "Blocks": 73,
+          "Clearances": 81,
+          "Aerials Won": 43
+        },
+        "position_pool": "Center Backs"
+      }
     },
     {
       "name": "Nathaniel Clyne",
@@ -5520,22 +6242,28 @@
           "Aerial Duels - Won%": 12.5
         }
       },
-      "role": "FB",
+      "role": "RB",
       "ranking": {
-        "performance": -0.224,
+        "performance": -0.246,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.12134,
-          "defense:Blocks - Blocks": -0.09555,
-          "passing:Total - Cmp%": -0.06416,
-          "passing_types:Pass Types - Crs": -0.0401,
-          "misc:Performance - Fls": 0.05521,
-          "misc:Performance - CrdY": 0.04211
+          "defense:Tackles - Tkl": -0.1239,
+          "defense:Blocks - Blocks": -0.10293,
+          "passing:Total - Cmp%": -0.08267,
+          "passing_types:Pass Types - Crs": -0.03665,
+          "misc:Performance - Fls": 0.05561,
+          "misc:Performance - CrdY": 0.0445
         }
       },
       "fbref_id": "0442183b",
       "fbref_url": "https://fbref.com/en/players/0442183b/Nathaniel-Clyne",
       "position_text": "DF (FB, right) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/0442183b_2022.jpg",
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     },
     {
       "name": "Odsonne Édouard",
@@ -5746,26 +6474,32 @@
       },
       "role": "AM",
       "ranking": {
-        "performance": -0.624,
+        "performance": -0.586,
         "breakdown": {
-          "goal_shot_creation:SCA - SCA90": -0.15054,
-          "goal_shot_creation:GCA - GCA90": -0.10587,
-          "passing:KP": -0.10283,
-          "passing:Expected - xA": -0.05048,
-          "passing:1/3": -0.03902,
-          "passing:PPA": -0.04943,
-          "passing:Total - PrgDist": -0.04573,
-          "passing:Total - Cmp%": -0.06471,
-          "possession:Carries - PrgDist": -0.05234,
-          "possession:Carries - PrgC": -0.04567,
-          "defense:Err": 0.03283,
-          "misc:Performance - CrdY": 0.04975
+          "goal_shot_creation:SCA - SCA90": -0.14113,
+          "goal_shot_creation:GCA - GCA90": -0.09574,
+          "passing:KP": -0.09731,
+          "passing:Expected - xA": -0.04752,
+          "passing:1/3": -0.03896,
+          "passing:PPA": -0.04623,
+          "passing:Total - PrgDist": -0.04463,
+          "passing:Total - Cmp%": -0.05751,
+          "possession:Carries - PrgDist": -0.05075,
+          "possession:Carries - PrgC": -0.04647,
+          "defense:Err": 0.03134,
+          "misc:Performance - CrdY": 0.049
         }
       },
       "fbref_id": "0562b7f1",
       "fbref_url": "https://fbref.com/en/players/0562b7f1/Odsonne-Edouard",
       "position_text": "FW ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/0562b7f1_2022.jpg",
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     },
     {
       "name": "Romain Esse",
@@ -5976,26 +6710,72 @@
       },
       "role": "CM",
       "ranking": {
-        "performance": 0.001,
+        "performance": 0.058,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.08707,
-          "passing:Total - Cmp%": -0.04518,
-          "passing:Medium - Cmp%": -0.07972,
-          "passing:Long - Cmp%": -0.04985,
-          "passing:Total - PrgDist": -0.04868,
-          "passing:KP": -0.06973,
-          "goal_shot_creation:SCA - SCA90": 0.06661,
-          "goal_shot_creation:GCA - GCA90": 0.30057,
-          "possession:Carries - PrgDist": -0.04917,
-          "possession:Carries - PrgC": -0.0433,
-          "misc:Performance - Fls": 0.05202,
-          "misc:Performance - CrdY": 0.05491
+          "defense:Tackles - Tkl": -0.07578,
+          "passing:Total - Cmp%": -0.03739,
+          "passing:Medium - Cmp%": -0.06752,
+          "passing:Long - Cmp%": -0.04,
+          "passing:Total - PrgDist": -0.04409,
+          "passing:KP": -0.07228,
+          "goal_shot_creation:SCA - SCA90": 0.11516,
+          "goal_shot_creation:GCA - GCA90": 0.2694,
+          "possession:Carries - PrgDist": -0.04578,
+          "possession:Carries - PrgC": -0.04116,
+          "misc:Performance - Fls": 0.04591,
+          "misc:Performance - CrdY": 0.05139
         }
       },
       "fbref_id": "87189f25",
       "fbref_url": "https://fbref.com/en/players/87189f25/Romain-Esse",
       "position_text": "FW-MF ▪",
-      "foot": "Left"
+      "foot": "Left",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/87189f25_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.16,
+          "npxG: Non-Penalty xG": 0.1,
+          "Shots Total": 1.32,
+          "Assists": 0.05,
+          "xAG: Exp. Assisted Goals": 0.22,
+          "npxG + xAG": 0.31,
+          "Shot-Creating Actions": 2.9,
+          "Passes Attempted": 25.78,
+          "Pass Completion %": 60.1,
+          "Progressive Passes": 3.11,
+          "Progressive Carries": 1.74,
+          "Successful Take-Ons": 2.64,
+          "Touches (Att Pen)": 2.79,
+          "Progressive Passes Rec": 5.38,
+          "Tackles": 2.9,
+          "Interceptions": 0.42,
+          "Blocks": 1.21,
+          "Clearances": 0.9,
+          "Aerials Won": 1.11
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 33,
+          "npxG: Non-Penalty xG": 7,
+          "Shots Total": 9,
+          "Assists": 13,
+          "xAG: Exp. Assisted Goals": 71,
+          "npxG + xAG": 30,
+          "Shot-Creating Actions": 27,
+          "Passes Attempted": 18,
+          "Pass Completion %": 3,
+          "Progressive Passes": 36,
+          "Progressive Carries": 20,
+          "Successful Take-Ons": 92,
+          "Touches (Att Pen)": 27,
+          "Progressive Passes Rec": 21,
+          "Tackles": 99,
+          "Interceptions": 49,
+          "Blocks": 84,
+          "Clearances": 72,
+          "Aerials Won": 84
+        },
+        "position_pool": "Att Mid / Wingers"
+      }
     },
     {
       "name": "Trevoh Chalobah",
@@ -6206,25 +6986,71 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": -0.164,
+        "performance": -0.157,
         "breakdown": {
-          "defense:Tkl+Int": 0.01698,
-          "defense:Clr": -0.023,
-          "defense:Blocks - Blocks": 0.00565,
-          "misc:Aerial Duels - Won%": -0.00827,
-          "defense:Err": -0.08122,
-          "standard:Performance - CrdR": 0.01553,
-          "passing:Total - Cmp%": -0.04455,
-          "passing:Total - PrgDist": -0.02795,
-          "possession:Carries - PrgDist": -0.02836,
-          "shooting:Expected - xG": 0.01244,
-          "goal_shot_creation:SCA - SCA90": -0.00155
+          "defense:Tkl+Int": 0.02007,
+          "defense:Clr": -0.02403,
+          "defense:Blocks - Blocks": 0.00501,
+          "misc:Aerial Duels - Won%": -0.00457,
+          "defense:Err": -0.08489,
+          "standard:Performance - CrdR": 0.01648,
+          "passing:Total - Cmp%": -0.04319,
+          "passing:Total - PrgDist": -0.02732,
+          "possession:Carries - PrgDist": -0.02759,
+          "shooting:Expected - xG": 0.01384,
+          "goal_shot_creation:SCA - SCA90": -0.00115
         }
       },
       "fbref_id": "5515376c",
       "fbref_url": "https://fbref.com/en/players/5515376c/Trevoh-Chalobah",
       "position_text": "DF-MF (CB) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/5515376c_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.16,
+          "npxG: Non-Penalty xG": 0.1,
+          "Shots Total": 0.93,
+          "Assists": 0.04,
+          "xAG: Exp. Assisted Goals": 0.06,
+          "npxG + xAG": 0.17,
+          "Shot-Creating Actions": 1.18,
+          "Passes Attempted": 53.93,
+          "Pass Completion %": 86.2,
+          "Progressive Passes": 3.41,
+          "Progressive Carries": 0.73,
+          "Successful Take-Ons": 0.45,
+          "Touches (Att Pen)": 1.22,
+          "Progressive Passes Rec": 0.32,
+          "Tackles": 1.54,
+          "Interceptions": 1.38,
+          "Blocks": 1.1,
+          "Clearances": 4.71,
+          "Aerials Won": 2.11
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 99,
+          "npxG: Non-Penalty xG": 96,
+          "Shots Total": 95,
+          "Assists": 70,
+          "xAG: Exp. Assisted Goals": 93,
+          "npxG + xAG": 98,
+          "Shot-Creating Actions": 80,
+          "Passes Attempted": 43,
+          "Pass Completion %": 41,
+          "Progressive Passes": 54,
+          "Progressive Carries": 64,
+          "Successful Take-Ons": 89,
+          "Touches (Att Pen)": 79,
+          "Progressive Passes Rec": 61,
+          "Tackles": 58,
+          "Interceptions": 80,
+          "Blocks": 34,
+          "Clearances": 46,
+          "Aerials Won": 56
+        },
+        "position_pool": "Center Backs"
+      }
     },
     {
       "name": "Tyrick Mitchell",
@@ -6435,25 +7261,71 @@
       },
       "role": "DM",
       "ranking": {
-        "performance": 0.117,
+        "performance": 0.101,
         "breakdown": {
-          "defense:Tackles - Tkl": 0.19519,
-          "defense:Tkl+Int": 0.04574,
-          "defense:Err": -0.02144,
-          "passing:Total - Cmp%": -0.09518,
-          "passing:Total - PrgDist": 0.04204,
-          "passing:Short - Cmp%": -0.01721,
-          "passing:Medium - Cmp%": -0.07987,
-          "passing_types:Pass Types - Sw": -0.01813,
-          "possession:Carries - PrgDist": 0.01355,
-          "misc:Performance - Fls": 0.00449,
-          "misc:Performance - CrdY": 0.04807
+          "defense:Tackles - Tkl": 0.23758,
+          "defense:Tkl+Int": 0.05658,
+          "defense:Err": -0.01843,
+          "passing:Total - Cmp%": -0.15314,
+          "passing:Total - PrgDist": 0.05432,
+          "passing:Short - Cmp%": -0.03238,
+          "passing:Medium - Cmp%": -0.09642,
+          "passing_types:Pass Types - Sw": -0.01791,
+          "possession:Carries - PrgDist": 0.02344,
+          "misc:Performance - Fls": 0.00955,
+          "misc:Performance - CrdY": 0.03816
         }
       },
       "fbref_id": "5cbd1eb0",
       "fbref_url": "https://fbref.com/en/players/5cbd1eb0/Tyrick-Mitchell",
       "position_text": "DF-MF (DM-FB, left) ▪",
-      "foot": "Left"
+      "foot": "Left",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/5cbd1eb0_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.0,
+          "npxG: Non-Penalty xG": 0.03,
+          "Shots Total": 0.29,
+          "Assists": 0.15,
+          "xAG: Exp. Assisted Goals": 0.18,
+          "npxG + xAG": 0.21,
+          "Shot-Creating Actions": 2.01,
+          "Passes Attempted": 39.27,
+          "Pass Completion %": 71.3,
+          "Progressive Passes": 1.89,
+          "Progressive Carries": 2.04,
+          "Successful Take-Ons": 0.49,
+          "Touches (Att Pen)": 1.28,
+          "Progressive Passes Rec": 4.92,
+          "Tackles": 2.82,
+          "Interceptions": 0.52,
+          "Blocks": 1.98,
+          "Clearances": 3.2,
+          "Aerials Won": 0.55
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 20,
+          "npxG: Non-Penalty xG": 40,
+          "Shots Total": 14,
+          "Assists": 74,
+          "xAG: Exp. Assisted Goals": 91,
+          "npxG + xAG": 79,
+          "Shot-Creating Actions": 51,
+          "Passes Attempted": 12,
+          "Pass Completion %": 10,
+          "Progressive Passes": 2,
+          "Progressive Carries": 61,
+          "Successful Take-Ons": 46,
+          "Touches (Att Pen)": 49,
+          "Progressive Passes Rec": 69,
+          "Tackles": 91,
+          "Interceptions": 10,
+          "Blocks": 99,
+          "Clearances": 70,
+          "Aerials Won": 28
+        },
+        "position_pool": "Fullbacks"
+      }
     },
     {
       "name": "Will Hughes",
@@ -6662,28 +7534,74 @@
           "Aerial Duels - Won%": 51.4
         }
       },
-      "role": "AM",
+      "role": "CM",
       "ranking": {
-        "performance": -0.149,
+        "performance": -0.111,
         "breakdown": {
-          "goal_shot_creation:SCA - SCA90": -0.02852,
-          "goal_shot_creation:GCA - GCA90": -0.02517,
-          "passing:KP": 0.06099,
-          "passing:Expected - xA": 0.01309,
-          "passing:1/3": 0.05312,
-          "passing:PPA": -0.00961,
-          "passing:Total - PrgDist": 0.07093,
-          "passing:Total - Cmp%": 0.00433,
-          "possession:Carries - PrgDist": 0.00048,
-          "possession:Carries - PrgC": -0.02521,
-          "defense:Err": -0.10773,
-          "misc:Performance - CrdY": -0.15589
+          "defense:Tackles - Tkl": 0.10052,
+          "passing:Total - Cmp%": -0.03854,
+          "passing:Medium - Cmp%": -0.01626,
+          "passing:Long - Cmp%": -0.08495,
+          "passing:Total - PrgDist": 0.03733,
+          "passing:KP": 0.10042,
+          "goal_shot_creation:SCA - SCA90": 0.01034,
+          "goal_shot_creation:GCA - GCA90": 0.00047,
+          "possession:Carries - PrgDist": 0.01284,
+          "possession:Carries - PrgC": 0.00153,
+          "misc:Performance - Fls": -0.12015,
+          "misc:Performance - CrdY": -0.11407
         }
       },
       "fbref_id": "a0666d3e",
       "fbref_url": "https://fbref.com/en/players/a0666d3e/Will-Hughes",
       "position_text": "MF (AM-CM-DM) ▪",
-      "foot": "Left"
+      "foot": "Left",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/a0666d3e_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.0,
+          "npxG: Non-Penalty xG": 0.05,
+          "Shots Total": 0.98,
+          "Assists": 0.12,
+          "xAG: Exp. Assisted Goals": 0.13,
+          "npxG + xAG": 0.18,
+          "Shot-Creating Actions": 2.78,
+          "Passes Attempted": 39.8,
+          "Pass Completion %": 75.8,
+          "Progressive Passes": 3.92,
+          "Progressive Carries": 0.78,
+          "Successful Take-Ons": 0.2,
+          "Touches (Att Pen)": 0.69,
+          "Progressive Passes Rec": 1.02,
+          "Tackles": 2.61,
+          "Interceptions": 0.94,
+          "Blocks": 1.31,
+          "Clearances": 1.39,
+          "Aerials Won": 0.78
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 13,
+          "npxG: Non-Penalty xG": 37,
+          "Shots Total": 52,
+          "Assists": 70,
+          "xAG: Exp. Assisted Goals": 79,
+          "npxG + xAG": 62,
+          "Shot-Creating Actions": 71,
+          "Passes Attempted": 23,
+          "Pass Completion %": 10,
+          "Progressive Passes": 31,
+          "Progressive Carries": 24,
+          "Successful Take-Ons": 9,
+          "Touches (Att Pen)": 28,
+          "Progressive Passes Rec": 23,
+          "Tackles": 78,
+          "Interceptions": 46,
+          "Blocks": 65,
+          "Clearances": 41,
+          "Aerials Won": 46
+        },
+        "position_pool": "Midfielders"
+      }
     },
     {
       "name": "Franco Umeh-Chibueze",
@@ -6736,7 +7654,13 @@
       "fbref_id": "8e526344",
       "fbref_url": "https://fbref.com/en/players/8e526344/Franco-Umeh-Chibueze",
       "position_text": "MF",
-      "foot": null
+      "foot": null,
+      "profile_img": null,
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     },
     {
       "name": "Kaden Rodney",
@@ -6768,7 +7692,7 @@
           "Team Success (xG) - On-Off": null
         }
       },
-      "role": "CF",
+      "role": "NA",
       "fbref_id": "49375cdd",
       "fbref_url": "https://fbref.com/en/players/49375cdd/Kaden-Rodney",
       "position_text": "DF-MF",
@@ -6776,13 +7700,24 @@
       "ranking": {
         "performance": 0.0,
         "breakdown": {
-          "shooting:Standard - SoT/90": NaN,
-          "shooting:Standard - G/Sh": NaN,
-          "passing:KP": NaN,
-          "goal_shot_creation:SCA - SCA90": NaN,
-          "misc:Performance - Off": NaN,
-          "misc:Performance - CrdY": NaN
+          "defense:Tkl+Int": NaN,
+          "defense:Clr": NaN,
+          "defense:Blocks - Blocks": NaN,
+          "misc:Aerial Duels - Won%": NaN,
+          "defense:Err": NaN,
+          "standard:Performance - CrdR": NaN,
+          "passing:Total - Cmp%": NaN,
+          "passing:Total - PrgDist": NaN,
+          "possession:Carries - PrgDist": NaN,
+          "shooting:Expected - xG": NaN,
+          "goal_shot_creation:SCA - SCA90": NaN
         }
+      },
+      "profile_img": null,
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
       }
     },
     {
@@ -6834,7 +7769,39 @@
       "fbref_id": "4a51ba65",
       "fbref_url": "https://fbref.com/en/players/4a51ba65/Matt-Turner",
       "position_text": "GK ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/4a51ba65_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "PSxG-GA": 0.02,
+          "Goals Against": 1.6,
+          "Save Percentage": 69.2,
+          "PSxG/SoT": 0.32,
+          "Clean Sheet Percentage": 20.0,
+          "Touches": 36.8,
+          "Launch %": 38.3,
+          "Goal Kicks": 8.6,
+          "Avg. Length of Goal Kicks": 50.6,
+          "Crosses Stopped %": 13.6,
+          "Def. Actions Outside Pen. Area": 1.6,
+          "Avg. Distance of Def. Actions": 13.3
+        },
+        "percentiles": {
+          "PSxG-GA": 44,
+          "Goals Against": 18,
+          "Save Percentage": 35,
+          "PSxG/SoT": 77,
+          "Clean Sheet Percentage": 21,
+          "Touches": 63,
+          "Launch %": 56,
+          "Goal Kicks": 92,
+          "Avg. Length of Goal Kicks": 79,
+          "Crosses Stopped %": 99,
+          "Def. Actions Outside Pen. Area": 89,
+          "Avg. Distance of Def. Actions": 45
+        },
+        "position_pool": "Goalkeepers"
+      }
     },
     {
       "name": "Naouirou Ahamada",
@@ -6887,7 +7854,13 @@
       "fbref_id": "a6c58494",
       "fbref_url": "https://fbref.com/en/players/a6c58494/Naouirou-Ahamada",
       "position_text": "MF ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/a6c58494_2022.jpg",
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     },
     {
       "name": "Remi Matthews",
@@ -6938,7 +7911,13 @@
       "fbref_id": "27f4f772",
       "fbref_url": "https://fbref.com/en/players/27f4f772/Remi-Matthews",
       "position_text": "GK ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/27f4f772_2022.jpg",
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     },
     {
       "name": "Rob Holding",
@@ -6990,7 +7969,53 @@
       "fbref_id": "d79a8c87",
       "fbref_url": "https://fbref.com/en/players/d79a8c87/Rob-Holding",
       "position_text": "DF (CB) ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/d79a8c87_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "Non-Penalty Goals": 0.0,
+          "npxG: Non-Penalty xG": 0.05,
+          "Shots Total": 0.54,
+          "Assists": 0.18,
+          "xAG: Exp. Assisted Goals": 0.13,
+          "npxG + xAG": 0.18,
+          "Shot-Creating Actions": 1.09,
+          "Passes Attempted": 59.15,
+          "Pass Completion %": 86.2,
+          "Progressive Passes": 4.35,
+          "Progressive Carries": 0.0,
+          "Successful Take-Ons": 0.18,
+          "Touches (Att Pen)": 1.27,
+          "Progressive Passes Rec": 0.18,
+          "Tackles": 1.27,
+          "Interceptions": 1.09,
+          "Blocks": 1.27,
+          "Clearances": 6.71,
+          "Aerials Won": 4.17
+        },
+        "percentiles": {
+          "Non-Penalty Goals": 18,
+          "npxG: Non-Penalty xG": 68,
+          "Shots Total": 56,
+          "Assists": 99,
+          "xAG: Exp. Assisted Goals": 99,
+          "npxG + xAG": 99,
+          "Shot-Creating Actions": 78,
+          "Passes Attempted": 75,
+          "Pass Completion %": 59,
+          "Progressive Passes": 82,
+          "Progressive Carries": 1,
+          "Successful Take-Ons": 56,
+          "Touches (Att Pen)": 83,
+          "Progressive Passes Rec": 41,
+          "Tackles": 39,
+          "Interceptions": 46,
+          "Blocks": 59,
+          "Clearances": 84,
+          "Aerials Won": 96
+        },
+        "position_pool": "Center Backs"
+      }
     },
     {
       "name": "Sam Johnstone",
@@ -7041,7 +8066,41 @@
       "fbref_id": "9e5708be",
       "fbref_url": "https://fbref.com/en/players/9e5708be/Sam-Johnstone",
       "position_text": "GK ▪",
-      "foot": "Right"
+      "foot": "Right",
+      "profile_img": "https://fbref.com/req/202302030/images/headshots/9e5708be_2022.jpg",
+      "player_365_stats": {
+        "per90": {
+          "PSxG-GA": -0.63,
+          "Goals Against": 2.67,
+          "Save Percentage": 58.8,
+          "PSxG/SoT": 0.29,
+          "Save% (Penalty Kicks)": 0.0,
+          "Clean Sheet Percentage": 0.0,
+          "Touches": 45.17,
+          "Launch %": 43.4,
+          "Goal Kicks": 4.0,
+          "Avg. Length of Goal Kicks": 44.2,
+          "Crosses Stopped %": 8.0,
+          "Def. Actions Outside Pen. Area": 1.67,
+          "Avg. Distance of Def. Actions": 13.7
+        },
+        "percentiles": {
+          "PSxG-GA": 1,
+          "Goals Against": 1,
+          "Save Percentage": 3,
+          "PSxG/SoT": 33,
+          "Save% (Penalty Kicks)": 22,
+          "Clean Sheet Percentage": 1,
+          "Touches": 94,
+          "Launch %": 86,
+          "Goal Kicks": 21,
+          "Avg. Length of Goal Kicks": 52,
+          "Crosses Stopped %": 78,
+          "Def. Actions Outside Pen. Area": 87,
+          "Avg. Distance of Def. Actions": 46
+        },
+        "position_pool": "Goalkeepers"
+      }
     },
     {
       "name": "Zachariah Marsh",
@@ -7088,7 +8147,13 @@
       "fbref_id": "6baa90d0",
       "fbref_url": "https://fbref.com/en/players/6baa90d0/Zachariah-Marsh",
       "position_text": "FW",
-      "foot": null
+      "foot": null,
+      "profile_img": null,
+      "player_365_stats": {
+        "per90": {},
+        "percentiles": {},
+        "position_pool": null
+      }
     }
   ]
 }

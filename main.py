@@ -7,6 +7,8 @@ from core.config import settings
 import routes.fbref.league.league as leagueRoute
 import routes.fbref.players.players as playerRoute
 import routes.fbref.mental as mentalRoute
+import routes.plotting.plot as plotRoute
+
 
     
 # meta
@@ -18,6 +20,7 @@ app = FastAPI(
 app.include_router(leagueRoute.router, prefix="/api/v2")
 app.include_router(playerRoute.router, prefix="/api/v2")
 app.include_router(mentalRoute.router, prefix="/api/v2")
+app.include_router(plotRoute.router, prefix="/api/v2")
 # root
 @app.get("/", tags=["Root"])
 async def read_root():
@@ -30,7 +33,7 @@ async def read_root():
 async def head_root():
     return Response(status_code=200)
 
-
+# app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # cors
 # TODO: add DB url. add srver url.
