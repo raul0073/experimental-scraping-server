@@ -187,7 +187,7 @@ async def get_all_players_and_teams():
             "stats": league_stats
         },
         "best_eleven": best_xi
-    }))
+    }),  headers={"Content-Encoding": "identity"})
 
 #get by team 
 @router.get("/{league}/{season}/{team}")
