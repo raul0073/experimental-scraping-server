@@ -68,7 +68,7 @@ def get_league_mental_scores(league: str, season: int):
             "stats": team_stats
         },
         "best_eleven": best_xi
-    }))
+       }),  headers={"Content-Encoding": "identity"})
 
 # get all 5 leagues
 @router.get("/all")
@@ -250,7 +250,7 @@ async def get_team_mental_scores(league: str, season: int, team: str):
         "plot": {
             "default": team_charts_data
         }
-    }))
+    }),  headers={"Content-Encoding": "identity"})
 
 
 # get by tname or role.
@@ -323,4 +323,4 @@ def get_players_by_role_or_name(
         "players": scored_players,
         "count": len(scored_players),
         "plot": img_base64
-    }))
+    }),  headers={"Content-Encoding": "identity"})
