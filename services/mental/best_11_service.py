@@ -98,13 +98,32 @@ class BestXIBuilder:
                 picked.extend(self._pick_subline(sub_def, used_names, spots, key_type))
         return picked
 
+    def _minimal_player(self, p: Dict) -> Dict:
+        """Return a minimal cleaned player dictionary for best XI outputs."""
+        return {
+            "name": p.get("name", ""),
+            "position": p.get("position", ""),
+            "age": p.get("age", ""),
+            "position_text": p.get("position_text", ""),
+            "role": p.get("role", ""),
+            "mental": p.get("mental", {"m": 0}),
+            "performance": p.get("ranking", {"performance": 0}),
+            "league": p.get("league", ""),
+            "team": p.get("team", ""),
+            "profile_img": p.get("profile_img", ""),
+            "foot": p.get("foot", ""),
+        }
+
     def build_formation(self, formation_name: str) -> Dict:
         formation_def = FORMATIONS[formation_name]
         used_names = set()
         starting_11 = []
+
         for line_name, formation_line in formation_def.items():
             line_def = LINES[line_name]
-            starting_11.extend(self._pick_line(line_def, formation_line, used_names, key_type="mental"))
+            starting_11.extend(
+                self._pick_line(line_def, formation_line, used_names, key_type="mental")
+            )
 
         # Substitutes: pick next best remaining per category
         remaining_players = [p for p in self.players if p["name"] not in used_names]
@@ -116,22 +135,23 @@ class BestXIBuilder:
         best_perf_11 = []
         for line_name, formation_line in formation_def.items():
             line_def = LINES[line_name]
-            best_perf_11.extend(self._pick_line(line_def, formation_line, perf_used_names, key_type="performance"))
+            best_perf_11.extend(
+                self._pick_line(line_def, formation_line, perf_used_names, key_type="performance")
+            )
 
         return {
             "name": formation_name,
             "formation": formation_def,
-            "starting_11": starting_11,
-            "subs": subs,
+            "starting_11": [self._minimal_player(p) for p in starting_11],
+            "subs": [self._minimal_player(p) for p in subs],
             "score": sum(p.get("mental", {}).get("m_raw", 0) for p in starting_11),
-            "best_performing_eleven": best_perf_11
+            "best_performing_eleven": [self._minimal_player(p) for p in best_perf_11],
         }
 
     def build_best_formations(self, top_n=3) -> List[Dict]:
         results = [self.build_formation(fname) for fname in FORMATIONS.keys()]
         results.sort(key=lambda r: r["score"], reverse=True)
         return results[:top_n]
-
     @staticmethod
     def categorize_players(players: List[Dict]) -> Dict[str, List[Dict]]:
         categorized: DefaultDict[str, List[Dict]] = defaultdict(list)
@@ -153,6 +173,3 @@ class BestXIBuilder:
                 print(f"{i:02}. {p['name']} | Raw Role: {p.get('role')} | m_raw: {p.get('mental', {}).get('m_raw', 0)}")
         return categorized
     
-    @staticmethod
-    def plot_best_xi(best_11: List[dict], formation: str = "433") -> str:
-        return BestXIPlotter.plot_best_xi(best_11, formation)

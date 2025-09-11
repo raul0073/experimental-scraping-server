@@ -1,18 +1,12 @@
-from io import BytesIO
-import anyio
 from fastapi import APIRouter, HTTPException
-from typing import List, Optional
-
+from typing import Optional
 from fastapi.params import Query
 from fastapi.responses import JSONResponse
 from matplotlib.pylab import mean
 import numpy as np
-
 from routes.fbref.players.normalize import sanitize_for_json
 from routes.fbref.utils.mental_route_utils import build_team_meta, normalize_mental_scores, pick_best_xi
 from services.fbref.loader import FBRefLoaderService
-from services.fbref.player.player_service import FBRefPlayerService
-from services.mental.best_11_service import BestXIBuilder
 from services.mental.mental_service import MentalRankingService
 from services.plotting.player.plotting_service_player import PlayerPlottingService
 from services.plotting.team.team_plotting_service import TeamPlottingService
@@ -45,7 +39,7 @@ def get_league_mental_scores(league: str, season: int):
 
     # 5️ Best XI
     best_xi = pick_best_xi(filtered_players)
-
+ 
     # 6️ League meta
     league_meta = {
         "league": league,
@@ -69,6 +63,7 @@ def get_league_mental_scores(league: str, season: int):
         },
         "best_eleven": best_xi
        }),  headers={"Content-Encoding": "identity"})
+
 
 # get all 5 leagues
 @router.get("/all")
@@ -260,67 +255,79 @@ def get_players_by_role_or_name(
     season: int,
     name: Optional[str] = Query(None, description="Filter players by name"),
     role: Optional[str] = Query(None, description="Filter players by role"),
-    top_k: Optional[int] = Query(None, description="Limit number of players returned")
+    top_k: Optional[int] = Query(None, description="Limit number of players returned"),
 ):
     print(f"[DEBUG] Fetching players for league={league}, season={season}, name={name}, role={role}")
 
     # Load all players
     players = FBRefLoaderService.load_all_players(league, season)
     if not players:
-        print("[DEBUG] No players loaded")
         raise HTTPException(status_code=404, detail="No players found")
 
-    # Score players mentally
+    # Score mentally
     scored_players = MentalRankingService(players).score_team_players()
-    print(f"[DEBUG] Scored {len(scored_players)} players mentally")
 
-    # Filter by role
+    # Role filter
     if role:
-        before_count = len(scored_players)
-        scored_players = [
-            p for p in scored_players
-            if p.get("role") == role and p.get("mental", {}).get("m_raw") is not None
-        ]
-        after_count = len(scored_players)
-        print(f"[DEBUG] Role filter '{role}': {before_count} -> {after_count}")
+        before = len(scored_players)
+        scored_players = [p for p in scored_players if p.get("role") == role]
+        print(f"[DEBUG] Role filter '{role}': {before} -> {len(scored_players)}")
 
-    # Filter by name
+    # Name filter (partial match)
     if name:
         name_norm = name.lower().strip()
-        before_count = len(scored_players)
-        scored_players = [
-            p for p in scored_players
-            if name_norm in (p.get("name") or "").lower().strip()
-        ]
-        after_count = len(scored_players)
-        print(f"[DEBUG] Name filter '{name}': {before_count} -> {after_count}")
-        print("[DEBUG] Matching players:", [p.get("name") for p in scored_players])
+        before = len(scored_players)
+        scored_players = [p for p in scored_players if name_norm in (p.get("name") or "").lower()]
+        print(f"[DEBUG] Name filter '{name}': {before} -> {len(scored_players)}")
 
     if not scored_players:
-        print("[DEBUG] No players matched after filtering")
         raise HTTPException(status_code=404, detail="No matching players found")
 
-    # Sort by mental score descending
+    # Sort by mental score
     scored_players.sort(key=lambda p: p.get("mental", {}).get("m", 0), reverse=True)
 
-    # Limit top_k
+    # Limit
     if top_k:
         scored_players = scored_players[:top_k]
-        print(f"[DEBUG] Limited to top {top_k} players")
-
-    # 🍕 Only plot pizza if a *single exact player* is requested
-    img_base64 = None
-    if name and len(scored_players) == 1:
-        service = PlayerPlottingService(players)
-        img_base64 = service.plot_player_pizza(scored_players[0])
-        print(f"[DEBUG] Generated pizza plot for {scored_players[0]['name']}")
 
     return JSONResponse(sanitize_for_json({
         "league": league,
         "season": season,
         "role": role,
         "name_query": name,
-        "players": scored_players,
         "count": len(scored_players),
-        "plot": img_base64
-    }),  headers={"Content-Encoding": "identity"})
+        "players": scored_players,
+    }), headers={"Content-Encoding": "identity"})
+
+
+@router.get("/vv/players/{league}/{season}/plot")
+def get_player_plot(
+    league: str,
+    season: int,
+    name: str = Query(..., description="Exact player name for plotting"),
+):
+    print(f"[DEBUG] Generating plot for league={league}, season={season}, name={name}")
+
+    # Load all players
+    players = FBRefLoaderService.load_all_players(league, season)
+    if not players:
+        raise HTTPException(status_code=404, detail="No players found")
+
+    # Score mentally
+    scored_players = MentalRankingService(players).score_team_players()
+
+    # Find exact match
+    match = next((p for p in scored_players if (p.get("name") or "").lower() == name.lower()), None)
+    if not match:
+        raise HTTPException(status_code=404, detail=f"No exact match for player {name}")
+
+    # Generate pizza
+    service = PlayerPlottingService(players)
+    img_base64 = service.plot_player_pizza(match)
+
+    return JSONResponse(sanitize_for_json({
+        "league": league,
+        "season": season,
+        "player": match.get("name"),
+        "plot": img_base64,
+    }), headers={"Content-Encoding": "identity"})

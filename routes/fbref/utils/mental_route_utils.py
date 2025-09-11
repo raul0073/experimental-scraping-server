@@ -5,7 +5,7 @@ from statistics import mean
 from math import isfinite
 import numpy as np
 
-from services.mental.best_11_service import BestXIBuilder
+from services.mental.best_11_service import FORMATIONS, LINES, BestXIBuilder
 
 
 def normalize_mental_scores(players: List[Dict]) -> None:
@@ -65,48 +65,70 @@ def pick_best_xi(players: List[Dict]) -> Dict:
       - top 3 formations by mental score (with starting 11 and subs)
       - best performing eleven based on 'ranking.performance' across all players
     """
-    # Categorize and log top players per role for debug
+    # Log top players per role for debug
     BestXIBuilder.log_top_players_per_role(players, top_n=10)
 
     builder = BestXIBuilder(players)
-    top_formations = builder.build_best_formations(top_n=3)
+    top_formations_raw = builder.build_best_formations(top_n=3)
 
-    # Compute best performing eleven once
-    performance_sorted = sorted(
-        [p for p in players if "ranking" in p and "performance" in p["ranking"]],
-        key=lambda p: p["ranking"]["performance"],
-        reverse=True
-    )
-    best_performing_eleven = performance_sorted[:11]
+    # Minimal player dict helper
+    def minimal_player(p: Dict) -> Dict:
+        return {
+            "name": p.get("name", ""),
+            "position": p.get("position", ""),
+            "age": p.get("age", ""),
+            "position_text": p.get("position_text", ""),
+            "role": p.get("role", ""),
+            "mental": p.get("mental", {"m": 0, "m_raw": 0}),
+            "performance": p.get("ranking", {"performance": 0}),
+            "league": p.get("league", ""),
+            "team": p.get("team", ""),
+            "profile_img": p.get("profile_img", ""),
+            "foot": p.get("foot", ""),
+        }
 
-    results = []
-
-    for f_idx, formation in enumerate(top_formations, 1):
-        print(f"\n=== Formation #{f_idx}: {formation['name']} | Total Score: {formation['score']:.2f} ===")
-        print("Starting 11 (mental-based):")
-        for p in formation["starting_11"]:
-            m_raw = p.get("mental", {}).get("m_raw", 0)
-            print(f" - {p['name']} | Role: {p.get('role')} | m_raw: {m_raw}")
-
-        # Pick subs: remaining players sorted by m_raw
+    # Build top formations with minimal player data
+    top_formations = []
+    for formation in top_formations_raw:
         used_names = {p["name"] for p in formation["starting_11"]}
         remaining_players = [p for p in players if p["name"] not in used_names]
         remaining_players.sort(key=lambda p: p.get("mental", {}).get("m_raw", 0), reverse=True)
         subs = remaining_players[:7]
-        print("Subs (mental-based):")
-        for p in subs:
-            m_raw = p.get("mental", {}).get("m_raw", 0)
-            print(f" - {p['name']} | Role: {p.get('role')} | m_raw: {m_raw}")
 
-        results.append({
+        top_formations.append({
             "formation": formation["name"],
             "score": formation["score"],
-            "best_eleven": formation["starting_11"],
-            "subs": subs
+            "best_eleven": [minimal_player(p) for p in formation["starting_11"]],
+            "subs": [minimal_player(p) for p in subs],
         })
 
-    # Return a single dict including best performing eleven
+    # Build best performing eleven using the same builder/formation logic
+    formation_name = "433"  # or pick a default formation you prefer
+    used_names = set()
+    starting_11_perf = []
+
+    for line_name, formation_line in FORMATIONS[formation_name].items():
+        line_def = LINES[line_name]
+        starting_11_perf.extend(
+            builder._pick_line(line_def, formation_line, used_names, key_type="performance")
+        )
+
+    # Pick top 7 subs by performance
+    remaining_players_perf = [p for p in players if p["name"] not in used_names]
+    remaining_players_perf.sort(
+        key=lambda p: float(p.get("ranking", {}).get("performance", "-inf")),
+        reverse=True
+    )
+    subs_perf = remaining_players_perf[:7]
+
+    best_performing_eleven = {
+        "formation": formation_name,
+        "score": sum(float(p.get("ranking", {}).get("performance", 0)) for p in starting_11_perf),
+        "best_eleven": [minimal_player(p) for p in starting_11_perf],
+        "subs": [minimal_player(p) for p in subs_perf],
+    }
+
     return {
-        "top_formations": results,
-        "best_performing_eleven": best_performing_eleven
+        "top_formations": top_formations,
+        "best_performing_eleven": best_performing_eleven,
     }
