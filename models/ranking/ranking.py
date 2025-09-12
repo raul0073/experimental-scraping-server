@@ -1,7 +1,7 @@
 LOWER_IS_BETTER = {
     "defense:Err",
-    "misc:Carries - Mis",
-    "misc:Carries - Dis",
+    "possession:Carries - Mis",
+    "possession:Carries - Dis",
     "defense:Challenges - Lost",
     "misc:Performance - CrdY",
     "misc:Performance - CrdR",
@@ -12,9 +12,8 @@ LOWER_IS_BETTER = {
     "misc:Aerial Duels - Lost",
     "possession:Take-Ons - Tkld%",
     "passing_types:Outcomes - Off",
-    "passing_types:Outcomes - Blocks",  # this one might not be truly "bad" — verify usage
+    "passing_types:Outcomes - Blocks",  # verify if you want this penalized
 }
-
 
 ROLE_RANK_MAPPING = {
     "GK": {
@@ -175,11 +174,6 @@ ROLE_RANK_MAPPING = {
 }
 }
 
-# ZONES_ROLES_WEIGHTS = {
-#     "GK": 1.0,
-#     "DL": 1.5,
-#     "DC": 2.0
-# }
 
 
 # roles to ranking mapping:

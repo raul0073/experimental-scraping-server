@@ -210,22 +210,21 @@
           "Aerial Duels - Won%": 11.1
         }
       },
-      "role": "AM",
+      "role": "LW",
       "ranking": {
-        "performance": 0.209,
+        "performance": 0.321,
         "breakdown": {
-          "goal_shot_creation:SCA - SCA90": -0.00435,
-          "goal_shot_creation:GCA - GCA90": -0.02345,
-          "passing:KP": 0.07872,
-          "passing:Expected - xA": 0.01901,
-          "passing:1/3": -0.01374,
-          "passing:PPA": 0.01615,
-          "passing:Total - PrgDist": -0.01109,
-          "passing:Total - Cmp%": 0.0169,
-          "possession:Carries - PrgDist": 0.08021,
-          "possession:Carries - PrgC": 0.11779,
-          "defense:Err": -0.06216,
-          "misc:Performance - CrdY": -0.00451
+          "possession:Take-Ons - Att": 0.04866,
+          "possession:Take-Ons - Succ": -0.01125,
+          "possession:Carries - PrgC": 0.13293,
+          "possession:Carries - 1/3": 0.14933,
+          "passing_types:Pass Types - Crs": -0.00654,
+          "passing:KP": 0.01633,
+          "goal_shot_creation:SCA - SCA90": -0.01667,
+          "goal_shot_creation:GCA - GCA90": -0.03689,
+          "shooting:Standard - SoT/90": 0.04879,
+          "shooting:Expected - xG": 0.01513,
+          "misc:Performance - CrdY": -0.0189
         }
       },
       "fbref_id": "7aa8adfe",
@@ -537,15 +536,15 @@
       },
       "role": "GK",
       "ranking": {
-        "performance": -1.061,
+        "performance": -1.057,
         "breakdown": {
           "keeper:Performance - Save%": -0.91781,
           "keeper:Penalty Kicks - Save%": NaN,
           "keeper:Performance - CS%": 0.00301,
           "keeper:Performance - CS": -0.03739,
-          "passing:Total - Cmp%": -0.07792,
-          "passing_types:Pass Types - Live": -0.04565,
-          "passing_types:Outcomes - Cmp": -0.04867,
+          "passing:Total - Cmp%": -0.07606,
+          "passing_types:Pass Types - Live": -0.04478,
+          "passing_types:Outcomes - Cmp": -0.04784,
           "keeper_adv:Crosses - Stp%": -0.00051,
           "keeper_adv:Crosses - Stp": -0.04093,
           "keeper_adv:Sweeper - #OPA/90": 0.10534
@@ -797,19 +796,19 @@
       },
       "role": "RW",
       "ranking": {
-        "performance": 0.415,
+        "performance": 0.37,
         "breakdown": {
-          "possession:Take-Ons - Att": 0.05619,
-          "possession:Take-Ons - Succ": 0.06991,
-          "possession:Carries - PrgC": 0.08804,
-          "possession:Carries - 1/3": 0.09159,
-          "passing_types:Pass Types - Crs": -0.01592,
-          "passing:KP": 0.05151,
-          "goal_shot_creation:SCA - SCA90": 0.08149,
-          "goal_shot_creation:GCA - GCA90": 0.07539,
-          "shooting:Standard - SoT/90": 0.00443,
-          "shooting:Expected - xG": 0.0011,
-          "misc:Performance - CrdY": -0.08881
+          "possession:Take-Ons - Att": 0.04642,
+          "possession:Take-Ons - Succ": 0.06019,
+          "possession:Carries - PrgC": 0.06855,
+          "possession:Carries - 1/3": 0.06979,
+          "passing_types:Pass Types - Crs": -0.02179,
+          "passing:KP": 0.04689,
+          "goal_shot_creation:SCA - SCA90": 0.08672,
+          "goal_shot_creation:GCA - GCA90": 0.07992,
+          "shooting:Standard - SoT/90": 0.00328,
+          "shooting:Expected - xG": 9e-05,
+          "misc:Performance - CrdY": -0.06988
         }
       },
       "fbref_id": "9dc96f10",
@@ -1121,15 +1120,15 @@
       },
       "role": "GK",
       "ranking": {
-        "performance": 0.218,
+        "performance": 0.226,
         "breakdown": {
           "keeper:Performance - Save%": 0.04681,
           "keeper:Penalty Kicks - Save%": 0.02745,
           "keeper:Performance - CS%": 0.00987,
           "keeper:Performance - CS": 0.06082,
-          "passing:Total - Cmp%": 0.01216,
-          "passing_types:Pass Types - Live": 0.06487,
-          "passing_types:Outcomes - Cmp": 0.06177,
+          "passing:Total - Cmp%": 0.01333,
+          "passing_types:Pass Types - Live": 0.06865,
+          "passing_types:Outcomes - Cmp": 0.06526,
           "keeper_adv:Crosses - Stp%": -0.0154,
           "keeper_adv:Crosses - Stp": 0.01727,
           "keeper_adv:Sweeper - #OPA/90": -0.06758
@@ -1618,19 +1617,19 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": -0.469,
+        "performance": -0.487,
         "breakdown": {
-          "defense:Tkl+Int": -0.177,
-          "defense:Clr": -0.13618,
-          "defense:Blocks - Blocks": -0.09292,
-          "misc:Aerial Duels - Won%": -0.07597,
-          "defense:Err": 0.08944,
-          "standard:Performance - CrdR": 0.01648,
-          "passing:Total - Cmp%": -0.00596,
-          "passing:Total - PrgDist": -0.0476,
-          "possession:Carries - PrgDist": -0.04107,
-          "shooting:Expected - xG": -0.01883,
-          "goal_shot_creation:SCA - SCA90": 0.02058
+          "defense:Tkl+Int": -0.1831,
+          "defense:Clr": -0.14077,
+          "defense:Blocks - Blocks": -0.09512,
+          "misc:Aerial Duels - Won%": -0.08049,
+          "defense:Err": 0.09273,
+          "standard:Performance - CrdR": 0.01582,
+          "passing:Total - Cmp%": -0.00659,
+          "passing:Total - PrgDist": -0.04959,
+          "possession:Carries - PrgDist": -0.04248,
+          "shooting:Expected - xG": -0.01939,
+          "goal_shot_creation:SCA - SCA90": 0.02188
         }
       },
       "fbref_id": "64e17fab",
@@ -1851,22 +1850,22 @@
           "Aerial Duels - Won%": 44.0
         }
       },
-      "role": "CM",
+      "role": "AM",
       "ranking": {
-        "performance": 1.056,
+        "performance": 1.185,
         "breakdown": {
-          "defense:Tackles - Tkl": 0.15619,
-          "passing:Total - Cmp%": -0.03796,
-          "passing:Medium - Cmp%": -0.0195,
-          "passing:Long - Cmp%": -0.02209,
-          "passing:Total - PrgDist": 0.17336,
-          "passing:KP": 0.4343,
-          "goal_shot_creation:SCA - SCA90": 0.14137,
-          "goal_shot_creation:GCA - GCA90": 0.02128,
-          "possession:Carries - PrgDist": 0.13659,
-          "possession:Carries - PrgC": 0.1296,
-          "misc:Performance - Fls": -0.03317,
-          "misc:Performance - CrdY": -0.02382
+          "goal_shot_creation:SCA - SCA90": 0.10148,
+          "goal_shot_creation:GCA - GCA90": 0.02112,
+          "passing:KP": 0.31448,
+          "passing:Expected - xA": 0.13547,
+          "passing:1/3": 0.1876,
+          "passing:PPA": 0.16103,
+          "passing:Total - PrgDist": 0.21604,
+          "passing:Total - Cmp%": 0.0054,
+          "possession:Carries - PrgDist": 0.12128,
+          "possession:Carries - PrgC": 0.06802,
+          "defense:Err": -0.10408,
+          "misc:Performance - CrdY": -0.04239
         }
       },
       "fbref_id": "266f7d75",
@@ -2089,19 +2088,19 @@
       },
       "role": "DM",
       "ranking": {
-        "performance": 0.149,
+        "performance": 0.173,
         "breakdown": {
-          "defense:Tackles - Tkl": 0.19814,
-          "defense:Tkl+Int": 0.04101,
-          "defense:Err": -0.05098,
-          "passing:Total - Cmp%": -0.05785,
-          "passing:Total - PrgDist": 0.0144,
-          "passing:Short - Cmp%": -0.01728,
-          "passing:Medium - Cmp%": -0.02594,
-          "passing_types:Pass Types - Sw": 0.05354,
-          "possession:Carries - PrgDist": -0.01928,
-          "misc:Performance - Fls": 0.01779,
-          "misc:Performance - CrdY": -0.00487
+          "defense:Tackles - Tkl": 0.2237,
+          "defense:Tkl+Int": 0.04704,
+          "defense:Err": -0.05459,
+          "passing:Total - Cmp%": -0.06876,
+          "passing:Total - PrgDist": 0.02206,
+          "passing:Short - Cmp%": -0.0166,
+          "passing:Medium - Cmp%": -0.03516,
+          "passing_types:Pass Types - Sw": 0.05594,
+          "possession:Carries - PrgDist": -0.01461,
+          "misc:Performance - Fls": 0.01758,
+          "misc:Performance - CrdY": -0.00337
         }
       },
       "fbref_id": "4d224fe8",
@@ -2364,14 +2363,14 @@
       },
       "role": "CF",
       "ranking": {
-        "performance": -0.228,
+        "performance": -0.24,
         "breakdown": {
-          "shooting:Standard - SoT/90": -0.02447,
-          "shooting:Standard - G/Sh": -0.14937,
-          "passing:KP": -0.04698,
-          "goal_shot_creation:SCA - SCA90": -0.02692,
-          "misc:Performance - Off": 0.01597,
-          "misc:Performance - CrdY": 0.00363
+          "shooting:Standard - SoT/90": -0.02672,
+          "shooting:Standard - G/Sh": -0.15491,
+          "passing:KP": -0.04957,
+          "goal_shot_creation:SCA - SCA90": -0.0295,
+          "misc:Performance - Off": 0.01606,
+          "misc:Performance - CrdY": 0.00429
         }
       },
       "fbref_id": "0c9bfc3b",
@@ -2594,20 +2593,20 @@
       },
       "role": "CM",
       "ranking": {
-        "performance": 0.112,
+        "performance": 0.156,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.04485,
-          "passing:Total - Cmp%": -0.02242,
-          "passing:Medium - Cmp%": -0.02688,
-          "passing:Long - Cmp%": -0.04808,
-          "passing:Total - PrgDist": 0.01659,
-          "passing:KP": 0.08891,
-          "goal_shot_creation:SCA - SCA90": 0.09528,
-          "goal_shot_creation:GCA - GCA90": 0.05329,
-          "possession:Carries - PrgDist": -0.00746,
-          "possession:Carries - PrgC": -0.0142,
-          "misc:Performance - Fls": 0.03009,
-          "misc:Performance - CrdY": -0.00877
+          "defense:Tackles - Tkl": -0.04318,
+          "passing:Total - Cmp%": -0.02278,
+          "passing:Medium - Cmp%": -0.02649,
+          "passing:Long - Cmp%": -0.0482,
+          "passing:Total - PrgDist": 0.02223,
+          "passing:KP": 0.12082,
+          "goal_shot_creation:SCA - SCA90": 0.10069,
+          "goal_shot_creation:GCA - GCA90": 0.0537,
+          "possession:Carries - PrgDist": -0.00636,
+          "possession:Carries - PrgC": -0.01457,
+          "misc:Performance - Fls": 0.02974,
+          "misc:Performance - CrdY": -0.0095
         }
       },
       "fbref_id": "980522ec",
@@ -2868,16 +2867,16 @@
           "Aerial Duels - Won%": 64.4
         }
       },
-      "role": "FB",
+      "role": "RB",
       "ranking": {
-        "performance": 0.112,
+        "performance": 0.087,
         "breakdown": {
-          "defense:Tackles - Tkl": 0.19684,
-          "defense:Blocks - Blocks": 0.0331,
-          "passing:Total - Cmp%": -0.01014,
-          "passing_types:Pass Types - Crs": 0.03223,
-          "misc:Performance - Fls": -0.1043,
-          "misc:Performance - CrdY": -0.03586
+          "defense:Tackles - Tkl": 0.17697,
+          "defense:Blocks - Blocks": 0.02634,
+          "passing:Total - Cmp%": -0.00382,
+          "passing_types:Pass Types - Crs": 0.02741,
+          "misc:Performance - Fls": -0.10166,
+          "misc:Performance - CrdY": -0.03835
         }
       },
       "fbref_id": "d9565625",
@@ -3140,19 +3139,19 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": -0.355,
+        "performance": -0.374,
         "breakdown": {
-          "defense:Tkl+Int": -0.177,
-          "defense:Clr": -0.13151,
-          "defense:Blocks - Blocks": -0.04107,
-          "misc:Aerial Duels - Won%": -0.00405,
-          "defense:Err": 0.08944,
-          "standard:Performance - CrdR": 0.01648,
-          "passing:Total - Cmp%": -0.02237,
-          "passing:Total - PrgDist": -0.04843,
-          "possession:Carries - PrgDist": -0.03715,
-          "shooting:Expected - xG": -0.01883,
-          "goal_shot_creation:SCA - SCA90": 0.01985
+          "defense:Tkl+Int": -0.1831,
+          "defense:Clr": -0.1363,
+          "defense:Blocks - Blocks": -0.04526,
+          "misc:Aerial Duels - Won%": -0.00751,
+          "defense:Err": 0.09273,
+          "standard:Performance - CrdR": 0.01582,
+          "passing:Total - Cmp%": -0.02298,
+          "passing:Total - PrgDist": -0.05041,
+          "possession:Carries - PrgDist": -0.03858,
+          "shooting:Expected - xG": -0.01939,
+          "goal_shot_creation:SCA - SCA90": 0.02114
         }
       },
       "fbref_id": "7b47100c",
@@ -3375,19 +3374,19 @@
       },
       "role": "LCB",
       "ranking": {
-        "performance": 0.431,
+        "performance": 0.398,
         "breakdown": {
-          "defense:Tkl+Int": 0.21713,
-          "defense:Clr": 0.02503,
-          "defense:Blocks - Blocks": -0.01803,
-          "misc:Aerial Duels - Won%": 0.09029,
-          "defense:Err": 0.03133,
-          "standard:Performance - CrdR": 0.01648,
-          "passing:Total - Cmp%": -0.00218,
-          "passing:Total - PrgDist": 0.01987,
-          "possession:Carries - PrgDist": 0.01919,
-          "shooting:Expected - xG": 0.03166,
-          "goal_shot_creation:SCA - SCA90": 0.00049
+          "defense:Tkl+Int": 0.20492,
+          "defense:Clr": 0.01343,
+          "defense:Blocks - Blocks": -0.02309,
+          "misc:Aerial Duels - Won%": 0.08821,
+          "defense:Err": 0.03516,
+          "standard:Performance - CrdR": 0.01582,
+          "passing:Total - Cmp%": -0.00281,
+          "passing:Total - PrgDist": 0.01683,
+          "possession:Carries - PrgDist": 0.01736,
+          "shooting:Expected - xG": 0.03048,
+          "goal_shot_creation:SCA - SCA90": 0.0015
         }
       },
       "fbref_id": "d8931174",
@@ -3650,19 +3649,19 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": -0.236,
+        "performance": -0.253,
         "breakdown": {
-          "defense:Tkl+Int": -0.14521,
-          "defense:Clr": -0.12216,
-          "defense:Blocks - Blocks": -0.08716,
-          "misc:Aerial Duels - Won%": 0.10644,
-          "defense:Err": 0.08944,
-          "standard:Performance - CrdR": 0.01648,
-          "passing:Total - Cmp%": 0.01675,
-          "passing:Total - PrgDist": -0.04237,
-          "possession:Carries - PrgDist": -0.04164,
-          "shooting:Expected - xG": -0.01883,
-          "goal_shot_creation:SCA - SCA90": -0.00773
+          "defense:Tkl+Int": -0.15181,
+          "defense:Clr": -0.12736,
+          "defense:Blocks - Blocks": -0.08958,
+          "misc:Aerial Duels - Won%": 0.1046,
+          "defense:Err": 0.09273,
+          "standard:Performance - CrdR": 0.01582,
+          "passing:Total - Cmp%": 0.01609,
+          "passing:Total - PrgDist": -0.04444,
+          "possession:Carries - PrgDist": -0.04304,
+          "shooting:Expected - xG": -0.01939,
+          "goal_shot_creation:SCA - SCA90": -0.00684
         }
       },
       "fbref_id": "f8fcd2a5",
@@ -3883,22 +3882,16 @@
           "Aerial Duels - Won%": 28.0
         }
       },
-      "role": "AM",
+      "role": "CF",
       "ranking": {
-        "performance": -0.325,
+        "performance": -0.021,
         "breakdown": {
-          "goal_shot_creation:SCA - SCA90": -0.07796,
-          "goal_shot_creation:GCA - GCA90": -0.0408,
-          "passing:KP": -0.04352,
-          "passing:Expected - xA": -0.02139,
-          "passing:1/3": -0.00869,
-          "passing:PPA": -0.03126,
-          "passing:Total - PrgDist": -0.01936,
-          "passing:Total - Cmp%": -0.01458,
-          "possession:Carries - PrgDist": -0.03158,
-          "possession:Carries - PrgC": -0.03338,
-          "defense:Err": -0.01541,
-          "misc:Performance - CrdY": 0.01333
+          "shooting:Standard - SoT/90": -0.01657,
+          "shooting:Standard - G/Sh": -0.01982,
+          "passing:KP": 0.01063,
+          "goal_shot_creation:SCA - SCA90": -0.00316,
+          "misc:Performance - Off": 0.00834,
+          "misc:Performance - CrdY": -0.00013
         }
       },
       "fbref_id": "028e70b9",
@@ -4161,19 +4154,19 @@
       },
       "role": "DM",
       "ranking": {
-        "performance": 0.082,
+        "performance": 0.094,
         "breakdown": {
-          "defense:Tackles - Tkl": 0.01572,
-          "defense:Tkl+Int": 0.00271,
-          "defense:Err": 0.01413,
-          "passing:Total - Cmp%": 0.05005,
-          "passing:Total - PrgDist": -0.02148,
-          "passing:Short - Cmp%": 0.02349,
-          "passing:Medium - Cmp%": 0.00574,
-          "passing_types:Pass Types - Sw": 0.0025,
-          "possession:Carries - PrgDist": -0.00458,
-          "misc:Performance - Fls": -0.00145,
-          "misc:Performance - CrdY": -0.00487
+          "defense:Tackles - Tkl": 0.03092,
+          "defense:Tkl+Int": 0.00736,
+          "defense:Err": 0.01064,
+          "passing:Total - Cmp%": 0.04002,
+          "passing:Total - PrgDist": -0.01551,
+          "passing:Short - Cmp%": 0.02187,
+          "passing:Medium - Cmp%": -0.00138,
+          "passing_types:Pass Types - Sw": 0.00448,
+          "possession:Carries - PrgDist": 7e-05,
+          "misc:Performance - Fls": -0.0011,
+          "misc:Performance - CrdY": -0.00337
         }
       },
       "fbref_id": "c6220452",
@@ -4436,19 +4429,19 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": 0.055,
+        "performance": 0.028,
         "breakdown": {
-          "defense:Tkl+Int": 0.07092,
-          "defense:Clr": -0.05674,
-          "defense:Blocks - Blocks": -0.07564,
-          "misc:Aerial Duels - Won%": -0.02385,
-          "defense:Err": 0.08944,
-          "standard:Performance - CrdR": 0.01648,
-          "passing:Total - Cmp%": 0.04136,
-          "passing:Total - PrgDist": -0.01,
-          "possession:Carries - PrgDist": 0.00943,
-          "shooting:Expected - xG": -0.00101,
-          "goal_shot_creation:SCA - SCA90": -0.00536
+          "defense:Tkl+Int": 0.06098,
+          "defense:Clr": -0.06479,
+          "defense:Blocks - Blocks": -0.0785,
+          "misc:Aerial Duels - Won%": -0.02761,
+          "defense:Err": 0.09273,
+          "standard:Performance - CrdR": 0.01582,
+          "passing:Total - Cmp%": 0.04067,
+          "passing:Total - PrgDist": -0.01257,
+          "possession:Carries - PrgDist": 0.00767,
+          "shooting:Expected - xG": -0.00179,
+          "goal_shot_creation:SCA - SCA90": -0.00443
         }
       },
       "fbref_id": "6763f716",
@@ -4711,19 +4704,19 @@
       },
       "role": "LCB",
       "ranking": {
-        "performance": 0.409,
+        "performance": 0.375,
         "breakdown": {
-          "defense:Tkl+Int": 0.22984,
-          "defense:Clr": -0.02403,
-          "defense:Blocks - Blocks": 0.02229,
-          "misc:Aerial Duels - Won%": 0.00325,
-          "defense:Err": 0.03133,
-          "standard:Performance - CrdR": 0.01648,
-          "passing:Total - Cmp%": 0.02243,
-          "passing:Total - PrgDist": 0.02944,
-          "possession:Carries - PrgDist": 0.05518,
-          "shooting:Expected - xG": 0.01681,
-          "goal_shot_creation:SCA - SCA90": 0.00633
+          "defense:Tkl+Int": 0.21743,
+          "defense:Clr": -0.0335,
+          "defense:Blocks - Blocks": 0.01569,
+          "misc:Aerial Duels - Won%": -0.00011,
+          "defense:Err": 0.03516,
+          "standard:Performance - CrdR": 0.01582,
+          "passing:Total - Cmp%": 0.02176,
+          "passing:Total - PrgDist": 0.02625,
+          "possession:Carries - PrgDist": 0.0531,
+          "shooting:Expected - xG": 0.01581,
+          "goal_shot_creation:SCA - SCA90": 0.00743
         }
       },
       "fbref_id": "bac46a10",
@@ -4984,21 +4977,16 @@
           "Aerial Duels - Won%": 60.0
         }
       },
-      "role": "CB",
+      "role": "LB",
       "ranking": {
-        "performance": -0.327,
+        "performance": -0.106,
         "breakdown": {
-          "defense:Tkl+Int": -0.18971,
-          "defense:Clr": -0.14085,
-          "defense:Blocks - Blocks": -0.06988,
-          "misc:Aerial Duels - Won%": 0.02827,
-          "defense:Err": 0.08944,
-          "standard:Performance - CrdR": 0.01648,
-          "passing:Total - Cmp%": 0.00035,
-          "passing:Total - PrgDist": -0.03674,
-          "possession:Carries - PrgDist": -0.03138,
-          "shooting:Expected - xG": -0.0218,
-          "goal_shot_creation:SCA - SCA90": 0.02899
+          "defense:Tackles - Tkl": -0.16601,
+          "defense:Blocks - Blocks": -0.08563,
+          "passing:Total - Cmp%": 0.08439,
+          "passing_types:Pass Types - Crs": -0.03414,
+          "misc:Performance - Fls": 0.05106,
+          "misc:Performance - CrdY": 0.04389
         }
       },
       "fbref_id": "3bbbbc3e",
@@ -5221,20 +5209,20 @@
       },
       "role": "CM",
       "ranking": {
-        "performance": 0.002,
+        "performance": 0.017,
         "breakdown": {
-          "defense:Tackles - Tkl": 0.13454,
-          "passing:Total - Cmp%": 0.02995,
-          "passing:Medium - Cmp%": 0.03268,
-          "passing:Long - Cmp%": 0.04674,
-          "passing:Total - PrgDist": 0.00976,
-          "passing:KP": -0.03198,
-          "goal_shot_creation:SCA - SCA90": -0.04839,
-          "goal_shot_creation:GCA - GCA90": -0.00914,
-          "possession:Carries - PrgDist": 0.01624,
-          "possession:Carries - PrgC": -0.00746,
-          "misc:Performance - Fls": -0.05689,
-          "misc:Performance - CrdY": -0.11407
+          "defense:Tackles - Tkl": 0.14038,
+          "passing:Total - Cmp%": 0.02986,
+          "passing:Medium - Cmp%": 0.0331,
+          "passing:Long - Cmp%": 0.04702,
+          "passing:Total - PrgDist": 0.01466,
+          "passing:KP": -0.02952,
+          "goal_shot_creation:SCA - SCA90": -0.04756,
+          "goal_shot_creation:GCA - GCA90": -0.00911,
+          "possession:Carries - PrgDist": 0.01873,
+          "possession:Carries - PrgC": -0.00767,
+          "misc:Performance - Fls": -0.05774,
+          "misc:Performance - CrdY": -0.11503
         }
       }
     },
@@ -5445,22 +5433,21 @@
           "Aerial Duels - Won%": 41.7
         }
       },
-      "role": "AM",
+      "role": "RW",
       "ranking": {
-        "performance": -0.216,
+        "performance": -0.569,
         "breakdown": {
-          "goal_shot_creation:SCA - SCA90": -0.04246,
-          "goal_shot_creation:GCA - GCA90": -0.06972,
-          "passing:KP": -0.02885,
-          "passing:Expected - xA": -0.01426,
-          "passing:1/3": -0.02509,
-          "passing:PPA": -0.00631,
-          "passing:Total - PrgDist": -0.02034,
-          "passing:Total - Cmp%": -0.00395,
-          "possession:Carries - PrgDist": -0.02316,
-          "possession:Carries - PrgC": -0.02624,
-          "defense:Err": 0.03134,
-          "misc:Performance - CrdY": 0.01333
+          "possession:Take-Ons - Att": -0.06361,
+          "possession:Take-Ons - Succ": -0.09222,
+          "possession:Carries - PrgC": -0.11052,
+          "possession:Carries - 1/3": -0.07253,
+          "passing_types:Pass Types - Crs": -0.03813,
+          "passing:KP": -0.03969,
+          "goal_shot_creation:SCA - SCA90": -0.0801,
+          "goal_shot_creation:GCA - GCA90": -0.06804,
+          "shooting:Standard - SoT/90": 0.00678,
+          "shooting:Expected - xG": -0.01726,
+          "misc:Performance - CrdY": 0.00659
         }
       },
       "fbref_id": "a1d5bd30",
@@ -5723,20 +5710,20 @@
       },
       "role": "AM",
       "ranking": {
-        "performance": -0.286,
+        "performance": -0.247,
         "breakdown": {
-          "goal_shot_creation:SCA - SCA90": -0.01583,
-          "goal_shot_creation:GCA - GCA90": -0.09574,
-          "passing:KP": -0.06308,
-          "passing:Expected - xA": -0.03327,
-          "passing:1/3": -0.01752,
-          "passing:PPA": -0.02627,
-          "passing:Total - PrgDist": -0.02503,
-          "passing:Total - Cmp%": 0.02875,
-          "possession:Carries - PrgDist": -0.03293,
-          "possession:Carries - PrgC": -0.03219,
-          "defense:Err": 0.03134,
-          "misc:Performance - CrdY": -0.00451
+          "goal_shot_creation:SCA - SCA90": -0.01935,
+          "goal_shot_creation:GCA - GCA90": -0.08345,
+          "passing:KP": -0.05076,
+          "passing:Expected - xA": -0.02788,
+          "passing:1/3": -0.0176,
+          "passing:PPA": -0.02187,
+          "passing:Total - PrgDist": -0.02219,
+          "passing:Total - Cmp%": 0.02701,
+          "possession:Carries - PrgDist": -0.02657,
+          "possession:Carries - PrgC": -0.02556,
+          "defense:Err": 0.02922,
+          "misc:Performance - CrdY": -0.00762
         }
       },
       "fbref_id": "9674002f",
@@ -5999,19 +5986,19 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": 0.584,
+        "performance": 0.545,
         "breakdown": {
-          "defense:Tkl+Int": 0.17263,
-          "defense:Clr": 0.06708,
-          "defense:Blocks - Blocks": 0.06261,
-          "misc:Aerial Duels - Won%": 0.06319,
-          "defense:Err": 0.08944,
-          "standard:Performance - CrdR": 0.01648,
-          "passing:Total - Cmp%": 0.02559,
-          "passing:Total - PrgDist": 0.01659,
-          "possession:Carries - PrgDist": 0.02486,
-          "shooting:Expected - xG": 0.05245,
-          "goal_shot_creation:SCA - SCA90": -0.00737
+          "defense:Tkl+Int": 0.16111,
+          "defense:Clr": 0.05365,
+          "defense:Blocks - Blocks": 0.05447,
+          "misc:Aerial Duels - Won%": 0.06071,
+          "defense:Err": 0.09273,
+          "standard:Performance - CrdR": 0.01582,
+          "passing:Total - Cmp%": 0.02491,
+          "passing:Total - PrgDist": 0.0136,
+          "possession:Carries - PrgDist": 0.02299,
+          "shooting:Expected - xG": 0.05101,
+          "goal_shot_creation:SCA - SCA90": -0.00647
         }
       },
       "fbref_id": "d6e53a3a",
@@ -6274,14 +6261,14 @@
       },
       "role": "RB",
       "ranking": {
-        "performance": 0.569,
+        "performance": 0.523,
         "breakdown": {
-          "defense:Tackles - Tkl": 0.46603,
-          "defense:Blocks - Blocks": 0.1389,
-          "passing:Total - Cmp%": 0.07368,
-          "passing_types:Pass Types - Crs": -0.01797,
-          "misc:Performance - Fls": -0.09588,
-          "misc:Performance - CrdY": 0.00432
+          "defense:Tackles - Tkl": 0.42884,
+          "defense:Blocks - Blocks": 0.12431,
+          "passing:Total - Cmp%": 0.08112,
+          "passing_types:Pass Types - Crs": -0.02071,
+          "misc:Performance - Fls": -0.0934,
+          "misc:Performance - CrdY": 0.00277
         }
       },
       "fbref_id": "b74277a0",
@@ -6542,21 +6529,16 @@
           "Aerial Duels - Won%": 62.5
         }
       },
-      "role": "CB",
+      "role": "LB",
       "ranking": {
-        "performance": -0.323,
+        "performance": -0.074,
         "breakdown": {
-          "defense:Tkl+Int": -0.00536,
-          "defense:Clr": -0.10347,
-          "defense:Blocks - Blocks": -0.04107,
-          "misc:Aerial Duels - Won%": 0.0413,
-          "defense:Err": -0.02678,
-          "standard:Performance - CrdR": -0.12929,
-          "passing:Total - Cmp%": -0.03057,
-          "passing:Total - PrgDist": -0.03783,
-          "possession:Carries - PrgDist": -0.00921,
-          "shooting:Expected - xG": -0.00992,
-          "goal_shot_creation:SCA - SCA90": 0.0288
+          "defense:Tackles - Tkl": -0.02132,
+          "defense:Blocks - Blocks": -0.05064,
+          "passing:Total - Cmp%": 0.00435,
+          "passing_types:Pass Types - Crs": -0.0028,
+          "misc:Performance - Fls": -0.00672,
+          "misc:Performance - CrdY": 0.00277
         }
       },
       "fbref_id": "e6536124",
@@ -6819,14 +6801,14 @@
       },
       "role": "CF",
       "ranking": {
-        "performance": -0.016,
+        "performance": -0.024,
         "breakdown": {
-          "shooting:Standard - SoT/90": -0.02265,
-          "shooting:Standard - G/Sh": 0.00393,
-          "passing:KP": 0.03461,
-          "goal_shot_creation:SCA - SCA90": -0.01452,
-          "misc:Performance - Off": -0.0165,
-          "misc:Performance - CrdY": -0.0008
+          "shooting:Standard - SoT/90": -0.02482,
+          "shooting:Standard - G/Sh": 0.00474,
+          "passing:KP": 0.0307,
+          "goal_shot_creation:SCA - SCA90": -0.01662,
+          "misc:Performance - Off": -0.01741,
+          "misc:Performance - CrdY": -0.00013
         }
       }
     },
@@ -7039,19 +7021,19 @@
       },
       "role": "DM",
       "ranking": {
-        "performance": 0.154,
+        "performance": 0.149,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.21107,
-          "defense:Tkl+Int": -0.0751,
-          "defense:Err": 0.04668,
-          "passing:Total - Cmp%": 0.23922,
-          "passing:Total - PrgDist": -0.06828,
-          "passing:Short - Cmp%": 0.08237,
-          "passing:Medium - Cmp%": 0.10314,
-          "passing_types:Pass Types - Sw": -0.03832,
-          "possession:Carries - PrgDist": -0.06469,
-          "misc:Performance - Fls": 0.07279,
-          "misc:Performance - CrdY": 0.06685
+          "defense:Tackles - Tkl": -0.20875,
+          "defense:Tkl+Int": -0.07324,
+          "defense:Err": 0.04325,
+          "passing:Total - Cmp%": 0.23073,
+          "passing:Total - PrgDist": -0.0645,
+          "passing:Short - Cmp%": 0.07743,
+          "passing:Medium - Cmp%": 0.1025,
+          "passing_types:Pass Types - Sw": -0.0367,
+          "possession:Carries - PrgDist": -0.06,
+          "misc:Performance - Fls": 0.07097,
+          "misc:Performance - CrdY": 0.06702
         }
       },
       "fbref_id": "d93c2511",
@@ -7314,20 +7296,20 @@
       },
       "role": "CM",
       "ranking": {
-        "performance": -0.179,
+        "performance": -0.189,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.0665,
-          "passing:Total - Cmp%": -0.00055,
-          "passing:Medium - Cmp%": 0.00221,
-          "passing:Long - Cmp%": 0.0478,
-          "passing:Total - PrgDist": -0.04577,
-          "passing:KP": -0.07803,
-          "goal_shot_creation:SCA - SCA90": -0.00592,
-          "goal_shot_creation:GCA - GCA90": -0.04115,
-          "possession:Carries - PrgDist": -0.04545,
-          "possession:Carries - PrgC": -0.04341,
-          "misc:Performance - Fls": 0.04591,
-          "misc:Performance - CrdY": 0.05139
+          "defense:Tackles - Tkl": -0.06533,
+          "passing:Total - Cmp%": -0.0008,
+          "passing:Medium - Cmp%": 0.00262,
+          "passing:Long - Cmp%": 0.04808,
+          "passing:Total - PrgDist": -0.04686,
+          "passing:KP": -0.08679,
+          "goal_shot_creation:SCA - SCA90": -0.00374,
+          "goal_shot_creation:GCA - GCA90": -0.04133,
+          "possession:Carries - PrgDist": -0.04659,
+          "possession:Carries - PrgC": -0.04451,
+          "misc:Performance - Fls": 0.04565,
+          "misc:Performance - CrdY": 0.0508
         }
       },
       "fbref_id": "4f9091bc",
@@ -7550,19 +7532,19 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": -0.365,
+        "performance": -0.382,
         "breakdown": {
-          "defense:Tkl+Int": -0.18971,
-          "defense:Clr": -0.13151,
-          "defense:Blocks - Blocks": -0.09292,
-          "misc:Aerial Duels - Won%": 0.01941,
-          "defense:Err": 0.08944,
-          "standard:Performance - CrdR": 0.01648,
-          "passing:Total - Cmp%": 0.02748,
-          "passing:Total - PrgDist": -0.04788,
-          "possession:Carries - PrgDist": -0.04594,
-          "shooting:Expected - xG": -0.0218,
-          "goal_shot_creation:SCA - SCA90": 0.01163
+          "defense:Tkl+Int": -0.19561,
+          "defense:Clr": -0.1363,
+          "defense:Blocks - Blocks": -0.09512,
+          "misc:Aerial Duels - Won%": 0.01629,
+          "defense:Err": 0.09273,
+          "standard:Performance - CrdR": 0.01582,
+          "passing:Total - Cmp%": 0.0268,
+          "passing:Total - PrgDist": -0.04987,
+          "possession:Carries - PrgDist": -0.04731,
+          "shooting:Expected - xG": -0.02233,
+          "goal_shot_creation:SCA - SCA90": 0.0128
         }
       },
       "fbref_id": "58630379",
@@ -7785,14 +7767,14 @@
       },
       "role": "LB",
       "ranking": {
-        "performance": -0.134,
+        "performance": -0.118,
         "breakdown": {
-          "defense:Tackles - Tkl": -0.18118,
-          "defense:Blocks - Blocks": -0.13316,
-          "passing:Total - Cmp%": 0.12848,
-          "passing_types:Pass Types - Crs": -0.04365,
-          "misc:Performance - Fls": 0.0514,
-          "misc:Performance - CrdY": 0.0445
+          "defense:Tackles - Tkl": -0.17673,
+          "defense:Blocks - Blocks": -0.12761,
+          "passing:Total - Cmp%": 0.13666,
+          "passing_types:Pass Types - Crs": -0.04533,
+          "misc:Performance - Fls": 0.05106,
+          "misc:Performance - CrdY": 0.04389
         }
       },
       "fbref_id": "6b6c793c",
@@ -8055,19 +8037,19 @@
       },
       "role": "CB",
       "ranking": {
-        "performance": -0.336,
+        "performance": -0.357,
         "breakdown": {
-          "defense:Tkl+Int": -0.1325,
-          "defense:Clr": -0.0731,
-          "defense:Blocks - Blocks": -0.06988,
-          "misc:Aerial Duels - Won%": -0.00769,
-          "defense:Err": -0.02678,
-          "standard:Performance - CrdR": 0.01648,
-          "passing:Total - Cmp%": 0.0502,
-          "passing:Total - PrgDist": -0.03062,
-          "possession:Carries - PrgDist": -0.03121,
-          "shooting:Expected - xG": -0.0218,
-          "goal_shot_creation:SCA - SCA90": -0.00883
+          "defense:Tkl+Int": -0.13929,
+          "defense:Clr": -0.08043,
+          "defense:Blocks - Blocks": -0.07296,
+          "misc:Aerial Duels - Won%": -0.01121,
+          "defense:Err": -0.02242,
+          "standard:Performance - CrdR": 0.01582,
+          "passing:Total - Cmp%": 0.04949,
+          "passing:Total - PrgDist": -0.03288,
+          "possession:Carries - PrgDist": -0.03269,
+          "shooting:Expected - xG": -0.02233,
+          "goal_shot_creation:SCA - SCA90": -0.00796
         }
       },
       "fbref_id": "f5deef4c",

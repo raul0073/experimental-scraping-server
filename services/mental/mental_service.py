@@ -40,7 +40,7 @@ class MentalRankingService:
         self.players = players
 
     def score_team_players(self) -> List[dict]:
-        """Compute mental score for all players, balanced across roles and trait categories."""
+        """Compute mental score for all players with full breakdown (avg + stat contributions)."""
 
         flat_rows = []
         for player in self.players:
@@ -70,50 +70,53 @@ class MentalRankingService:
 
             for trait, keys in trait_map.items():
                 vals = []
+                stat_contrib = {}
                 for key in keys:
                     val = row.get(key)
                     if val is None or not np.isfinite(val):
+                        stat_contrib[key] = None  # keep key visible, mark as missing
                         continue
                     z = float(val)
                     if key.split(":")[-1] in LOWER_IS_BETTER:
                         z *= -1
                     vals.append(z)
+                    stat_contrib[key] = z
 
                 if vals:
                     avg_trait = np.mean(vals)
                     trait_scores.append(avg_trait)
-                    trait_breakdown[trait] = avg_trait
+                    trait_breakdown[trait] = {
+                        "avg": avg_trait,
+                        "stats": stat_contrib,
+                    }
+                else:
+                    # still include the trait, but mark avg as None
+                    trait_breakdown[trait] = {
+                        "avg": None,
+                        "stats": stat_contrib,
+                    }
 
-            # Fallback: if no trait values, compute simple normalized playing time metric
             if trait_scores:
                 m_raw = np.mean(trait_scores)
             else:
-                # Prevent None for m_raw: fallback to 50% + small variation by minutes
-                m_raw = 50.0 + min(0.5, row.get("standard:Playing Time - Min", 0)/3000)
+                m_raw = 50.0 + min(0.5, row.get("standard:Playing Time - Min", 0) / 3000)
 
             breakdowns[idx] = trait_breakdown
             m_raw_list.append(m_raw)
 
         df["m_raw"] = m_raw_list
 
-        # --- Role-aware normalization ---
+        # --- Role-aware normalization: percentile rank ---
         df["m"] = np.nan
         for role, group in df.groupby("role"):
-            valid = group["m_raw"].dropna()
-            if valid.empty:
-                continue
-            min_v, max_v = valid.min(), valid.max()
-            if min_v == max_v:
-                df.loc[group.index, "m"] = 50.0
-            else:
-                df.loc[group.index, "m"] = ((group["m_raw"] - min_v) / (max_v - min_v) * 100).round(1)
+            df.loc[group.index, "m"] = group["m_raw"].rank(pct=True) * 100
 
         # --- Write back to player dict ---
         for idx, row in df.iterrows():
             player_obj = row["__player__"]
             player_obj["mental"] = {
                 "m_raw": float(np.round(row["m_raw"], 5)),
-                "m": float(row["m"]),
+                "m": float(np.round(row["m"], 1)),
                 "breakdown": breakdowns.get(idx, {}),
             }
 

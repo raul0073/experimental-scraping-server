@@ -184,69 +184,70 @@ async def get_all_players_and_teams():
         "best_eleven": best_xi
     }),  headers={"Content-Encoding": "identity"})
 
-#get by team 
+
 @router.get("/{league}/{season}/{team}")
 async def get_team_mental_scores(league: str, season: int, team: str):
-    # Load team players
+    # --- Load team players ---
     team_data = FBRefLoaderService.load_team_players(league, season, team)
     if not team_data:
         raise HTTPException(status_code=404, detail="Team data not found")
 
-    # Compute mental scores
+    # --- Compute mental scores (league-normalized) ---
     scored_players = MentalRankingService(team_data).score_team_players()
-    filtered = [p for p in scored_players if p.get("mental", {}).get("m_raw") is not None]
-    filtered_players = [p for p in filtered if np.isfinite(p.get("mental", {}).get("m_raw", float("nan")))]
+    filtered_players = [
+        p for p in scored_players
+        if p.get("mental", {}).get("m_raw") is not None and np.isfinite(p.get("mental", {}).get("m_raw", float("nan")))
+    ]
     if not filtered_players:
         raise HTTPException(status_code=404, detail="No mental scores found for this team")
 
-    # Normalize mental scores (0-100)
-    raw_scores = [p["mental"]["m_raw"] for p in filtered_players]
+    # --- Sort descending by league-wide percentile 'm' ---
+    filtered_players.sort(key=lambda p: p["mental"]["m"], reverse=True)
+
+    # --- Best XI ---
+    best_xi = pick_best_xi(filtered_players)
+
+    # --- Team mental stats (using league-normalized m) ---
+    team_mental = {
+    "avg_m": round(mean([p["mental"]["m"] for p in filtered_players]), 2),
+    "count_players": len(filtered_players),
+    "leader": {
+        "player": filtered_players[0]["name"],
+        "m": filtered_players[0]["mental"]["m"]
+    },
+    "weakest": {
+        "player": filtered_players[-1]["name"],
+        "m": filtered_players[-1]["mental"]["m"]
+    }
+}
+
+    # --- Optional: team-scaled m for charts (0-100 visual scaling) ---
+    raw_scores = [p["mental"]["m"] for p in filtered_players]
     min_m, max_m = min(raw_scores), max(raw_scores)
     spread = max_m - min_m or 1e-9
     for p in filtered_players:
-        p["mental"]["m"] = round((p["mental"]["m_raw"] - min_m) / spread * 100)
+        p["mental"]["m_team_scaled"] = round((p["mental"]["m"] - min_m) / spread * 100)
 
-    # Sort players descending by normalized mental score
-    filtered_players.sort(key=lambda p: p["mental"]["m"], reverse=True)
-    print(f"Filtered players count: {len(filtered_players)}")
-    for p in filtered_players:
-        print(p.get('name'), p.get('role'))
-    # Best XI
-     # Best XI
-    best_xi = pick_best_xi(filtered_players)
-
-
-    # Team mental stats
-    team_mental = {
-        "avg_m": round(mean([p["mental"]["m"] for p in filtered_players]), 2),
-        "count_players": len(filtered_players),
-        "leader": {
-            "player": filtered_players[0]["name"],
-            "m": filtered_players[0]["mental"]["m"]
-        },
-        "weakest": {
-            "player": filtered_players[-1]["name"],
-            "m": filtered_players[-1]["mental"]["m"]
-        }
-    }
-
-    # Team stats from FBRefLoader
+    # --- Team stats from FBRefLoader ---
     all_team_stats = FBRefLoaderService.load_teams_stats(league, season)
     team_stats = FBRefLoaderService.filter_stats_by_team(all_team_stats, team)
     team_charts_data = await TeamPlottingService.get_team_default_chart(league, season, team)
-            
-    return JSONResponse(sanitize_for_json({
-        "players": filtered_players,
-        "stats": {
-            "mental": team_mental,
-            "stats": team_stats
-        },
-        "best_eleven": best_xi,
-        "plot": {
-            "default": team_charts_data
-        }
-    }),  headers={"Content-Encoding": "identity"})
 
+    # --- Return ---
+    return JSONResponse(
+        sanitize_for_json({
+            "players": filtered_players,
+            "stats": {
+                "mental": team_mental,
+                "stats": team_stats
+            },
+            "best_eleven": best_xi,
+            "plot": {
+                "default": team_charts_data
+            }
+        }),
+        headers={"Content-Encoding": "identity"}
+    )
 
 # get by tname or role.
 @router.get("/vv/players/{league}/{season}")
