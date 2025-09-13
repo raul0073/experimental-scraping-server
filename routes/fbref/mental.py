@@ -184,7 +184,6 @@ async def get_all_players_and_teams():
         "best_eleven": best_xi
     }),  headers={"Content-Encoding": "identity"})
 
-
 @router.get("/{league}/{season}/{team}")
 async def get_team_mental_scores(league: str, season: int, team: str):
     # --- Load team players ---
@@ -192,11 +191,12 @@ async def get_team_mental_scores(league: str, season: int, team: str):
     if not team_data:
         raise HTTPException(status_code=404, detail="Team data not found")
 
-    # --- Compute mental scores (league-normalized) ---
+    # --- Compute mental scores ---
     scored_players = MentalRankingService(team_data).score_team_players()
     filtered_players = [
         p for p in scored_players
-        if p.get("mental", {}).get("m_raw") is not None and np.isfinite(p.get("mental", {}).get("m_raw", float("nan")))
+        if p.get("mental", {}).get("m_raw") is not None
+        and np.isfinite(p.get("mental", {}).get("m_raw", float("nan")))
     ]
     if not filtered_players:
         raise HTTPException(status_code=404, detail="No mental scores found for this team")
@@ -207,31 +207,35 @@ async def get_team_mental_scores(league: str, season: int, team: str):
     # --- Best XI ---
     best_xi = pick_best_xi(filtered_players)
 
-    # --- Team mental stats (using league-normalized m) ---
+    # --- Team mental summary ---
     team_mental = {
-    "avg_m": round(mean([p["mental"]["m"] for p in filtered_players]), 2),
-    "count_players": len(filtered_players),
-    "leader": {
-        "player": filtered_players[0]["name"],
-        "m": filtered_players[0]["mental"]["m"]
-    },
-    "weakest": {
-        "player": filtered_players[-1]["name"],
-        "m": filtered_players[-1]["mental"]["m"]
+        "avg_m": round(mean([p["mental"]["m"] for p in filtered_players]), 2),
+        "count_players": len(filtered_players),
+        "leader": {
+            "player": filtered_players[0]["name"],
+            "m": filtered_players[0]["mental"]["m"],
+        },
+        "weakest": {
+            "player": filtered_players[-1]["name"],
+            "m": filtered_players[-1]["mental"]["m"],
+        },
     }
-}
 
-    # --- Optional: team-scaled m for charts (0-100 visual scaling) ---
+    # --- Team-scaled m for charts (0–100) ---
     raw_scores = [p["mental"]["m"] for p in filtered_players]
     min_m, max_m = min(raw_scores), max(raw_scores)
     spread = max_m - min_m or 1e-9
     for p in filtered_players:
         p["mental"]["m_team_scaled"] = round((p["mental"]["m"] - min_m) / spread * 100)
 
-    # --- Team stats from FBRefLoader ---
+    # --- Load all team stats ONCE ---
     all_team_stats = FBRefLoaderService.load_teams_stats(league, season)
     team_stats = FBRefLoaderService.filter_stats_by_team(all_team_stats, team)
-    team_charts_data = await TeamPlottingService.get_team_default_chart(league, season, team)
+
+    # --- Instantiate plotting service ONCE ---
+    plotter = TeamPlottingService(league, season, team)
+    team_charts_data = await plotter.get_team_default_chart()
+    heatmaps = await plotter.get_team_heatmaps()
 
     # --- Return ---
     return JSONResponse(
@@ -239,14 +243,17 @@ async def get_team_mental_scores(league: str, season: int, team: str):
             "players": filtered_players,
             "stats": {
                 "mental": team_mental,
-                "stats": team_stats
+                "stats": team_stats,
             },
             "best_eleven": best_xi,
             "plot": {
-                "default": team_charts_data
-            }
+                "default": team_charts_data,
+                "heatmap": {
+                            "attacking": heatmaps["attacking"],
+                            "defending": heatmaps["defending"]},
+            },
         }),
-        headers={"Content-Encoding": "identity"}
+        headers={"Content-Encoding": "identity"},
     )
 
 # get by tname or role.
@@ -272,14 +279,12 @@ def get_players_by_role_or_name(
     if role:
         before = len(scored_players)
         scored_players = [p for p in scored_players if p.get("role") == role]
-        print(f"[DEBUG] Role filter '{role}': {before} -> {len(scored_players)}")
 
     # Name filter (partial match)
     if name:
         name_norm = name.lower().strip()
         before = len(scored_players)
         scored_players = [p for p in scored_players if name_norm in (p.get("name") or "").lower()]
-        print(f"[DEBUG] Name filter '{name}': {before} -> {len(scored_players)}")
 
     if not scored_players:
         raise HTTPException(status_code=404, detail="No matching players found")

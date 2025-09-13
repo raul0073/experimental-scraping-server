@@ -14,7 +14,7 @@ LINES = {
     "MID" : {
         "DM": {"min": 1, "max": 4, "roles": ["DM", "CDM", "LDM", "RDM"]},
         "CM": {"min": 1, "max": 2, "roles": ["CM", "DM"]},
-        "AM": {"min": 1, "max": 2, "roles": ["AM", "CAM", "CM"]},
+        "AM": {"min": 1, "max": 2, "roles": ["AM", "CAM"]},
     },
     "ATT" : {
         "W": {"min": 2, "max": 2, "roles": ["LW", "RW", "RM", "LM"]},
@@ -24,7 +24,7 @@ LINES = {
 
 FORMATIONS = {
     "433": {
-          "GK": {"GK": 1},
+        "GK": {"GK": 1},
         "DEF": {"CB": 2, "FB": 2},
         "MID": {"DM": 1, "CM": 1, "AM": 1, "no_order": True},
         "ATT": {"W": 2, "CF": 1}
@@ -166,10 +166,5 @@ class BestXIBuilder:
     @staticmethod
     def log_top_players_per_role(players: List[Dict], top_n=10):
         categorized = BestXIBuilder.categorize_players(players)
-        print(f"\n=== Categorized Players: Top {top_n} per Role ===")
-        for role, plist in categorized.items():
-            print(f"\nRole Category: {role} ({len(plist)} players)")
-            for i, p in enumerate(plist[:top_n], start=1):
-                print(f"{i:02}. {p['name']} | Raw Role: {p.get('role')} | m_raw: {p.get('mental', {}).get('m_raw', 0)}")
         return categorized
     

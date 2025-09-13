@@ -113,7 +113,6 @@ class PlayerPlottingService:
             val = self._get_stat_value(player_stats, k)
             pct = round(val / best_val * 100, 2) if best_val > 0 else 0.0
             normalized.append(pct)
-            print(f"[DEBUG] Player stat '{k}': {val} / {best_val} => {pct}%")
         return normalized
 
     def _load_player_image(self, url: Optional[str]) -> Optional[Image.Image]:
