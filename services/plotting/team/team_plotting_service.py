@@ -273,15 +273,15 @@ class TeamPlottingService:
         # --- Heatmap function ---
         def create_heatmap(x, y, weights, cmap="Reds") -> str:
             fig, ax = plt.subplots(figsize=(6, 10))
-            pitch = VerticalPitch(pitch_type="statsbomb", line_zorder=1, pitch_color="#f4edf0")
+            pitch = VerticalPitch(pitch_type="statsbomb", line_zorder=2, pitch_color="#2c2c2c", line_color="#969696")
             pitch.draw(ax=ax)
             fig.set_facecolor("#2c2c2c")
 
             bin_stat = pitch.bin_statistic(x, y, statistic="sum", bins=(6, 3), values=weights, normalize=True)
             pcm = pitch.heatmap(bin_stat, ax=ax, cmap=cmap, edgecolor="#f9f9f9")
             # Label percentages
-            path_eff = [path_effects.withStroke(linewidth=1, foreground="#000000")]
-            pitch.label_heatmap(bin_stat, color="#bbbbbb", fontsize=12, ax=ax,
+            path_eff = [path_effects.withStroke(linewidth=1, foreground="#666666")]
+            pitch.label_heatmap(bin_stat, color="#A3A3A3", fontsize=12, ax=ax,
                                 ha="center", va="center", str_format="{:.0%}", path_effects=path_eff)
             buf = io.BytesIO()
             fig.savefig(buf, format="png", dpi=150, bbox_inches="tight")

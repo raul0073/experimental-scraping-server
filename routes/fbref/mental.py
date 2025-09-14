@@ -1,7 +1,8 @@
+import json
 from fastapi import APIRouter, HTTPException
 from typing import Optional
 from fastapi.params import Query
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from matplotlib.pylab import mean
 import numpy as np
 from routes.fbref.players.normalize import sanitize_for_json
@@ -67,122 +68,70 @@ def get_league_mental_scores(league: str, season: int):
 
 # get all 5 leagues
 @router.get("/all")
-async def get_all_players_and_teams():
-    import json
-    from statistics import mean
-    from math import isfinite
-    from collections import defaultdict
+async def get_all_players_and_teams_stream_streaming():
+    def ndjson_generator():
+        all_players = []
+        team_grouped = {}
 
-    all_players = []
-    team_grouped: dict[str, list] = {}
-    team_meta: dict[str, dict] = {}
-
-    team_paths = FBRefLoaderService.list_available_league_team_paths()
-
-    for item in team_paths:
-        league = item["league"]
-        team = item["team"]
-        path = item["path"]
-
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                raw = json.load(f)
-
-            if not isinstance(raw, dict) or "players" not in raw:
+        # load players same as before...
+        team_paths = FBRefLoaderService.list_available_league_team_paths()
+        for item in team_paths:
+            league, team, path = item["league"], item["team"], item["path"]
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    raw = json.load(f)
+                players = [p for p in raw.get("players", []) if isinstance(p, dict)]
+                scored = MentalRankingService(players).score_team_players()
+                filtered = [p for p in scored if p.get("mental", {}).get("m_raw") is not None]
+                for p in filtered:
+                    p["league"] = league
+                    p["team"] = team
+                all_players.extend(filtered)
+                team_grouped[f"{league}:{team}"] = filtered
+            except:
                 continue
 
-            players = raw["players"]
-            players = [p for p in players if isinstance(p, dict) and "name" in p]
-            if not players:
-                continue
+        # normalize scores
+        raw_scores = [p["mental"]["m_raw"] for p in all_players if np.isfinite(p["mental"]["m_raw"])]
+        if raw_scores:
+            min_m, max_m = min(raw_scores), max(raw_scores)
+            spread = max_m - min_m or 1e-9
+            for p in all_players:
+                p["mental"]["m"] = round((p["mental"]["m_raw"] - min_m) / spread * 100)
 
-            scored = MentalRankingService(players).score_team_players()
-            filtered = [p for p in scored if p.get("mental", {}).get("m_raw") is not None]
+        all_players_for_best_xi = all_players.copy()  # full pool
+        top_players_for_streaming = sorted(all_players, key=lambda p: p["mental"]["m"], reverse=True)[:100]
 
-            for p in filtered:
-                p.setdefault("league", league)
-                p.setdefault("team", team)
+        # --- yield players one by one as NDJSON ---
+        for player in top_players_for_streaming:
+            yield json.dumps(player) + "\n"
 
-            all_players.extend(filtered)
-            team_grouped[f"{league}:{team}"] = filtered
-
-        except Exception as e:
-            print(f"[ERROR] Failed to load {path}: {e}")
-            continue
-
-    if not all_players:
-        raise HTTPException(status_code=404, detail="No mental scores found")
-
-    # 🔥 Normalize
-    raw_scores = [p["mental"]["m_raw"] for p in all_players if isfinite(p["mental"]["m_raw"])]
-    if raw_scores:
-        min_m = min(raw_scores)
-        max_m = max(raw_scores)
-        spread = max_m - min_m or 1e-9
-        for p in all_players:
-            raw = p["mental"]["m_raw"]
-            norm = (raw - min_m) / spread
-            p["mental"]["m"] = round(norm * 100)
-
-    # 🔥 Top Players
-    top_players = sorted(all_players, key=lambda p: p["mental"]["m"], reverse=True)
-    
-#  Rebuild team_grouped from normalized players
-    team_grouped = defaultdict(list)
-    for p in all_players:
-        key = f"{p['league']}:{p['team']}"
-        team_grouped[key].append(p)
-
-    #  Team Meta after normalized m
-    team_meta = {}
-    for key, team_players in team_grouped.items():
-        league, team = key.split(":")
-        # keep only finite numbers
-        scores = [p["mental"]["m"] for p in team_players if isfinite(p["mental"].get("m", 0))]
-        if not scores:
-            continue
-
-        # --- robust spread: IQR (Q75 - Q25), fallback to max-min if too few players ---
-        if len(scores) >= 4:
-            q75, q25 = np.percentile(scores, [75, 25])
-            spread_val = q75 - q25
-        else:
-            spread_val = (max(scores) - min(scores)) if len(scores) >= 2 else 0.0
-        # ------------------------------------------------------------------------------
-
-        team_meta[key] = {
-            "league": league,
-            "team": team,
-            "season": 2425,
-            "avg_m": round(mean(scores), 2),
-            "spread_m": round(float(spread_val), 2),
-            "count_players": len(scores),
-            "leader": {
-                "player": max(team_players, key=lambda p: p["mental"]["m"])["name"],
-                "m": round(max(scores))
-            },
-            "weakest": {
-                "player": min(team_players, key=lambda p: p["mental"]["m"])["name"],
-                "m": round(min(scores))
+        # --- finally yield teams & best XI as separate JSON lines ---
+        team_meta = {}  # same as before...
+        for key, t_players in team_grouped.items():
+            league, team = key.split(":")
+            scores = [p["mental"]["m"] for p in t_players if np.isfinite(p["mental"].get("m",0))]
+            if not scores: continue
+            if len(scores) >= 4:
+                q75,q25 = np.percentile(scores,[75,25])
+                spread_val = q75-q25
+            else:
+                spread_val = (max(scores)-min(scores)) if len(scores)>=2 else 0.0
+            team_meta[key] = {
+                "league": league,
+                "team": team,
+                "avg_m": round(float(np.mean(scores)),2),
+                "spread_m": round(float(spread_val),2),
+                "count_players": len(scores),
+                "leader": {"player": max(t_players,key=lambda p:p["mental"]["m"])["name"], "m": round(max(scores))},
+                "weakest": {"player": min(t_players,key=lambda p:p["mental"]["m"])["name"], "m": round(min(scores))}
             }
-        }
 
+        teams_sorted = sorted(team_meta.values(), key=lambda t: t["avg_m"], reverse=True)
+        yield json.dumps({"teams": {"mental": teams_sorted, "stats": FBRefLoaderService.load_all_leagues_stats(2425)}}) + "\n"
+        yield json.dumps({"best_eleven": pick_best_xi(all_players_for_best_xi)}) + "\n"
 
-    teams_sorted = sorted(team_meta.values(), key=lambda t: t["avg_m"], reverse=True)
-    # Best XI
-    best_xi = pick_best_xi(top_players)
-
-    league_stats= FBRefLoaderService.load_all_leagues_stats(2425)
-    top_players = top_players[:100]
-    # Final response
-    return JSONResponse(sanitize_for_json({
-        "players": top_players,
-        "teams": {
-            "mental": teams_sorted,
-            "stats": league_stats
-        },
-        "best_eleven": best_xi
-    }),  headers={"Content-Encoding": "identity"})
+    return StreamingResponse(ndjson_generator(), media_type="application/x-ndjson")
 
 @router.get("/{league}/{season}/{team}")
 async def get_team_mental_scores(league: str, season: int, team: str):
@@ -201,7 +150,19 @@ async def get_team_mental_scores(league: str, season: int, team: str):
     if not filtered_players:
         raise HTTPException(status_code=404, detail="No mental scores found for this team")
 
-    # --- Sort descending by league-wide percentile 'm' ---
+    # --- LEAGUE-WIDE normalization (0–100) ---
+    all_league_scores = [
+        p["mental"]["m_raw"] for p in filtered_players
+        if np.isfinite(p["mental"]["m_raw"])
+    ]
+    min_m, max_m = min(all_league_scores), max(all_league_scores)
+    spread = max_m - min_m or 1e-9  # prevent divide by zero
+
+    for p in filtered_players:
+        # league-wide 'm' normalized so only top player = 100
+        p["mental"]["m"] = round((p["mental"]["m_raw"] - min_m) / spread * 100, 2)
+
+    # --- Sort descending by league-wide 'm' ---
     filtered_players.sort(key=lambda p: p["mental"]["m"], reverse=True)
 
     # --- Best XI ---
@@ -221,12 +182,16 @@ async def get_team_mental_scores(league: str, season: int, team: str):
         },
     }
 
-    # --- Team-scaled m for charts (0–100) ---
-    raw_scores = [p["mental"]["m"] for p in filtered_players]
-    min_m, max_m = min(raw_scores), max(raw_scores)
-    spread = max_m - min_m or 1e-9
+    # Team chart scaling using m_raw
+    team_raw_scores = [p["mental"]["m_raw"] for p in filtered_players if np.isfinite(p["mental"]["m_raw"])]
+    min_raw, max_raw = min(team_raw_scores), max(team_raw_scores)
+    spread = max_raw - min_raw or 1e-9
+
     for p in filtered_players:
-        p["mental"]["m_team_scaled"] = round((p["mental"]["m"] - min_m) / spread * 100)
+        # linear scaling 0–100 for team charts
+        scaled = (p["mental"]["m_raw"] - min_raw) / spread * 100
+        # optional lower bound for visualization
+        p["mental"]["m_team_scaled"] = round(max(scaled, 10), 2)
 
     # --- Load all team stats ONCE ---
     all_team_stats = FBRefLoaderService.load_teams_stats(league, season)
@@ -249,13 +214,13 @@ async def get_team_mental_scores(league: str, season: int, team: str):
             "plot": {
                 "default": team_charts_data,
                 "heatmap": {
-                            "attacking": heatmaps["attacking"],
-                            "defending": heatmaps["defending"]},
+                    "attacking": heatmaps["attacking"],
+                    "defending": heatmaps["defending"],
+                },
             },
         }),
         headers={"Content-Encoding": "identity"},
     )
-
 # get by tname or role.
 @router.get("/vv/players/{league}/{season}")
 def get_players_by_role_or_name(
