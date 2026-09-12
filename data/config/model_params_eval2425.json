@@ -1,0 +1,27 @@
+{
+  "rho": -0.06,
+  "leagues": {
+    "ENG-Premier League": {
+      "home_boost": 1.0648629760742192,
+      "away_boost": 0.7895555877685542
+    },
+    "ESP-La Liga": {
+      "home_boost": 0.9429986286163352,
+      "away_boost": 0.6721266579627991
+    },
+    "ITA-Serie A": {
+      "home_boost": 0.8792749023437488,
+      "away_boost": 0.6947570800781258
+    },
+    "GER-Bundesliga": {
+      "home_boost": 0.8049954683170623,
+      "away_boost": 0.6033200110850151
+    },
+    "FRA-Ligue 1": {
+      "home_boost": 1.0666186523437498,
+      "away_boost": 0.9795483398437499
+    }
+  },
+  "fit_season": "2324",
+  "fit_log_loss": 0.97203
+}

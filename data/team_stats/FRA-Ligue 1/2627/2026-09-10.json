@@ -1,0 +1,4342 @@
+{
+  "league": "FRA-Ligue 1",
+  "season": "2627",
+  "snapshot_date": "2026-09-10",
+  "team_count": 18,
+  "stat_types": [
+    "standard",
+    "keeper",
+    "shooting",
+    "playing_time",
+    "misc",
+    "defense",
+    "possession",
+    "passing",
+    "passing_types",
+    "goal_shot_creation",
+    "keeper_adv"
+  ],
+  "teams": [
+    {
+      "team": "Angers",
+      "stats": {
+        "standard": {
+          "players_used": 18,
+          "Age": 27.2,
+          "Poss": 47.0,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 4,
+          "Performance - Ast": 3,
+          "Performance - G+A": 7,
+          "Performance - G-PK": 4,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 1.33,
+          "Per 90 Minutes - Ast": 1.0,
+          "Per 90 Minutes - G+A": 2.33,
+          "Per 90 Minutes - G-PK": 1.33,
+          "Per 90 Minutes - G+A-PK": 2.33
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 5,
+          "Performance - GA90": 1.67,
+          "Performance - SoTA": 22,
+          "Performance - Saves": 17,
+          "Performance - Save%": 77.3,
+          "Performance - W": 1,
+          "Performance - D": 0,
+          "Performance - L": 2,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 18,
+          "90s": 3,
+          "Standard - Gls": 4,
+          "Standard - Sh": 54,
+          "Standard - SoT": 11,
+          "Standard - SoT%": 20.4,
+          "Standard - Sh/90": 18.0,
+          "Standard - SoT/90": 3.67,
+          "Standard - G/Sh": 0.07,
+          "Standard - G/SoT": 0.36,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 18,
+          "Age": 27.2,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 83,
+          "Starts - Compl": 18,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 16,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 1.0,
+          "Team Success - onG": 4,
+          "Team Success - onGA": 5,
+          "Team Success - +/-": -1,
+          "Team Success - +/-90": -0.33
+        },
+        "misc": {
+          "players_used": 18,
+          "90s": 3,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 27,
+          "Performance - Fld": 41,
+          "Performance - Off": 3,
+          "Performance - Crs": 102,
+          "Performance - Int": 36,
+          "Performance - TklW": 34,
+          "Performance - OG": 1
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 34,
+          "Int": 36
+        },
+        "possession": {
+          "Poss": 47.0,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 3
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 102
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 5,
+          "Goals - PKA": 0
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 18,
+          "Age": 26.1,
+          "Poss": 53.0,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 4,
+          "Performance - Ast": 3,
+          "Performance - G+A": 7,
+          "Performance - G-PK": 4,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 1.33,
+          "Per 90 Minutes - Ast": 1.0,
+          "Per 90 Minutes - G+A": 2.33,
+          "Per 90 Minutes - G-PK": 1.33,
+          "Per 90 Minutes - G+A-PK": 2.33
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 4,
+          "Performance - GA90": 1.33,
+          "Performance - SoTA": 11,
+          "Performance - Saves": 7,
+          "Performance - Save%": 63.6,
+          "Performance - W": 2,
+          "Performance - D": 0,
+          "Performance - L": 1,
+          "Performance - CS": 1,
+          "Performance - CS%": 33.3,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 18,
+          "90s": 3,
+          "Standard - Gls": 4,
+          "Standard - Sh": 48,
+          "Standard - SoT": 20,
+          "Standard - SoT%": 41.7,
+          "Standard - Sh/90": 16.0,
+          "Standard - SoT/90": 6.67,
+          "Standard - G/Sh": 0.08,
+          "Standard - G/SoT": 0.2,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 18,
+          "Age": 26.1,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 83,
+          "Starts - Compl": 18,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 20,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 2.0,
+          "Team Success - onG": 5,
+          "Team Success - onGA": 4,
+          "Team Success - +/-": 1,
+          "Team Success - +/-90": 0.33
+        },
+        "misc": {
+          "players_used": 18,
+          "90s": 3,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 44,
+          "Performance - Fld": 26,
+          "Performance - Off": 5,
+          "Performance - Crs": 47,
+          "Performance - Int": 34,
+          "Performance - TklW": 27,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 27,
+          "Int": 34
+        },
+        "possession": {
+          "Poss": 53.0,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 3
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 47
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 4,
+          "Goals - PKA": 0
+        }
+      }
+    },
+    {
+      "team": "Auxerre",
+      "stats": {
+        "standard": {
+          "players_used": 21,
+          "Age": 23.9,
+          "Poss": 47.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 4,
+          "Performance - Ast": 2,
+          "Performance - G+A": 6,
+          "Performance - G-PK": 3,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 1,
+          "Per 90 Minutes - Gls": 1.33,
+          "Per 90 Minutes - Ast": 0.67,
+          "Per 90 Minutes - G+A": 2.0,
+          "Per 90 Minutes - G-PK": 1.0,
+          "Per 90 Minutes - G+A-PK": 1.67
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 11,
+          "Performance - GA90": 3.67,
+          "Performance - SoTA": 23,
+          "Performance - Saves": 12,
+          "Performance - Save%": 52.2,
+          "Performance - W": 0,
+          "Performance - D": 0,
+          "Performance - L": 3,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 2,
+          "Penalty Kicks - PKA": 2,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 21,
+          "90s": 3,
+          "Standard - Gls": 4,
+          "Standard - Sh": 38,
+          "Standard - SoT": 14,
+          "Standard - SoT%": 36.8,
+          "Standard - Sh/90": 12.67,
+          "Standard - SoT/90": 4.67,
+          "Standard - G/Sh": 0.11,
+          "Standard - G/SoT": 0.29,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 21,
+          "Age": 23.9,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 80,
+          "Starts - Compl": 17,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 19,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 0.0,
+          "Team Success - onG": 4,
+          "Team Success - onGA": 11,
+          "Team Success - +/-": -7,
+          "Team Success - +/-90": -2.33
+        },
+        "misc": {
+          "players_used": 21,
+          "90s": 3,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 1,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 45,
+          "Performance - Fld": 23,
+          "Performance - Off": 4,
+          "Performance - Crs": 45,
+          "Performance - Int": 35,
+          "Performance - TklW": 22,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 22,
+          "Int": 35
+        },
+        "possession": {
+          "Poss": 47.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 2
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 45
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 11,
+          "Goals - PKA": 2
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 21,
+          "Age": 26.4,
+          "Poss": 52.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 11,
+          "Performance - Ast": 8,
+          "Performance - G+A": 19,
+          "Performance - G-PK": 9,
+          "Performance - PK": 2,
+          "Performance - PKatt": 2,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 3.67,
+          "Per 90 Minutes - Ast": 2.67,
+          "Per 90 Minutes - G+A": 6.33,
+          "Per 90 Minutes - G-PK": 3.0,
+          "Per 90 Minutes - G+A-PK": 5.67
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 4,
+          "Performance - GA90": 1.33,
+          "Performance - SoTA": 15,
+          "Performance - Saves": 11,
+          "Performance - Save%": 73.3,
+          "Performance - W": 3,
+          "Performance - D": 0,
+          "Performance - L": 0,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 21,
+          "90s": 3,
+          "Standard - Gls": 11,
+          "Standard - Sh": 48,
+          "Standard - SoT": 22,
+          "Standard - SoT%": 45.8,
+          "Standard - Sh/90": 16.0,
+          "Standard - SoT/90": 7.33,
+          "Standard - G/Sh": 0.23,
+          "Standard - G/SoT": 0.5,
+          "Standard - PK": 2,
+          "Standard - PKatt": 2
+        },
+        "playing_time": {
+          "players_used": 21,
+          "Age": 26.4,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 80,
+          "Starts - Compl": 18,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 16,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 3.0,
+          "Team Success - onG": 11,
+          "Team Success - onGA": 4,
+          "Team Success - +/-": 7,
+          "Team Success - +/-90": 2.33
+        },
+        "misc": {
+          "players_used": 21,
+          "90s": 3,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 23,
+          "Performance - Fld": 41,
+          "Performance - Off": 3,
+          "Performance - Crs": 57,
+          "Performance - Int": 36,
+          "Performance - TklW": 36,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 36,
+          "Int": 36
+        },
+        "possession": {
+          "Poss": 52.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 8
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 57
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 4,
+          "Goals - PKA": 1
+        }
+      }
+    },
+    {
+      "team": "Brest",
+      "stats": {
+        "standard": {
+          "players_used": 20,
+          "Age": 26.7,
+          "Poss": 48.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 6,
+          "Performance - Ast": 4,
+          "Performance - G+A": 10,
+          "Performance - G-PK": 5,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 2.0,
+          "Per 90 Minutes - Ast": 1.33,
+          "Per 90 Minutes - G+A": 3.33,
+          "Per 90 Minutes - G-PK": 1.67,
+          "Per 90 Minutes - G+A-PK": 3.0
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 5,
+          "Performance - GA90": 1.67,
+          "Performance - SoTA": 11,
+          "Performance - Saves": 6,
+          "Performance - Save%": 54.5,
+          "Performance - W": 1,
+          "Performance - D": 2,
+          "Performance - L": 0,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 20,
+          "90s": 3,
+          "Standard - Gls": 6,
+          "Standard - Sh": 71,
+          "Standard - SoT": 23,
+          "Standard - SoT%": 32.4,
+          "Standard - Sh/90": 23.67,
+          "Standard - SoT/90": 7.67,
+          "Standard - G/Sh": 0.08,
+          "Standard - G/SoT": 0.26,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 20,
+          "Age": 26.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 81,
+          "Starts - Compl": 19,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 20,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 1.67,
+          "Team Success - onG": 6,
+          "Team Success - onGA": 5,
+          "Team Success - +/-": 1,
+          "Team Success - +/-90": 0.33
+        },
+        "misc": {
+          "players_used": 20,
+          "90s": 3,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 49,
+          "Performance - Fld": 45,
+          "Performance - Off": 7,
+          "Performance - Crs": 79,
+          "Performance - Int": 38,
+          "Performance - TklW": 38,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 38,
+          "Int": 38
+        },
+        "possession": {
+          "Poss": 48.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 4
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 79
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 5,
+          "Goals - PKA": 1
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 20,
+          "Age": 25.5,
+          "Poss": 51.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 5,
+          "Performance - Ast": 4,
+          "Performance - G+A": 9,
+          "Performance - G-PK": 4,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 1,
+          "Per 90 Minutes - Gls": 1.67,
+          "Per 90 Minutes - Ast": 1.33,
+          "Per 90 Minutes - G+A": 3.0,
+          "Per 90 Minutes - G-PK": 1.33,
+          "Per 90 Minutes - G+A-PK": 2.67
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 6,
+          "Performance - GA90": 2.0,
+          "Performance - SoTA": 23,
+          "Performance - Saves": 17,
+          "Performance - Save%": 73.9,
+          "Performance - W": 0,
+          "Performance - D": 2,
+          "Performance - L": 1,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 20,
+          "90s": 3,
+          "Standard - Gls": 5,
+          "Standard - Sh": 32,
+          "Standard - SoT": 11,
+          "Standard - SoT%": 34.4,
+          "Standard - Sh/90": 10.67,
+          "Standard - SoT/90": 3.67,
+          "Standard - G/Sh": 0.16,
+          "Standard - G/SoT": 0.45,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 20,
+          "Age": 25.5,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 81,
+          "Starts - Compl": 17,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 23,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 0.67,
+          "Team Success - onG": 5,
+          "Team Success - onGA": 6,
+          "Team Success - +/-": -1,
+          "Team Success - +/-90": -0.33
+        },
+        "misc": {
+          "players_used": 20,
+          "90s": 3,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 1,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 47,
+          "Performance - Fld": 44,
+          "Performance - Off": 4,
+          "Performance - Crs": 55,
+          "Performance - Int": 35,
+          "Performance - TklW": 27,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 27,
+          "Int": 35
+        },
+        "possession": {
+          "Poss": 51.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 4
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 55
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 6,
+          "Goals - PKA": 1
+        }
+      }
+    },
+    {
+      "team": "Le Havre",
+      "stats": {
+        "standard": {
+          "players_used": 20,
+          "Age": 26.3,
+          "Poss": 49.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 2,
+          "Performance - Ast": 1,
+          "Performance - G+A": 3,
+          "Performance - G-PK": 1,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 1,
+          "Per 90 Minutes - Gls": 0.67,
+          "Per 90 Minutes - Ast": 0.33,
+          "Per 90 Minutes - G+A": 1.0,
+          "Per 90 Minutes - G-PK": 0.33,
+          "Per 90 Minutes - G+A-PK": 0.67
+        },
+        "keeper": {
+          "players_used": 2,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 4,
+          "Performance - GA90": 1.33,
+          "Performance - SoTA": 23,
+          "Performance - Saves": 19,
+          "Performance - Save%": 82.6,
+          "Performance - W": 0,
+          "Performance - D": 1,
+          "Performance - L": 2,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 20,
+          "90s": 3,
+          "Standard - Gls": 2,
+          "Standard - Sh": 44,
+          "Standard - SoT": 12,
+          "Standard - SoT%": 27.3,
+          "Standard - Sh/90": 14.67,
+          "Standard - SoT/90": 4.0,
+          "Standard - G/Sh": 0.05,
+          "Standard - G/SoT": 0.17,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 20,
+          "Age": 26.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 79,
+          "Starts - Compl": 17,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 21,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 0.33,
+          "Team Success - onG": 2,
+          "Team Success - onGA": 4,
+          "Team Success - +/-": -2,
+          "Team Success - +/-90": -0.67
+        },
+        "misc": {
+          "players_used": 20,
+          "90s": 3,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 1,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 44,
+          "Performance - Fld": 32,
+          "Performance - Off": 7,
+          "Performance - Crs": 85,
+          "Performance - Int": 43,
+          "Performance - TklW": 27,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 27,
+          "Int": 43
+        },
+        "possession": {
+          "Poss": 49.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 1
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 85
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 4,
+          "Goals - PKA": 1
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 20,
+          "Age": 26.3,
+          "Poss": 50.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 4,
+          "Performance - Ast": 3,
+          "Performance - G+A": 7,
+          "Performance - G-PK": 3,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 3,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 1.33,
+          "Per 90 Minutes - Ast": 1.0,
+          "Per 90 Minutes - G+A": 2.33,
+          "Per 90 Minutes - G-PK": 1.0,
+          "Per 90 Minutes - G+A-PK": 2.0
+        },
+        "keeper": {
+          "players_used": 2,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 2,
+          "Performance - GA90": 0.67,
+          "Performance - SoTA": 11,
+          "Performance - Saves": 9,
+          "Performance - Save%": 81.8,
+          "Performance - W": 2,
+          "Performance - D": 1,
+          "Performance - L": 0,
+          "Performance - CS": 1,
+          "Performance - CS%": 33.3,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 20,
+          "90s": 3,
+          "Standard - Gls": 4,
+          "Standard - Sh": 49,
+          "Standard - SoT": 21,
+          "Standard - SoT%": 42.9,
+          "Standard - Sh/90": 16.33,
+          "Standard - SoT/90": 7.0,
+          "Standard - G/Sh": 0.08,
+          "Standard - G/SoT": 0.19,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 20,
+          "Age": 26.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 79,
+          "Starts - Compl": 19,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 22,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 2.33,
+          "Team Success - onG": 4,
+          "Team Success - onGA": 2,
+          "Team Success - +/-": 2,
+          "Team Success - +/-90": 0.67
+        },
+        "misc": {
+          "players_used": 20,
+          "90s": 3,
+          "Performance - CrdY": 3,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 37,
+          "Performance - Fld": 39,
+          "Performance - Off": 8,
+          "Performance - Crs": 69,
+          "Performance - Int": 30,
+          "Performance - TklW": 31,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 31,
+          "Int": 30
+        },
+        "possession": {
+          "Poss": 50.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 3
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 69
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 2,
+          "Goals - PKA": 1
+        }
+      }
+    },
+    {
+      "team": "Le Mans",
+      "stats": {
+        "standard": {
+          "players_used": 24,
+          "Age": 26.8,
+          "Poss": 42.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 5,
+          "Performance - Ast": 4,
+          "Performance - G+A": 9,
+          "Performance - G-PK": 4,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 1,
+          "Per 90 Minutes - Gls": 1.67,
+          "Per 90 Minutes - Ast": 1.33,
+          "Per 90 Minutes - G+A": 3.0,
+          "Per 90 Minutes - G-PK": 1.33,
+          "Per 90 Minutes - G+A-PK": 2.67
+        },
+        "keeper": {
+          "players_used": 2,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 6,
+          "Performance - GA90": 2.0,
+          "Performance - SoTA": 16,
+          "Performance - Saves": 10,
+          "Performance - Save%": 62.5,
+          "Performance - W": 0,
+          "Performance - D": 2,
+          "Performance - L": 1,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 24,
+          "90s": 3,
+          "Standard - Gls": 5,
+          "Standard - Sh": 28,
+          "Standard - SoT": 13,
+          "Standard - SoT%": 46.4,
+          "Standard - Sh/90": 9.33,
+          "Standard - SoT/90": 4.33,
+          "Standard - G/Sh": 0.18,
+          "Standard - G/SoT": 0.38,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 24,
+          "Age": 26.8,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 80,
+          "Starts - Compl": 18,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 20,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 0.67,
+          "Team Success - onG": 5,
+          "Team Success - onGA": 6,
+          "Team Success - +/-": -1,
+          "Team Success - +/-90": -0.33
+        },
+        "misc": {
+          "players_used": 24,
+          "90s": 3,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 1,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 40,
+          "Performance - Fld": 29,
+          "Performance - Off": 7,
+          "Performance - Crs": 39,
+          "Performance - Int": 38,
+          "Performance - TklW": 19,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 19,
+          "Int": 38
+        },
+        "possession": {
+          "Poss": 42.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 4
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 39
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 6,
+          "Goals - PKA": 1
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 24,
+          "Age": 26.8,
+          "Poss": 57.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 6,
+          "Performance - Ast": 4,
+          "Performance - G+A": 10,
+          "Performance - G-PK": 5,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 2.0,
+          "Per 90 Minutes - Ast": 1.33,
+          "Per 90 Minutes - G+A": 3.33,
+          "Per 90 Minutes - G-PK": 1.67,
+          "Per 90 Minutes - G+A-PK": 3.0
+        },
+        "keeper": {
+          "players_used": 2,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 5,
+          "Performance - GA90": 1.67,
+          "Performance - SoTA": 13,
+          "Performance - Saves": 8,
+          "Performance - Save%": 61.5,
+          "Performance - W": 1,
+          "Performance - D": 2,
+          "Performance - L": 0,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 24,
+          "90s": 3,
+          "Standard - Gls": 6,
+          "Standard - Sh": 56,
+          "Standard - SoT": 17,
+          "Standard - SoT%": 30.4,
+          "Standard - Sh/90": 18.67,
+          "Standard - SoT/90": 5.67,
+          "Standard - G/Sh": 0.11,
+          "Standard - G/SoT": 0.35,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 24,
+          "Age": 26.8,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 80,
+          "Starts - Compl": 19,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 20,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 1.67,
+          "Team Success - onG": 6,
+          "Team Success - onGA": 5,
+          "Team Success - +/-": 1,
+          "Team Success - +/-90": 0.33
+        },
+        "misc": {
+          "players_used": 24,
+          "90s": 3,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 31,
+          "Performance - Fld": 37,
+          "Performance - Off": 7,
+          "Performance - Crs": 71,
+          "Performance - Int": 32,
+          "Performance - TklW": 22,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 22,
+          "Int": 32
+        },
+        "possession": {
+          "Poss": 57.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 4
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 71
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 5,
+          "Goals - PKA": 1
+        }
+      }
+    },
+    {
+      "team": "Lens",
+      "stats": {
+        "standard": {
+          "players_used": 20,
+          "Age": 25.9,
+          "Poss": 52.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 6,
+          "Performance - Ast": 3,
+          "Performance - G+A": 9,
+          "Performance - G-PK": 3,
+          "Performance - PK": 3,
+          "Performance - PKatt": 3,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 1,
+          "Per 90 Minutes - Gls": 2.0,
+          "Per 90 Minutes - Ast": 1.0,
+          "Per 90 Minutes - G+A": 3.0,
+          "Per 90 Minutes - G-PK": 1.0,
+          "Per 90 Minutes - G+A-PK": 2.0
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 5,
+          "Performance - GA90": 1.67,
+          "Performance - SoTA": 14,
+          "Performance - Saves": 9,
+          "Performance - Save%": 64.3,
+          "Performance - W": 1,
+          "Performance - D": 0,
+          "Performance - L": 2,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 20,
+          "90s": 3,
+          "Standard - Gls": 6,
+          "Standard - Sh": 46,
+          "Standard - SoT": 22,
+          "Standard - SoT%": 47.8,
+          "Standard - Sh/90": 15.33,
+          "Standard - SoT/90": 7.33,
+          "Standard - G/Sh": 0.13,
+          "Standard - G/SoT": 0.27,
+          "Standard - PK": 3,
+          "Standard - PKatt": 3
+        },
+        "playing_time": {
+          "players_used": 20,
+          "Age": 25.9,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 79,
+          "Starts - Compl": 18,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 23,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 1.0,
+          "Team Success - onG": 6,
+          "Team Success - onGA": 5,
+          "Team Success - +/-": 1,
+          "Team Success - +/-90": 0.33
+        },
+        "misc": {
+          "players_used": 20,
+          "90s": 3,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 1,
+          "Performance - 2CrdY": 1,
+          "Performance - Fls": 35,
+          "Performance - Fld": 34,
+          "Performance - Off": 5,
+          "Performance - Crs": 71,
+          "Performance - Int": 43,
+          "Performance - TklW": 40,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 40,
+          "Int": 43
+        },
+        "possession": {
+          "Poss": 52.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 3
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 71
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 5,
+          "Goals - PKA": 1
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 20,
+          "Age": 23.7,
+          "Poss": 47.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 5,
+          "Performance - Ast": 4,
+          "Performance - G+A": 9,
+          "Performance - G-PK": 4,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 1,
+          "Per 90 Minutes - Gls": 1.67,
+          "Per 90 Minutes - Ast": 1.33,
+          "Per 90 Minutes - G+A": 3.0,
+          "Per 90 Minutes - G-PK": 1.33,
+          "Per 90 Minutes - G+A-PK": 2.67
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 6,
+          "Performance - GA90": 2.0,
+          "Performance - SoTA": 22,
+          "Performance - Saves": 16,
+          "Performance - Save%": 72.7,
+          "Performance - W": 2,
+          "Performance - D": 0,
+          "Performance - L": 1,
+          "Performance - CS": 1,
+          "Performance - CS%": 33.3,
+          "Penalty Kicks - PKatt": 3,
+          "Penalty Kicks - PKA": 3,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 20,
+          "90s": 3,
+          "Standard - Gls": 5,
+          "Standard - Sh": 34,
+          "Standard - SoT": 14,
+          "Standard - SoT%": 41.2,
+          "Standard - Sh/90": 11.33,
+          "Standard - SoT/90": 4.67,
+          "Standard - G/Sh": 0.15,
+          "Standard - G/SoT": 0.36,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 20,
+          "Age": 23.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 79,
+          "Starts - Compl": 18,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 14,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 2.0,
+          "Team Success - onG": 5,
+          "Team Success - onGA": 6,
+          "Team Success - +/-": -1,
+          "Team Success - +/-90": -0.33
+        },
+        "misc": {
+          "players_used": 20,
+          "90s": 3,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 1,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 37,
+          "Performance - Fld": 35,
+          "Performance - Off": 6,
+          "Performance - Crs": 37,
+          "Performance - Int": 30,
+          "Performance - TklW": 31,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 31,
+          "Int": 30
+        },
+        "possession": {
+          "Poss": 47.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 4
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 37
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 6,
+          "Goals - PKA": 3
+        }
+      }
+    },
+    {
+      "team": "Lille",
+      "stats": {
+        "standard": {
+          "players_used": 19,
+          "Age": 27.1,
+          "Poss": 39.0,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 5,
+          "Performance - Ast": 3,
+          "Performance - G+A": 8,
+          "Performance - G-PK": 5,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 1.67,
+          "Per 90 Minutes - Ast": 1.0,
+          "Per 90 Minutes - G+A": 2.67,
+          "Per 90 Minutes - G-PK": 1.67,
+          "Per 90 Minutes - G+A-PK": 2.67
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 2,
+          "Performance - GA90": 0.67,
+          "Performance - SoTA": 15,
+          "Performance - Saves": 13,
+          "Performance - Save%": 86.7,
+          "Performance - W": 2,
+          "Performance - D": 1,
+          "Performance - L": 0,
+          "Performance - CS": 2,
+          "Performance - CS%": 66.7,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 19,
+          "90s": 3,
+          "Standard - Gls": 5,
+          "Standard - Sh": 30,
+          "Standard - SoT": 18,
+          "Standard - SoT%": 60.0,
+          "Standard - Sh/90": 10.0,
+          "Standard - SoT/90": 6.0,
+          "Standard - G/Sh": 0.17,
+          "Standard - G/SoT": 0.28,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 19,
+          "Age": 27.1,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 78,
+          "Starts - Compl": 19,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 28,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 2.33,
+          "Team Success - onG": 5,
+          "Team Success - onGA": 2,
+          "Team Success - +/-": 3,
+          "Team Success - +/-90": 1.0
+        },
+        "misc": {
+          "players_used": 19,
+          "90s": 3,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 33,
+          "Performance - Fld": 34,
+          "Performance - Off": 7,
+          "Performance - Crs": 22,
+          "Performance - Int": 28,
+          "Performance - TklW": 30,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 30,
+          "Int": 28
+        },
+        "possession": {
+          "Poss": 39.0,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 3
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 22
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 2,
+          "Goals - PKA": 0
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 19,
+          "Age": 25.4,
+          "Poss": 61.0,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 2,
+          "Performance - Ast": 2,
+          "Performance - G+A": 4,
+          "Performance - G-PK": 2,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 0.67,
+          "Per 90 Minutes - Ast": 0.67,
+          "Per 90 Minutes - G+A": 1.33,
+          "Per 90 Minutes - G-PK": 0.67,
+          "Per 90 Minutes - G+A-PK": 1.33
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 5,
+          "Performance - GA90": 1.67,
+          "Performance - SoTA": 18,
+          "Performance - Saves": 13,
+          "Performance - Save%": 72.2,
+          "Performance - W": 0,
+          "Performance - D": 1,
+          "Performance - L": 2,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 19,
+          "90s": 3,
+          "Standard - Gls": 2,
+          "Standard - Sh": 62,
+          "Standard - SoT": 16,
+          "Standard - SoT%": 25.8,
+          "Standard - Sh/90": 20.67,
+          "Standard - SoT/90": 5.33,
+          "Standard - G/Sh": 0.03,
+          "Standard - G/SoT": 0.13,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 19,
+          "Age": 25.4,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 78,
+          "Starts - Compl": 18,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 22,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 0.33,
+          "Team Success - onG": 2,
+          "Team Success - onGA": 5,
+          "Team Success - +/-": -3,
+          "Team Success - +/-90": -1.0
+        },
+        "misc": {
+          "players_used": 19,
+          "90s": 3,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 34,
+          "Performance - Fld": 33,
+          "Performance - Off": 5,
+          "Performance - Crs": 87,
+          "Performance - Int": 35,
+          "Performance - TklW": 28,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 28,
+          "Int": 35
+        },
+        "possession": {
+          "Poss": 61.0,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 2
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 87
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 5,
+          "Goals - PKA": 0
+        }
+      }
+    },
+    {
+      "team": "Lorient",
+      "stats": {
+        "standard": {
+          "players_used": 18,
+          "Age": 25.0,
+          "Poss": 50.0,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 2,
+          "Performance - Ast": 1,
+          "Performance - G+A": 3,
+          "Performance - G-PK": 2,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 1,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 0.67,
+          "Per 90 Minutes - Ast": 0.33,
+          "Per 90 Minutes - G+A": 1.0,
+          "Per 90 Minutes - G-PK": 0.67,
+          "Per 90 Minutes - G+A-PK": 1.0
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 2,
+          "Performance - GA90": 0.67,
+          "Performance - SoTA": 9,
+          "Performance - Saves": 7,
+          "Performance - Save%": 77.8,
+          "Performance - W": 1,
+          "Performance - D": 1,
+          "Performance - L": 1,
+          "Performance - CS": 2,
+          "Performance - CS%": 66.7,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 18,
+          "90s": 3,
+          "Standard - Gls": 2,
+          "Standard - Sh": 33,
+          "Standard - SoT": 11,
+          "Standard - SoT%": 33.3,
+          "Standard - Sh/90": 11.0,
+          "Standard - SoT/90": 3.67,
+          "Standard - G/Sh": 0.06,
+          "Standard - G/SoT": 0.18,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 18,
+          "Age": 25.0,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 82,
+          "Starts - Compl": 20,
+          "Subs - Subs": 13,
+          "Subs - Mn/Sub": 20,
+          "Subs - unSub": 14,
+          "Team Success - PPM": 1.33,
+          "Team Success - onG": 2,
+          "Team Success - onGA": 2,
+          "Team Success - +/-": 0,
+          "Team Success - +/-90": 0.0
+        },
+        "misc": {
+          "players_used": 18,
+          "90s": 3,
+          "Performance - CrdY": 1,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 23,
+          "Performance - Fld": 44,
+          "Performance - Off": 1,
+          "Performance - Crs": 44,
+          "Performance - Int": 39,
+          "Performance - TklW": 31,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 31,
+          "Int": 39
+        },
+        "possession": {
+          "Poss": 50.0,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 1
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 44
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 2,
+          "Goals - PKA": 1
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 18,
+          "Age": 25.7,
+          "Poss": 50.0,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 2,
+          "Performance - Ast": 1,
+          "Performance - G+A": 3,
+          "Performance - G-PK": 1,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 1,
+          "Per 90 Minutes - Gls": 0.67,
+          "Per 90 Minutes - Ast": 0.33,
+          "Per 90 Minutes - G+A": 1.0,
+          "Per 90 Minutes - G-PK": 0.33,
+          "Per 90 Minutes - G+A-PK": 0.67
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 2,
+          "Performance - GA90": 0.67,
+          "Performance - SoTA": 10,
+          "Performance - Saves": 8,
+          "Performance - Save%": 80.0,
+          "Performance - W": 1,
+          "Performance - D": 1,
+          "Performance - L": 1,
+          "Performance - CS": 1,
+          "Performance - CS%": 33.3,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 18,
+          "90s": 3,
+          "Standard - Gls": 2,
+          "Standard - Sh": 42,
+          "Standard - SoT": 9,
+          "Standard - SoT%": 21.4,
+          "Standard - Sh/90": 14.0,
+          "Standard - SoT/90": 3.0,
+          "Standard - G/Sh": 0.05,
+          "Standard - G/SoT": 0.22,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 18,
+          "Age": 25.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 82,
+          "Starts - Compl": 19,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 20,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 1.33,
+          "Team Success - onG": 2,
+          "Team Success - onGA": 2,
+          "Team Success - +/-": 0,
+          "Team Success - +/-90": 0.0
+        },
+        "misc": {
+          "players_used": 18,
+          "90s": 3,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 1,
+          "Performance - 2CrdY": 1,
+          "Performance - Fls": 44,
+          "Performance - Fld": 21,
+          "Performance - Off": 7,
+          "Performance - Crs": 80,
+          "Performance - Int": 31,
+          "Performance - TklW": 35,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 35,
+          "Int": 31
+        },
+        "possession": {
+          "Poss": 50.0,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 1
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 80
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 2,
+          "Goals - PKA": 0
+        }
+      }
+    },
+    {
+      "team": "Lyon",
+      "stats": {
+        "standard": {
+          "players_used": 24,
+          "Age": 25.7,
+          "Poss": 57.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 6,
+          "Performance - Ast": 6,
+          "Performance - G+A": 12,
+          "Performance - G-PK": 6,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 2.0,
+          "Per 90 Minutes - Ast": 2.0,
+          "Per 90 Minutes - G+A": 4.0,
+          "Per 90 Minutes - G-PK": 2.0,
+          "Per 90 Minutes - G+A-PK": 4.0
+        },
+        "keeper": {
+          "players_used": 2,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 2,
+          "Performance - GA90": 0.67,
+          "Performance - SoTA": 9,
+          "Performance - Saves": 7,
+          "Performance - Save%": 77.8,
+          "Performance - W": 2,
+          "Performance - D": 1,
+          "Performance - L": 0,
+          "Performance - CS": 1,
+          "Performance - CS%": 33.3,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 24,
+          "90s": 3,
+          "Standard - Gls": 6,
+          "Standard - Sh": 47,
+          "Standard - SoT": 15,
+          "Standard - SoT%": 31.9,
+          "Standard - Sh/90": 15.67,
+          "Standard - SoT/90": 5.0,
+          "Standard - G/Sh": 0.13,
+          "Standard - G/SoT": 0.4,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 24,
+          "Age": 25.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 82,
+          "Starts - Compl": 19,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 19,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 2.33,
+          "Team Success - onG": 6,
+          "Team Success - onGA": 2,
+          "Team Success - +/-": 4,
+          "Team Success - +/-90": 1.33
+        },
+        "misc": {
+          "players_used": 24,
+          "90s": 3,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 33,
+          "Performance - Fld": 35,
+          "Performance - Off": 7,
+          "Performance - Crs": 65,
+          "Performance - Int": 25,
+          "Performance - TklW": 18,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 18,
+          "Int": 25
+        },
+        "possession": {
+          "Poss": 57.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 6
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 65
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 2,
+          "Goals - PKA": 0
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 24,
+          "Age": 24.5,
+          "Poss": 42.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 2,
+          "Performance - Ast": 1,
+          "Performance - G+A": 3,
+          "Performance - G-PK": 2,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 0.67,
+          "Per 90 Minutes - Ast": 0.33,
+          "Per 90 Minutes - G+A": 1.0,
+          "Per 90 Minutes - G-PK": 0.67,
+          "Per 90 Minutes - G+A-PK": 1.0
+        },
+        "keeper": {
+          "players_used": 2,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 6,
+          "Performance - GA90": 2.0,
+          "Performance - SoTA": 17,
+          "Performance - Saves": 11,
+          "Performance - Save%": 64.7,
+          "Performance - W": 0,
+          "Performance - D": 1,
+          "Performance - L": 2,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 24,
+          "90s": 3,
+          "Standard - Gls": 2,
+          "Standard - Sh": 37,
+          "Standard - SoT": 9,
+          "Standard - SoT%": 24.3,
+          "Standard - Sh/90": 12.33,
+          "Standard - SoT/90": 3.0,
+          "Standard - G/Sh": 0.05,
+          "Standard - G/SoT": 0.22,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 24,
+          "Age": 24.5,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 82,
+          "Starts - Compl": 18,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 17,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 0.33,
+          "Team Success - onG": 2,
+          "Team Success - onGA": 6,
+          "Team Success - +/-": -4,
+          "Team Success - +/-90": -1.33
+        },
+        "misc": {
+          "players_used": 24,
+          "90s": 3,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 39,
+          "Performance - Fld": 31,
+          "Performance - Off": 5,
+          "Performance - Crs": 56,
+          "Performance - Int": 32,
+          "Performance - TklW": 17,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 17,
+          "Int": 32
+        },
+        "possession": {
+          "Poss": 42.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 1
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 56
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 6,
+          "Goals - PKA": 0
+        }
+      }
+    },
+    {
+      "team": "Marseille",
+      "stats": {
+        "standard": {
+          "players_used": 20,
+          "Age": 27.9,
+          "Poss": 64.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 6,
+          "Performance - Ast": 2,
+          "Performance - G+A": 8,
+          "Performance - G-PK": 5,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 1,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 2.0,
+          "Per 90 Minutes - Ast": 0.67,
+          "Per 90 Minutes - G+A": 2.67,
+          "Per 90 Minutes - G-PK": 1.67,
+          "Per 90 Minutes - G+A-PK": 2.33
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 5,
+          "Performance - GA90": 1.67,
+          "Performance - SoTA": 14,
+          "Performance - Saves": 9,
+          "Performance - Save%": 64.3,
+          "Performance - W": 1,
+          "Performance - D": 0,
+          "Performance - L": 2,
+          "Performance - CS": 1,
+          "Performance - CS%": 33.3,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 20,
+          "90s": 3,
+          "Standard - Gls": 6,
+          "Standard - Sh": 41,
+          "Standard - SoT": 15,
+          "Standard - SoT%": 36.6,
+          "Standard - Sh/90": 13.67,
+          "Standard - SoT/90": 5.0,
+          "Standard - G/Sh": 0.15,
+          "Standard - G/SoT": 0.4,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 20,
+          "Age": 27.9,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 83,
+          "Starts - Compl": 19,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 15,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 1.0,
+          "Team Success - onG": 6,
+          "Team Success - onGA": 5,
+          "Team Success - +/-": 1,
+          "Team Success - +/-90": 0.33
+        },
+        "misc": {
+          "players_used": 20,
+          "90s": 3,
+          "Performance - CrdY": 1,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 26,
+          "Performance - Fld": 33,
+          "Performance - Off": 3,
+          "Performance - Crs": 52,
+          "Performance - Int": 21,
+          "Performance - TklW": 27,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 27,
+          "Int": 21
+        },
+        "possession": {
+          "Poss": 64.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 2
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 52
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 5,
+          "Goals - PKA": 1
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 20,
+          "Age": 25.6,
+          "Poss": 35.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 5,
+          "Performance - Ast": 4,
+          "Performance - G+A": 9,
+          "Performance - G-PK": 4,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 9,
+          "Performance - CrdR": 1,
+          "Per 90 Minutes - Gls": 1.67,
+          "Per 90 Minutes - Ast": 1.33,
+          "Per 90 Minutes - G+A": 3.0,
+          "Per 90 Minutes - G-PK": 1.33,
+          "Per 90 Minutes - G+A-PK": 2.67
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 6,
+          "Performance - GA90": 2.0,
+          "Performance - SoTA": 15,
+          "Performance - Saves": 9,
+          "Performance - Save%": 60.0,
+          "Performance - W": 2,
+          "Performance - D": 0,
+          "Performance - L": 1,
+          "Performance - CS": 1,
+          "Performance - CS%": 33.3,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 20,
+          "90s": 3,
+          "Standard - Gls": 5,
+          "Standard - Sh": 34,
+          "Standard - SoT": 14,
+          "Standard - SoT%": 41.2,
+          "Standard - Sh/90": 11.33,
+          "Standard - SoT/90": 4.67,
+          "Standard - G/Sh": 0.15,
+          "Standard - G/SoT": 0.36,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 20,
+          "Age": 25.6,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 83,
+          "Starts - Compl": 18,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 13,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 2.0,
+          "Team Success - onG": 5,
+          "Team Success - onGA": 6,
+          "Team Success - +/-": -1,
+          "Team Success - +/-90": -0.33
+        },
+        "misc": {
+          "players_used": 20,
+          "90s": 3,
+          "Performance - CrdY": 9,
+          "Performance - CrdR": 1,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 33,
+          "Performance - Fld": 25,
+          "Performance - Off": 4,
+          "Performance - Crs": 32,
+          "Performance - Int": 31,
+          "Performance - TklW": 36,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 36,
+          "Int": 31
+        },
+        "possession": {
+          "Poss": 35.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 4
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 32
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 6,
+          "Goals - PKA": 1
+        }
+      }
+    },
+    {
+      "team": "Monaco",
+      "stats": {
+        "standard": {
+          "players_used": 21,
+          "Age": 26.1,
+          "Poss": 39.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 5,
+          "Performance - Ast": 5,
+          "Performance - G+A": 10,
+          "Performance - G-PK": 5,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 7,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 1.67,
+          "Per 90 Minutes - Ast": 1.67,
+          "Per 90 Minutes - G+A": 3.33,
+          "Per 90 Minutes - G-PK": 1.67,
+          "Per 90 Minutes - G+A-PK": 3.33
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 1,
+          "Performance - GA90": 0.33,
+          "Performance - SoTA": 15,
+          "Performance - Saves": 14,
+          "Performance - Save%": 93.3,
+          "Performance - W": 3,
+          "Performance - D": 0,
+          "Performance - L": 0,
+          "Performance - CS": 2,
+          "Performance - CS%": 66.7,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 21,
+          "90s": 3,
+          "Standard - Gls": 5,
+          "Standard - Sh": 30,
+          "Standard - SoT": 14,
+          "Standard - SoT%": 46.7,
+          "Standard - Sh/90": 10.0,
+          "Standard - SoT/90": 4.67,
+          "Standard - G/Sh": 0.17,
+          "Standard - G/SoT": 0.36,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 21,
+          "Age": 26.1,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 84,
+          "Starts - Compl": 19,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 15,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 3.0,
+          "Team Success - onG": 5,
+          "Team Success - onGA": 1,
+          "Team Success - +/-": 4,
+          "Team Success - +/-90": 1.33
+        },
+        "misc": {
+          "players_used": 21,
+          "90s": 3,
+          "Performance - CrdY": 7,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 32,
+          "Performance - Fld": 31,
+          "Performance - Off": 8,
+          "Performance - Crs": 38,
+          "Performance - Int": 33,
+          "Performance - TklW": 39,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 39,
+          "Int": 33
+        },
+        "possession": {
+          "Poss": 39.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 5
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 38
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 1,
+          "Goals - PKA": 0
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 21,
+          "Age": 26.8,
+          "Poss": 60.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 1,
+          "Performance - Ast": 1,
+          "Performance - G+A": 2,
+          "Performance - G-PK": 1,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 0.33,
+          "Per 90 Minutes - Ast": 0.33,
+          "Per 90 Minutes - G+A": 0.67,
+          "Per 90 Minutes - G-PK": 0.33,
+          "Per 90 Minutes - G+A-PK": 0.67
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 5,
+          "Performance - GA90": 1.67,
+          "Performance - SoTA": 14,
+          "Performance - Saves": 9,
+          "Performance - Save%": 64.3,
+          "Performance - W": 0,
+          "Performance - D": 0,
+          "Performance - L": 3,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 21,
+          "90s": 3,
+          "Standard - Gls": 1,
+          "Standard - Sh": 50,
+          "Standard - SoT": 16,
+          "Standard - SoT%": 32.0,
+          "Standard - Sh/90": 16.67,
+          "Standard - SoT/90": 5.33,
+          "Standard - G/Sh": 0.02,
+          "Standard - G/SoT": 0.06,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 21,
+          "Age": 26.8,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 84,
+          "Starts - Compl": 19,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 24,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 0.0,
+          "Team Success - onG": 1,
+          "Team Success - onGA": 5,
+          "Team Success - +/-": -4,
+          "Team Success - +/-90": -1.33
+        },
+        "misc": {
+          "players_used": 21,
+          "90s": 3,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 32,
+          "Performance - Fld": 31,
+          "Performance - Off": 9,
+          "Performance - Crs": 72,
+          "Performance - Int": 24,
+          "Performance - TklW": 36,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 36,
+          "Int": 24
+        },
+        "possession": {
+          "Poss": 60.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 1
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 72
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 5,
+          "Goals - PKA": 0
+        }
+      }
+    },
+    {
+      "team": "Nice",
+      "stats": {
+        "standard": {
+          "players_used": 23,
+          "Age": 25.7,
+          "Poss": 57.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 1,
+          "Performance - Ast": 1,
+          "Performance - G+A": 2,
+          "Performance - G-PK": 1,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 0.33,
+          "Per 90 Minutes - Ast": 0.33,
+          "Per 90 Minutes - G+A": 0.67,
+          "Per 90 Minutes - G-PK": 0.33,
+          "Per 90 Minutes - G+A-PK": 0.67
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 4,
+          "Performance - GA90": 1.33,
+          "Performance - SoTA": 9,
+          "Performance - Saves": 5,
+          "Performance - Save%": 55.6,
+          "Performance - W": 0,
+          "Performance - D": 2,
+          "Performance - L": 1,
+          "Performance - CS": 1,
+          "Performance - CS%": 33.3,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 23,
+          "90s": 3,
+          "Standard - Gls": 1,
+          "Standard - Sh": 37,
+          "Standard - SoT": 7,
+          "Standard - SoT%": 18.9,
+          "Standard - Sh/90": 12.33,
+          "Standard - SoT/90": 2.33,
+          "Standard - G/Sh": 0.03,
+          "Standard - G/SoT": 0.14,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 23,
+          "Age": 25.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 83,
+          "Starts - Compl": 19,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 16,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 0.67,
+          "Team Success - onG": 1,
+          "Team Success - onGA": 4,
+          "Team Success - +/-": -3,
+          "Team Success - +/-90": -1.0
+        },
+        "misc": {
+          "players_used": 23,
+          "90s": 3,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 26,
+          "Performance - Fld": 24,
+          "Performance - Off": 6,
+          "Performance - Crs": 67,
+          "Performance - Int": 33,
+          "Performance - TklW": 29,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 29,
+          "Int": 33
+        },
+        "possession": {
+          "Poss": 57.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 1
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 67
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 4,
+          "Goals - PKA": 1
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 23,
+          "Age": 26.7,
+          "Poss": 42.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 4,
+          "Performance - Ast": 3,
+          "Performance - G+A": 7,
+          "Performance - G-PK": 3,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 2,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 1.33,
+          "Per 90 Minutes - Ast": 1.0,
+          "Per 90 Minutes - G+A": 2.33,
+          "Per 90 Minutes - G-PK": 1.0,
+          "Per 90 Minutes - G+A-PK": 2.0
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 1,
+          "Performance - GA90": 0.33,
+          "Performance - SoTA": 7,
+          "Performance - Saves": 6,
+          "Performance - Save%": 85.7,
+          "Performance - W": 1,
+          "Performance - D": 2,
+          "Performance - L": 0,
+          "Performance - CS": 2,
+          "Performance - CS%": 66.7,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 23,
+          "90s": 3,
+          "Standard - Gls": 4,
+          "Standard - Sh": 33,
+          "Standard - SoT": 9,
+          "Standard - SoT%": 27.3,
+          "Standard - Sh/90": 11.0,
+          "Standard - SoT/90": 3.0,
+          "Standard - G/Sh": 0.12,
+          "Standard - G/SoT": 0.44,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 23,
+          "Age": 26.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 83,
+          "Starts - Compl": 20,
+          "Subs - Subs": 13,
+          "Subs - Mn/Sub": 21,
+          "Subs - unSub": 14,
+          "Team Success - PPM": 1.67,
+          "Team Success - onG": 4,
+          "Team Success - onGA": 1,
+          "Team Success - +/-": 3,
+          "Team Success - +/-90": 1.0
+        },
+        "misc": {
+          "players_used": 23,
+          "90s": 3,
+          "Performance - CrdY": 2,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 26,
+          "Performance - Fld": 25,
+          "Performance - Off": 4,
+          "Performance - Crs": 36,
+          "Performance - Int": 40,
+          "Performance - TklW": 24,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 24,
+          "Int": 40
+        },
+        "possession": {
+          "Poss": 42.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 3
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 36
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 1,
+          "Goals - PKA": 0
+        }
+      }
+    },
+    {
+      "team": "Paris FC",
+      "stats": {
+        "standard": {
+          "players_used": 18,
+          "Age": 27.9,
+          "Poss": 47.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 6,
+          "Performance - Ast": 4,
+          "Performance - G+A": 10,
+          "Performance - G-PK": 4,
+          "Performance - PK": 2,
+          "Performance - PKatt": 2,
+          "Performance - CrdY": 3,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 2.0,
+          "Per 90 Minutes - Ast": 1.33,
+          "Per 90 Minutes - G+A": 3.33,
+          "Per 90 Minutes - G-PK": 1.33,
+          "Per 90 Minutes - G+A-PK": 2.67
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 2,
+          "Performance - GA90": 0.67,
+          "Performance - SoTA": 11,
+          "Performance - Saves": 9,
+          "Performance - Save%": 81.8,
+          "Performance - W": 2,
+          "Performance - D": 1,
+          "Performance - L": 0,
+          "Performance - CS": 2,
+          "Performance - CS%": 66.7,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 18,
+          "90s": 3,
+          "Standard - Gls": 6,
+          "Standard - Sh": 43,
+          "Standard - SoT": 12,
+          "Standard - SoT%": 27.9,
+          "Standard - Sh/90": 14.33,
+          "Standard - SoT/90": 4.0,
+          "Standard - G/Sh": 0.14,
+          "Standard - G/SoT": 0.5,
+          "Standard - PK": 2,
+          "Standard - PKatt": 2
+        },
+        "playing_time": {
+          "players_used": 18,
+          "Age": 27.9,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 83,
+          "Starts - Compl": 20,
+          "Subs - Subs": 13,
+          "Subs - Mn/Sub": 17,
+          "Subs - unSub": 14,
+          "Team Success - PPM": 2.33,
+          "Team Success - onG": 6,
+          "Team Success - onGA": 2,
+          "Team Success - +/-": 4,
+          "Team Success - +/-90": 1.33
+        },
+        "misc": {
+          "players_used": 18,
+          "90s": 3,
+          "Performance - CrdY": 3,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 33,
+          "Performance - Fld": 23,
+          "Performance - Off": 5,
+          "Performance - Crs": 21,
+          "Performance - Int": 30,
+          "Performance - TklW": 40,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 40,
+          "Int": 30
+        },
+        "possession": {
+          "Poss": 47.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 4
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 21
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 2,
+          "Goals - PKA": 0
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 18,
+          "Age": 26.7,
+          "Poss": 52.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 2,
+          "Performance - Ast": 1,
+          "Performance - G+A": 3,
+          "Performance - G-PK": 2,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 3,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 0.67,
+          "Per 90 Minutes - Ast": 0.33,
+          "Per 90 Minutes - G+A": 1.0,
+          "Per 90 Minutes - G-PK": 0.67,
+          "Per 90 Minutes - G+A-PK": 1.0
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 6,
+          "Performance - GA90": 2.0,
+          "Performance - SoTA": 12,
+          "Performance - Saves": 6,
+          "Performance - Save%": 50.0,
+          "Performance - W": 0,
+          "Performance - D": 1,
+          "Performance - L": 2,
+          "Performance - CS": 1,
+          "Performance - CS%": 33.3,
+          "Penalty Kicks - PKatt": 2,
+          "Penalty Kicks - PKA": 2,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 18,
+          "90s": 3,
+          "Standard - Gls": 2,
+          "Standard - Sh": 38,
+          "Standard - SoT": 11,
+          "Standard - SoT%": 28.9,
+          "Standard - Sh/90": 12.67,
+          "Standard - SoT/90": 3.67,
+          "Standard - G/Sh": 0.05,
+          "Standard - G/SoT": 0.18,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 18,
+          "Age": 26.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 83,
+          "Starts - Compl": 19,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 15,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 0.33,
+          "Team Success - onG": 2,
+          "Team Success - onGA": 6,
+          "Team Success - +/-": -4,
+          "Team Success - +/-90": -1.33
+        },
+        "misc": {
+          "players_used": 18,
+          "90s": 3,
+          "Performance - CrdY": 3,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 25,
+          "Performance - Fld": 32,
+          "Performance - Off": 4,
+          "Performance - Crs": 60,
+          "Performance - Int": 38,
+          "Performance - TklW": 22,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 22,
+          "Int": 38
+        },
+        "possession": {
+          "Poss": 52.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 1
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 60
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 6,
+          "Goals - PKA": 2
+        }
+      }
+    },
+    {
+      "team": "Paris SG",
+      "stats": {
+        "standard": {
+          "players_used": 19,
+          "Age": 26.1,
+          "Poss": 70.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 5,
+          "Performance - Ast": 5,
+          "Performance - G+A": 10,
+          "Performance - G-PK": 5,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 1.67,
+          "Per 90 Minutes - Ast": 1.67,
+          "Per 90 Minutes - G+A": 3.33,
+          "Per 90 Minutes - G-PK": 1.67,
+          "Per 90 Minutes - G+A-PK": 3.33
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 6,
+          "Performance - GA90": 2.0,
+          "Performance - SoTA": 8,
+          "Performance - Saves": 2,
+          "Performance - Save%": 25.0,
+          "Performance - W": 0,
+          "Performance - D": 2,
+          "Performance - L": 1,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 19,
+          "90s": 3,
+          "Standard - Gls": 5,
+          "Standard - Sh": 60,
+          "Standard - SoT": 19,
+          "Standard - SoT%": 31.7,
+          "Standard - Sh/90": 20.0,
+          "Standard - SoT/90": 6.33,
+          "Standard - G/Sh": 0.08,
+          "Standard - G/SoT": 0.26,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 19,
+          "Age": 26.1,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 77,
+          "Starts - Compl": 18,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 28,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 0.67,
+          "Team Success - onG": 5,
+          "Team Success - onGA": 6,
+          "Team Success - +/-": -1,
+          "Team Success - +/-90": -0.33
+        },
+        "misc": {
+          "players_used": 19,
+          "90s": 3,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 22,
+          "Performance - Fld": 29,
+          "Performance - Off": 12,
+          "Performance - Crs": 60,
+          "Performance - Int": 27,
+          "Performance - TklW": 37,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 37,
+          "Int": 27
+        },
+        "possession": {
+          "Poss": 70.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 5
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 60
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 6,
+          "Goals - PKA": 0
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 19,
+          "Age": 27.1,
+          "Poss": 29.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 6,
+          "Performance - Ast": 6,
+          "Performance - G+A": 12,
+          "Performance - G-PK": 6,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 2.0,
+          "Per 90 Minutes - Ast": 2.0,
+          "Per 90 Minutes - G+A": 4.0,
+          "Per 90 Minutes - G-PK": 2.0,
+          "Per 90 Minutes - G+A-PK": 4.0
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 5,
+          "Performance - GA90": 1.67,
+          "Performance - SoTA": 19,
+          "Performance - Saves": 14,
+          "Performance - Save%": 73.7,
+          "Performance - W": 1,
+          "Performance - D": 2,
+          "Performance - L": 0,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 19,
+          "90s": 3,
+          "Standard - Gls": 6,
+          "Standard - Sh": 22,
+          "Standard - SoT": 9,
+          "Standard - SoT%": 40.9,
+          "Standard - Sh/90": 7.33,
+          "Standard - SoT/90": 3.0,
+          "Standard - G/Sh": 0.27,
+          "Standard - G/SoT": 0.67,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 19,
+          "Age": 27.1,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 77,
+          "Starts - Compl": 19,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 16,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 1.67,
+          "Team Success - onG": 6,
+          "Team Success - onGA": 5,
+          "Team Success - +/-": 1,
+          "Team Success - +/-90": 0.33
+        },
+        "misc": {
+          "players_used": 19,
+          "90s": 3,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 29,
+          "Performance - Fld": 21,
+          "Performance - Off": 7,
+          "Performance - Crs": 21,
+          "Performance - Int": 34,
+          "Performance - TklW": 40,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 40,
+          "Int": 34
+        },
+        "possession": {
+          "Poss": 29.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 6
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 21
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 5,
+          "Goals - PKA": 0
+        }
+      }
+    },
+    {
+      "team": "Rennes",
+      "stats": {
+        "standard": {
+          "players_used": 21,
+          "Age": 27.6,
+          "Poss": 50.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 6,
+          "Performance - Ast": 5,
+          "Performance - G+A": 11,
+          "Performance - G-PK": 5,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 2.0,
+          "Per 90 Minutes - Ast": 1.67,
+          "Per 90 Minutes - G+A": 3.67,
+          "Per 90 Minutes - G-PK": 1.67,
+          "Per 90 Minutes - G+A-PK": 3.33
+        },
+        "keeper": {
+          "players_used": 2,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 5,
+          "Performance - GA90": 1.67,
+          "Performance - SoTA": 13,
+          "Performance - Saves": 8,
+          "Performance - Save%": 61.5,
+          "Performance - W": 2,
+          "Performance - D": 1,
+          "Performance - L": 0,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 21,
+          "90s": 3,
+          "Standard - Gls": 6,
+          "Standard - Sh": 48,
+          "Standard - SoT": 16,
+          "Standard - SoT%": 33.3,
+          "Standard - Sh/90": 16.0,
+          "Standard - SoT/90": 5.33,
+          "Standard - G/Sh": 0.13,
+          "Standard - G/SoT": 0.38,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 21,
+          "Age": 27.6,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 83,
+          "Starts - Compl": 18,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 16,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 2.33,
+          "Team Success - onG": 7,
+          "Team Success - onGA": 5,
+          "Team Success - +/-": 2,
+          "Team Success - +/-90": 0.67
+        },
+        "misc": {
+          "players_used": 21,
+          "90s": 3,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 37,
+          "Performance - Fld": 28,
+          "Performance - Off": 4,
+          "Performance - Crs": 56,
+          "Performance - Int": 36,
+          "Performance - TklW": 31,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 31,
+          "Int": 36
+        },
+        "possession": {
+          "Poss": 50.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 5
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 56
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 5,
+          "Goals - PKA": 1
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 21,
+          "Age": 26.8,
+          "Poss": 49.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 5,
+          "Performance - Ast": 4,
+          "Performance - G+A": 9,
+          "Performance - G-PK": 4,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 1,
+          "Per 90 Minutes - Gls": 1.67,
+          "Per 90 Minutes - Ast": 1.33,
+          "Per 90 Minutes - G+A": 3.0,
+          "Per 90 Minutes - G-PK": 1.33,
+          "Per 90 Minutes - G+A-PK": 2.67
+        },
+        "keeper": {
+          "players_used": 2,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 7,
+          "Performance - GA90": 2.33,
+          "Performance - SoTA": 16,
+          "Performance - Saves": 9,
+          "Performance - Save%": 56.3,
+          "Performance - W": 0,
+          "Performance - D": 1,
+          "Performance - L": 2,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 21,
+          "90s": 3,
+          "Standard - Gls": 5,
+          "Standard - Sh": 50,
+          "Standard - SoT": 13,
+          "Standard - SoT%": 26.0,
+          "Standard - Sh/90": 16.67,
+          "Standard - SoT/90": 4.33,
+          "Standard - G/Sh": 0.1,
+          "Standard - G/SoT": 0.38,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 21,
+          "Age": 26.8,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 83,
+          "Starts - Compl": 18,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 23,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 0.33,
+          "Team Success - onG": 5,
+          "Team Success - onGA": 7,
+          "Team Success - +/-": -2,
+          "Team Success - +/-90": -0.67
+        },
+        "misc": {
+          "players_used": 21,
+          "90s": 3,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 1,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 31,
+          "Performance - Fld": 34,
+          "Performance - Off": 10,
+          "Performance - Crs": 77,
+          "Performance - Int": 34,
+          "Performance - TklW": 24,
+          "Performance - OG": 1
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 24,
+          "Int": 34
+        },
+        "possession": {
+          "Poss": 49.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 4
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 77
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 7,
+          "Goals - PKA": 1
+        }
+      }
+    },
+    {
+      "team": "Strasbourg",
+      "stats": {
+        "standard": {
+          "players_used": 22,
+          "Age": 22.1,
+          "Poss": 47.0,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 8,
+          "Performance - Ast": 6,
+          "Performance - G+A": 14,
+          "Performance - G-PK": 8,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 1,
+          "Per 90 Minutes - Gls": 2.67,
+          "Per 90 Minutes - Ast": 2.0,
+          "Per 90 Minutes - G+A": 4.67,
+          "Per 90 Minutes - G-PK": 2.67,
+          "Per 90 Minutes - G+A-PK": 4.67
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 7,
+          "Performance - GA90": 2.33,
+          "Performance - SoTA": 21,
+          "Performance - Saves": 14,
+          "Performance - Save%": 66.7,
+          "Performance - W": 2,
+          "Performance - D": 0,
+          "Performance - L": 1,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 2,
+          "Penalty Kicks - PKA": 2,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 22,
+          "90s": 3,
+          "Standard - Gls": 8,
+          "Standard - Sh": 40,
+          "Standard - SoT": 21,
+          "Standard - SoT%": 52.5,
+          "Standard - Sh/90": 13.33,
+          "Standard - SoT/90": 7.0,
+          "Standard - G/Sh": 0.2,
+          "Standard - G/SoT": 0.38,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 22,
+          "Age": 22.1,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 82,
+          "Starts - Compl": 17,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 15,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 2.0,
+          "Team Success - onG": 8,
+          "Team Success - onGA": 7,
+          "Team Success - +/-": 1,
+          "Team Success - +/-90": 0.33
+        },
+        "misc": {
+          "players_used": 22,
+          "90s": 3,
+          "Performance - CrdY": 6,
+          "Performance - CrdR": 1,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 38,
+          "Performance - Fld": 23,
+          "Performance - Off": 4,
+          "Performance - Crs": 34,
+          "Performance - Int": 28,
+          "Performance - TklW": 33,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 33,
+          "Int": 28
+        },
+        "possession": {
+          "Poss": 47.0,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 6
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 34
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 7,
+          "Goals - PKA": 2
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 22,
+          "Age": 26.7,
+          "Poss": 53.0,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 7,
+          "Performance - Ast": 3,
+          "Performance - G+A": 10,
+          "Performance - G-PK": 5,
+          "Performance - PK": 2,
+          "Performance - PKatt": 2,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 2.33,
+          "Per 90 Minutes - Ast": 1.0,
+          "Per 90 Minutes - G+A": 3.33,
+          "Per 90 Minutes - G-PK": 1.67,
+          "Per 90 Minutes - G+A-PK": 2.67
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 8,
+          "Performance - GA90": 2.67,
+          "Performance - SoTA": 21,
+          "Performance - Saves": 13,
+          "Performance - Save%": 61.9,
+          "Performance - W": 1,
+          "Performance - D": 0,
+          "Performance - L": 2,
+          "Performance - CS": 1,
+          "Performance - CS%": 33.3,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 22,
+          "90s": 3,
+          "Standard - Gls": 7,
+          "Standard - Sh": 58,
+          "Standard - SoT": 21,
+          "Standard - SoT%": 36.2,
+          "Standard - Sh/90": 19.33,
+          "Standard - SoT/90": 7.0,
+          "Standard - G/Sh": 0.12,
+          "Standard - G/SoT": 0.33,
+          "Standard - PK": 2,
+          "Standard - PKatt": 2
+        },
+        "playing_time": {
+          "players_used": 22,
+          "Age": 26.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 82,
+          "Starts - Compl": 18,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 14,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 1.0,
+          "Team Success - onG": 7,
+          "Team Success - onGA": 8,
+          "Team Success - +/-": -1,
+          "Team Success - +/-90": -0.33
+        },
+        "misc": {
+          "players_used": 22,
+          "90s": 3,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 23,
+          "Performance - Fld": 37,
+          "Performance - Off": 6,
+          "Performance - Crs": 67,
+          "Performance - Int": 25,
+          "Performance - TklW": 35,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 35,
+          "Int": 25
+        },
+        "possession": {
+          "Poss": 53.0,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 3
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 67
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 8,
+          "Goals - PKA": 0
+        }
+      }
+    },
+    {
+      "team": "Toulouse",
+      "stats": {
+        "standard": {
+          "players_used": 20,
+          "Age": 23.6,
+          "Poss": 50.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 2,
+          "Performance - Ast": 2,
+          "Performance - G+A": 4,
+          "Performance - G-PK": 2,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 0.67,
+          "Per 90 Minutes - Ast": 0.67,
+          "Per 90 Minutes - G+A": 1.33,
+          "Per 90 Minutes - G-PK": 0.67,
+          "Per 90 Minutes - G+A-PK": 1.33
+        },
+        "keeper": {
+          "players_used": 2,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 5,
+          "Performance - GA90": 1.67,
+          "Performance - SoTA": 16,
+          "Performance - Saves": 11,
+          "Performance - Save%": 68.8,
+          "Performance - W": 0,
+          "Performance - D": 1,
+          "Performance - L": 2,
+          "Performance - CS": 0,
+          "Performance - CS%": 0.0,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 20,
+          "90s": 3,
+          "Standard - Gls": 2,
+          "Standard - Sh": 47,
+          "Standard - SoT": 14,
+          "Standard - SoT%": 29.8,
+          "Standard - Sh/90": 15.67,
+          "Standard - SoT/90": 4.67,
+          "Standard - G/Sh": 0.04,
+          "Standard - G/SoT": 0.14,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 20,
+          "Age": 23.6,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 80,
+          "Starts - Compl": 18,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 22,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 0.33,
+          "Team Success - onG": 2,
+          "Team Success - onGA": 5,
+          "Team Success - +/-": -3,
+          "Team Success - +/-90": -1.0
+        },
+        "misc": {
+          "players_used": 20,
+          "90s": 3,
+          "Performance - CrdY": 5,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 49,
+          "Performance - Fld": 40,
+          "Performance - Off": 5,
+          "Performance - Crs": 56,
+          "Performance - Int": 29,
+          "Performance - TklW": 25,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 25,
+          "Int": 29
+        },
+        "possession": {
+          "Poss": 50.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 2
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 56
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 5,
+          "Goals - PKA": 0
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 20,
+          "Age": 26.2,
+          "Poss": 49.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 5,
+          "Performance - Ast": 4,
+          "Performance - G+A": 9,
+          "Performance - G-PK": 5,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 1.67,
+          "Per 90 Minutes - Ast": 1.33,
+          "Per 90 Minutes - G+A": 3.0,
+          "Per 90 Minutes - G-PK": 1.67,
+          "Per 90 Minutes - G+A-PK": 3.0
+        },
+        "keeper": {
+          "players_used": 2,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 2,
+          "Performance - GA90": 0.67,
+          "Performance - SoTA": 13,
+          "Performance - Saves": 11,
+          "Performance - Save%": 84.6,
+          "Performance - W": 2,
+          "Performance - D": 1,
+          "Performance - L": 0,
+          "Performance - CS": 2,
+          "Performance - CS%": 66.7,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 20,
+          "90s": 3,
+          "Standard - Gls": 5,
+          "Standard - Sh": 47,
+          "Standard - SoT": 16,
+          "Standard - SoT%": 34.0,
+          "Standard - Sh/90": 15.67,
+          "Standard - SoT/90": 5.33,
+          "Standard - G/Sh": 0.11,
+          "Standard - G/SoT": 0.31,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 20,
+          "Age": 26.2,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 80,
+          "Starts - Compl": 18,
+          "Subs - Subs": 15,
+          "Subs - Mn/Sub": 24,
+          "Subs - unSub": 12,
+          "Team Success - PPM": 2.33,
+          "Team Success - onG": 5,
+          "Team Success - onGA": 2,
+          "Team Success - +/-": 3,
+          "Team Success - +/-90": 1.0
+        },
+        "misc": {
+          "players_used": 20,
+          "90s": 3,
+          "Performance - CrdY": 4,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 43,
+          "Performance - Fld": 48,
+          "Performance - Off": 5,
+          "Performance - Crs": 56,
+          "Performance - Int": 34,
+          "Performance - TklW": 38,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 38,
+          "Int": 34
+        },
+        "possession": {
+          "Poss": 49.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 4
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 56
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 2,
+          "Goals - PKA": 0
+        }
+      }
+    },
+    {
+      "team": "Troyes",
+      "stats": {
+        "standard": {
+          "players_used": 19,
+          "Age": 26.4,
+          "Poss": 39.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 4,
+          "Performance - Ast": 3,
+          "Performance - G+A": 7,
+          "Performance - G-PK": 3,
+          "Performance - PK": 1,
+          "Performance - PKatt": 1,
+          "Performance - CrdY": 3,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 1.33,
+          "Per 90 Minutes - Ast": 1.0,
+          "Per 90 Minutes - G+A": 2.33,
+          "Per 90 Minutes - G-PK": 1.0,
+          "Per 90 Minutes - G+A-PK": 2.0
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 7,
+          "Performance - GA90": 2.33,
+          "Performance - SoTA": 18,
+          "Performance - Saves": 11,
+          "Performance - Save%": 61.1,
+          "Performance - W": 1,
+          "Performance - D": 1,
+          "Performance - L": 1,
+          "Performance - CS": 1,
+          "Performance - CS%": 33.3,
+          "Penalty Kicks - PKatt": 0,
+          "Penalty Kicks - PKA": 0,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0
+        },
+        "shooting": {
+          "players_used": 19,
+          "90s": 3,
+          "Standard - Gls": 4,
+          "Standard - Sh": 47,
+          "Standard - SoT": 10,
+          "Standard - SoT%": 21.3,
+          "Standard - Sh/90": 15.67,
+          "Standard - SoT/90": 3.33,
+          "Standard - G/Sh": 0.09,
+          "Standard - G/SoT": 0.4,
+          "Standard - PK": 1,
+          "Standard - PKatt": 1
+        },
+        "playing_time": {
+          "players_used": 19,
+          "Age": 26.4,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 83,
+          "Starts - Compl": 19,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 16,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 1.33,
+          "Team Success - onG": 4,
+          "Team Success - onGA": 7,
+          "Team Success - +/-": -3,
+          "Team Success - +/-90": -1.0
+        },
+        "misc": {
+          "players_used": 19,
+          "90s": 3,
+          "Performance - CrdY": 3,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 25,
+          "Performance - Fld": 37,
+          "Performance - Off": 7,
+          "Performance - Crs": 75,
+          "Performance - Int": 27,
+          "Performance - TklW": 30,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 30,
+          "Int": 27
+        },
+        "possession": {
+          "Poss": 39.7,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 3
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 75
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 7,
+          "Goals - PKA": 0
+        }
+      },
+      "against": {
+        "standard": {
+          "players_used": 19,
+          "Age": 24.7,
+          "Poss": 60.3,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 33,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - Gls": 7,
+          "Performance - Ast": 4,
+          "Performance - G+A": 11,
+          "Performance - G-PK": 7,
+          "Performance - PK": 0,
+          "Performance - PKatt": 0,
+          "Performance - CrdY": 2,
+          "Performance - CrdR": 0,
+          "Per 90 Minutes - Gls": 2.33,
+          "Per 90 Minutes - Ast": 1.33,
+          "Per 90 Minutes - G+A": 3.67,
+          "Per 90 Minutes - G-PK": 2.33,
+          "Per 90 Minutes - G+A-PK": 3.67
+        },
+        "keeper": {
+          "players_used": 1,
+          "Playing Time - MP": 3,
+          "Playing Time - Starts": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - 90s": 3,
+          "Performance - GA": 4,
+          "Performance - GA90": 1.33,
+          "Performance - SoTA": 10,
+          "Performance - Saves": 6,
+          "Performance - Save%": 60.0,
+          "Performance - W": 1,
+          "Performance - D": 1,
+          "Performance - L": 1,
+          "Performance - CS": 1,
+          "Performance - CS%": 33.3,
+          "Penalty Kicks - PKatt": 1,
+          "Penalty Kicks - PKA": 1,
+          "Penalty Kicks - PKsv": 0,
+          "Penalty Kicks - PKm": 0,
+          "Penalty Kicks - Save%": 0
+        },
+        "shooting": {
+          "players_used": 19,
+          "90s": 3,
+          "Standard - Gls": 7,
+          "Standard - Sh": 44,
+          "Standard - SoT": 19,
+          "Standard - SoT%": 43.2,
+          "Standard - Sh/90": 14.67,
+          "Standard - SoT/90": 6.33,
+          "Standard - G/Sh": 0.16,
+          "Standard - G/SoT": 0.37,
+          "Standard - PK": 0,
+          "Standard - PKatt": 0
+        },
+        "playing_time": {
+          "players_used": 19,
+          "Age": 24.7,
+          "Playing Time - MP": 3,
+          "Playing Time - Min": 270,
+          "Playing Time - Mn/MP": 90,
+          "Playing Time - Min%": 100,
+          "Playing Time - 90s": 3,
+          "Starts - Starts": 33,
+          "Starts - Mn/Start": 83,
+          "Starts - Compl": 19,
+          "Subs - Subs": 14,
+          "Subs - Mn/Sub": 21,
+          "Subs - unSub": 13,
+          "Team Success - PPM": 1.33,
+          "Team Success - onG": 7,
+          "Team Success - onGA": 4,
+          "Team Success - +/-": 3,
+          "Team Success - +/-90": 1.0
+        },
+        "misc": {
+          "players_used": 19,
+          "90s": 3,
+          "Performance - CrdY": 2,
+          "Performance - CrdR": 0,
+          "Performance - 2CrdY": 0,
+          "Performance - Fls": 39,
+          "Performance - Fld": 25,
+          "Performance - Off": 3,
+          "Performance - Crs": 31,
+          "Performance - Int": 34,
+          "Performance - TklW": 41,
+          "Performance - OG": 0
+        },
+        "defense": {
+          "90s": 3.0,
+          "Tackles - TklW": 41,
+          "Int": 34
+        },
+        "possession": {
+          "Poss": 60.3,
+          "90s": 3.0
+        },
+        "passing": {
+          "90s": 3.0,
+          "Ast": 4
+        },
+        "passing_types": {
+          "90s": 3.0,
+          "Pass Types - Crs": 31
+        },
+        "goal_shot_creation": {
+          "90s": 3.0
+        },
+        "keeper_adv": {
+          "90s": 3.0,
+          "Goals - GA": 4,
+          "Goals - PKA": 1
+        }
+      }
+    }
+  ]
+}

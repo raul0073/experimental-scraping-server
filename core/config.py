@@ -13,15 +13,15 @@ class Settings(BaseSettings):
         description="Public base URL of this service"
     )
 
-    # ---- Mongo ----
-    MONGODB_URI: str = Field(..., description="Full Mongo connection string")
-    DB_NAME: str = Field(..., description="Mongo database name")
+    # ---- Mongo (legacy, unused — kept optional so old envs don't break) ----
+    MONGODB_URI: str | None = None
+    DB_NAME: str | None = None
 
     # ---- Auth / Admin ----
-    ADMIN_KEY: SecretStr = Field(..., description="Admin key for protected ops")
+    ADMIN_KEY: SecretStr | None = None
 
     # ---- External / APIs ----
-    OPENAI_KEY: SecretStr = Field(..., description="OpenAI API key")
+    OPENAI_KEY: SecretStr | None = None
 
     # Optional email & OAuth (keep optional if you don’t use them yet)
     EMAIL_HOST: str | None = None

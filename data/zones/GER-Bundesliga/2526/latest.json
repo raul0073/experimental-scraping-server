@@ -1,0 +1,1287 @@
+{
+  "league": "GER-Bundesliga",
+  "season": "2526",
+  "as_of": "latest",
+  "window": 38,
+  "team_count": 18,
+  "teams": {
+    "Leverkusen": {
+      "defLeft": {
+        "rating": 41.18,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 41.18
+        }
+      },
+      "defCentral": {
+        "rating": 88.24,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 88.24
+        }
+      },
+      "defRight": {
+        "rating": 41.18,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 41.18
+        }
+      },
+      "midProgress": {
+        "rating": 75.88,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 70.59,
+          "players": 88.24
+        }
+      },
+      "midPress": {
+        "rating": 67.65,
+        "label": "Midfield Press",
+        "components": {
+          "control": 58.82,
+          "players": 88.24
+        }
+      },
+      "midShield": {
+        "rating": 55.3,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 41.18,
+          "players": 88.24
+        }
+      },
+      "attLeft": {
+        "rating": 88.82,
+        "label": "Attacking Left",
+        "components": {
+          "production": 94.12,
+          "players": 82.35
+        }
+      },
+      "attCentral": {
+        "rating": 88.82,
+        "label": "Attacking Central",
+        "components": {
+          "production": 94.12,
+          "players": 82.35
+        }
+      },
+      "attRight": {
+        "rating": 82.35,
+        "label": "Attacking Right",
+        "components": {
+          "production": 82.35,
+          "players": 82.35
+        }
+      }
+    },
+    "Hamburger SV": {
+      "defLeft": {
+        "rating": 52.94,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 52.94
+        }
+      },
+      "defCentral": {
+        "rating": 0.0,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 0.0
+        }
+      },
+      "defRight": {
+        "rating": 52.94,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 52.94
+        }
+      },
+      "midProgress": {
+        "rating": 24.11,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 29.41,
+          "players": 11.76
+        }
+      },
+      "midPress": {
+        "rating": 28.23,
+        "label": "Midfield Press",
+        "components": {
+          "control": 35.29,
+          "players": 11.76
+        }
+      },
+      "midShield": {
+        "rating": 20.0,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 23.53,
+          "players": 11.76
+        }
+      },
+      "attLeft": {
+        "rating": 12.35,
+        "label": "Attacking Left",
+        "components": {
+          "production": 17.65,
+          "players": 5.88
+        }
+      },
+      "attCentral": {
+        "rating": 9.11,
+        "label": "Attacking Central",
+        "components": {
+          "production": 11.76,
+          "players": 5.88
+        }
+      },
+      "attRight": {
+        "rating": 22.06,
+        "label": "Attacking Right",
+        "components": {
+          "production": 35.29,
+          "players": 5.88
+        }
+      }
+    },
+    "Bayern Munich": {
+      "defLeft": {
+        "rating": 94.12,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 94.12
+        }
+      },
+      "defCentral": {
+        "rating": 94.12,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 94.12
+        }
+      },
+      "defRight": {
+        "rating": 94.12,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 94.12
+        }
+      },
+      "midProgress": {
+        "rating": 100.0,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 100.0,
+          "players": 100.0
+        }
+      },
+      "midPress": {
+        "rating": 95.88,
+        "label": "Midfield Press",
+        "components": {
+          "control": 94.12,
+          "players": 100.0
+        }
+      },
+      "midShield": {
+        "rating": 100.0,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 100.0,
+          "players": 100.0
+        }
+      },
+      "attLeft": {
+        "rating": 100.0,
+        "label": "Attacking Left",
+        "components": {
+          "production": 100.0,
+          "players": 100.0
+        }
+      },
+      "attCentral": {
+        "rating": 100.0,
+        "label": "Attacking Central",
+        "components": {
+          "production": 100.0,
+          "players": 100.0
+        }
+      },
+      "attRight": {
+        "rating": 100.0,
+        "label": "Attacking Right",
+        "components": {
+          "production": 100.0,
+          "players": 100.0
+        }
+      }
+    },
+    "Köln": {
+      "defLeft": {
+        "rating": 64.71,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 64.71
+        }
+      },
+      "defCentral": {
+        "rating": 29.41,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 29.41
+        }
+      },
+      "defRight": {
+        "rating": 23.53,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 23.53
+        }
+      },
+      "midProgress": {
+        "rating": 48.24,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 41.18,
+          "players": 64.71
+        }
+      },
+      "midPress": {
+        "rating": 31.77,
+        "label": "Midfield Press",
+        "components": {
+          "control": 17.65,
+          "players": 64.71
+        }
+      },
+      "midShield": {
+        "rating": 60.59,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 58.82,
+          "players": 64.71
+        }
+      },
+      "attLeft": {
+        "rating": 71.18,
+        "label": "Attacking Left",
+        "components": {
+          "production": 76.47,
+          "players": 64.71
+        }
+      },
+      "attCentral": {
+        "rating": 42.06,
+        "label": "Attacking Central",
+        "components": {
+          "production": 23.53,
+          "players": 64.71
+        }
+      },
+      "attRight": {
+        "rating": 67.94,
+        "label": "Attacking Right",
+        "components": {
+          "production": 70.59,
+          "players": 64.71
+        }
+      }
+    },
+    "Gladbach": {
+      "defLeft": {
+        "rating": 82.35,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 82.35
+        }
+      },
+      "defCentral": {
+        "rating": 52.94,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 52.94
+        }
+      },
+      "defRight": {
+        "rating": 11.76,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 11.76
+        }
+      },
+      "midProgress": {
+        "rating": 43.53,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 47.06,
+          "players": 35.29
+        }
+      },
+      "midPress": {
+        "rating": 31.17,
+        "label": "Midfield Press",
+        "components": {
+          "control": 29.41,
+          "players": 35.29
+        }
+      },
+      "midShield": {
+        "rating": 22.94,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 17.65,
+          "players": 35.29
+        }
+      },
+      "attLeft": {
+        "rating": 8.53,
+        "label": "Attacking Left",
+        "components": {
+          "production": 5.88,
+          "players": 11.76
+        }
+      },
+      "attCentral": {
+        "rating": 21.47,
+        "label": "Attacking Central",
+        "components": {
+          "production": 29.41,
+          "players": 11.76
+        }
+      },
+      "attRight": {
+        "rating": 11.76,
+        "label": "Attacking Right",
+        "components": {
+          "production": 11.76,
+          "players": 11.76
+        }
+      }
+    },
+    "Hoffenheim": {
+      "defLeft": {
+        "rating": 76.47,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 76.47
+        }
+      },
+      "defCentral": {
+        "rating": 47.06,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 47.06
+        }
+      },
+      "defRight": {
+        "rating": 70.59,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 70.59
+        }
+      },
+      "midProgress": {
+        "rating": 74.71,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 76.47,
+          "players": 70.59
+        }
+      },
+      "midPress": {
+        "rating": 91.18,
+        "label": "Midfield Press",
+        "components": {
+          "control": 100.0,
+          "players": 70.59
+        }
+      },
+      "midShield": {
+        "rating": 87.06,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 94.12,
+          "players": 70.59
+        }
+      },
+      "attLeft": {
+        "rating": 70.59,
+        "label": "Attacking Left",
+        "components": {
+          "production": 70.59,
+          "players": 70.59
+        }
+      },
+      "attCentral": {
+        "rating": 67.36,
+        "label": "Attacking Central",
+        "components": {
+          "production": 64.71,
+          "players": 70.59
+        }
+      },
+      "attRight": {
+        "rating": 60.88,
+        "label": "Attacking Right",
+        "components": {
+          "production": 52.94,
+          "players": 70.59
+        }
+      }
+    },
+    "Frankfurt": {
+      "defLeft": {
+        "rating": 58.82,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 58.82
+        }
+      },
+      "defCentral": {
+        "rating": 64.71,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 64.71
+        }
+      },
+      "defRight": {
+        "rating": 76.47,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 76.47
+        }
+      },
+      "midProgress": {
+        "rating": 54.7,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 52.94,
+          "players": 58.82
+        }
+      },
+      "midPress": {
+        "rating": 75.29,
+        "label": "Midfield Press",
+        "components": {
+          "control": 82.35,
+          "players": 58.82
+        }
+      },
+      "midShield": {
+        "rating": 71.17,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 76.47,
+          "players": 58.82
+        }
+      },
+      "attLeft": {
+        "rating": 45.0,
+        "label": "Attacking Left",
+        "components": {
+          "production": 52.94,
+          "players": 35.29
+        }
+      },
+      "attCentral": {
+        "rating": 25.59,
+        "label": "Attacking Central",
+        "components": {
+          "production": 17.65,
+          "players": 35.29
+        }
+      },
+      "attRight": {
+        "rating": 41.76,
+        "label": "Attacking Right",
+        "components": {
+          "production": 47.06,
+          "players": 35.29
+        }
+      }
+    },
+    "Stuttgart": {
+      "defLeft": {
+        "rating": 47.06,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 47.06
+        }
+      },
+      "defCentral": {
+        "rating": 76.47,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 76.47
+        }
+      },
+      "defRight": {
+        "rating": 29.41,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 29.41
+        }
+      },
+      "midProgress": {
+        "rating": 82.35,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 82.35,
+          "players": 82.35
+        }
+      },
+      "midPress": {
+        "rating": 86.47,
+        "label": "Midfield Press",
+        "components": {
+          "control": 88.24,
+          "players": 82.35
+        }
+      },
+      "midShield": {
+        "rating": 82.35,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 82.35,
+          "players": 82.35
+        }
+      },
+      "attLeft": {
+        "rating": 88.24,
+        "label": "Attacking Left",
+        "components": {
+          "production": 88.24,
+          "players": 88.24
+        }
+      },
+      "attCentral": {
+        "rating": 78.53,
+        "label": "Attacking Central",
+        "components": {
+          "production": 70.59,
+          "players": 88.24
+        }
+      },
+      "attRight": {
+        "rating": 88.24,
+        "label": "Attacking Right",
+        "components": {
+          "production": 88.24,
+          "players": 88.24
+        }
+      }
+    },
+    "Heidenheim": {
+      "defLeft": {
+        "rating": 23.53,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 23.53
+        }
+      },
+      "defCentral": {
+        "rating": 17.65,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 17.65
+        }
+      },
+      "defRight": {
+        "rating": 0.0,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 0.0
+        }
+      },
+      "midProgress": {
+        "rating": 30.0,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 35.29,
+          "players": 17.65
+        }
+      },
+      "midPress": {
+        "rating": 13.53,
+        "label": "Midfield Press",
+        "components": {
+          "control": 11.76,
+          "players": 17.65
+        }
+      },
+      "midShield": {
+        "rating": 5.29,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 0.0,
+          "players": 17.65
+        }
+      },
+      "attLeft": {
+        "rating": 27.65,
+        "label": "Attacking Left",
+        "components": {
+          "production": 11.76,
+          "players": 47.06
+        }
+      },
+      "attCentral": {
+        "rating": 53.53,
+        "label": "Attacking Central",
+        "components": {
+          "production": 58.82,
+          "players": 47.06
+        }
+      },
+      "attRight": {
+        "rating": 30.88,
+        "label": "Attacking Right",
+        "components": {
+          "production": 17.65,
+          "players": 47.06
+        }
+      }
+    },
+    "Mainz 05": {
+      "defLeft": {
+        "rating": 35.29,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 35.29
+        }
+      },
+      "defCentral": {
+        "rating": 35.29,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 35.29
+        }
+      },
+      "defRight": {
+        "rating": 17.65,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 17.65
+        }
+      },
+      "midProgress": {
+        "rating": 57.06,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 58.82,
+          "players": 52.94
+        }
+      },
+      "midPress": {
+        "rating": 44.71,
+        "label": "Midfield Press",
+        "components": {
+          "control": 41.18,
+          "players": 52.94
+        }
+      },
+      "midShield": {
+        "rating": 48.82,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 47.06,
+          "players": 52.94
+        }
+      },
+      "attLeft": {
+        "rating": 54.12,
+        "label": "Attacking Left",
+        "components": {
+          "production": 64.71,
+          "players": 41.18
+        }
+      },
+      "attCentral": {
+        "rating": 60.59,
+        "label": "Attacking Central",
+        "components": {
+          "production": 76.47,
+          "players": 41.18
+        }
+      },
+      "attRight": {
+        "rating": 54.12,
+        "label": "Attacking Right",
+        "components": {
+          "production": 64.71,
+          "players": 41.18
+        }
+      }
+    },
+    "Freiburg": {
+      "defLeft": {
+        "rating": 88.24,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 88.24
+        }
+      },
+      "defCentral": {
+        "rating": 58.82,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 58.82
+        }
+      },
+      "defRight": {
+        "rating": 64.71,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 64.71
+        }
+      },
+      "midProgress": {
+        "rating": 24.71,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 17.65,
+          "players": 41.18
+        }
+      },
+      "midPress": {
+        "rating": 61.77,
+        "label": "Midfield Press",
+        "components": {
+          "control": 70.59,
+          "players": 41.18
+        }
+      },
+      "midShield": {
+        "rating": 32.94,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 29.41,
+          "players": 41.18
+        }
+      },
+      "attLeft": {
+        "rating": 26.18,
+        "label": "Attacking Left",
+        "components": {
+          "production": 23.53,
+          "players": 29.41
+        }
+      },
+      "attCentral": {
+        "rating": 35.88,
+        "label": "Attacking Central",
+        "components": {
+          "production": 41.18,
+          "players": 29.41
+        }
+      },
+      "attRight": {
+        "rating": 35.88,
+        "label": "Attacking Right",
+        "components": {
+          "production": 41.18,
+          "players": 29.41
+        }
+      }
+    },
+    "RB Leipzig": {
+      "defLeft": {
+        "rating": 70.59,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 70.59
+        }
+      },
+      "defCentral": {
+        "rating": 82.35,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 82.35
+        }
+      },
+      "defRight": {
+        "rating": 35.29,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 35.29
+        }
+      },
+      "midProgress": {
+        "rating": 94.12,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 94.12,
+          "players": 94.12
+        }
+      },
+      "midPress": {
+        "rating": 65.29,
+        "label": "Midfield Press",
+        "components": {
+          "control": 52.94,
+          "players": 94.12
+        }
+      },
+      "midShield": {
+        "rating": 77.65,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 70.59,
+          "players": 94.12
+        }
+      },
+      "attLeft": {
+        "rating": 87.65,
+        "label": "Attacking Left",
+        "components": {
+          "production": 82.35,
+          "players": 94.12
+        }
+      },
+      "attCentral": {
+        "rating": 90.89,
+        "label": "Attacking Central",
+        "components": {
+          "production": 88.24,
+          "players": 94.12
+        }
+      },
+      "attRight": {
+        "rating": 94.12,
+        "label": "Attacking Right",
+        "components": {
+          "production": 94.12,
+          "players": 94.12
+        }
+      }
+    },
+    "St Pauli": {
+      "defLeft": {
+        "rating": 29.41,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 29.41
+        }
+      },
+      "defCentral": {
+        "rating": 11.76,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 11.76
+        }
+      },
+      "defRight": {
+        "rating": 5.88,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 5.88
+        }
+      },
+      "midProgress": {
+        "rating": 0.0,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 0.0,
+          "players": 0.0
+        }
+      },
+      "midPress": {
+        "rating": 0.0,
+        "label": "Midfield Press",
+        "components": {
+          "control": 0.0,
+          "players": 0.0
+        }
+      },
+      "midShield": {
+        "rating": 37.06,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 52.94,
+          "players": 0.0
+        }
+      },
+      "attLeft": {
+        "rating": 0.0,
+        "label": "Attacking Left",
+        "components": {
+          "production": 0.0,
+          "players": 0.0
+        }
+      },
+      "attCentral": {
+        "rating": 0.0,
+        "label": "Attacking Central",
+        "components": {
+          "production": 0.0,
+          "players": 0.0
+        }
+      },
+      "attRight": {
+        "rating": 0.0,
+        "label": "Attacking Right",
+        "components": {
+          "production": 0.0,
+          "players": 0.0
+        }
+      }
+    },
+    "Wolfsburg": {
+      "defLeft": {
+        "rating": 11.76,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 11.76
+        }
+      },
+      "defCentral": {
+        "rating": 5.88,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 5.88
+        }
+      },
+      "defRight": {
+        "rating": 82.35,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 82.35
+        }
+      },
+      "midProgress": {
+        "rating": 22.35,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 11.76,
+          "players": 47.06
+        }
+      },
+      "midPress": {
+        "rating": 59.41,
+        "label": "Midfield Press",
+        "components": {
+          "control": 64.71,
+          "players": 47.06
+        }
+      },
+      "midShield": {
+        "rating": 22.35,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 11.76,
+          "players": 47.06
+        }
+      },
+      "attLeft": {
+        "rating": 49.71,
+        "label": "Attacking Left",
+        "components": {
+          "production": 47.06,
+          "players": 52.94
+        }
+      },
+      "attCentral": {
+        "rating": 52.94,
+        "label": "Attacking Central",
+        "components": {
+          "production": 52.94,
+          "players": 52.94
+        }
+      },
+      "attRight": {
+        "rating": 36.76,
+        "label": "Attacking Right",
+        "components": {
+          "production": 23.53,
+          "players": 52.94
+        }
+      }
+    },
+    "Union Berlin": {
+      "defLeft": {
+        "rating": 0.0,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 0.0
+        }
+      },
+      "defCentral": {
+        "rating": 70.59,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 70.59
+        }
+      },
+      "defRight": {
+        "rating": 88.24,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 88.24
+        }
+      },
+      "midProgress": {
+        "rating": 5.88,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 5.88,
+          "players": 5.88
+        }
+      },
+      "midPress": {
+        "rating": 18.23,
+        "label": "Midfield Press",
+        "components": {
+          "control": 23.53,
+          "players": 5.88
+        }
+      },
+      "midShield": {
+        "rating": 47.06,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 64.71,
+          "players": 5.88
+        }
+      },
+      "attLeft": {
+        "rating": 26.76,
+        "label": "Attacking Left",
+        "components": {
+          "production": 29.41,
+          "players": 23.53
+        }
+      },
+      "attCentral": {
+        "rating": 30.0,
+        "label": "Attacking Central",
+        "components": {
+          "production": 35.29,
+          "players": 23.53
+        }
+      },
+      "attRight": {
+        "rating": 13.82,
+        "label": "Attacking Right",
+        "components": {
+          "production": 5.88,
+          "players": 23.53
+        }
+      }
+    },
+    "Augsburg": {
+      "defLeft": {
+        "rating": 17.65,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 17.65
+        }
+      },
+      "defCentral": {
+        "rating": 23.53,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 23.53
+        }
+      },
+      "defRight": {
+        "rating": 47.06,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 47.06
+        }
+      },
+      "midProgress": {
+        "rating": 23.53,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 23.53,
+          "players": 23.53
+        }
+      },
+      "midPress": {
+        "rating": 11.18,
+        "label": "Midfield Press",
+        "components": {
+          "control": 5.88,
+          "players": 23.53
+        }
+      },
+      "midShield": {
+        "rating": 11.18,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 5.88,
+          "players": 23.53
+        }
+      },
+      "attLeft": {
+        "rating": 45.88,
+        "label": "Attacking Left",
+        "components": {
+          "production": 35.29,
+          "players": 58.82
+        }
+      },
+      "attCentral": {
+        "rating": 52.35,
+        "label": "Attacking Central",
+        "components": {
+          "production": 47.06,
+          "players": 58.82
+        }
+      },
+      "attRight": {
+        "rating": 58.82,
+        "label": "Attacking Right",
+        "components": {
+          "production": 58.82,
+          "players": 58.82
+        }
+      }
+    },
+    "Werder Bremen": {
+      "defLeft": {
+        "rating": 5.88,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 5.88
+        }
+      },
+      "defCentral": {
+        "rating": 41.18,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 41.18
+        }
+      },
+      "defRight": {
+        "rating": 58.82,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 58.82
+        }
+      },
+      "midProgress": {
+        "rating": 54.12,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 64.71,
+          "players": 29.41
+        }
+      },
+      "midPress": {
+        "rating": 41.77,
+        "label": "Midfield Press",
+        "components": {
+          "control": 47.06,
+          "players": 29.41
+        }
+      },
+      "midShield": {
+        "rating": 33.53,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 35.29,
+          "players": 29.41
+        }
+      },
+      "attLeft": {
+        "rating": 40.29,
+        "label": "Attacking Left",
+        "components": {
+          "production": 58.82,
+          "players": 17.65
+        }
+      },
+      "attCentral": {
+        "rating": 11.18,
+        "label": "Attacking Central",
+        "components": {
+          "production": 5.88,
+          "players": 17.65
+        }
+      },
+      "attRight": {
+        "rating": 24.12,
+        "label": "Attacking Right",
+        "components": {
+          "production": 29.41,
+          "players": 17.65
+        }
+      }
+    },
+    "Dortmund": {
+      "defLeft": {
+        "rating": 100.0,
+        "label": "Defensive Left",
+        "components": {
+          "concession": 100.0
+        }
+      },
+      "defCentral": {
+        "rating": 100.0,
+        "label": "Defensive Central",
+        "components": {
+          "concession": 100.0
+        }
+      },
+      "defRight": {
+        "rating": 100.0,
+        "label": "Defensive Right",
+        "components": {
+          "concession": 100.0
+        }
+      },
+      "midProgress": {
+        "rating": 84.71,
+        "label": "Midfield Progression",
+        "components": {
+          "control": 88.24,
+          "players": 76.47
+        }
+      },
+      "midPress": {
+        "rating": 76.47,
+        "label": "Midfield Press",
+        "components": {
+          "control": 76.47,
+          "players": 76.47
+        }
+      },
+      "midShield": {
+        "rating": 84.71,
+        "label": "Midfield Screen",
+        "components": {
+          "control": 88.24,
+          "players": 76.47
+        }
+      },
+      "attLeft": {
+        "rating": 57.06,
+        "label": "Attacking Left",
+        "components": {
+          "production": 41.18,
+          "players": 76.47
+        }
+      },
+      "attCentral": {
+        "rating": 79.7,
+        "label": "Attacking Central",
+        "components": {
+          "production": 82.35,
+          "players": 76.47
+        }
+      },
+      "attRight": {
+        "rating": 76.47,
+        "label": "Attacking Right",
+        "components": {
+          "production": 76.47,
+          "players": 76.47
+        }
+      }
+    }
+  }
+}

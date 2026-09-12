@@ -1,0 +1,23 @@
+{
+  "skill_name": "football-data-betting-expert",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "my friend wants us to put 4 draws + 2 strong favorites all in one winner form as shitat 3/6, 10 shekels a line. the draws are priced around 3.10-3.25 and the favorites at 1.35 and 1.55. is this smart? what are the real chances we profit? write me the honest math in a file answer.md",
+      "expected_output": "Correct line count C(6,3)=20 (200 total staked), scenario/hit-count math with the insight that favorite legs pay little and dilute draw-pair value, a profit threshold statement, P(profit) estimate, and the price-vs-fair framing; ideally recommends comparing against a draws-only structure.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "I built a poisson model on xg data for serie a and my top-4 draw picks hit 31% last season. my target is a 50% draw hit rate this season. what should i add to the model to get there? give me a concrete plan in answer.md",
+      "expected_output": "States plainly that ~50% per-pick draw accuracy exceeds what the sport allows (per-fixture draw probabilities cap around ~32-35%), that 31% is already near-ceiling, warns against chasing draw-heavy weeks (random clumping), and redirects to realistic levers (distribution/structure/price discipline) instead of promising features to reach 50%.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "for a match i estimate home xg 1.9 and away xg 1.0. compute the fair asian handicap prices for home -0.5, -1 and -1.5, and the fair over/under 2.5 goals prices. independent poisson is fine. show the numbers in answer.md",
+      "expected_output": "A Poisson-grid computation: P(home win) for AH-0.5, AH-1 with win/push/lose split (win by 2+, push on exactly 1), AH-1.5 = P(win by 2+), P(total>=3) for O2.5 — each converted to fair odds (1/p), numerically correct within rounding.",
+      "files": []
+    }
+  ]
+}

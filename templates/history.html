@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}History{% endblock %}
+{% block headmeta %}recording since 2026-09-10 · first prediction per fixture stands{% endblock %}
+{% block content %}
+
+<div class="tiles">
+  <div class="tile"><div class="label">Outcome hits</div>
+    <div class="value">{{ (s.outcome_rate * 100) | round(1) if s.outcome_rate is not none else "—" }}{% if s.outcome_rate is not none %}%{% endif %}</div>
+    <div class="sub">{{ s.outcome_hits }}/{{ s.graded }} graded · backtest ref 51.9%</div></div>
+  <div class="tile"><div class="label">Exact score hits 💯</div>
+    <div class="value">{{ (s.score_rate * 100) | round(1) if s.score_rate is not none else "—" }}{% if s.score_rate is not none %}%{% endif %}</div>
+    <div class="sub">{{ s.score_hits }}/{{ s.graded }} · backtest ref ~10.5%</div></div>
+  <div class="tile"><div class="label">xG hits (±{{ "%.2f" | format(0.20) }})</div>
+    <div class="value">{{ (s.xg_rate * 100) | round(1) if s.xg_rate is not none else "—" }}{% if s.xg_rate is not none %}%{% endif %}</div>
+    <div class="sub">both teams within tolerance</div></div>
+  <div class="tile"><div class="label">⭐ Perfect (score + xG)</div>
+    <div class="value">{{ s.perfect }}</div>
+    <div class="sub">of {{ s.graded }} graded · {{ s.recorded }} recorded</div></div>
+  {% if tiers.gold %}
+  <div class="tile"><div class="label">🥇 GOLD tier (fav ≥55%)</div>
+    <div class="value">{{ tiers.gold.rate }}%</div>
+    <div class="sub">{{ tiers.gold.hits }}/{{ tiers.gold.n }} · target 65%+
+      {% if tiers.silver %} · silver {{ tiers.silver.rate }}% ({{ tiers.silver.n }}){% endif %}
+      {% if tiers.flip %} · flips {{ tiers.flip.rate }}% ({{ tiers.flip.n }}){% endif %}</div></div>
+  {% endif %}
+</div>
+
+<h2>Every prediction, graded</h2>
+<table>
+  <thead>
+    <tr><th>Kickoff</th><th>League</th><th>Fixture</th><th>H / D / A</th>
+        <th class="num">Our xG</th><th class="num">Our score</th>
+        <th class="num">Real score</th><th class="num">Real xG</th><th>Verdict</th></tr>
+  </thead>
+  <tbody>
+    {% for r in entries %}
+    <tr>
+      <td class="meta">{{ r.kickoff }}{% if r.retro %} <span class="badge" title="reconstructed walk-forward after the fact, not recorded before kickoff">retro</span>{% endif %}</td>
+      <td><span class="badge lgbadge"><img src="{{ league_crest(r.league) }}" width="14" height="14" alt="" onerror="this.remove()">{{ r.league.split('-')[1] }}</span></td>
+      <td>{% if r.pred_outcome == 'home' %}<strong>{{ r.home }}</strong> v {{ r.away }}
+          {% elif r.pred_outcome == 'away' %}{{ r.home }} v <strong>{{ r.away }}</strong>
+          {% else %}{{ r.home }} v {{ r.away }}{% endif %}
+          {% if r.tier == 'gold' %}<span class="vbadge tgold">G</span>{% elif r.tier == 'silver' %}<span class="vbadge tsilver">S</span>{% endif %}
+          {% if r.confidence == 'low' %}<span class="badge low">low conf</span>{% endif %}</td>
+      <td class="num scorelines">{{ (r.probabilities.home * 100) | round }} / {{ (r.probabilities.draw * 100) | round }} / {{ (r.probabilities.away * 100) | round }}</td>
+      <td class="num">{{ r.pred_xg[0] }}–{{ r.pred_xg[1] }}</td>
+      <td class="num">{{ r.pred_score }}</td>
+      {% if r.status == 'graded' %}
+      <td class="num"><strong>{{ r.score }}</strong></td>
+      <td class="num">{% if r.real_xg %}{{ r.real_xg[0] }}–{{ r.real_xg[1] }}{% else %}—{% endif %}</td>
+      <td>
+        {% if r.perfect %}<span class="vbadge perfect">⭐ PERFECT</span>
+        {% else %}
+          {% if r.score_hit %}<span class="vbadge score">💯 score</span>{% endif %}
+          {% if r.xg_hit %}<span class="vbadge xg">xG ±.20</span>{% endif %}
+          {% if r.outcome_hit and not r.score_hit %}<span class="vbadge outcome">✓ outcome</span>{% endif %}
+          {% if not r.outcome_hit and not r.xg_hit %}<span class="miss">✗</span>{% endif %}
+        {% endif %}
+      </td>
+      {% else %}
+      <td class="num pending">—</td><td class="num pending">—</td>
+      <td><span class="pending">pending</span></td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

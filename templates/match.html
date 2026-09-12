@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% block title %}{{ home }} v {{ away }}{% endblock %}
+{% block headmeta %}{{ league }}{% endblock %}
+
+{% macro crest(b, s=20) %}{% if b and b.logo %}<img class="crestimg" src="{{ b.logo }}" width="{{ s }}" height="{{ s }}" alt="" loading="lazy">{% else %}<span class="mono" style="width:{{ s }}px;height:{{ s }}px;font-size:{{ (s * 0.36) | round | int }}px">{{ b.abbr if b else '?' }}</span>{% endif %}{% endmacro %}
+
+{% macro formrow(f) %}{% for r in f.form %}<span class="formlet {{ r }}">{{ r }}</span>{% endfor %}{% endmacro %}
+
+{% macro shotmap(team, pack, kind) %}
+<div class="shotcard">
+  <div class="shottitle">{{ 'Shots taken' if kind == 'for' else 'Shots conceded' }}
+    <span class="shotn">({{ pack['dots'] | length }})</span></div>
+  <svg viewBox="0 0 272 210" class="shotsvg {{ kind }}" role="img" aria-label="shot map">
+    <rect x="1" y="1" width="270" height="208" class="turf"/>
+    {% for h in pack['heat'] %}<rect x="{{ h.x }}" y="{{ h.y }}" width="34" height="35" rx="6" class="heatcell" opacity="{{ h.o }}"/>
+    {% endfor %}
+    <rect x="55.5" y="1" width="161" height="66" class="pl"/>
+    <rect x="99.5" y="1" width="73" height="22" class="pl"/>
+    <circle cx="136" cy="44" r="2.2" class="spot"/>
+    <path d="M 106.8 66 A 36.6 36.6 0 0 0 165.2 66" class="pl"/>
+    <rect x="121" y="0" width="30" height="3.5" class="goalmouth"/>
+    {% for s in pack['dots'] %}<circle cx="{{ s.px }}" cy="{{ s.py }}" r="{{ s.r }}" class="dot {{ s.cls }}"><title>{{ s.tip }}</title></circle>
+    {% endfor %}
+  </svg>
+</div>
+{% endmacro %}
+
+{% macro shapesvg(dots) %}
+<svg viewBox="0 0 272 420" class="shotsvg shape" role="img" aria-label="typical shape">
+  <rect x="1" y="1" width="270" height="418" class="turf"/>
+  <line x1="1" y1="210" x2="271" y2="210" class="pline"/>
+  <circle cx="136" cy="210" r="36.6" class="pl"/>
+  <circle cx="136" cy="210" r="2.2" class="spot"/>
+  <rect x="55.5" y="1" width="161" height="66" class="pl"/>
+  <rect x="99.5" y="1" width="73" height="22" class="pl"/>
+  <circle cx="136" cy="44" r="2.2" class="spot"/>
+  <path d="M 106.8 66 A 36.6 36.6 0 0 0 165.2 66" class="pl"/>
+  <rect x="55.5" y="353" width="161" height="66" class="pl"/>
+  <rect x="99.5" y="397" width="73" height="22" class="pl"/>
+  <circle cx="136" cy="376" r="2.2" class="spot"/>
+  <path d="M 106.8 353 A 36.6 36.6 0 0 1 165.2 353" class="pl"/>
+  {% for p in dots %}
+  <circle cx="{{ p.x }}" cy="{{ p.y }}" r="10" class="pdot" opacity="{{ p.op }}"><title>{{ p.full }} · {{ p.mins }} min</title></circle>
+  <text x="{{ p.x }}" y="{{ p.y + 21 }}" class="pname">{{ p.name }}</text>
+  {% endfor %}
+</svg>
+{% endmacro %}
+
+{% block content %}
+
+<div class="hero">
+  <div class="hside">
+    {{ crest(hbadge, 62) }}
+    <div>
+      <div class="hname">{{ home }}</div>
+      {% if hfacts and hfacts.form is defined %}<div class="hform">{{ formrow(hfacts) }}</div>{% endif %}
+      <div class="hsub">home</div>
+    </div>
+  </div>
+  <div class="hmid">
+    <div class="hlg"><img src="{{ league_crest(league) }}" width="18" height="18" alt=""
+      onerror="this.remove()"> {{ league.split('-')[1] }} · {{ facts_season[:2] }}/{{ facts_season[2:] }}</div>
+    {% if pred %}
+    <div class="hprobs">
+      <span class="hp"><b>{{ (pred.probabilities.home * 100) | round }}%</b><i>home</i></span>
+      <span class="hp mid"><b>{{ (pred.probabilities.draw * 100) | round }}%</b><i>draw</i></span>
+      <span class="hp"><b>{{ (pred.probabilities.away * 100) | round }}%</b><i>away</i></span>
+    </div>
+    <div class="hbar"><span style="width: {{ (pred.probabilities.home * 100) | round(1) }}%"></span><span class="d" style="width: {{ (pred.probabilities.draw * 100) | round(1) }}%"></span><span class="a" style="width: {{ (pred.probabilities.away * 100) | round(1) }}%"></span></div>
+    <div class="hxg">xG {{ pred.xg[home] }}–{{ pred.xg[away] }} &nbsp;·&nbsp; likely scores
+      H {{ pred.modal_scores.home[0] }} · D {{ pred.modal_scores.draw[0] }} · A {{ pred.modal_scores.away[0] }}</div>
+    {% else %}
+    <div class="hxg">no model line for this fixture (outside the current window)</div>
+    {% endif %}
+  </div>
+  <div class="hside right">
+    <div class="tar">
+      <div class="hname">{{ away }}</div>
+      {% if afacts and afacts.form is defined %}<div class="hform">{{ formrow(afacts) }}</div>{% endif %}
+      <div class="hsub">away</div>
+    </div>
+    {{ crest(abadge, 62) }}
+  </div>
+</div>
+
+{% if battles %}
+<h2>Where each team wins</h2>
+{% if bottom %}
+<p class="bottomline">💬 <strong>Bottom line:</strong> {{ bottom }}</p>
+{% endif %}
+<p class="headline">⚡ {{ headline.home }} &nbsp;·&nbsp; {{ headline.away }}</p>
+{% if bands %}
+<table class="bands" style="margin-bottom: 14px">
+  <thead><tr><th></th><th>Attack</th><th>Midfield</th><th>Defense</th></tr></thead>
+  <tbody>
+    <tr class="bandrow"><th>{{ crest(hbadge, 16) }} {{ home }}</th>
+      <td class="num">{{ bands.home.att }}</td><td class="num">{{ bands.home.mid }}</td><td class="num">{{ bands.home.def }}</td></tr>
+    <tr class="bandrow"><th>{{ crest(abadge, 16) }} {{ away }}</th>
+      <td class="num">{{ bands.away.att }}</td><td class="num">{{ bands.away.mid }}</td><td class="num">{{ bands.away.def }}</td></tr>
+  </tbody>
+</table>
+{% endif %}
+
+<div class="legend">
+  <span><span class="sw" style="background: var(--tint-home-strong)"></span>{{ home }} wins the duel</span>
+  <span><span class="sw" style="background: #f2f3f1"></span>even</span>
+  <span><span class="sw" style="background: var(--tint-away-strong)"></span>{{ away }} wins the duel</span>
+</div>
+
+<div class="pitch-teams">
+  <span>🏠 {{ crest(hbadge, 18) }} {{ home }} <span class="dir">attacks ⟶ into the right half</span></span>
+  <span><span class="dir">{{ away }} attacks ⟵ into the left half</span> {{ crest(abadge, 18) }} ✈️</span>
+</div>
+<div class="pitchwrap battlemap">
+  <div class="l halfway"></div>
+  <div class="l circle"></div><div class="cspot l"></div>
+  <div class="l box18 left"></div><div class="l box18 right"></div>
+  <div class="l box6 left"></div><div class="l box6 right"></div>
+  <div class="pspot l left"></div><div class="pspot l right"></div>
+  <div class="l arc tl"></div><div class="l arc tr"></div>
+  <div class="l arc bl"></div><div class="l arc br"></div>
+  <div class="goal l left"></div><div class="goal l right"></div>
+  <div class="battles">
+    <div class="midzone"><span>midfield</span></div>
+    {% for i in range(3) %}
+    {% set L = battles.left_half[i] %}
+    {% set R = battles.right_half[i] %}
+    {% set M = battles.mid[i] %}
+    <div class="duel c1 r{{ i + 1 }} {{ L.cls }}" title="attacker components: {{ L.tooltip }}">
+      <div class="who">⟵ <strong>{{ L.att_team }}</strong> attack {{ L.att_lane }} <span class="vs">v</span> {{ L.def_team }} defend {{ L.def_lane }}</div>
+      <div class="score">attack <span class="big">{{ L.att_r | round | int }}</span> v <span class="big">{{ L.def_r | round | int }}</span> defence</div>
+      <div class="say">{{ L.text }}</div>
+    </div>
+    <div class="duel midcell r{{ i + 1 }} {{ M.cls }}"
+         title="build-up = deep completions produced · press = PPDA + xG created off turnovers won · screen = deep entries + turnover shots conceded (inverted). League percentiles.">
+      {% if M.kind == 'phase' %}
+      <div class="who">⚽ <strong>{{ M.att_team }}</strong> on the ball</div>
+      <div class="score">build-up <span class="big">{{ M.atk | round | int }}</span> v
+        press <span class="big">{{ M.prs | round | int }}</span> · screen <span class="big">{{ M.scr | round | int }}</span></div>
+      <div class="say">{{ M.text }}</div>
+      {% else %}
+      <div class="who">midfield overall</div>
+      <div class="score"><span class="big">{{ M.h | round | int }}</span> v <span class="big">{{ M.a | round | int }}</span></div>
+      <div class="say">{{ M.text }}</div>
+      {% endif %}
+    </div>
+    <div class="duel c3 r{{ i + 1 }} {{ R.cls }}" title="attacker components: {{ R.tooltip }}">
+      <div class="who"><strong>{{ R.att_team }}</strong> attack {{ R.att_lane }} <span class="vs">v</span> {{ R.def_team }} defend {{ R.def_lane }} ⟶</div>
+      <div class="score">attack <span class="big">{{ R.att_r | round | int }}</span> v <span class="big">{{ R.def_r | round | int }}</span> defence</div>
+      <div class="say">{{ R.text }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<p class="meta">Flank rows pair one side's attack with the other's mirrored defence — the right half is where
+   <strong>{{ home }}</strong> attacks, the left half is where <strong>{{ away }}</strong> attacks ("attack left" =
+   that team's left winger's side). The centre strip is the midfield battle: each team's build-up against the
+   other's press &amp; screen, plus the overall verdict. Numbers: 0–100 league percentiles ({{ zones_season }}
+   shot data + player quality). Hover any card for what feeds it.</p>
+{% else %}
+<p class="meta">Zone data unavailable for one of these teams (promoted side or insufficient history).</p>
+{% endif %}
+
+{% if hfacts or afacts or hshots or ashots %}
+<h2>Team dossiers <span class="seasontag">{{ facts_season[:2] }}/{{ facts_season[2:] }}</span></h2>
+<div class="legend">
+  <span><span class="sw" style="background:#f2c230; border:1px solid #7a5c00"></span>goal</span>
+  <span><span class="sw" style="background:#4a90c2aa"></span>on target</span>
+  <span><span class="sw" style="background:#e8ebed"></span>off / blocked</span>
+  <span>shot maps: dot size = xG · orange wash = chance density · goal at the top</span>
+</div>
+<div class="teamcols">
+  {% for name, b, side, f, pz, pk, dots in ((home, hbadge, 'home', hfacts, hpizza, hshots, hshape),
+                                            (away, abadge, 'away', afacts, apizza, ashots, ashape)) %}
+  <section class="teamcol tc-{{ side }}">
+    <div class="teamhead big">{{ crest(b, 26) }} {{ name }} <span class="sidetag">{{ side }}</span></div>
+    {% if f %}
+    <h3>Season so far</h3>
+    <div class="factlines">
+      {% if f.ppg is defined %}
+      <div class="fline"><span>Record</span>
+        <strong>{{ f.pts }} pts · {{ f.ppg }} PPG{% if f.xpts is defined %} · xPTS {{ f.xpts }}{% endif %}</strong></div>
+      <div class="fline"><span>Form (last 5)</span><strong>{{ formrow(f) }}</strong></div>
+      <div class="fline"><span>Clean sheets / blanks</span><strong>{{ f.cs }} / {{ f.blank }}</strong></div>
+      {% endif %}
+      <div class="fline"><span>Top scorer</span>
+        <strong>{{ f.top_scorer[0] ~ ' · ' ~ f.top_scorer[1] if f.top_scorer else '—' }}</strong></div>
+      <div class="fline"><span>Top assists</span>
+        <strong>{{ f.top_assist[0] ~ ' · ' ~ f.top_assist[1] if f.top_assist else '—' }}</strong></div>
+      <div class="fline"><span>Goals v xG</span>
+        <strong>{{ f.goals }} from {{ f.xg }} xG
+          <em class="finnote {{ 'hot' if f.fin >= 1 else 'cold' if f.fin <= -1 else '' }}">{{ '%+.1f' % f.fin }}, {{ f.fin_note }}</em></strong></div>
+      <div class="fline"><span>Set pieces</span>
+        <strong>{{ f.sp_xg }} xG{% if f.sp_pct is not none %} · {{ f.sp_pct }}% of chances{% endif %}</strong></div>
+      <div class="fline"><span>Shooting</span>
+        <strong>{{ f.shots }} shots · {{ f.sot_pct }}% on target · {{ f.conv_pct }}% scored</strong></div>
+      <div class="fline"><span>Games</span><strong>{{ f.mp }}</strong></div>
+    </div>
+    {% else %}
+    <h3>Season so far</h3>
+    <p class="meta">No shot data yet this season.</p>
+    {% endif %}
+    {% if pz %}
+    <h3>Percentile pizza</h3>
+    <img class="pizzaimg" src="{{ pz }}" alt="{{ name }} percentile pizza" loading="lazy">
+    {% endif %}
+    {% if pk %}
+    <h3>Shot maps</h3>
+    <div class="pairgrid">{{ shotmap(name, pk['for'], 'for') }}{{ shotmap(name, pk['against'], 'against') }}</div>
+    {% endif %}
+    {% if dots %}
+    <h3>Typical XI <span class="seasontag">minutes-weighted · both attack upward</span></h3>
+    {{ shapesvg(dots) }}
+    {% endif %}
+  </section>
+  {% endfor %}
+</div>
+<p class="meta">Post-Opta honesty: in the pizza, DEEP (deep completions) stands in for passing and PRESS (PPDA)
+   for tackling — true pass/tackle counts aren't published free anymore; PRESS, xGA and SCREEN are inverted so
+   longer is always better. Finishing (goals minus xG) mean-reverts. The typical XI is a role map from team
+   sheets (most-played slot, top 11 by minutes, faded = fewer minutes) — measured average positions don't
+   exist in any free post-Opta source.</p>
+{% endif %}
+
+<p><a href="/dashboard">← back to picks</a></p>
+{% endblock %}

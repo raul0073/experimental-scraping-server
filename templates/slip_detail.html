@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Slip {{ s.window }}{% endblock %}
+{% block headmeta %}committed {{ s.committed_at }} · {{ 'graded ' + s.graded_at if s.status == 'graded' else 'pending' }}{% endblock %}
+{% block content %}
+
+<h2>Original slip — window {{ s.window }}</h2>
+<div class="slip">
+  <div class="slip-head">
+    <span class="slip-title"><bdi>{{ s.title_he }}</bdi> · {{ s.title_en }}</span>
+    <span class="slip-stats">{{ s.lines }} lines × {{ s.unit | int }}₪ = {{ s.stake | int }}₪
+      {% if s.status == 'graded' %} · returned {{ s.gross_return | round | int }}₪ ·
+      <strong>net {{ '%+d' | format(s.net | int) }}₪</strong>{% endif %}</span>
+  </div>
+  {% for l in s.legs %}
+  <div class="slip-leg {{ 'banker' if l.role == 'banker' }}">
+    <span class="mark">{{ l.mark }}</span>
+    <span class="fx"><strong>{{ l.fixture }}</strong>
+      {% if l.role == 'banker' %}<bdi class="bk">באנקר</bdi> {{ l.team }} to win{% endif %}
+      {% if l.score is defined %} · <strong>{{ l.score }}</strong>
+        {% if l.hit %}<span class="hit">✓</span>{% else %}<span class="miss">✗</span>{% endif %}
+      {% endif %}</span>
+    <span class="badge lgbadge"><img src="{{ league_crest(l.league) }}" width="14" height="14" alt="" onerror="this.remove()">{{ l.league.split('-')[1] if '-' in l.league else l.league }}</span>
+    <span class="meta">{{ l.kickoff | default('') }}</span>
+    <span class="num">fair {{ l.breakeven }} · p={{ (l.prob * 100) | round(1) }}%</span>
+  </div>
+  {% endfor %}
+  <div class="slip-how">
+    {% if s.status == 'graded' %}
+      {{ s.hits }}/{{ s.legs | length }} legs hit → {{ s.lines_won }}/{{ s.lines }} lines won →
+      {{ s.gross_return | round | int }}₪ back on {{ s.stake | int }}₪
+      ({{ '%+d' | format(s.net | int) }}₪).
+    {% else %}
+      Pending — grades automatically after all legs play.
+    {% endif %}
+    Prices shown are the fair (breakeven) values frozen at commit; your book's odds differ.
+  </div>
+</div>
+
+<h2>Line by line</h2>
+<table>
+  <thead><tr><th>Line</th><th class="num">Fair odds product</th><th class="num">Stake</th>
+      <th>Status</th><th class="num">Return</th></tr></thead>
+  <tbody>
+    {% for ln in s.line_detail %}
+    <tr>
+      <td class="scorelines">{{ ln.names }}</td>
+      <td class="num">{{ ln.product }}</td>
+      <td class="num">{{ ln.stake | int }}₪</td>
+      <td>{% if ln.won is none %}<span class="pending">pending</span>
+          {% elif ln.won %}<span class="hit">WON</span>
+          {% else %}<span class="miss">lost</span>{% endif %}</td>
+      <td class="num">{{ ln.return | round | int }}₪</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<p><a href="/dashboard/monkey">← back to the Monkey</a></p>
+{% endblock %}

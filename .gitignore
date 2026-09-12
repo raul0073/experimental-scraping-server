@@ -53,3 +53,12 @@ openapi.json
 # Misc
 *.bak
 *.tmp
+
+# predictor: local junk + regenerable caches (data/ itself IS committed —
+# data/fbref predates the Opta licence loss and cannot be re-scraped)
+downloaded_files/
+static/pizzas/
+.claude/settings.local.json
+.claude/skills/*-workspace/
+data/reports/*.log
+data/reports/last_weekly_run.txt

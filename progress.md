@@ -1,0 +1,245 @@
+# Progress
+
+_Always up to date. What's done, what's in flight, what's next. Spec: `projectInfo.md`. Rules: `rules.md`._
+
+**v1 PIPELINE COMPLETE ✅ — all 6 stage gates passed (2026-08-07). First 2026/27 MW1 picks committed to the ledger. Next: frontend dashboard (Option A), weekly-run scheduling, repo re-init under new name.**
+
+## Done
+
+- [x] Project revival spec written (`projectInfo.md`) — purpose, architecture, season handling, storage, output spec, stages
+- [x] Zones system recovered from git history (full config @ `12f98ee`, service + prediction code @ `fc273d2`)
+- [x] Scope decisions locked: backtest 24/25 + 25/26; all 5 leagues; no MW1 rush (target picks from ~MW3–4 of 2026/27)
+
+## Stage 1 — Boot & hygiene ✅ (2026-08-07)
+
+- [x] `core/config.py` boots without `.env` — Mongo/OpenAI/Admin fields now optional (legacy, unused)
+- [x] Fixed `normalize_rank` NameError in `routes/plotting/plot.py` (now calls `TeamPlottingService.normalize_rank`)
+- [x] Removed unreachable duplicate route in `routes/plotting/plot.py`; also `from openai import BaseModel` → `from pydantic import BaseModel` (drops openai dependency)
+- [x] `/mental/vv/*` "shadowing" — **investigated, not a real bug** (4 path segments can't match the 3-segment team route); verified live: 200 OK. No change made.
+- [x] `requirements.txt`: re-encoded UTF-16→UTF-8 AND rewritten from 100+-package global freeze to the 13 packages the code imports. `soccerdata` 1.8.6→**1.9.1** (1.8.6 doesn't support Python 3.13)
+- [x] venv created (`.venv/`, Python 3.13 via `py` launcher) + deps installed
+- [x] **Gate PASSED:** boots with no env vars; `/api/v2/leagues` → 5 leagues; mental dashboard 200 (~1MB payload); `/mental/vv/players` 200; fixed plot route 200; team stats 200
+
+Notes: run server with repo root as CWD (`data/` paths are relative): `.venv\Scripts\python.exe main.py` → port 8080. Nothing committed to git yet (user's call when).
+
+## Stage 2 — Fixtures & results ✅ (2026-08-07)
+
+- [x] `services/fbref/fixtures/fixtures_service.py` — scrapes `read_schedule()`, normalizes rows (date, week, teams, parsed score, played flag, venue, referee, game_id), writes `data/fixtures/{league}/{season}.json`
+- [x] `routes/fbref/fixtures/fixtures.py` — `POST /fixtures/{league}/{season}/build?refresh=`, `GET /fixtures/{league}/{season}?team=&played=&week=`, `GET /fixtures/{league}` (mounted in main.py under /api/v2)
+- [x] `scripts/build_fixtures.py` — committed regeneration script (`--leagues --seasons --refresh`)
+- [x] All 15 league-seasons built: 5 leagues × {2425, 2526, 2627}
+- [x] **Gate PASSED:** EPL/La Liga/Serie A = 380 matches per season; Ligue 1/Bundesliga = 308 (306 + 2 relegation-playoff legs); 26/27 fixture lists on disk (0 played, as expected); spot-check: Liverpool 24/25 = P38 W25 D9 L4, 84 pts (matches real title record); Man Utd 1–0 Fulham opening match correct
+
+Findings recorded:
+- Outcome distributions confirm league rationale (24/25 + 25/26): Serie A draws 28.4%/26.1% (top), Ligue 1 home wins 46.4%/46.1%; nuance — EPL 25/26 drew 27.4% (above Serie A that season), La Liga 25/26 home wins 48.9% (league-highest). Pooled ranking by probability handles this naturally.
+- Ligue 1 & Bundesliga files include 2 relegation-playoff legs (week is non-numeric for those); **stages 3–5 must filter to regular-season weeks only**.
+- Ops note: fbref scrapes go through a Cloudflare-bypass (seleniumbase chromedriver, auto-downloaded on first run); full 15-file build ≈ 10–15 min; PowerShell background tasks with `*>` redirect misreport completion while python continues — use Bash watchers on output files instead.
+
+## Stage 3 — Team stats + real xG ✅ (2026-08-07)
+
+- [x] **CRITICAL FINDING: fbref lost its advanced data** (post data-provider change). Team & player tables reduced to `standard, keeper, shooting, playing_time, misc` — no xG, no defense/possession/passing/GCA tables. Legacy rich 24/25 data remains on disk (`data/league_init`, `data/players`) but is not reproducible for new seasons.
+  - Verified 2026-08-07 after user challenge, at the value level: fbref's advanced pages still EXIST (full column skeletons, `data-stat` attrs present) but values are stripped retroactively for ALL seasons incl. 24/25. Structure-level probes are misleading — check values. `TeamStatsService` now also fetches the 6 advanced pages per league-season and keeps any non-null cells (auto-heals if fbref repopulates); NaN-filtering added so snapshots stay clean.
+- [x] `services/fbref/team_stats/team_stats_service.py` — season aggregates for+against, snapshot-archived to `data/team_stats/{league}/{season}/{date}.json` + `latest.json`; 5 leagues × 2425+2526 built (20/18 teams each)
+- [x] `services/understat/understat_service.py` — per-match real xG/npxG/PPDA/deep-completions/xPts, stored with fbref-normalized names at `data/understat/{league}/{season}.json`; 10 league-seasons built
+- [x] Team-name mapping fbref↔Understat auto-learned via (date,score) voting (≥3 confirmations — naive learning got poisoned by Understat's stale dates for rescheduled matches) → `data/config/team_name_map.json` (committed, hand-editable)
+- [x] Understat dates normalized to fbref fixture dates (Understat keeps originally-scheduled dates; join key = (home,away) pair, unique per season)
+- [x] `scripts/build_team_data.py` — committed regeneration script (`--source fbref|understat|all`, `--refresh`)
+- [x] **Gate PASSED:** aggregates on disk for all 10 league-seasons; Understat↔fbref join = **100.0%** on all 10 (requirement was ≥99%); zone-config coverage report at `data/reports/zone_stat_coverage.md`
+- [x] Coverage verdict feeding Stage 4: **only 6 of 27 zone-config stat keys survive** (21 gone with fbref's advanced tables) → Stage 4 must redesign zone inputs around: fbref basics (Poss, SoT, Save%, TklW, Int, Crs, cards) + Understat per-match signals (xG, npxG, PPDA, deep completions) + player-level basics. The 12f98ee stat lists cannot be used as-is.
+
+## Stage 3 addendum — shot events (2026-08-07)
+
+- [x] Research confirmed (external sources): fbref lost Opta licence Jan 2026; no free like-for-like replacement exists; Understat = best free shot/xG source; Sofascore unofficial endpoints = possible v1.5 enrichment (dribbles, possession lost, box shots); WhoScored = full Opta events, brittle scraping, last resort.
+- [x] `services/understat/shot_events_service.py` — per-shot x/y/xG/situation/**last_action** via Understat's `getMatchData` API (calls soccerdata's raw `_read_match`; the public reader drops lastAction). Incremental + resumable (per-match JSON cache + checkpoint saves every 50). Output: `data/understat/{league}/shots/{season}.json`, fbref-normalized names.
+- [x] `scripts/build_shot_events.py` — committed backfill script; validated on 3 matches (last_action populated: Pass/Cross/Aerial/TakeOn/BallRecovery...)
+- [ ] **25/26 backfill running** (detached process, ~1,750 matches ≈ 1h; log: `data/reports/shot_backfill_2526.log`) — verify counts when done
+- [ ] 24/25 shot backfill: deferred — run overnight only if Stage 5 backtest shows early-25/26 weeks need prior-season zone profiles
+- Zone diet locked for Stage 4: shot-location profiles + creation types (last_action) + punished turnovers + PPDA/deep + fbref basics + Understat player metrics
+
+## Frontend (decided 2026-08-07)
+
+- [x] **Decision: Option A** — dashboard served by this FastAPI app via Jinja2 templates (+ htmx/vanilla JS). No Flask, no separate client. v1 pages: weekly picks dashboard, graded ledger/history, zone-matchup detail per pick. Build lands after Stage 6 API exists.
+- Note: when the predictor is ready, this repo will be **re-initialized as a fresh repo under a new project name** (user decision 2026-08-07).
+
+## Stage 4 — Zones engine v2 (in progress, 2026-08-07)
+
+- [x] `models/zones/zones_config.py` — skeleton restored from 12f98ee/fc273d2 (15 zones, position weights, matchups, importance, fallback map) + v2 signal defs (5-lane geometry for shot mapping, creation-action groups, turnover actions)
+- [x] `services/zones/zones_engine.py` — rolling time-decayed window (default 38 matches, decay 0.985/match); att zones = lane xG production; def zones = mirrored-lane xG concession + punished-turnover pain (×1.5); mid zones = PPDA + deep-completion diff + cross-shot wide signal; fbref basics as small def modifier; league-percentile normalize + band-weight blend; persists `data/zones/{league}/{season}/{date}.json`
+- [x] Code-path verified on partial data (20 teams, 15 zones each)
+- [x] 25/26 shot backfill COMPLETE: 1,752 matches, 0 errors, all 5 leagues (`data/understat/*/shots/2526.json`)
+- [x] **Sanity gate PASSED** (`scripts/report_zones_sanity.py` -> `data/reports/zones_sanity.md`): attack zones vs goals scored ρ=0.68–0.97; defense zones vs xGA ρ=0.98–0.99 (consistency); defense vs raw GA at/near its natural ceiling corr(xGA,GA) in every league; no dead zones; clean name joins. Two fixes from gate iterations: (1) dropped fbref TklW+Int "basics" from def band — correlates POSITIVELY with goals conceded (volume ≠ quality); (2) LANE_SHRINKAGE=0.35 anchors low-volume wide lanes toward overall team quality (unshrunk they ranked on noise).
+- [x] MatchPredictionService v2 (`services/zones/match_prediction_service.py`) — zone matchups -> xG pair + advantage labels; constants deliberately uncalibrated (Stage 5 fits delta_coef/global_mult/base_xg; current raw outputs are meaningless magnitudes by design)
+- [x] Understat player season stats stored for all 10 league-seasons (`data/understat/{league}/players/{season}.json`, ~5,500 players: xg, npxg, xa, key_passes, xg_chain, xg_buildup)
+- [ ] Stage 4b: players component (needs 25/26 player scrape w/ surviving basics + Understat player xG metrics; band weights renormalize without it meanwhile)
+- ⚠️ **HAZARD**: `FBRefPlayerService` writes `data/players/{league}/{team}.json` with NO season in the path — running a 25/26 player build would OVERWRITE the irreplaceable rich 24/25 player data (fbref no longer serves it). Make paths season-aware + migrate existing files BEFORE any new player scrape.
+
+## Stage 5 — Probability layer + calibration + backtest (2026-08-07) — SPLIT VERDICT
+
+Built:
+- [x] `services/predictions/probability_service.py` — Poisson score grid + Dixon-Coles correction (rho param), outcome probs, top scorelines
+- [x] `services/predictions/form_model.py` — walk-forward multiplicative xG strengths (decay 0.985, window 38, min 5 matches else league-avg priors + low-confidence flag)
+- [x] `scripts/calibrate_model.py` — fit per-league home/away boosts + global rho on 24/25 walk-forward → `data/config/model_params.json`. Result: log-loss 0.979; rho=0 (DC correction unneeded on xG lambdas); home/away boost ratio ranks Ligue 1 highest home edge (1.30×) — user's league thesis recovered independently
+- [x] `scripts/backtest_2526.py` — frozen-params walk-forward eval on 25/26 + pick simulation → `data/reports/backtest_2526.md` + full pick log json
+- [x] `services/predictions/draw_model.py` — logistic draw classifier (8 features incl. rolling draw tendency, tempo, PPDA); trained on 4 seasons (21/22–24/25, n=6,180; extra Understat seasons backfilled for this)
+- [x] Zone-evenness draw ranker experiment (walk-forward within 25/26)
+
+**Gate results (25/26 out-of-sample, 38 weeks):**
+- Overall model: log-loss 0.996 vs 1.074 base-rate predictor — real skill
+- **HOME WINS: PASS.** Top-3 (EPL+Ligue 1): **67.5% hit rate vs 43.8% base (+23.8pp)**, well calibrated (predicted 66.5%), 11/38 perfect weeks
+- **DRAWS: NO EDGE FOUND.** Top-4 (EPL+Serie A): Poisson-ranked 23.7%, classifier-ranked 27.0%, zone-evenness 27.4% — all ≈ base 26.4%; apparent per-rank effects are n=38 noise; Poisson P(draw) miscalibrated (inverted) in its top band. Consistent with the known hardness of draw prediction absent odds data.
+- [x] **DECISION (user, 2026-08-07)**: draws SHIP as core product alongside home wins — draws are where the value is for the user. **Odds ingestion is OUT OF SCOPE permanently — user handles the odds/value side themselves; not our business.** Stage 6 ships both pick types: draws ranked by the 4-season classifier (best of the tested rankers), with zone-matchup breakdowns and honest probabilities attached; ledger grades both live.
+
+## Stage 6 — Pick selector, API, ledger, run_weekly ✅ (2026-08-07)
+
+- [x] `services/predictions/prediction_service.py` — upcoming-fixture predictions (form model on 2526+2627 history, preseason-tolerant), draw picks ranked by classifier (Poisson fallback), home picks by P(home); zone-matchup "why" from 2526 shot data (`ZONES_SOURCE_SEASON` switches to 2627 as it accrues); promoted/low-history teams excluded from picks via confidence flag
+- [x] `services/predictions/ledger_service.py` — append-only `data/ledger/picks.jsonl`; commit is idempotent per (season, week, pick_type); grading fills outcomes from fixtures; summary computes live hit rates
+- [x] `routes/predictions/predictions.py` under `/api/v2/predictions`: GET `/upcoming` (preview), POST `/commit`, POST `/grade`, GET `/ledger` — mounted in main.py
+- [x] `scripts/run_weekly.py` — refresh (fixtures/understat/shots, non-fatal preseason) → grade → generate → commit → print picks
+- [x] **Gate PASSED:** one command produced and committed the first real 2026/27 MW1 picks (4 draws: Parma-Cagliari, Bologna-Lazio, Everton-Palace, Forest-Leeds; 3 home wins: PSG 76%, Lens 69%, Man City 55%); API verified live (200s); double-commit correctly refused (added 0, skipped 7)
+
+**v1 PIPELINE COMPLETE — stages 1–6 all gates passed.** Remaining before season: weekly run habit (manual or scheduled), frontend dashboard (Option A), repo re-init under new name.
+
+## Frontend dashboard ✅ (2026-08-07)
+
+- [x] Jinja2 + static CSS served by the FastAPI app (Option A; `jinja2` added to requirements). No JS frameworks; 10-min in-process cache on predictions.
+- [x] `/dashboard` — this week's draw + home-win pick tables (probability meters, xG, confidence badges) + full per-league fixture probability tables with likely scorelines
+- [x] `/dashboard/ledger` — hit-rate stat tiles per pick type + full graded/pending pick table (✓ HIT / ✗ MISS with icons — never color alone)
+- [x] `/dashboard/match?league=&home=&away=` — 15-zone pitch matchup grid (home attacking left→right; each cell = home zone rating vs away mirrored-zone rating, CVD-safe blue↔red diverging tints with numeric Δ labels in every cell), plus probability/xG tiles
+- [x] Verified live: all pages 200; PSG v Rennes grid shows 13 strong-advantage zones consistent with its 76% home probability
+- Files: `templates/{base,picks,ledger,match}.html`, `static/style.css`, `routes/dashboard/dashboard.py`
+- [x] Refinement (2026-08-08, user feedback): "likely scores" column showed the unconditional modal scoreline — reads as "everything 1-1" for even fixtures (mathematically right, perceptually wrong). Now shows most likely score **per outcome** (`modal_scores_by_outcome` in probability_service): `H 2-1 · D 1-1 · A 1-2`.
+- [x] Refinement (2026-08-08, user feedback): three separate H/D/A % columns replaced with a **stacked probability bar** per fixture (blue home | gray draw | red away, favored segment saturated, % labels beneath with favorite bolded) — match tilt readable at a glance; even-bar rows = draw-ish fixtures.
+
+## Improvement round (2026-08-08, in progress)
+
+- [x] Mental permanently dropped (can't scale post-fbref) — player quality via Understat instead
+- [x] **Stage 4b player layer LIVE**: `services/zones/player_layer.py` — per-team att/mid band quality from Understat player stats (npxG/90+xA/90 forwards; xGChain/90 mids; minutes-weighted, ≥450 min; position letters parsed from Understat strings). Wired into ZonesEngine (att 45% / mid 30% weights); def stays team-only (no defensive player metric exists in source). Sanity gate re-run: attack correlations improved (EPL 0.89→0.92, La Liga 0.68→0.73, Bundesliga +0.02), all leagues still pass. `include_players=False` flag reserved for walk-forward-clean calibration (player season stats are season-cumulative).
+- [x] Zones page redesigned: real pitch look (field surface, halfway line, center circle, boxes), lane labels in cells, big Δ, component tooltips, att/mid/def band-summary table, per-1,000-matches sim framing on probability tiles
+- [x] **Backtest page** added to dashboard (`/dashboard/backtest`): all 38 weeks of 25/26 picks with HIT/MISS, real xG, summary tiles
+- [x] Accuracy numbers computed (user question): **overall outcome accuracy 51.9%** (876/1687; random 33%, always-home 44%, bookie-grade ~53-55%); stable 49–53% per league; exact modal scoreline 10.5% (normal for score prediction); product picks: home 2-of-3/week, draws ~1-of-4
+- [x] 2425 shot backfill COMPLETE (1,750/1,752 matches; 2 Bundesliga pages failed — negligible)
+- [x] **Zone-blend calibration DONE** (`scripts/calibrate_zone_blend.py` → `data/config/zone_blend.json`): λ_final = λ_form·exp(γ·zone_adv_std); γ fit on 24/25 walk-forward = **0.02 (tiny)**; frozen eval on 25/26: log-loss 1.00145 → 1.00114 (−0.0003). Verdict KEEP (doesn't degrade) and wired into prediction_service — but the honest finding: **zone matchups are predictively redundant with xG form** (built from the same shots). The lambda compression is TRUTH, not a bug — backtest calibration (predicted 66.5% vs actual 67.5%) proves wider spreads would be overconfidence. Zones' real value = explanation layer + zones-page product.
+- [x] Final pre-season ledger reset (model evolved: context-retrained classifier + blend): MW1 draws now Parma-Cagliari 32.5%, Bologna-Lazio 32.4%, Everton-Palace 31.9%, **Nice-Lorient 31.3%**; homes PSG 77.6%, Lens 70.6%, City 55.6%; trixy 38.4% / 10.0% / **1.05%**
+
+- [x] Backtest report + dashboard page regenerated under the SHIPPING config (user catch: page still showed 2-league pool): 5-league classifier-ranked draws = **28.9% vs pooled base 24.8% (+4.1pp)** — biggest draw edge measured, classifier beats Poisson ranking by +3.9pp at pool scale; ≥2/4 in 11 weeks, 3/4 ×2, 4/4 ×1; homes unchanged 67.5%. Backtest script now imports pool constants from prediction_service (single source of truth).
+
+- [x] **Top-8 draw candidates view** (user request after trixy economics session): picks page now shows 8 ranked candidates — ranks 1-4 badged "ticket" (official, ledger-graded), 5-8 "alt" for price-based swaps — each with its **breakeven odds** (1/p) column so a line is takeable only when offered odds exceed it. Trixy tiles remain top-4-based. Strategy conclusions recorded: targets reset to reality (6 bonanzas/season impossible — needs 76% picks; sport ceiling ~32%), 26/27 = validation season, system EV swings −27%..+9% across the user's 2.65–3.15 odds band with the 4/4 week carrying ~40% of returns.
+
+## Zones v3.5: functional midfield (2026-09-11, user challenge)
+
+- [x] User challenged the single-midfield collapse. Truth defended: v2's five mid LANES were fake (all fed by team-level signals → provably identical per team; no free data resolves midfield laterally). Structure restored the honest way — **midfield split by FUNCTION: midProgress (deep completions for) / midPress (PPDA + turnover→shot xG won ×3) / midShield (deep allowed + turnover→shot xG gifted, inverted)**. Matchups: progression↔their screen, press↔their build-up, screen↔their build-up. 9 zones total.
+- [x] Verified: gate PASSED; mid zones now genuinely differentiate (Lorient 35/15/52 — progresses OK, presses poorly, screens decently; PSG 100/100/96). Battle map center = 3 stacked duel pills (e.g. "press v their build-up · Δ -29.4 (15 v 44)"). Zone-blend recalibration for 9-zone scale running.
+- [x] **Zone-blend recalibration on the 9-zone scale: KEEP** — fit 24/25 best gamma=0.02 (log-loss 0.97847 vs 0.97870 at 0), frozen 25/26 eval blended 1.00092 beats form-only 1.00145 (Δ −0.00053, n=1368) → `data/config/zone_blend.json` rewritten.
+- [x] **Match-page fix pass (user bug report + screenshot)**: (1) band table scoped `table.bands` — compact width, numbers centred under centred headers (was full-width, right-aligned cells under centred heads); (2) overlapping absolute mid pills replaced — **midfield is now a real strip on the pitch**: battle map became a 3-column grid (flank | midfield | flank) with a dashed translucent "MIDFIELD" band and 3 cards in it: *home on the ball* (build-up v their press & screen), *midfield overall* (band verdict), *away on the ball*. Phase delta = build-up − mean(press, screen); wording "X will play through / edge on the ball / smothers their build-up". Verified Lorient-Toulouse: 35 v 36·44 even; overall 34 v 41.5 shared; Toulouse 44 v 15·52 = "Toulouse edge on the ball" (Lorient's 15th-pct press is the story).
+- [x] **Auto "Bottom line" paragraph on every match page** (user request, modeled on a hand-written example): `_bottom_line()` composes plain-football prose from the same signals — midfield verdict with the WHY (band gap ≥10 = "should control midfield"; else on-ball phase asymmetry = "should have more of the ball"; cause clause picks opponent-won't-press / build-up-plays-through / wins-it-back-high), attack quality (blunt/mediocre/dangerous/outguns), flank danger spot (duel Δ≥25), finishing hot/cold from shot events, and the model lean (draw ≥30% = "profile of a draw candidate", fav ≥55%). Verified 3 branches: Lorient-Toulouse reproduces the example ("Toulouse should have more of the ball (41.5 v 34.0) — not because they're good, but because Lorient won't press them (press 15)... draw candidate (32%)"); PSG-Lorient dominance ("control midfield (98.7 v 34.0) — their build-up (100) should play through... danger spot PSG down their left (Δ+56.2)"); Hoffenheim-Stuttgart shared ("Two dangerous attacks, no midfield dominance either way, Stuttgart finishing hot").
+- [x] **Shot maps shipped** (user request): 4 SVG half-pitch maps per match page (each team: shots taken / shots conceded, 26/27 season-to-date) rendered server-side from stored shot events — no JS libs, no new scraping. True 68×52.5m aspect (viewBox 272×210), goal at top, shooter's-left = screen-left (matches battle-map lane orientation), dot size = xG, gold = goal / blue = on target / gray = off, hover tooltip "player minute′ · xG · outcome", own goals excluded (coords describe the defender). `_team_shots()` cached per league. Verified Lorient-Toulouse: 4 maps, 169 dots, 11 goals with correct tooltips.
+- [x] **Match-page redesign v2 (2026-09-12, user screenshots: black pizzas, mobile-ish layout, poor hero)**: ROOT CAUSE of "black pizza circles" + plain form letters + narrow column = **stale cached style.css** (new HTML, old stylesheet: SVG slices fell back to default black fill) → permanent fix: `?v={mtime}` cache-buster on style.css (asset_v Jinja global) + favicon link; pizza PNG urls carry their own mtime version. Redesign: (1) **hero header** — crest+name+form each side, center P(H/D/A) big numbers + probability bar + xG/likely-scores + league chip (replaces h2+tiles); (2) **team dossier columns** — one column per team (accented home blue/away orange): Season so far rows → percentile pizza → shot-map pair side by side → typical XI (answers "separate data by team"); (3) **pizza switched from hand-rolled SVG to mplsoccer PyPizza PNGs** (user suggestion; matplotlib already a dep) — disk-cached static/pizzas/<league>/<team>.png, auto-regenerated when older than last_weekly_run stamp; verified visually (Milan: screen 95 / xGA 79 / on-target 16); (4) **new stats**: clean sheets + blanks (fixtures), set-piece xG + % of chances (shot situations: FromCorner/SetPiece/DirectFreekick — Lazio 26% SP-heavy vs Milan 15%); (5) form letters now solid W green / D orange / L red chips; (6) wrap widened to 2200px. mplsoccer added to requirements.txt. Live 8080 restarted; user must hard-refresh once (Ctrl+F5) to escape the old cached CSS — every later change busts automatically.
+- [x] **Identity + wide-screen + pizza pass (2026-09-12, user: logos, per-team separation, more stats, use the width)**: (1) **crests everywhere** — `scripts/fetch_team_logos.py` pulls team badges from TheSportsDB free API (98/98 after alias fixes: hyphens break its search — "Paris Saint Germain" unhyphenated; Monaco/Angers/Hamburg plain; Nottingham soccer club invisible to free search → crest verified visually and installed manually) + **5 competition crests** (fixed league ids, user mid-turn request) → static/logos/ + manifest.json; rate limit is ~30 req/min (1.2s tripped 429s → SLEEP_S 2.5 + 70s backoff-retry). Monogram-chip fallback so a missing crest never breaks. Match page: matchhead (crest v crest + league chip), crested fact/pizza/shape cards and shot-map team blocks; league crest chips in picks/ledger/history/backtest/slip tables via `league_crest` Jinja global. (2) **Per-team separation**: shot maps regrouped into two team blocks (taken+conceded pairs under a crested header), home/away accent borders (tc-home blue / tc-away orange) on every team card. (3) **Wide-screen**: .wrap/header max-width 1080→1720px (desktop app now). (4) **New stats**: fact cards gain Record (pts · PPG · **xPTS** from stored understat expected_points) + colored last-5 form letters; **9-slice team pizza** (league percentiles: attack xG/BIG/DEEP, shooting SHOTS/SOT%/CONV%, defending PRESS/xGA/SCREEN — DEEP=passing proxy, PPDA=tackling proxy, inverted slices flipped so longer=better; hover=value+percentile). Verified live: Toulouse 1 pt vs xPTS 5.2 (huge unluck flag), 12 crests/page, 18 slices, league chips ×14 on picks. Live 8080 restarted on new code.
+- [x] **Desktop-app launcher shipped (2026-09-12, user: "double click on desktop, update on mount, updated every day")**: decision = NO Electron/pyinstaller rewrite — a launcher gives the app experience with zero rewrite. Pieces: (1) `scripts/launch_dashboard.ps1` — starts uvicorn on 127.0.0.1:8080 hidden if not listening (logs to data/reports/server.*.log), waits for the port, spawns background full refresh, opens dashboard in an **Edge --app window** (own window/taskbar icon, no browser chrome; falls back to default browser); (2) **"Football Predictor" Desktop shortcut** (runs the ps1 hidden; custom pitch-and-ball icon generated with Pillow → static/predictor.ico); (3) "update on mount" = run_weekly with NEW `--if-stale-hours 6` guard + success stamp `data/reports/last_weekly_run.txt` (launcher refreshes only if last full run >6h old; daily 09:00 PredictorWeekly task — verified alive, next run 09-13 — still runs unconditionally and writes the same stamp); (4) picks page headmeta now shows "data refreshed YYYY-MM-DD HH:MM" from the stamp. Verified live: launcher booted server (200), refresh started, app window opened.
+- [x] **Heat zones + typical shape shipped; pass maps ruled out honestly** (user asked for pass map / heat zones / avg positions): (1) **heat zones** = xG-density wash (8×6 grid, opacity ∝ share of hottest cell) under the shot-map dots — free, from stored shots. (2) **"Typical shape"** = minutes-weighted role map: NEW `services/understat/rosters_service.py` extracts per-match lineup slots+minutes from the SAME cached Understat match JSONs the shots builder uses (`_read_match` returns `rostersData`; 146 matches built for 26/27, 0 network fetches, 0 errors); `scripts/build_rosters.py`; rosters step added to run_weekly; dashboard `_team_shape()` places top-11-by-minutes at modal slot coords (17 Understat codes → tactics-board XY, duplicate-slot spreading, suffix-aware surnames), full-pitch SVG, opacity=minutes share, honest UI label "lineup data, not tracking". (3) **Pass maps: impossible free** — pass-event coordinates were never free for live top-5 seasons (StatsBomb open data ≠ current seasons; WhoScored/Sofascore = unofficial blocked APIs); closest owned proxies: deep completions (midfield build-up rating) + shot lastAction. Verified live: 35 heat cells, 2 shape maps × 11 named dots (Mvogo…Cásseres fix for "Jr." suffix).
+- [x] **Investor plan written** (`investor_plan.md` + `scripts/investor_projection.py` + `data/reports/investor_projection.json`): Monte Carlo 200k seasons/cell over p∈{25,29,32%} × odds∈{2.65,2.90,3.15} × {18,30} windows. Headline truths: flagship שיטה 2/4 is **−EV everywhere in the user's band at validated 29% skill** (−17% to −41%/window; breakeven odds 3.45); only ceiling-skill (32%) × top-band (3.15) is +EV (+1.6%, P(profit season) ≈ 47-51%); GOLD homes breakeven 1.52 = most investable vein; ruin risk material at 30 windows (up to 68% worst cell). Plan = price-gated thesis (bet only above breakeven, GOLD singles > 1.52, Monkey as public track record), risk register, decision gates (Gate A: live GOLD n≥150 ≥62%; Gate B: season Monkey ROI + measured ≥3.45-odds frequency). No stake advice, no odds ingestion — operator's domain, per rules. per team from stored 26/27 shot events — top scorer, top assists, goals v xG with hot/cold finishing note (mean-reversion warning), shots · on-target% · conversion%, games. Zero new scraping (player/assist/result were already in every stored shot). Verified: Makengo/Katseris (Lorient), Russell-Rowe/Gboho (Toulouse); both cold (2 from 4.1 xG / 2 from 6.6 xG). **Passing accuracy: impossible post-Opta** (stated in UI; deep completions = closest proxy, already the build-up rating). Shot-location detail beyond lanes = possible later (shot maps from stored x/y).
+
+## Window redefined: per-league round clusters (2026-09-11, user caught 2-GW tables)
+
+- [x] User caught two rounds mixed in one league table (Bundesliga showing Sep 11-13 AND Sep 18-19 "next window" rows). Root causes: (1) the lookahead preview polluted tables; (2) date-based global clustering merges rounds when any league (La Liga midweek) bridges the days continuously.
+- [x] New definition — neither Mon-Sun nor fixed weekend: **each league's window = its own next ROUND cluster** (consecutive match days, gap ≥2 days breaks, span ≤3 days so Fri→Mon holds but back-to-back rounds never merge); the betting window = union of rounds starting within 2 days of the earliest. Lookahead removed — tables show only the current round. Verified: window 09-11→09-14, all 5 leagues exactly one round each, Sep-16 La Liga leak evicted from the ticket.
+
+## Home-win forms enter the advisor (2026-09-10, user challenge)
+
+- [x] User challenged the draws-only focus ("model specializes in home wins — doesn't make sense"): historically homes were excluded by the user's own Aug-8 instruction (homes = context only). Now the advisor evaluates **home-favorite structures every window**: שיטה 2/4 בתים, 3/4, and the 4-fold acca on the top-4 certified favorites, ranked by the same exact P(profit) engine. Bankers list widened 3→4.
+- [x] This window's verdict unchanged (draws 2/4 at 38.5% beats homes at 26.5% — only ONE true GOLD home exists this week; Inter 77% + three ~55%). On a 3-4-GOLD week (65% each), homes 2/4 reaches P(3+ of 4) ≈ 56% and will be crowned automatically. Homes 2/4 also shows its character: 93.1% cash-something frequency, small payouts (pairs ~2.2-3.3x).
+- Note for the money conversation: favorite-longshot bias means books price favorites closest to fair — the homes edge likely converts to real money best; the ledger/monkey will show it.
+
+## Automation + slip detail + notation fix (2026-09-10)
+
+- [x] **Weekly run automated**: `scripts/run_weekly.cmd` + Windows Scheduled Task "PredictorWeekly" (daily 09:00, next run 09-11) — grades land the morning after matches; window/idempotence dedupes make daily runs safe. Logs to `data/reports/run_weekly_latest.log`.
+- [x] **Clickable slip detail** (`/dashboard/monkey/slip?window=`): the original frozen slip card with per-leg results (score, ✓/✗, fair price, prob) + line-by-line table (every combination, fair-odds product, WON/lost/pending, return). Monkey week rows link to it. Monkey tiles fixed: ROI/net computed on GRADED slips only; pending stakes shown as "in play".
+- [x] Notation collision fixed (user: "form is 2/4 — there cannot be 4/4"): scenario rows renamed from "4/4" (reads as a line type in Winner language) to "4 of 4 hit — all of them!" with caption clarifying rows count marked games landing, not line types; math unchanged (all 4 marks hitting = all 6 pair-lines win).
+
+## Slip ledger + Monkey tab (2026-09-10)
+
+- [x] `services/predictions/slip_ledger.py` (user request): every advised slip frozen at commit (structure, k, lines, legs with marks/probs/breakevens), one per window (drift-proof dedupe), graded line-by-line when all legs resolve (tolerant venue-flip matching); returns computed at breakeven prices frozen at commit, **10₪/line** (user default).
+- [x] **🐒 Monkey tab** (`/dashboard/monkey`): bot bankroll from **1,000₪ start** — pot/net/ROI/peak tiles, week-by-week table (form, legs with ✓/✗ marks + hover scores, hits, lines won, return, net, pot-after). Wired into run_weekly (grade slips + commit slip). Seeded: window 2026-09-11 שיטה 2/4, 60₪ staked, pot 940₪ pending.
+- Note: monkey returns are fair-price structural results; real Winner odds shift actuals — labeled on the page.
+
+## Strategy advisor — "this week's best move" (2026-09-10)
+
+- [x] `services/predictions/strategy_advisor.py` + picks-page section (user request): plain-words weekly recommendation over the **Winner form catalog** (יאנקי/שיטה 2/4/לאקי 15/טריקסי/פטנט + **באנקר** × system structures — structures only, never odds). Computes: draw-board strength (top-4 avg vs ~32% ceiling), best certified banker across ALL leagues (GOLD ≥65% = "real banker" → recommends באנקר+שיטה 2/4; 55-65% = minimum-grade → plain Yankee; none → pure draw forms; thin board → Trixi top-3 or sit out), P(any return)/P(big week) per form via exact hit-distribution math. Always ends with the breakeven-vs-price discipline reminder; stakes/odds stay the user's.
+- [x] First live output found a banker the pick tables never surface: Inter v Udinese 77% GOLD (Serie A — outside HOME_LEAGUES) → week's recommendation: banker × 2/4 draws, ~30% boosted-return chance; Yankee as steady alternative.
+- [x] User corrected the form mechanics (their real Winner slip): banker counts as a 5TH SELECTION → **שיטה 2/5 = 10 lines** (not banker×2/4=6), and **2 hits = 1 line ≈ half the form back = partial refund, not a win**. Advisor rebuilt on exact 2^N scenario enumeration at breakeven prices: slip now shows a hit-scenario table (chance / lines won / ~% of form back / lost–refund–PROFIT) — this window: 2/5 hits 37.5%→51% back, profit starts at 3 hits (24%→188%), **P(PROFIT) 32%**, P(any cash) 69%. Slip header shows P(PROFIT) prominently.
+- [x] **User challenged 2/5 as "not the right move" — CORRECT; advisor logic rebuilt to choose by exact P(PROFIT)** across all shapes incl. the user's 2-banker and 3-banker proposals. Verdict (this window, fair prices): draws-only שיטה 2/4 = 38.5% profit-weeks (profit from 2 hits); every banker added LOWERS it monotonically (1B/2-5: 31.9% · 2B/2-6: 25.8% · 3B/3-7: 19.8%) while raising cash-back frequency (2/6: 88.6% — the "feels safe, profits less" trap). Bankers reframed as a PRICE tool (upgrade only when book prices banker above fair). Slip now recommends 2/4 draws-only; comparison table ranks all shapes by P(PROFIT).
+- [x] Banker-source question (user: "wins picker isn't Inter — focus leagues?"): explained picks-list (EPL+Ligue 1, league-EDGE product) vs banker (single leg, raw probability, all-league scan). Season gold-by-league so far: Serie A 7/8, EPL 4/5, La Liga 7/9, **Ligue 1 2/7** — small samples but the all-league banker scan is supported; restricting to home-pick leagues would have forced 55% Liverpool over 77% Inter.
+- [x] Ops note: git-bash `kill %1` does NOT kill detached Windows pythons — test servers must be stopped by PORT (PowerShell Get-NetTCPConnection→Stop-Process); two phantom-500 hunts caused by stale 8081 zombies.
+- [x] Redesign after user feedback ("what's the bottom line? which games? fix RTL"): section now leads with a **Winner-style slip card** (yellow form look) — THE MOVE title, 5 concrete legs with marks (banker row highlighted, mark 1/2 + "באנקר X to win"; draw rows mark X) each with league/kickoff/prob/breakeven, a "how the form works" footer; comparison table collapsed into details; Hebrew wrapped in `<bdi>` for correct bidi.
+
+## 65% goal session: tiers + opponent adjustment + second season (2026-09-10)
+
+- [x] User goal "65%+ outcome": honest math delivered — impossible across all fixtures (draws are 25% of outcomes and never the argmax; bookmaker closing lines ~54-56%); **the 65%+ vein exists as the confident tier**.
+- [x] **Confidence tiers shipped**: GOLD (fav ≥55%) / SILVER (45-55%) / coin-flip, badged on picks + history; per-tier accuracy tile on History (target line 65%+). Live 26/27 gold: 66.7% (22/33).
+- [x] **Opponent-adjusted ratings (strength of schedule): built, calibrated, REJECTED** — frozen 25/26 got worse (log-loss 0.9959→0.9969, draws 32.2→30.3, homes flat). Balanced round-robins self-average schedule strength. `OPP_ADJUST_ITERS=0` with the finding documented in code; per-date ratings memoization kept (~5× faster backtests). Second sophisticated upgrade rejected by the gate — model is at its information ceiling.
+- [x] **Second out-of-sample season (user request)**: `scripts/backtest_season.py --eval 2425` — params fit on 23/24, classifier trained ≤23/24, walk-forward eval on 24/25. Results: outcome 53.8%, **GOLD 66.2% (415/627 — tier thesis REPLICATES)**, home picks 62.3% (+18.5pp; 11 perfect weeks), draws 29.6% (+4.8pp — draw edge replicates). Backtest page now shows both seasons.
+- [x] Two-season truth: home picks 62-68% (~65 avg), draws +5-7pp over base, GOLD 65-66% everywhere incl. live. 25/26 numbers reproduced bit-for-bit after revert (pipeline determinism check). Chain runner: `scripts/run_recal_chain.py`.
+- [x] Draws remain THE betting product (user asked): outcome-accuracy work sharpens the context layer + lambdas feeding the draw classifier; strategy unchanged.
+
+## History backfilled to season start (2026-09-10)
+
+- [x] `scripts/backfill_history.py` — all 146 played 26/27 fixtures reconstructed **walk-forward** (strictly-prior data, frozen params) and graded; rows marked `retro` (badge in UI) to stay distinguishable from live-recorded predictions forever.
+- [x] **Season-to-date scorecard: outcome 55.5%** (81/146; above the 51.9% backtest ref), **exact score 11.0%** (ref ~10.5%), xG ±0.20 both teams 8.6%, **⭐ PERFECT ×2** (Betis 1-0 Sociedad: predicted 1-0 & xG 1.76-1.04 vs real 1.70-1.14; Parma 0-1 Cagliari: predicted 0-1 & xG 0.99-1.14 vs real 1.03-1.26 — the MW1 draw pick that missed as a draw was a near-perfect match model). Per league: Serie A 20/30, La Liga 22/41, EPL 16/30, Bundesliga 10/18, Ligue 1 13/27.
+
+## Zones page v2 + watchlist + History tab (2026-09-10, later)
+
+- [x] **Mirroring proven correct empirically** (user challenged twice): winger shot-side test — Salah/Saka (right) mean y≈0.38-0.40 in BOTH home & away, Kvaratskhelia (left) ≈0.54 → Understat y is per-shooter (no home/away flip), low-y = shooter's right; engine geometry validated.
+- [x] **Zones page redesigned as a BATTLE MAP** (user: "bad bento grid — what does the user learn?"): 6 duels (3 flank strips × 2 attacking halves) + midfield pill; each duel = "X attack left v Y defend right", one attack-v-defence number pair, plain-word verdict ("should create here" / "shuts this down" / "even"), color = favored TEAM (blue home / red away, same language as probbars); headline names each side's biggest threat. Replaces the mirror-label cell grid entirely.
+- [x] **Watchlist on picks page**: low-confidence fixtures with ticket-grade P(draw) (e.g. promoted-team games like Union Berlin-Schalke 37%) now shown with probabilities + breakevens, badged uncertified, never auto-picked or ledger-graded (user caught them being hidden entirely).
+- [x] **HISTORY TAB** (user request): `services/predictions/history_service.py` + `/dashboard/history` — EVERY predicted fixture recorded at prediction time (first prediction stands; idempotent), graded vs actual score AND actual Understat xG: ✓ outcome / 💯 exact score / xG hit (both teams ±0.20) / **⭐ PERFECT (score+xG)**; summary tiles with backtest reference rates; wired into run_weekly (record + grade steps). Seeded with the 85 GW4-window predictions (pending). Recording began 2026-09-10 — earlier GWs have no stored snapshots.
+
+## First live cycle + zones v3 (2026-09-10)
+
+- [x] **MW1 GRADED (first live week): draws 1/4** (Nice-Lorient 0-0 HIT; Parma 0-1, Bologna 0-1, Everton 2-0 — two misses one goal away), **homes 2/3** (Lens 5-2, City 2-1 HIT; PSG drew 2-2 — see venue flip below). User's Yankee: 1/4 → −110₪ (the modal week, ~40%).
+- [x] EPL draws by GW so far: 1, 3, **6/10 (GW3!)** — user's observation confirmed. Windows 2-3 were never committed (no weekly run executed) — **schedule the weekly run** to stop missing windows.
+- [x] Bug: **Understat league-page cache served stale preseason data** (shape (3,0), KeyError 'home_team') → refresh flags added (UnderstatService/ShotEventsService bypass league-page cache mid-season, per-match cache kept); run_weekly now also refreshes name maps + player stats. 26/27 rebuilt: 146 matches, ~1,950 players, 146 shot files, 0 errors.
+- [x] Bug: **fbref renamed PSG → "Paris SG" and flipped the Rennes fixture's venue post-commit** → FBREF_TEAM_ALIASES (canonical "PSG") applied at fixture normalize + stored-file repair; ledger grading gained tolerant fallbacks (reversed venue; same-date single-name match) with hit judged from OUR pick's perspective; PSG row graded MISS (predicted winner drew).
+- [x] **ZONES v3 REDESIGN** (user spotted left=right clone cells): root causes — (1) lane shrinkage anchored to 5-lane TOTAL (5x too strong, erased lanes; interim fix anchored to mean lane), then the deeper truth: (2) **Understat shot y spans only ~0.24-0.85 — true wide lanes get ~2 shots/season**; the 3x5 grid was unsupportable. v3 = **3 lanes x def/att + single midfield-control zone (7 zones)**, lane bounds fitted to 44k real shots (y<0.42 R 25% / 0.42-0.58 C 48% / ≥0.58 L 27%); mid per-flank pretense dropped honestly. Dashboard pitch now 3x3 with spanning mid cell + "↔ their right" mirror labels (user's alignment ask). Sanity gate PASSED; lanes now genuinely differentiated & asymmetric (e.g. Lorient def L 70.6 vs R 41.2).
+- [x] Zone-blend recalibrated for v3: gamma=0.02, eval delta −0.00037 (KEEP; still tiny by evidence).
+- [x] Stale GW4 picks (auto-committed on broken understat data) pruned pre-kickoff; **GW4 window (Sep 11-15) re-committed on the fresh stack**: draws Lazio-Milan 32.6%, Paris FC-Lyon 32.3%, Lorient-Toulouse 32.1%, Hoffenheim-Stuttgart 31.3% (trixy 38.5%/10.0%/1.06%); homes Liverpool 55.4%, Villa 45.4%, Le Havre 44.6%. Note: fresh GW1-3 form ejected Utd-City from the stale board's ticket.
+- [x] First 26/27 team-stats snapshot archived (weekly walk-forward history begins)
+
+## Season-start upgrades round 2 (2026-08-20, user QA session)
+
+- [x] **Weekend-based selection replaces gameweek-based** (user: league rounds drift — Serie A can be on R2 while EPL is R1): picks pool = ALL unplayed fixtures in [earliest kickoff, +4 days] regardless of round; league tables show +4 more days tagged "next window"; WINDOW_DAYS=4 (a midweek opener keeps Sunday/Monday reachable). `weekly_picks(start=None)`; routes take `?start=YYYY-MM-DD`.
+- [x] **Ledger dedupe made drift-proof** (window label shifts as early games get played → double-commit bug caught in verification, 7 spurious rows removed, original slip restored): a pick type is "taken" when pending picks of that type have kickoffs inside the new window.
+- [x] **Unified outcome probabilities** (user caught bar D=27% vs ticket 34.8% for same fixture): official triplet everywhere = classifier-calibrated P(draw) + Poisson H:A ratio rescaled (`unified_probs`). Backtest validation: log-loss 0.9964→0.9959, home picks 67.5%→**68.4%** (+24.7pp), draws unchanged. Poisson triplet kept as `probabilities_poisson` internally.
+- [x] Bold-team UX rule (user): bold = predicted winner only; draw-predicted = nobody bold (league tables via macro; ledger/backtest by pick_type; home-pick table keeps bold-home semantics).
+
+## Season-start upgrades (2026-08-20)
+
+- [x] **Draw model upgraded to 11-season training** (1415–2425, n=17,134; Understat backfilled 7 more seasons): frozen 25/26 pick hit rate **28.9% → 32.2% (+7.4pp over base)**, calibration intact (predicted 31.9%). Robustness: 10-season variant scored 28.0%/32.9% on two held-out seasons. GBM tried and rejected (26-30%, overfits). Experiment harness: `scripts/experiment_draw_models.py`.
+- [x] Real Winner slip analyzed (user's MW1 Yankee, 11 lines ×10₪): legs priced 2.90–3.30 vs our breakevens → form EV ≈ −1.1% (near-fair; two legs +EV). Season sims: 18 forms ≈ EV −19₪ / median −383₪ / 36% positive seasons / 18% bonanza chance; 24 forms similar EV, wider spread.
+- [x] **Betting-window filter** (user caught Valencia Aug-25 occupying a weekend ticket slot): picks pool restricted to [earliest kickoff, +3 days]; out-of-window fixtures badged "next window" in league tables. MW1 ticket = Nice/Everton/Parma/Bologna = user's placed slip.
+- Weekly run on 2026-08-20 confirmed: no matches played yet anywhere except La Liga (6); ledger pending; understat/shots 2627 will start filling after this weekend.
+
+## Strategy revealed + trixy support (2026-08-08)
+
+- **User's real product: Israeli Winner trixy — 4 draw picks per GW; 2/4 money back, 3/4 great, 4/4 bonanza. Home wins = context only, not bets.** Optimization target is the weekly hit distribution, not per-pick rate.
+- [x] Backtested trixy distribution on 25/26: EPL+Serie A pool → ≥2/4 in 10 weeks, 3/4 ×1, 4/4 ×0. **ALL-5-league pool → ≥2/4 in 12 weeks, 3/4 ×2, 4/4 ×1.** Selective week-timing shows no edge. Honest 4/4 expectation ≈ once per 2–4 seasons (P≈0.6–0.8%/week; p⁴ scaling makes per-pick prob the key lever).
+- [x] **Trixy outlook tiles** on picks page: P(≥2/4), P(≥3/4), P(4/4) per week (Poisson-binomial over the 4 picks; MW1 2627: 34.0% / 8.0% / 0.76%)
+- [x] Draw pool switched to ALL 5 leagues (user approved 2026-08-08); ledger reset pre-season (user instruction) and MW1 re-committed under the new pool: draws Parma-Cagliari, Bologna-Lazio, Everton-Palace, Union Berlin-Frankfurt; homes PSG, Lens, Man City; trixy outlook 34.5%/8.2%/0.79%
+- [x] Week-clustering analysis (user question "why didn't we catch 4+ draw weeks"): ≥4-draw weeks exist ~1 in 4 weeks per league (Serie A most, 10-11/38) but overdispersion ≈ 1.0 across all ten league-seasons → drawish weeks are pure random clumping, not predictable; phase patterns flip between seasons (no stable late-season effect). Only lever = per-pick probability (ceiling ~32%).
+- [x] Context-features draw experiment — **NULL RESULT** (2026-08-08): added ppg_gap / season_frac / mutual_comfort (walk-forward standings state) to the classifier; model assigned them near-zero coefficients (±0.001–0.04), out-of-sample trixy 28.9% vs 29.6% (noise). Consistent with overdispersion≈1.0 finding. Features kept in the trained model (self-neutralized, harmless). Draw signal sources now exhausted except zone-blend (pending).
+
+## Next up
+
+## Backlog (post-v1)
+
+- [x] ~~Mental-model tie-breaker~~ **DROPPED permanently (user, 2026-08-08)**: mental scores can't be computed for new seasons (inputs died with fbref's advanced data) — "no mental if cannot scale". Player quality now comes from Understat metrics instead.
+- [ ] Per-GW "Best XI that will thrive" — reframed post-mental: 11 players best positioned to over-perform that gameweek (Understat player quality × zone-matchup advantages) — user request 2026-08-07
+- [ ] Odds ingestion + value detection
+- [ ] Away-win picks / extra leagues
+
+## Known issues (not blocking current stage)
+
+- README.md describes a deleted 2025 layout — superseded by `projectInfo.md`
+- Dockerfile only copies `main.py`; port mismatch (8000 vs 8080)
+- `data/league_init/` + `data/players/` are season 2425 (stale; replaced in stages 3–4)
+- Empty placeholder files: `utils/*.py`, `services/ranking/league_service.py` (orphans, nothing imports them)
+- `services/transfermarket/player_info_service.py` orphaned (needs playwright; source of `profile_img`/`foot` fields)

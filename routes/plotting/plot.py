@@ -1,7 +1,7 @@
 import base64
 from typing import Dict, List
 from fastapi import APIRouter, HTTPException
-from openai import BaseModel
+from pydantic import BaseModel
 
 from models.mental.mental_categories import TEAM_MENTAL_MAPPING
 from services.fbref.loader import FBRefLoaderService
@@ -86,84 +86,6 @@ async def get_team_chart_data(
         "metrics": metrics
     }
 
-@router.post("/{league}/{season}/{team}/{chart_type}")
-async def get_team_chart_data(
-    league: str,
-    season: int,
-    team: str,
-    chart_type: str,
-    payload: MetricsPayload
-):
-    metrics = payload.metrics
-    if not metrics:
-        raise HTTPException(status_code=400, detail="No metrics provided in payload")
-
-    teams_stats_raw = FBRefLoaderService.load_teams_stats(league, season)
-    results = {}
-
-    for stat_type, keys in metrics.items():
-        if not keys:
-            raise HTTPException(status_code=400, detail=f"No keys provided for stat_type: {stat_type}")
-
-        # Radar constraints
-        if chart_type == "radar":
-            if len(keys) < 5 or len(keys) > 8:
-                raise HTTPException(
-                    status_code=400,
-                    detail=f"Radar chart requires 5–8 metrics per stat_type. Got {len(keys)} for {stat_type}"
-                )
-
-        team_stat_list = teams_stats_raw.get(stat_type, [])
-        if not team_stat_list:
-            continue
-
-        # Rank mapping for each key
-        rank_mapping = {}
-        for k in keys:
-            ranked_teams = sorted(
-                [t for t in team_stat_list if t.get("metrics", {}).get(k)],
-                key=lambda t: t["metrics"][k]["rank"]
-            )
-            rank_mapping[k] = ranked_teams
-
-        team_entry = next((t for t in team_stat_list if t.get("team", "").lower() == team.lower()), {})
-        team_metrics = team_entry.get("metrics", {})
-
-        data_for_keys = {}
-
-        for k in keys:
-            team_val = team_metrics.get(k, {}).get("value", 0)
-            team_rank = team_metrics.get(k, {}).get("rank", None)
-
-            league_best_team_entry = rank_mapping[k][0] if rank_mapping[k] else {}
-            best_team_name = league_best_team_entry.get("team", "")
-            best_value = league_best_team_entry.get("metrics", {}).get(k, {}).get("value", 0)
-            best_rank = league_best_team_entry.get("metrics", {}).get(k, {}).get("rank", 1)
-
-            num_teams = len(rank_mapping[k])
-            team_normalized = 100.0 if team_rank == 1 else round((num_teams - team_rank) / (num_teams - 1) * 100, 2) if team_rank else 0
-            league_normalized = 100.0  # league-best is always 100
-
-            data_for_keys[k] = {
-                "team_value": team_val,
-                "team_normalized": team_normalized,
-                "team_rank": team_rank,
-                "league_best_value": best_value,
-                "league_best_team": best_team_name,
-                "league_normalized": league_normalized
-            }
-
-        results[stat_type] = data_for_keys
-
-    return {
-        "league": league,
-        "season": season,
-        "team": team,
-        "chart_type": chart_type,
-        "data": results,
-        "metrics": metrics
-    }
-
 @router.post("/{league}/{season}/{team}")
 async def get_team_default_chart(league: str, season: int, team: str):
     # Load all team stats
@@ -194,7 +116,7 @@ async def get_team_default_chart(league: str, season: int, team: str):
 
             team_value = team_metrics.get(key, {}).get("value", 0)
             team_rank = team_metrics.get(key, {}).get("rank", None)
-            team_normalized = normalize_rank(team_rank, total_teams) if team_rank else 0
+            team_normalized = TeamPlottingService.normalize_rank(team_rank, total_teams) if team_rank else 0
 
             # League best
             league_best_entry = max(
@@ -205,7 +127,7 @@ async def get_team_default_chart(league: str, season: int, team: str):
             league_best_team = league_best_entry.get("team", "")
             league_best_value = league_best_entry.get("metrics", {}).get(key, {}).get("value", 0)
             league_best_rank = league_best_entry.get("metrics", {}).get(key, {}).get("rank", 1)
-            league_normalized = normalize_rank(league_best_rank, total_teams)
+            league_normalized = TeamPlottingService.normalize_rank(league_best_rank, total_teams)
 
             category_data[key] = {
                 "team_value": team_value,

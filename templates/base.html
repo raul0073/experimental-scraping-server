@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Predictor{% endblock %}</title>
+  <link rel="icon" href="/static/predictor.ico">
+  <link rel="stylesheet" href="/static/style.css?v={{ asset_v() }}">
+</head>
+<body>
+  <header class="site">
+    <h1>⚽ Predictorous</h1>
+    <nav>
+      <a href="/dashboard" class="{{ 'active' if page == 'picks' else '' }}">Picks</a>
+      <a href="/dashboard/ledger" class="{{ 'active' if page == 'ledger' else '' }}">Ledger</a>
+      <a href="/dashboard/history" class="{{ 'active' if page == 'history' else '' }}">History</a>
+      <a href="/dashboard/monkey" class="{{ 'active' if page == 'monkey' else '' }}">Monkey 🐒</a>
+      <a href="/dashboard/backtest" class="{{ 'active' if page == 'backtest' else '' }}">Backtest</a>
+    </nav>
+    <span class="meta">{% block headmeta %}{% endblock %}</span>
+  </header>
+  <div class="wrap">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

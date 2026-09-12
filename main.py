@@ -7,7 +7,11 @@ from core.config import settings
 import routes.fbref.league.league as leagueRoute
 import routes.fbref.players.players as playerRoute
 import routes.fbref.mental as mentalRoute
+import routes.fbref.fixtures.fixtures as fixturesRoute
+import routes.predictions.predictions as predictionsRoute
+import routes.dashboard.dashboard as dashboardRoute
 import routes.plotting.plot as plotRoute
+from fastapi.staticfiles import StaticFiles
 
 
     
@@ -20,7 +24,11 @@ app = FastAPI(
 app.include_router(leagueRoute.router, prefix="/api/v2")
 app.include_router(playerRoute.router, prefix="/api/v2")
 app.include_router(mentalRoute.router, prefix="/api/v2")
+app.include_router(fixturesRoute.router, prefix="/api/v2")
+app.include_router(predictionsRoute.router, prefix="/api/v2")
 app.include_router(plotRoute.router, prefix="/api/v2")
+app.include_router(dashboardRoute.router)  # HTML pages, no /api prefix
+app.mount("/static", StaticFiles(directory="static"), name="static")
 # root
 @app.get("/", tags=["Root"])
 async def read_root():

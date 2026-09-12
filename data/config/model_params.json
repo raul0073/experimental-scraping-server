@@ -1,0 +1,36 @@
+{
+  "fit_season": "2425",
+  "fit_date": "2026-09-10",
+  "fit_log_loss": 0.97922,
+  "rho": 0.0,
+  "decay": 0.985,
+  "window": 38,
+  "min_matches": 5,
+  "leagues": {
+    "ENG-Premier League": {
+      "home_boost": 0.8754,
+      "away_boost": 0.7517,
+      "log_loss": 0.98309
+    },
+    "ESP-La Liga": {
+      "home_boost": 1.0011,
+      "away_boost": 0.7487,
+      "log_loss": 0.97309
+    },
+    "ITA-Serie A": {
+      "home_boost": 0.9494,
+      "away_boost": 0.8183,
+      "log_loss": 0.94707
+    },
+    "GER-Bundesliga": {
+      "home_boost": 0.7492,
+      "away_boost": 0.6969,
+      "log_loss": 1.00869
+    },
+    "FRA-Ligue 1": {
+      "home_boost": 0.9964,
+      "away_boost": 0.7655,
+      "log_loss": 0.99323
+    }
+  }
+}
