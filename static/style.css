@@ -45,8 +45,9 @@ h2 { font-size: 16px; margin: 28px 0 10px; }
 .tile .value { font-size: 26px; font-weight: 650; margin-top: 2px; }
 .tile .sub { color: var(--ink-3); font-size: 12px; }
 
-/* tables */
-table { border-collapse: collapse; width: 100%; background: var(--card);
+/* tables — full width of their container, but never stretched past legibility */
+table { border-collapse: collapse; width: 100%; max-width: 1680px;
+        background: var(--card);
         border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
 th, td { padding: 8px 12px; text-align: left; border-top: 1px solid var(--line); }
 thead th { background: #f6f7f8; color: var(--ink-2); font-size: 12px;
@@ -314,6 +315,34 @@ table.fair .teamcell { white-space: nowrap; }
 .luck { font-weight: 700; border-radius: 5px; padding: 1px 6px; }
 .luck.neg { background: #f7dcd7; color: #b23b2e; }  /* over-pointed: fade */
 .luck.pos { background: #dcefdd; color: #0a7d38; }  /* owed points: value */
+
+/* true responsive: components keep their natural width; spare screen width
+   becomes COLUMNS, never stretched single-column content */
+.maxw-s { max-width: 780px; }
+.maxw-m { max-width: 1020px; }
+.maxw-l { max-width: 1340px; }
+.maxw-xl { max-width: 1680px; }
+.leaguecols { display: grid; grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+  gap: 0 28px; align-items: start; }
+.leaguecols .lgblock { min-width: 0; }
+.sliprow { display: grid; grid-template-columns: minmax(560px, 900px) minmax(360px, 560px);
+  gap: 24px; align-items: start; }
+@media (max-width: 1250px) { .sliprow { grid-template-columns: 1fr; } }
+.sliprow .slipside > .meta:first-child { margin-top: 0; }
+.battlegrid { display: grid; grid-template-columns: minmax(640px, 1120px) minmax(330px, 440px);
+  gap: 24px; align-items: start; }
+@media (max-width: 1250px) { .battlegrid { grid-template-columns: 1fr; } }
+.battleside .bottomline { margin-bottom: 12px; }
+.battleside .headline { margin: 0 0 12px; }
+.battleside table.bands { min-width: 0; width: 100%; }
+.slip { max-width: 900px; }
+.hero { max-width: 1500px; }
+.teamcols { max-width: 1580px; }
+.teamcol .factlines { max-width: 700px; }
+.teamcol .pairgrid { max-width: 800px; }
+.tablesplit { max-width: 1560px; }
+.mentalcap { max-width: 1900px; overflow-x: auto; }
+.mentalcap table { max-width: none; }
 
 /* mental rankings + algorithm config */
 .cfglink { margin-left: 14px; font-size: 12.5px; font-weight: 500; }
