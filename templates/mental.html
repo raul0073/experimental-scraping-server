@@ -58,9 +58,9 @@
       <td class="teamcell">{% if r.crest.logo %}<img class="crestimg" src="{{ r.crest.logo }}" width="16" height="16" alt="" loading="lazy"> {% endif %}{{ r.team }}</td>
       <td><span class="badge lgbadge"><img src="{{ league_crest(r.league) }}" width="14" height="14" alt="" onerror="this.remove()">{{ r.league.split('-')[1] }}</span></td>
       <td class="meta">{{ r.role }}</td>
-      <td class="num"><span class="mscore">{{ r.score }}</span></td>
+      <td class="num"><span class="mscore" title="raw {{ r.score_raw }} · evidence {{ r.evid }} matches-worth of minutes → keeps {{ r.kept_pct }}% of its deviation from 50">{{ r.score }}</span></td>
       {% for c in columns %}<td class="num">{{ r[c.key] }}{{ '%' if c.unit == '%' }}</td>{% endfor %}
-      <td class="num meta">{{ r.apps }}</td>
+      <td class="num meta" title="{{ r.evid }} matches-worth of minutes">{{ r.apps }}</td>
     </tr>
     {% endfor %}
   </tbody>
@@ -68,8 +68,10 @@
 
 <p class="meta">Qualification adapts per player to HIS OWN team's played matches in the selected window (60% of them,
    floor 2, cap 8) — leagues start on different weekends, so a league-wide bar would hide whole teams that are
-   one round behind. Early-season views are small samples: weather, not climate; big-game presence sits
-   neutral until a player logs 3 such starts. Goalkeepers excluded
+   one round behind. <strong>Evidence correction</strong>: scores shrink toward neutral 50 by sample size
+   (minutes÷90 against a 12-match prior — hover a score for the raw number), so a 37-game season rightly
+   outranks the same profile built on 20 games. Big-game presence sits neutral until a player logs 3 such
+   starts. Goalkeepers excluded
    (involvement metrics don't fit them). Percentiles are computed within league AND role bucket, so a
    centre-back's numbers are judged against centre-backs. Hover a column header for what it measures.
    Honest limits stated where they exist — e.g. aerial threat is attacking headers only; defensive

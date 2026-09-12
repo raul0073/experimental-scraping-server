@@ -23,6 +23,11 @@ from services.understat.rosters_service import RostersService
 
 DECAY = 0.985
 MIN_APPS_45 = 8
+# evidence shrinkage: final scores are pulled toward neutral 50 by sample
+# size — score = 50 + (raw-50) * n/(n+K) with n = minutes/90. A 37-game
+# player keeps ~76% of his deviation, a 20-game player ~62%, a 5-game
+# early-season sample ~29%. More games = more trust, as it should be.
+K_EVIDENCE = 12.0
 SEASONS = ["2526", "2627"]
 LEAGUES = ["ENG-Premier League", "ITA-Serie A", "ESP-La Liga",
            "GER-Bundesliga", "FRA-Ligue 1"]
@@ -285,6 +290,7 @@ def _player_metrics(apps: List[Dict], team_dates: Dict[str, List[str]],
 
     return {
         "team": team, "apps": len(apps),
+        "evid": round(total_min / 90.0, 1),  # minutes-worth of full matches
         "avail": round((w_60 / w_all if w_all else 0) * 100),
         "minutes_share": round((w_min / w_all if w_all else 0) * 100),
         "starter_share": round(len(starts) / len(apps) * 100),
@@ -432,8 +438,12 @@ def build_rankings(seasons: List[str] = None,
                         ordered[k][f"{key}_p"] = avg_p
                     i = j + 1
             for r in grp:
-                r["score"] = round(sum(c["weight"] / w_sum[bucket] * r[f"{c['key']}_p"]
-                                       for c in comps), 1)
+                raw = sum(c["weight"] / w_sum[bucket] * r[f"{c['key']}_p"]
+                          for c in comps)
+                kept = r["evid"] / (r["evid"] + K_EVIDENCE)
+                r["score_raw"] = round(raw, 1)
+                r["kept_pct"] = round(kept * 100)
+                r["score"] = round(50.0 + (raw - 50.0) * kept, 1)
         out_rows.extend(r for r in rows if "score" in r)
 
     out_rows.sort(key=lambda r: -r["score"])
