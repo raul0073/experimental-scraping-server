@@ -702,11 +702,14 @@ async def table_page(request: Request):
 @router.get("/dashboard/mental", response_class=HTMLResponse)
 async def mental_page(request: Request, league: Optional[str] = Query(None),
                       team: Optional[str] = Query(None),
-                      role: Optional[str] = Query(None)):
+                      role: Optional[str] = Query(None),
+                      season: Optional[str] = Query(None)):
     """Dependability rankings — the mental concept reborn on per-match data.
-    Full all-league board, filterable by league / team / role."""
-    from services.mental.dependability import build_rankings
-    data = _cached(("mental",), build_rankings)
+    Full all-league board, filterable by league / team / role / season."""
+    from services.mental.dependability import SEASONS, build_rankings
+    season = season if season in SEASONS else ""
+    seasons_sel = [season] if season else SEASONS
+    data = _cached(("mental", season), lambda: build_rankings(seasons_sel))
     rows = data["players"]
     badges = {lg: _badge_fn(lg) for lg in {r["league"] for r in rows}}
     for i, r in enumerate(rows, 1):  # idempotent decoration of the cached rows
@@ -727,6 +730,7 @@ async def mental_page(request: Request, league: Optional[str] = Query(None),
         "leagues": sorted(teams_by_lg),
         "teams_by_lg": {lg: sorted(ts) for lg, ts in sorted(teams_by_lg.items())},
         "f_league": league or "", "f_team": team or "", "f_role": role or "",
+        "f_season": season, "season_options": SEASONS,
         "seasons": data["seasons"], "qualified": data["qualified"],
         "recipes": data["components"], "columns": data["columns"],
         "page": "mental",
@@ -771,7 +775,8 @@ async def mental_config_save(request: Request):
             if not any(c["enabled"] and c["weight"] > 0 for c in cfg[role]):
                 cfg[role] = load_config()[role]  # refuse an empty recipe for a role
         save_config(cfg)
-    _CACHE.pop(("mental",), None)  # recompute rankings with the new algorithm
+    for k in [k for k in _CACHE if isinstance(k, tuple) and k and k[0] == "mental"]:
+        _CACHE.pop(k, None)  # recompute every season view with the new algorithm
     return RedirectResponse("/dashboard/mental/config?saved=1", status_code=303)
 
 

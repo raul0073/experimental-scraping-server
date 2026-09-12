@@ -236,11 +236,11 @@ def _season_of(date: str) -> str:
 
 
 def _player_metrics(apps: List[Dict], team_dates: Dict[str, List[str]],
-                    shots: Dict[str, float],
-                    top6: Dict[str, set]) -> Optional[Dict[str, Any]]:
+                    shots: Dict[str, float], top6: Dict[str, set],
+                    min_apps: int = MIN_APPS_45) -> Optional[Dict[str, Any]]:
     apps = sorted(apps, key=lambda a: a["date"])
     apps45 = [a for a in apps if a["minutes"] >= 45]
-    if len(apps45) < MIN_APPS_45:
+    if len(apps45) < min_apps:
         return None
     team = apps[-1]["team"]
     first = min(a["date"] for a in apps if a["team"] == team)
@@ -393,6 +393,11 @@ def build_rankings(seasons: List[str] = None,
                     if pos and pos != "Sub":
                         e["pos"][pos] = e["pos"].get(pos, 0) + mins
 
+        # qualification scales with how much season exists: a 26/27-only view
+        # after 4 rounds can't demand 8 appearances (floor 3, cap MIN_APPS_45)
+        max_played = max((len(d) for d in team_dates.values()), default=0)
+        min_apps = max(3, min(MIN_APPS_45, int(0.6 * max_played)))
+
         rows = []
         for name, e in players.items():
             if not e["pos"]:
@@ -400,7 +405,8 @@ def build_rankings(seasons: List[str] = None,
             bucket = _bucket(max(e["pos"], key=e["pos"].get))
             if bucket in ("", "GK"):
                 continue
-            m = _player_metrics(e["apps"], team_dates, shot_agg.get(name, {}), top6)
+            m = _player_metrics(e["apps"], team_dates, shot_agg.get(name, {}),
+                                top6, min_apps)
             if not m:
                 continue
             rows.append({"player": name, "league": league, "role": bucket, **m})
