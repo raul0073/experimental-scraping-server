@@ -88,8 +88,28 @@
 
 {% if battles %}
 <h2>Where each team wins</h2>
-<div class="battlegrid">
-<div class="battlemain">
+{% if bottom %}
+<p class="bottomline">💬 <strong>Bottom line:</strong> {{ bottom }}</p>
+{% endif %}
+<p class="headline">⚡ {{ headline.home }} &nbsp;·&nbsp; {{ headline.away }}</p>
+{% if bands %}
+<table class="bands" style="margin-bottom: 14px">
+  <thead><tr><th></th><th>Attack</th><th>Midfield</th><th>Defense</th></tr></thead>
+  <tbody>
+    <tr class="bandrow"><th>{{ crest(hbadge, 16) }} {{ home }}</th>
+      <td class="num">{{ bands.home.att }}</td><td class="num">{{ bands.home.mid }}</td><td class="num">{{ bands.home.def }}</td></tr>
+    <tr class="bandrow"><th>{{ crest(abadge, 16) }} {{ away }}</th>
+      <td class="num">{{ bands.away.att }}</td><td class="num">{{ bands.away.mid }}</td><td class="num">{{ bands.away.def }}</td></tr>
+  </tbody>
+</table>
+{% endif %}
+
+<div class="legend">
+  <span><span class="sw" style="background: var(--tint-home-strong)"></span>{{ home }} wins the duel</span>
+  <span><span class="sw" style="background: #f2f3f1"></span>even</span>
+  <span><span class="sw" style="background: var(--tint-away-strong)"></span>{{ away }} wins the duel</span>
+</div>
+
 <div class="pitch-teams">
   <span>🏠 {{ crest(hbadge, 18) }} {{ home }} <span class="dir">attacks ⟶ into the right half</span></span>
   <span><span class="dir">{{ away }} attacks ⟵ into the left half</span> {{ crest(abadge, 18) }} ✈️</span>
@@ -135,35 +155,11 @@
     {% endfor %}
   </div>
 </div>
-<div class="legend" style="margin-top: 10px">
-  <span><span class="sw" style="background: var(--tint-home-strong)"></span>{{ home }} wins the duel</span>
-  <span><span class="sw" style="background: #f2f3f1"></span>even</span>
-  <span><span class="sw" style="background: var(--tint-away-strong)"></span>{{ away }} wins the duel</span>
-</div>
 <p class="meta">Flank rows pair one side's attack with the other's mirrored defence — the right half is where
    <strong>{{ home }}</strong> attacks, the left half is where <strong>{{ away }}</strong> attacks ("attack left" =
    that team's left winger's side). The centre strip is the midfield battle: each team's build-up against the
    other's press &amp; screen, plus the overall verdict. Numbers: 0–100 league percentiles ({{ zones_season }}
    shot data + player quality). Hover any card for what feeds it.</p>
-</div>
-<aside class="battleside">
-  {% if bottom %}
-  <p class="bottomline">💬 <strong>Bottom line:</strong> {{ bottom }}</p>
-  {% endif %}
-  <p class="headline">⚡ {{ headline.home }} &nbsp;·&nbsp; {{ headline.away }}</p>
-  {% if bands %}
-  <table class="bands">
-    <thead><tr><th></th><th>Attack</th><th>Midfield</th><th>Defense</th></tr></thead>
-    <tbody>
-      <tr class="bandrow"><th>{{ crest(hbadge, 16) }} {{ home }}</th>
-        <td class="num">{{ bands.home.att }}</td><td class="num">{{ bands.home.mid }}</td><td class="num">{{ bands.home.def }}</td></tr>
-      <tr class="bandrow"><th>{{ crest(abadge, 16) }} {{ away }}</th>
-        <td class="num">{{ bands.away.att }}</td><td class="num">{{ bands.away.mid }}</td><td class="num">{{ bands.away.def }}</td></tr>
-    </tbody>
-  </table>
-  {% endif %}
-</aside>
-</div>
 {% else %}
 <p class="meta">Zone data unavailable for one of these teams (promoted side or insufficient history).</p>
 {% endif %}
