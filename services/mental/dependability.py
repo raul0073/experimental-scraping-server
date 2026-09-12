@@ -236,13 +236,18 @@ def _season_of(date: str) -> str:
 
 
 def _player_metrics(apps: List[Dict], team_dates: Dict[str, List[str]],
-                    shots: Dict[str, float], top6: Dict[str, set],
-                    min_apps: int = MIN_APPS_45) -> Optional[Dict[str, Any]]:
+                    shots: Dict[str, float],
+                    top6: Dict[str, set]) -> Optional[Dict[str, Any]]:
     apps = sorted(apps, key=lambda a: a["date"])
     apps45 = [a for a in apps if a["minutes"] >= 45]
+    team = apps[-1]["team"]
+    # qualification keyed to HIS OWN team's played count (leagues start on
+    # different weekends and schedules drift — a league-wide bar was hiding
+    # whole teams that had simply played one round fewer)
+    team_played = len(set(team_dates.get(team, [])))
+    min_apps = max(2, min(MIN_APPS_45, round(0.6 * team_played)))
     if len(apps45) < min_apps:
         return None
-    team = apps[-1]["team"]
     first = min(a["date"] for a in apps if a["team"] == team)
     sched = sorted({d for d in team_dates.get(team, []) if d >= first}, reverse=True)
     by_date = {a["date"]: a for a in apps if a["team"] == team}
@@ -393,11 +398,6 @@ def build_rankings(seasons: List[str] = None,
                     if pos and pos != "Sub":
                         e["pos"][pos] = e["pos"].get(pos, 0) + mins
 
-        # qualification scales with how much season exists: a 26/27-only view
-        # after 4 rounds can't demand 8 appearances (floor 3, cap MIN_APPS_45)
-        max_played = max((len(d) for d in team_dates.values()), default=0)
-        min_apps = max(3, min(MIN_APPS_45, int(0.6 * max_played)))
-
         rows = []
         for name, e in players.items():
             if not e["pos"]:
@@ -405,8 +405,7 @@ def build_rankings(seasons: List[str] = None,
             bucket = _bucket(max(e["pos"], key=e["pos"].get))
             if bucket in ("", "GK"):
                 continue
-            m = _player_metrics(e["apps"], team_dates, shot_agg.get(name, {}),
-                                top6, min_apps)
+            m = _player_metrics(e["apps"], team_dates, shot_agg.get(name, {}), top6)
             if not m:
                 continue
             rows.append({"player": name, "league": league, "role": bucket, **m})
