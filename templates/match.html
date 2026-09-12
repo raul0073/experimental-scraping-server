@@ -69,6 +69,9 @@
     <div class="hbar"><span style="width: {{ (pred.probabilities.home * 100) | round(1) }}%"></span><span class="d" style="width: {{ (pred.probabilities.draw * 100) | round(1) }}%"></span><span class="a" style="width: {{ (pred.probabilities.away * 100) | round(1) }}%"></span></div>
     <div class="hxg">xG {{ pred.xg[home] }}–{{ pred.xg[away] }} &nbsp;·&nbsp; likely scores
       H {{ pred.modal_scores.home[0] }} · D {{ pred.modal_scores.draw[0] }} · A {{ pred.modal_scores.away[0] }}</div>
+    {% if pred.draw_drivers %}
+    <div class="chips center">{% for c in pred.draw_drivers %}<span class="chip {{ 'pos' if c.s > 0 else 'neg' }}" title="draw log-odds {{ '%+0.2f' % (c.s * c.w) }}">{{ '▲' if c.s > 0 else '▼' }} {{ c.t }}</span>{% endfor %}</div>
+    {% endif %}
     {% else %}
     <div class="hxg">no model line for this fixture (outside the current window)</div>
     {% endif %}

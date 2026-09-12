@@ -8,7 +8,15 @@ log = logging.getLogger(__name__)
 
 DECAY = 0.985     # per-match recency decay (matches zones engine)
 WINDOW = 38       # rolling matches per team
-MIN_MATCHES = 5   # below this a team gets league-average priors (low confidence)
+MIN_MATCHES = 5   # below this a team's rating blends with the promoted prior
+# promoted-team archetype, measured on 28 promoted sides 24/25+25/26
+# (scripts/measure_promoted_priors.py): they create 0.79x league-average xG
+# and concede 1.21x. The old prior (league average, 1.0/1.0) systematically
+# overrated them. PRIOR_MATCHES = how many pseudo-matches the prior is worth.
+PROMOTED_ATT = 0.79
+PROMOTED_DEF = 1.21
+PRIOR_MATCHES = 4
+MIN_CERT = 3      # certification bar: below this a fixture stays low-confidence
 # strength-of-schedule adjustment REJECTED 2026-09-10: frozen 25/26 eval got
 # WORSE (log-loss 0.9959->0.9969, draw picks 32.2%->30.3%) — balanced
 # round-robins self-average schedule strength; the adjustment adds noise.
@@ -102,16 +110,26 @@ class FormModel:
 
     def lambdas(self, ratings: Dict[str, Dict[str, float]], home: str, away: str,
                 home_boost: float, away_boost: float) -> Optional[Tuple[float, float, bool]]:
-        """xG pair for a fixture; low_confidence=True when either team is on
-        priors (promoted / early data)."""
+        """xG pair for a fixture; low_confidence=True when either team has
+        fewer than MIN_CERT matches. Thin-history teams (promoted sides) get
+        the measured promoted archetype blended with their observed matches
+        (prior worth PRIOR_MATCHES pseudo-matches) instead of the old flat
+        league-average prior that systematically overrated them."""
         mu = getattr(self, "_mu", 1.3)
-        rh = ratings.get(home)
-        ra = ratings.get(away)
-        low_conf = (rh is None or rh["n"] < MIN_MATCHES
-                    or ra is None or ra["n"] < MIN_MATCHES)
-        prior = {"att": mu, "def": mu, "n": 0, "mu": mu}
-        rh = rh if rh and rh["n"] >= MIN_MATCHES else prior
-        ra = ra if ra and ra["n"] >= MIN_MATCHES else prior
+
+        def resolve(r):
+            if r and r["n"] >= MIN_MATCHES:
+                return r
+            n = r["n"] if r else 0
+            att_obs = r["att"] if r else 0.0
+            def_obs = r["def"] if r else 0.0
+            att = (PRIOR_MATCHES * mu * PROMOTED_ATT + n * att_obs) / (PRIOR_MATCHES + n)
+            dfn = (PRIOR_MATCHES * mu * PROMOTED_DEF + n * def_obs) / (PRIOR_MATCHES + n)
+            return {"att": att, "def": dfn, "n": n}
+
+        rh = resolve(ratings.get(home))
+        ra = resolve(ratings.get(away))
+        low_conf = rh["n"] < MIN_CERT or ra["n"] < MIN_CERT
         lam_h = (rh["att"] * ra["def"] / mu) * home_boost
         lam_a = (ra["att"] * rh["def"] / mu) * away_boost
         return max(lam_h, 0.05), max(lam_a, 0.05), low_conf

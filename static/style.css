@@ -296,6 +296,25 @@ tbody tr.alt td strong { font-weight: 500; }
 .teamcol .shotsvg.shape { max-width: 330px; margin: 0 auto; }
 .teamcol .pairgrid .shotcard { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
 
+/* why-chips: the classifier's own feature contributions */
+.chips { margin-top: 3px; display: flex; flex-wrap: wrap; gap: 4px; }
+.chips.center { justify-content: center; margin-top: 7px; }
+.chip { font-size: 10.5px; font-weight: 600; border-radius: 999px; padding: 1px 8px;
+  border: 1px solid transparent; white-space: nowrap; }
+.chip.pos { background: #e7f2e9; color: #14632f; border-color: #bcdcc4; }
+.chip.neg { background: #f7e9e6; color: #93362a; border-color: #e4c3bc; }
+
+/* fair tables */
+.lgh { display: flex; align-items: center; gap: 9px; margin-top: 30px; }
+.tablesplit { display: grid; grid-template-columns: minmax(560px, 1.4fr) minmax(340px, 1fr);
+  gap: 16px; align-items: start; }
+@media (max-width: 1100px) { .tablesplit { grid-template-columns: 1fr; } }
+table.fair { font-size: 13px; }
+table.fair .teamcell { white-space: nowrap; }
+.luck { font-weight: 700; border-radius: 5px; padding: 1px 6px; }
+.luck.neg { background: #f7dcd7; color: #b23b2e; }  /* over-pointed: fade */
+.luck.pos { background: #dcefdd; color: #0a7d38; }  /* owed points: value */
+
 /* team pizza (league-percentile slices) */
 .pizzacard .fteam { margin-bottom: 8px; }
 .pizzasvg { width: 100%; max-width: 300px; height: auto; display: block; margin: 0 auto; }

@@ -80,7 +80,8 @@
       <td>{{ p.rank }}</td>
       <td>{% if p.rank <= 4 %}<span class="badge ticket">ticket</span>{% else %}<span class="badge">alt</span>{% endif %}</td>
       <td><span class="badge lgbadge"><img src="{{ league_crest(p.league) }}" width="14" height="14" alt="" onerror="this.remove()">{{ p.league.split('-')[1] }}</span></td>
-      <td>{{ fixture(p) }}</td>
+      <td>{{ fixture(p) }}
+        {% if p.draw_drivers %}<div class="chips">{% for c in p.draw_drivers %}<span class="chip {{ 'pos' if c.s > 0 else 'neg' }}" title="log-odds {{ '%+0.2f' % (c.s * c.w) }}">{{ '▲' if c.s > 0 else '▼' }} {{ c.t }}</span>{% endfor %}</div>{% endif %}</td>
       <td class="meta">{{ p.kickoff }}</td>
       <td>
         <span class="meter">
@@ -95,6 +96,8 @@
     {% endfor %}
   </tbody>
 </table>
+<p class="meta">▲/▼ chips: what pushes this fixture's draw probability up or down, straight from the
+   classifier's own feature contributions — the model arguing its case, not a story written after the fact.</p>
 
 {% if data.strategy %}
 {% set st = data.strategy %}

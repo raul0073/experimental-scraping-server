@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Fair tables{% endblock %}
+{% block headmeta %}points v xPTS — who's lucky, who's owed{% endblock %}
+{% block content %}
+
+<h2>Fair tables <span class="seasontag">real points next to expected points (xPTS) — big gaps mean regression is coming</span></h2>
+<p class="meta">Luck = points − xPTS. Deep <span class="luck neg">red</span> teams are banking more than they create
+   (fade candidates); deep <span class="luck pos">green</span> teams are owed points (value candidates). Players
+   board: xG+xA per 90, minimum 180 minutes.</p>
+
+{% for L in leagues %}
+{% set b = L.badge %}
+<h2 class="lgh"><img src="{{ league_crest(L.league) }}" width="22" height="22" alt="" onerror="this.remove()">
+  {{ L.league.split('-')[1] }}</h2>
+<div class="tablesplit">
+  <table class="fair">
+    <thead><tr><th>#</th><th>Team</th><th class="num">MP</th><th class="num">W</th><th class="num">D</th>
+      <th class="num">L</th><th class="num">GD</th><th class="num">PTS</th><th class="num">xPTS</th>
+      <th class="num">Luck</th></tr></thead>
+    <tbody>
+      {% for r in L.table %}
+      {% set bd = b(r.team) %}
+      <tr>
+        <td>{{ r.pos }}</td>
+        <td class="teamcell">{% if bd.logo %}<img class="crestimg" src="{{ bd.logo }}" width="16" height="16" alt="" loading="lazy">{% endif %} {{ r.team }}</td>
+        <td class="num">{{ r.mp }}</td><td class="num">{{ r.w }}</td><td class="num">{{ r.d }}</td>
+        <td class="num">{{ r.l }}</td><td class="num">{{ r.gd }}</td>
+        <td class="num"><strong>{{ r.pts }}</strong></td><td class="num">{{ r.xpts }}</td>
+        <td class="num"><span class="luck {{ 'neg' if r.luck >= 2 else 'pos' if r.luck <= -2 else '' }}">{{ '%+0.1f' % r.luck }}</span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <table class="fair players">
+    <thead><tr><th>Players to watch</th><th>Team</th><th class="num">G</th><th class="num">A</th>
+      <th class="num">xG+xA /90</th></tr></thead>
+    <tbody>
+      {% for p in L.players %}
+      <tr><td>{{ p.player }}</td><td class="meta">{{ p.team }}</td>
+        <td class="num">{{ p.goals }}</td><td class="num">{{ p.assists }}</td>
+        <td class="num"><strong>{{ p.xgxa90 }}</strong></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endfor %}
+
+<p class="meta">Luck coloring is from the bettor's side: red = the market table flatters them, green = the table
+   underrates them. Early season, treat anything under 5 games as weather, not climate.</p>
+{% endblock %}

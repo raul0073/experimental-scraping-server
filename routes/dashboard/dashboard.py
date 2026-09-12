@@ -637,6 +637,68 @@ async def match_page(request: Request, league: str, home: str, away: str):
     })
 
 
+@router.get("/dashboard/table", response_class=HTMLResponse)
+async def table_page(request: Request):
+    """Fair tables: real standings next to xPTS with a luck delta, plus a
+    small players-to-watch board (xG+xA per 90) per league."""
+    from services.fbref.fixtures.fixtures_service import FixturesService
+    from services.predictions.prediction_service import DRAW_LEAGUES, SEASON
+    from services.understat.understat_service import UnderstatService
+
+    def build_league(lg):
+        fx = FixturesService.load(lg, SEASON)
+        us = UnderstatService.load(lg, SEASON)
+        rows: dict = {}
+        for m in (fx or {}).get("matches", []):
+            if not m.get("played"):
+                continue
+            for team, gf, ga in ((m["home_team"], m["home_goals"], m["away_goals"]),
+                                 (m["away_team"], m["away_goals"], m["home_goals"])):
+                r = rows.setdefault(team, {"team": team, "mp": 0, "w": 0, "d": 0,
+                                           "l": 0, "gf": 0, "ga": 0, "pts": 0, "xpts": 0.0})
+                r["mp"] += 1
+                r["gf"] += gf
+                r["ga"] += ga
+                if gf > ga:
+                    r["w"] += 1; r["pts"] += 3
+                elif gf == ga:
+                    r["d"] += 1; r["pts"] += 1
+                else:
+                    r["l"] += 1
+        for m in (us or {}).get("matches", []):
+            for pre, team in (("home", m["home_team"]), ("away", m["away_team"])):
+                v = m.get(f"{pre}_xpts")
+                if v is not None and team in rows:
+                    rows[team]["xpts"] += v
+        table = sorted(rows.values(), key=lambda r: (-r["pts"], -(r["gf"] - r["ga"]), -r["gf"]))
+        for i, r in enumerate(table, 1):
+            r["pos"] = i
+            r["gd"] = r["gf"] - r["ga"]
+            r["xpts"] = round(r["xpts"], 1)
+            r["luck"] = round(r["pts"] - r["xpts"], 1)
+
+        players = []
+        pdata = None
+        ppath = Path("data/understat") / _safe_name(lg) / "players" / f"{SEASON}.json"
+        if ppath.exists():
+            pdata = json.loads(ppath.read_text(encoding="utf-8"))
+        for p in (pdata or {}).get("players", []):
+            mins = p.get("minutes") or 0
+            if mins < 180:
+                continue
+            xgxa = (p.get("xg") or 0) + (p.get("xa") or 0)
+            players.append({"player": p["player"], "team": p["team"], "mins": mins,
+                            "goals": p.get("goals") or 0, "assists": p.get("assists") or 0,
+                            "xgxa90": round(xgxa / mins * 90, 2)})
+        players.sort(key=lambda p: -p["xgxa90"])
+        return {"league": lg, "table": table, "players": players[:10],
+                "badge": _badge_fn(lg)}
+
+    leagues = _cached(("fairtables",), lambda: [build_league(lg) for lg in DRAW_LEAGUES])
+    return templates.TemplateResponse(request, "table.html",
+                                      {"leagues": leagues, "page": "table"})
+
+
 @router.get("/dashboard/history", response_class=HTMLResponse)
 async def history_page(request: Request):
     from services.predictions.history_service import HistoryService
@@ -666,10 +728,12 @@ async def history_page(request: Request):
 
 @router.get("/dashboard/monkey", response_class=HTMLResponse)
 async def monkey_page(request: Request):
+    from services.predictions.gold_ledger import GoldLedger
     from services.predictions.slip_ledger import SlipLedger
     SlipLedger.grade()
+    GoldLedger.grade()
     return templates.TemplateResponse(request, "monkey.html", {
-        "m": SlipLedger.monkey(), "page": "monkey",
+        "m": SlipLedger.monkey(), "g": GoldLedger.summary(), "page": "monkey",
     })
 
 

@@ -199,3 +199,39 @@ class DrawModel:
         for i, f in enumerate(features):
             z += w["coef"][i + 1] * (f - w["mean"][i]) / w["std"][i]
         return 1 / (1 + math.exp(-z))
+
+    # human phrase per feature, keyed by whether the fixture sits ABOVE or
+    # BELOW the training mean (the chip's +/- sign comes from the contribution)
+    _PHRASE = {
+        "p_draw_poisson": ("Poisson also likes the draw", "Poisson cool on the draw"),
+        "lam_sum": ("high expected tempo", "low expected tempo"),
+        "lam_absdiff": ("clear xG mismatch", "evenly matched xG"),
+        "drawrate_h": ("home side draws often", "home side rarely draws"),
+        "drawrate_a": ("away side draws often", "away side rarely draws"),
+        "goals_total_h": ("home games run high-scoring", "home games run tight"),
+        "goals_total_a": ("away games run high-scoring", "away games run tight"),
+        "ppda_sum": ("passive pressing pair", "intense pressing pair"),
+        "ppg_gap": ("table mismatch", "table neighbours"),
+        "season_frac": ("late in the season", "early in the season"),
+        "mutual_comfort": ("a point suits both", "someone must chase the win"),
+    }
+
+    def explain(self, features: List[float], top: int = 4) -> List[Dict]:
+        """Per-feature log-odds contributions of THIS fixture vs the training
+        mean — why the classifier's draw number is high or low. Returns the
+        `top` strongest as chips: {t: text, s: +1/-1, w: |contribution|}."""
+        w = self.w
+        chips = []
+        for i, name in enumerate(w["features"]):
+            phrase = self._PHRASE.get(name)
+            if not phrase:
+                continue  # e.g. league dummies — direction has no plain reading
+            xn = (features[i] - w["mean"][i]) / w["std"][i]
+            contrib = w["coef"][i + 1] * xn
+            if abs(contrib) < 0.02:
+                continue
+            chips.append({"t": phrase[0] if xn >= 0 else phrase[1],
+                          "s": 1 if contrib > 0 else -1,
+                          "w": round(abs(contrib), 3)})
+        chips.sort(key=lambda c: -c["w"])
+        return chips[:top]

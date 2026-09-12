@@ -47,4 +47,51 @@
    result of the advice; real Winner odds move actual returns around these numbers. Hover a legs cell
    for fixtures and scores.</p>
 
+<h2>🥇 GOLD singles pot <span class="seasontag">Gate A instrument — every certified ≥55% favorite, any league, single at frozen breakeven</span></h2>
+<div class="tiles">
+  <div class="tile"><div class="label">Pot</div>
+    <div class="value">{{ g.pot | int }}₪</div>
+    <div class="sub">started {{ g.start_pot | int }}₪{% if g.in_play > 0 %} · {{ g.in_play | int }}₪ in play{% endif %}</div></div>
+  <div class="tile"><div class="label">Realized v expected</div>
+    <div class="value">{% if g.realized is not none %}{{ (g.realized * 100) | round(1) }}%{% else %}—{% endif %}</div>
+    <div class="sub">{% if g.expected is not none %}model said {{ (g.expected * 100) | round(1) }}% · {% endif %}{{ g.hits }}/{{ g.bets_graded }} bets</div></div>
+  <div class="tile"><div class="label">Net at fair prices</div>
+    <div class="value" style="color: {{ 'var(--good)' if g.net >= 0 else 'var(--bad)' }}">{{ '%+d' | format(g.net | int) }}₪</div>
+    <div class="sub">{% if g.roi is not none %}ROI {{ (g.roi * 100) | round(1) }}%{% else %}nothing graded yet{% endif %}</div></div>
+  <div class="tile"><div class="label">Gate A</div>
+    <div class="value">{{ g.bets_graded }}/{{ g.gate_a.target_n }}</div>
+    <div class="sub">needs ≥{{ (g.gate_a.target_acc * 100) | round | int }}% realized at n≥{{ g.gate_a.target_n }}
+      {% if g.gate_a.on_track is not none %} · {{ 'on track ✓' if g.gate_a.on_track else 'below bar ✗' }}{% endif %}</div></div>
+</div>
+{% if g.weeks %}
+<table>
+  <thead><tr><th>Window</th><th>Bets</th><th class="num">Stake</th>
+      <th class="num">Hits</th><th class="num">Return</th><th class="num">Net</th><th class="num">Pot after</th></tr></thead>
+  <tbody>
+    {% for w in g.weeks %}
+    <tr>
+      <td class="meta">{{ w.window }}</td>
+      <td class="scorelines">
+        {% for b in w.bets %}<span title="{{ b.fixture }} — {{ b.team }} @ {{ b.breakeven }} {{ b.score | default('') }}">{{ b.team.split()[-1] }}{% if b.hit is defined %}{{ '✓' if b.hit else '✗' }}{% endif %}</span> {% endfor %}
+      </td>
+      <td class="num">{{ w.stake | int }}₪</td>
+      {% if w.status == 'graded' %}
+      <td class="num">{{ w.hits }} of {{ w.bets | length }}</td>
+      <td class="num">{{ w.gross_return | round | int }}₪</td>
+      <td class="num"><span class="{{ 'hit' if w.net > 0 else 'miss' if w.net < 0 else '' }}">{{ '%+d' | format(w.net | int) }}₪</span></td>
+      {% else %}
+      <td class="num pending" colspan="3">pending</td>
+      {% endif %}
+      <td class="num"><strong>{{ w.pot_after | int }}₪</strong></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="meta">No GOLD bets committed yet — the next weekly run books this window's certified favorites.</p>
+{% endif %}
+<p class="meta">At breakeven prices this pot profits exactly when realized accuracy beats the model's stated
+   probability — a live audit of the "GOLD ≈ 65–67%" claim. Real betting decisions still require the book's
+   price to clear 1/p (your domain).</p>
+
 {% endblock %}

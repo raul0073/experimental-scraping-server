@@ -114,6 +114,7 @@ class PredictionService:
             probs = outcome_probs(lam_h, lam_a, rho)
 
             p_draw_clf = None
+            draw_drivers = None
             if self.draw_model:
                 roll = DrawModel.rolling_stats(fm.matches, date)
                 if m["home_team"] in roll and m["away_team"] in roll:
@@ -121,9 +122,11 @@ class PredictionService:
                     season_matches = (UnderstatService.load(league, SEASON) or {}).get("matches", [])
                     ctx = DrawModel.season_context(season_matches, date,
                                                   m["home_team"], m["away_team"])
-                    p_draw_clf = round(self.draw_model.predict(DrawModel.fixture_features(
+                    feats = DrawModel.fixture_features(
                         lam_h, lam_a, rho,
-                        roll[m["home_team"]], roll[m["away_team"]], ctx)), 4)
+                        roll[m["home_team"]], roll[m["away_team"]], ctx)
+                    p_draw_clf = round(self.draw_model.predict(feats), 4)
+                    draw_drivers = self.draw_model.explain(feats)
 
             probs_unified = unified_probs(probs, p_draw_clf)
             p_max = max(probs_unified.values())
@@ -141,6 +144,7 @@ class PredictionService:
                 "probabilities": probs_unified,
                 "probabilities_poisson": probs,
                 "p_draw_classifier": p_draw_clf,
+                "draw_drivers": draw_drivers,
                 "top_scorelines": top_scorelines(lam_h, lam_a, rho),
                 "modal_scores": modal_scores_by_outcome(lam_h, lam_a, rho),
                 "confidence": "low" if low_conf else "normal",

@@ -31,6 +31,50 @@ def step(label, fn):
         return None
 
 
+def _backup_state():
+    """Zip the crown jewels (ledger/history/slips/config) — the track record
+    is the product's credibility. Keeps the last 10 archives."""
+    import zipfile
+    root = Path(__file__).resolve().parent.parent
+    out_dir = root / "data" / "backups"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    stampname = datetime.now().strftime("%Y%m%d_%H%M")
+    out = out_dir / f"state_{stampname}.zip"
+    n = 0
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+        for sub in ("ledger", "history", "slips", "config"):
+            for f in sorted((root / "data" / sub).glob("*")):
+                if f.is_file():
+                    z.write(f, f"{sub}/{f.name}")
+                    n += 1
+    old = sorted(out_dir.glob("state_*.zip"))
+    for f in old[:-10]:
+        f.unlink()
+    return {"files": n, "archive": out.name, "kept": min(len(old), 10)}
+
+
+def _notify(weekly):
+    """Telegram summary of the new window (inert until telegram.json filled)."""
+    from services.notify import send_telegram
+    win = weekly.get("window") or {}
+    lines = [f"⚽ Predictor — window {win.get('start')} → {win.get('end')}"]
+    for p in weekly.get("draw_picks", []):
+        lines.append(f"  X {p['home']} v {p['away']} ({p['pick_prob']:.0%}, "
+                     f"be {1 / p['pick_prob']:.2f})")
+    st = weekly.get("strategy") or {}
+    slip = st.get("slip") or {}
+    if slip:
+        lines.append(f"🐒 {slip.get('title_he', '')} · {slip.get('lines', 0)} lines · "
+                     f"P(profit) {slip.get('p_profit', 0):.0%}")
+    golds = [b for lg, ps in (weekly.get("all_predictions") or {}).items() for b in ps
+             if b.get("in_window") and b["confidence"] == "normal"
+             and max(b["probabilities"].values()) >= 0.55
+             and max(b["probabilities"], key=b["probabilities"].get) != "draw"]
+    if golds:
+        lines.append(f"🥇 {len(golds)} GOLD favorites (breakeven 1/p — bet only above it)")
+    return send_telegram("\n".join(lines))
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--start", type=str, default=None, help="window start date YYYY-MM-DD")
@@ -73,9 +117,14 @@ def main() -> int:
     if weekly:
         step("commit picks", lambda: LedgerService.commit(weekly))
         step("record history", lambda: HistoryService.record(weekly))
+        from services.predictions.gold_ledger import GoldLedger
         from services.predictions.slip_ledger import SlipLedger
         step("grade slips", SlipLedger.grade)
         step("commit slip", lambda: SlipLedger.commit(weekly))
+        step("grade gold", GoldLedger.grade)
+        step("commit gold", lambda: GoldLedger.commit(weekly))
+        step("notify", lambda: _notify(weekly))
+    step("backup state", _backup_state)
         print("\n=== DRAW PICKS (EPL + Serie A) ===")
         for p in weekly["draw_picks"]:
             print(f"  {p['rank']}. [{p['league']}] {p['home']} v {p['away']}  "
