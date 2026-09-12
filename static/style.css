@@ -335,6 +335,9 @@ table.cfg td { vertical-align: top; }
 table.cfg .winput { width: 64px; font: inherit; padding: 3px 6px;
   border: 1px solid var(--line); border-radius: 6px; text-align: right; }
 tr.cfgoff td { opacity: .5; }
+.roletitle { margin-top: 26px; }
+.stickysave { position: sticky; bottom: 0; background: var(--bg, #fafaf8);
+  padding: 12px 0; margin: 14px 0 0; border-top: 1px solid var(--line); }
 
 /* team pizza (league-percentile slices) */
 .pizzacard .fteam { margin-bottom: 8px; }

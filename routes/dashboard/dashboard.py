@@ -728,43 +728,49 @@ async def mental_page(request: Request, league: Optional[str] = Query(None),
         "teams_by_lg": {lg: sorted(ts) for lg, ts in sorted(teams_by_lg.items())},
         "f_league": league or "", "f_team": team or "", "f_role": role or "",
         "seasons": data["seasons"], "qualified": data["qualified"],
-        "comps": data["components"],
+        "recipes": data["components"], "columns": data["columns"],
         "page": "mental",
     })
 
 
 @router.get("/dashboard/mental/config", response_class=HTMLResponse)
 async def mental_config_page(request: Request, saved: Optional[int] = Query(None)):
-    from services.mental.dependability import METRICS, load_config
-    comps = load_config()
-    w_sum = sum(c["weight"] for c in comps if c["enabled"] and c["weight"] > 0) or 1
-    rows = [{**c, **METRICS[c["key"]],
-             "norm": round(c["weight"] / w_sum * 100) if c["enabled"] and c["weight"] > 0 else 0}
-            for c in comps]
+    from services.mental.dependability import METRICS, ROLES, load_config
+    cfg = load_config()
+    roles = {}
+    for role in ROLES:
+        comps = cfg[role]
+        w_sum = sum(c["weight"] for c in comps if c["enabled"] and c["weight"] > 0) or 1
+        roles[role] = [{**c, **METRICS[c["key"]],
+                        "norm": round(c["weight"] / w_sum * 100)
+                        if c["enabled"] and c["weight"] > 0 else 0}
+                       for c in comps]
     return templates.TemplateResponse(request, "mental_config.html", {
-        "rows": rows, "saved": saved, "page": "mental",
+        "roles": roles, "saved": saved, "page": "mental",
     })
 
 
 @router.post("/dashboard/mental/config", response_class=HTMLResponse)
 async def mental_config_save(request: Request):
     from fastapi.responses import RedirectResponse
-    from services.mental.dependability import METRICS, load_config, save_config
+    from services.mental.dependability import (DEFAULT_ROLE_COMPONENTS, ROLES,
+                                               load_config, save_config)
     form = await request.form()
     if form.get("action") == "reset":
-        from services.mental.dependability import DEFAULT_COMPONENTS
-        save_config([dict(c) for c in DEFAULT_COMPONENTS])
+        save_config({r: [dict(c) for c in DEFAULT_ROLE_COMPONENTS[r]] for r in ROLES})
     else:
-        comps = load_config()
-        for c in comps:
-            c["enabled"] = f"en_{c['key']}" in form
-            try:
-                c["weight"] = max(0, min(100, int(form.get(f"w_{c['key']}", c["weight"]))))
-            except (TypeError, ValueError):
-                pass
-        if not any(c["enabled"] and c["weight"] > 0 for c in comps):
-            comps = load_config()  # refuse an empty algorithm, keep previous
-        save_config(comps)
+        cfg = load_config()
+        for role in ROLES:
+            for c in cfg[role]:
+                c["enabled"] = f"en_{role}_{c['key']}" in form
+                try:
+                    c["weight"] = max(0, min(100, int(
+                        form.get(f"w_{role}_{c['key']}", c["weight"]))))
+                except (TypeError, ValueError):
+                    pass
+            if not any(c["enabled"] and c["weight"] > 0 for c in cfg[role]):
+                cfg[role] = load_config()[role]  # refuse an empty recipe for a role
+        save_config(cfg)
     _CACHE.pop(("mental",), None)  # recompute rankings with the new algorithm
     return RedirectResponse("/dashboard/mental/config?saved=1", status_code=303)
 

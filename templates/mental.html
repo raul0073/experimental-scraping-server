@@ -7,9 +7,10 @@
   <a class="cfglink" href="/dashboard/mental/config">⚙ algorithm &amp; options</a></h2>
 
 <p class="bottomline">💬 The old mental model died with fbref's Opta feed. This is the concept reborn on
-   per-match data we own — manipulated ratios, not raw volume: current recipe
-   <strong>{% for c in comps %}{{ c.label }} ({{ c.norm }}%){{ '' if loop.last else ' · ' }}{% endfor %}</strong>,
-   each a percentile within league + role, blended 0–100. Change the recipe any time in
+   per-match data we own — manipulated ratios, not raw volume, and <strong>a different recipe per
+   position</strong> (you can't expect a defender to attack his man):<br>
+   {% for role, cs in recipes.items() %}<strong>{{ role }}</strong>: {% for c in cs %}{{ c.label }} ({{ c.norm }}%){{ '' if loop.last else ' · ' }}{% endfor %}<br>{% endfor %}
+   Each metric is a percentile within league + role, blended 0–100. Tune it in
    <a href="/dashboard/mental/config">the algorithm page</a>.</p>
 
 <form method="get" action="/dashboard/mental" class="filterbar">
@@ -41,7 +42,7 @@
   <thead><tr><th>#</th><th class="num" title="rank in the full all-league board">All</th>
     <th>Player</th><th>Team</th><th>League</th><th>Role</th>
     <th class="num">Score</th>
-    {% for c in comps %}<th class="num" title="{{ c.desc }}">{{ c.label }}</th>{% endfor %}
+    {% for c in columns %}<th class="num" title="{{ c.desc }}">{{ c.label }}</th>{% endfor %}
     <th class="num">Apps</th></tr></thead>
   <tbody>
     {% for r in rows %}
@@ -53,7 +54,7 @@
       <td><span class="badge lgbadge"><img src="{{ league_crest(r.league) }}" width="14" height="14" alt="" onerror="this.remove()">{{ r.league.split('-')[1] }}</span></td>
       <td class="meta">{{ r.role }}</td>
       <td class="num"><span class="mscore">{{ r.score }}</span></td>
-      {% for c in comps %}<td class="num">{{ r[c.key] }}{{ '%' if c.unit == '%' }}</td>{% endfor %}
+      {% for c in columns %}<td class="num">{{ r[c.key] }}{{ '%' if c.unit == '%' }}</td>{% endfor %}
       <td class="num meta">{{ r.apps }}</td>
     </tr>
     {% endfor %}
