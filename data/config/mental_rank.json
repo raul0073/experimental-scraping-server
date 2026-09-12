@@ -4,17 +4,17 @@
   "DEF": [
    {
     "key": "avail",
-    "weight": 25,
+    "weight": 22,
     "enabled": true
    },
    {
     "key": "big_games",
-    "weight": 15,
+    "weight": 14,
     "enabled": true
    },
    {
     "key": "discipline",
-    "weight": 15,
+    "weight": 16,
     "enabled": true
    },
    {
@@ -24,28 +24,28 @@
    },
    {
     "key": "floor_chain",
-    "weight": 10,
+    "weight": 8,
     "enabled": true
    },
    {
     "key": "travels",
-    "weight": 5,
+    "weight": 8,
     "enabled": true
    },
    {
     "key": "aerial90",
-    "weight": 10,
+    "weight": 6,
     "enabled": true
    },
    {
     "key": "finish_starts",
-    "weight": 5,
+    "weight": 6,
     "enabled": true
    },
    {
     "key": "sp_threat",
-    "weight": 5,
-    "enabled": true
+    "weight": 10,
+    "enabled": false
    },
    {
     "key": "minutes_share",
@@ -60,7 +60,7 @@
    {
     "key": "buildup90",
     "weight": 10,
-    "enabled": false
+    "enabled": true
    },
    {
     "key": "kp90",
@@ -111,42 +111,42 @@
    },
    {
     "key": "big_games",
-    "weight": 15,
+    "weight": 13,
     "enabled": true
    },
    {
     "key": "travels",
-    "weight": 5,
+    "weight": 8,
     "enabled": true
    },
    {
     "key": "cons_chain",
-    "weight": 10,
+    "weight": 12,
     "enabled": true
    },
    {
     "key": "delivery",
     "weight": 10,
-    "enabled": true
+    "enabled": false
    },
    {
     "key": "kp90",
-    "weight": 10,
+    "weight": 8,
     "enabled": true
    },
    {
     "key": "discipline",
-    "weight": 10,
-    "enabled": false
+    "weight": 8,
+    "enabled": true
    },
    {
     "key": "assist_delivery",
     "weight": 5,
-    "enabled": true
+    "enabled": false
    },
    {
     "key": "buildup90",
-    "weight": 5,
+    "weight": 10,
     "enabled": true
    },
    {
@@ -161,13 +161,13 @@
    },
    {
     "key": "finish_starts",
-    "weight": 10,
-    "enabled": false
+    "weight": 6,
+    "enabled": true
    },
    {
     "key": "floor_xgxa",
     "weight": 5,
-    "enabled": true
+    "enabled": false
    },
    {
     "key": "takeon90",
@@ -203,43 +203,43 @@
    },
    {
     "key": "delivery",
-    "weight": 20,
+    "weight": 16,
     "enabled": true
    },
    {
     "key": "box_presence",
-    "weight": 15,
+    "weight": 14,
     "enabled": true
    },
    {
     "key": "takeon90",
-    "weight": 10,
+    "weight": 8,
     "enabled": true
    },
    {
     "key": "big_games",
-    "weight": 10,
+    "weight": 12,
     "enabled": true
    },
    {
     "key": "travels",
-    "weight": 10,
+    "weight": 8,
     "enabled": true
    },
    {
     "key": "floor_xgxa",
-    "weight": 10,
+    "weight": 12,
     "enabled": true
    },
    {
     "key": "shot_selection",
-    "weight": 10,
+    "weight": 8,
     "enabled": true
    },
    {
     "key": "aerial90",
-    "weight": 5,
-    "enabled": false
+    "weight": 4,
+    "enabled": true
    },
    {
     "key": "sp_threat",
@@ -258,12 +258,12 @@
    },
    {
     "key": "cons_chain",
-    "weight": 10,
+    "weight": 5,
     "enabled": false
    },
    {
     "key": "floor_chain",
-    "weight": 10,
+    "weight": 2,
     "enabled": false
    },
    {
@@ -288,8 +288,8 @@
    },
    {
     "key": "discipline",
-    "weight": 10,
-    "enabled": false
+    "weight": 3,
+    "enabled": true
    }
   ]
  }
