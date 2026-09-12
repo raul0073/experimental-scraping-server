@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Mental — dependability{% endblock %}
+{% block headmeta %}not who is best — who is most dependable{% endblock %}
+{% block content %}
+
+<h2>🧠 Mental ranking <span class="seasontag">all players, all leagues · seasons {{ seasons | join(' + ') }} · {{ qualified }} qualified</span>
+  <a class="cfglink" href="/dashboard/mental/config">⚙ algorithm &amp; options</a></h2>
+
+<p class="bottomline">💬 The old mental model died with fbref's Opta feed. This is the concept reborn on
+   per-match data we own — manipulated ratios, not raw volume: current recipe
+   <strong>{% for c in comps %}{{ c.label }} ({{ c.norm }}%){{ '' if loop.last else ' · ' }}{% endfor %}</strong>,
+   each a percentile within league + role, blended 0–100. Change the recipe any time in
+   <a href="/dashboard/mental/config">the algorithm page</a>.</p>
+
+<form method="get" action="/dashboard/mental" class="filterbar">
+  <label>League
+    <select name="league">
+      <option value="">all</option>
+      {% for lg in leagues %}<option value="{{ lg }}" {{ 'selected' if lg == f_league }}>{{ lg.split('-')[1] }}</option>{% endfor %}
+    </select></label>
+  <label>Team
+    <select name="team">
+      <option value="">all</option>
+      {% for lg, ts in teams_by_lg.items() %}
+      <optgroup label="{{ lg.split('-')[1] }}">
+        {% for t in ts %}<option value="{{ t }}" {{ 'selected' if t == f_team }}>{{ t }}</option>{% endfor %}
+      </optgroup>
+      {% endfor %}
+    </select></label>
+  <label>Position
+    <select name="role">
+      <option value="">all</option>
+      {% for r in ('DEF', 'MID', 'ATT') %}<option value="{{ r }}" {{ 'selected' if r == f_role }}>{{ r }}</option>{% endfor %}
+    </select></label>
+  <button class="btn" type="submit">Filter</button>
+  <a class="btn ghost" href="/dashboard/mental">Clear</a>
+  <span class="meta">{{ total }} players{% if capped %} — showing top 400, refine filters{% endif %}</span>
+</form>
+
+<table class="fair">
+  <thead><tr><th>#</th><th class="num" title="rank in the full all-league board">All</th>
+    <th>Player</th><th>Team</th><th>League</th><th>Role</th>
+    <th class="num">Score</th>
+    {% for c in comps %}<th class="num" title="{{ c.desc }}">{{ c.label }}</th>{% endfor %}
+    <th class="num">Apps</th></tr></thead>
+  <tbody>
+    {% for r in rows %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td class="num meta">{{ r.orank }}</td>
+      <td><strong>{{ r.player }}</strong></td>
+      <td class="teamcell">{% if r.crest.logo %}<img class="crestimg" src="{{ r.crest.logo }}" width="16" height="16" alt="" loading="lazy"> {% endif %}{{ r.team }}</td>
+      <td><span class="badge lgbadge"><img src="{{ league_crest(r.league) }}" width="14" height="14" alt="" onerror="this.remove()">{{ r.league.split('-')[1] }}</span></td>
+      <td class="meta">{{ r.role }}</td>
+      <td class="num"><span class="mscore">{{ r.score }}</span></td>
+      {% for c in comps %}<td class="num">{{ r[c.key] }}{{ '%' if c.unit == '%' }}</td>{% endfor %}
+      <td class="num meta">{{ r.apps }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<p class="meta">Qualification: 8+ appearances of 45'+ across the two seasons; goalkeepers excluded
+   (involvement metrics don't fit them). Percentiles are computed within league AND role bucket, so a
+   centre-back's numbers are judged against centre-backs. Hover a column header for what it measures.
+   Honest limits stated where they exist — e.g. aerial threat is attacking headers only; defensive
+   aerial duels aren't published by any free source.</p>
+{% endblock %}

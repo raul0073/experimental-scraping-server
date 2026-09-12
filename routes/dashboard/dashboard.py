@@ -699,6 +699,76 @@ async def table_page(request: Request):
                                       {"leagues": leagues, "page": "table"})
 
 
+@router.get("/dashboard/mental", response_class=HTMLResponse)
+async def mental_page(request: Request, league: Optional[str] = Query(None),
+                      team: Optional[str] = Query(None),
+                      role: Optional[str] = Query(None)):
+    """Dependability rankings — the mental concept reborn on per-match data.
+    Full all-league board, filterable by league / team / role."""
+    from services.mental.dependability import build_rankings
+    data = _cached(("mental",), build_rankings)
+    rows = data["players"]
+    badges = {lg: _badge_fn(lg) for lg in {r["league"] for r in rows}}
+    for i, r in enumerate(rows, 1):  # idempotent decoration of the cached rows
+        r["orank"] = i
+        r["crest"] = badges[r["league"]](r["team"])
+
+    filtered = [r for r in rows
+                if (not league or r["league"] == league)
+                and (not team or r["team"] == team)
+                and (not role or r["role"] == role)]
+    shown = filtered[:400]
+
+    teams_by_lg: dict = {}
+    for r in rows:
+        teams_by_lg.setdefault(r["league"], set()).add(r["team"])
+    return templates.TemplateResponse(request, "mental.html", {
+        "rows": shown, "total": len(filtered), "capped": len(filtered) > len(shown),
+        "leagues": sorted(teams_by_lg),
+        "teams_by_lg": {lg: sorted(ts) for lg, ts in sorted(teams_by_lg.items())},
+        "f_league": league or "", "f_team": team or "", "f_role": role or "",
+        "seasons": data["seasons"], "qualified": data["qualified"],
+        "comps": data["components"],
+        "page": "mental",
+    })
+
+
+@router.get("/dashboard/mental/config", response_class=HTMLResponse)
+async def mental_config_page(request: Request, saved: Optional[int] = Query(None)):
+    from services.mental.dependability import METRICS, load_config
+    comps = load_config()
+    w_sum = sum(c["weight"] for c in comps if c["enabled"] and c["weight"] > 0) or 1
+    rows = [{**c, **METRICS[c["key"]],
+             "norm": round(c["weight"] / w_sum * 100) if c["enabled"] and c["weight"] > 0 else 0}
+            for c in comps]
+    return templates.TemplateResponse(request, "mental_config.html", {
+        "rows": rows, "saved": saved, "page": "mental",
+    })
+
+
+@router.post("/dashboard/mental/config", response_class=HTMLResponse)
+async def mental_config_save(request: Request):
+    from fastapi.responses import RedirectResponse
+    from services.mental.dependability import METRICS, load_config, save_config
+    form = await request.form()
+    if form.get("action") == "reset":
+        from services.mental.dependability import DEFAULT_COMPONENTS
+        save_config([dict(c) for c in DEFAULT_COMPONENTS])
+    else:
+        comps = load_config()
+        for c in comps:
+            c["enabled"] = f"en_{c['key']}" in form
+            try:
+                c["weight"] = max(0, min(100, int(form.get(f"w_{c['key']}", c["weight"]))))
+            except (TypeError, ValueError):
+                pass
+        if not any(c["enabled"] and c["weight"] > 0 for c in comps):
+            comps = load_config()  # refuse an empty algorithm, keep previous
+        save_config(comps)
+    _CACHE.pop(("mental",), None)  # recompute rankings with the new algorithm
+    return RedirectResponse("/dashboard/mental/config?saved=1", status_code=303)
+
+
 @router.get("/dashboard/history", response_class=HTMLResponse)
 async def history_page(request: Request):
     from services.predictions.history_service import HistoryService

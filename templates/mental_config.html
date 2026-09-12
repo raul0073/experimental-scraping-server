@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Mental — algorithm{% endblock %}
+{% block headmeta %}the dependability recipe — yours to tune{% endblock %}
+{% block content %}
+
+<h2>⚙ Mental algorithm <a class="cfglink" href="/dashboard/mental">← back to rankings</a></h2>
+
+{% if saved %}<p class="bottomline">✅ Saved — rankings recomputed with the new recipe.</p>{% endif %}
+
+<p class="headline">score = Σ ( weight<sub>i</sub> / Σweights ) × percentile<sub>i</sub> —
+   each enabled metric becomes a 0–100 percentile <em>within league + role bucket</em>
+   (DEF / MID / ATT, GKs excluded), then blends by weight. Inverted metrics
+   (marked ↓) are flipped first so higher is always better.</p>
+
+<form method="post" action="/dashboard/mental/config">
+<table class="fair cfg">
+  <thead><tr><th>In</th><th>Metric</th><th class="num">Weight</th><th class="num">Share of score</th><th>What it measures</th></tr></thead>
+  <tbody>
+    {% for r in rows %}
+    <tr class="{{ 'cfgoff' if not r.enabled }}">
+      <td><input type="checkbox" name="en_{{ r.key }}" {{ 'checked' if r.enabled }}></td>
+      <td><strong>{{ r.label }}</strong> <span class="meta">({{ r.unit }}{{ ' ↓ inverted' if r.invert }})</span></td>
+      <td class="num"><input class="winput" type="number" name="w_{{ r.key }}" value="{{ r.weight }}" min="0" max="100"></td>
+      <td class="num">{{ r.norm }}%</td>
+      <td class="meta">{{ r.desc }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p>
+  <button class="btn" type="submit">Save &amp; recompute</button>
+  <button class="btn ghost" type="submit" name="action" value="reset"
+    onclick="return confirm('Reset the algorithm to the default recipe?')">Reset to defaults</button>
+</p>
+</form>
+
+<p class="meta">This bank is every dependability signal our post-Opta data can honestly measure
+   (per-match Understat rosters: minutes, positions, xGChain, xGBuildup, xG, xA, key passes, cards).
+   Weights are relative — they're normalized across whatever is enabled, so 35/35/15/15 and 7/7/3/3
+   are the same recipe. Changes apply instantly to the rankings page and persist in
+   data/config/mental_rank.json. Take your time with it — tuning this IS the product decision.</p>
+{% endblock %}

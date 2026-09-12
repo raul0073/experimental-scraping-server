@@ -39,9 +39,10 @@ class RostersService:
             raise RuntimeError(f"No shot events on disk for {self.league} {self.season} "
                                "(rosters build follows the shots build)")
         out_path = self.out_path(self.league, self.season)
-        existing = self.load(self.league, self.season) or {
-            "league": self.league, "season": self.season, "matches": {},
-        }
+        existing = self.load(self.league, self.season) or {}
+        if existing.get("v") != 2:  # schema bump -> re-extract from cache
+            existing = {"league": self.league, "season": self.season,
+                        "v": 2, "matches": {}}
         matches: Dict[str, Any] = existing["matches"]
 
         todo = [gid for gid in shots["matches"] if gid not in matches]
@@ -65,6 +66,19 @@ class RostersService:
                         "position": p.get("position"),
                         "order": _to_int(p.get("positionOrder")),
                         "minutes": _to_int(p.get("time")) or 0,
+                        # per-match performance (v2) — feeds the dependability
+                        # ("mental") rankings: consistency needs match-level data
+                        "goals": _to_int(p.get("goals")) or 0,
+                        "own_goals": _to_int(p.get("own_goals")) or 0,
+                        "shots": _to_int(p.get("shots")) or 0,
+                        "xg": _to_float(p.get("xG")),
+                        "xa": _to_float(p.get("xA")),
+                        "assists": _to_int(p.get("assists")) or 0,
+                        "key_passes": _to_int(p.get("key_passes")) or 0,
+                        "xg_chain": _to_float(p.get("xGChain")),
+                        "xg_buildup": _to_float(p.get("xGBuildup")),
+                        "yellow": _to_int(p.get("yellow_card")) or 0,
+                        "red": _to_int(p.get("red_card")) or 0,
                     })
             matches[gid] = {
                 "date": src["date"],
@@ -98,5 +112,12 @@ class RostersService:
 def _to_int(v: Any) -> Optional[int]:
     try:
         return int(v)
+    except (TypeError, ValueError):
+        return None
+
+
+def _to_float(v: Any) -> Optional[float]:
+    try:
+        return round(float(v), 4)
     except (TypeError, ValueError):
         return None

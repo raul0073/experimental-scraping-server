@@ -17,10 +17,12 @@ from services.understat.rosters_service import RostersService
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--season", default="2627")
+    ap.add_argument("--sleep", type=float, default=0.3,
+                    help="pause between matches (use ~0.05 for cache-only backfills)")
     args = ap.parse_args()
     for league in LEAGUE_NAME_MAP:
         try:
-            r = RostersService(league, args.season).build()
+            r = RostersService(league, args.season).build(sleep_s=args.sleep)
             print(f"OK   {league}: {r['stored_total']} stored (+{r['fetched_now']}, {r['errors']} errors)",
                   flush=True)
         except Exception as e:

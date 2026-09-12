@@ -1,0 +1,74 @@
+{
+ "components": [
+  {
+   "key": "avail",
+   "weight": 25,
+   "enabled": true
+  },
+  {
+   "key": "delivery",
+   "weight": 20,
+   "enabled": true
+  },
+  {
+   "key": "floor_chain",
+   "weight": 15,
+   "enabled": true
+  },
+  {
+   "key": "takeon90",
+   "weight": 10,
+   "enabled": true
+  },
+  {
+   "key": "travels",
+   "weight": 10,
+   "enabled": true
+  },
+  {
+   "key": "cons_chain",
+   "weight": 10,
+   "enabled": true
+  },
+  {
+   "key": "discipline",
+   "weight": 10,
+   "enabled": true
+  },
+  {
+   "key": "minutes_share",
+   "weight": 20,
+   "enabled": false
+  },
+  {
+   "key": "starter_share",
+   "weight": 15,
+   "enabled": false
+  },
+  {
+   "key": "floor_xgxa",
+   "weight": 20,
+   "enabled": false
+  },
+  {
+   "key": "buildup90",
+   "weight": 15,
+   "enabled": false
+  },
+  {
+   "key": "kp90",
+   "weight": 10,
+   "enabled": false
+  },
+  {
+   "key": "aerial90",
+   "weight": 10,
+   "enabled": false
+  },
+  {
+   "key": "finish_starts",
+   "weight": 15,
+   "enabled": false
+  }
+ ]
+}
