@@ -41,7 +41,8 @@ class SlipLedger:
 
     # ------------------------------------------------ commit
 
-    MIN_ROUND_GAP_DAYS = 4  # one slip per round — see LedgerService
+    MIN_ROUND_GAP_DAYS = 3  # one slip per round — see LedgerService
+    MAX_DAYS_AHEAD = 2      # never book a window opening further out than this
 
     @classmethod
     def commit(cls, weekly: Dict[str, Any]) -> Dict[str, Any]:
@@ -57,6 +58,11 @@ class SlipLedger:
             if age_d < cls.MIN_ROUND_GAP_DAYS:
                 return {"committed": 0,
                         "reason": f"round guard: last slip {age_d:.1f}d ago"}
+        lead_d = (datetime.fromisoformat(win["start"]).date()
+                  - datetime.now(timezone.utc).date()).days
+        if lead_d > cls.MAX_DAYS_AHEAD:
+            return {"committed": 0,
+                    "reason": f"window opens in {lead_d}d (> {cls.MAX_DAYS_AHEAD})"}
         # one slip per window: skip when a pending slip has a leg kickoff
         # inside this window (drift-proof, same rule as the pick ledger)
         for r in rows:

@@ -43,11 +43,19 @@ class GoldLedger:
 
     # ------------------------------------------------ commit
 
+    MAX_DAYS_AHEAD = 2  # never book a window opening further out than this
+
     @classmethod
     def commit(cls, weekly: Dict[str, Any]) -> Dict[str, Any]:
         win = weekly.get("window") or {}
         if not win.get("start"):
             return {"committed": 0, "reason": "no window"}
+        from datetime import datetime as _dt, timezone as _tz
+        lead_d = (_dt.fromisoformat(win["start"]).date()
+                  - _dt.now(_tz.utc).date()).days
+        if lead_d > cls.MAX_DAYS_AHEAD:
+            return {"committed": 0,
+                    "reason": f"window opens in {lead_d}d (> {cls.MAX_DAYS_AHEAD})"}
         rows = cls._read()
         for r in rows:  # drift-proof: same rule as slips/picks
             if r["status"] == "pending" and any(

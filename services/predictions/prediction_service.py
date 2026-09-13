@@ -154,6 +154,30 @@ class PredictionService:
 
     # ------------------------------------------------ picks
 
+    @staticmethod
+    def _last_bet_end() -> Optional[str]:
+        """Latest kickoff across every committed bet (picks, slip legs, gold
+        singles). The next betting window may only contain fixtures AFTER
+        this date — the user's rule: the next bet is the NEXT round, never a
+        re-suggestion while the current round's games are still playing."""
+        import json as _json
+        latest = None
+        for path, extract in (
+                (Path("data/ledger/picks.jsonl"), lambda r: [r.get("kickoff")]),
+                (Path("data/slips/slips.jsonl"),
+                 lambda r: [l.get("kickoff") for l in r.get("legs", [])]),
+                (Path("data/slips/gold.jsonl"),
+                 lambda r: [b.get("kickoff") for b in r.get("bets", [])])):
+            if not path.exists():
+                continue
+            for line in path.read_text(encoding="utf-8").splitlines():
+                if not line.strip():
+                    continue
+                for k in extract(_json.loads(line)):
+                    if k and (latest is None or k > latest):
+                        latest = k
+        return latest
+
     def weekly_picks(self, start: Optional[str] = None) -> Dict[str, Any]:
         """Weekend-based selection: league round numbers drift (Serie A can be
         on round 2 while the EPL is on round 1, cup weeks shift things), so the
@@ -166,6 +190,11 @@ class PredictionService:
         if start:
             unplayed = {lg: [m for m in ms if m["date"] >= start]
                         for lg, ms in unplayed.items()}
+        else:
+            last_end = self._last_bet_end()
+            if last_end:
+                unplayed = {lg: [m for m in ms if m["date"] > last_end]
+                            for lg, ms in unplayed.items()}
 
         def league_cluster(ms):
             """A league's NEXT round = the fbref ROUND NUMBER of its earliest
