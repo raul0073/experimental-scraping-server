@@ -23,7 +23,9 @@ PARAMS_PATH = Path("data/config/model_params.json")
 
 SEASON = "2627"
 HISTORY_SEASONS = ["2526", "2627"]
-ZONES_SOURCE_SEASON = "2526"  # zones run on shot data; switches to 2627 as it accrues
+# zones blend both seasons' shot data through the rolling decayed window —
+# current form flows in from day one, last season ages out naturally
+ZONES_SOURCE_SEASON = ["2526", "2627"]
 
 # draws pool ALL leagues (user decision 2026-08-08: backtest showed 12 vs 10
 # money-back weeks and the only 4/4 came from the wide pool — p^4 economics)

@@ -56,18 +56,31 @@ class ZonesEngine:
     shot events (locations + lastAction), PPDA/deep completions, fbref basics.
     """
 
-    def __init__(self, league: str, season: str):
+    def __init__(self, league: str, season):
+        """`season` may be one season ("2526") or a list (["2526", "2627"]) —
+        multi-season data is merged and the rolling 38-match decayed window
+        phases the older season out naturally as the new one accrues (same
+        principle as the form model; user call 2026-09-13: current season
+        must flow into the zones without a cliff)."""
         self.league = league
-        self.season = season
+        self.seasons = [season] if isinstance(season, str) else list(season)
+        self.season = "+".join(self.seasons)
 
     def build(self, as_of_date: Optional[str] = None, window: int = 38,
               persist: bool = True, include_players: bool = True) -> Dict[str, Any]:
-        shots_data = ShotEventsService.load(self.league, self.season)
-        us_data = UnderstatService.load(self.league, self.season)
-        if not shots_data or not shots_data.get("matches"):
-            raise RuntimeError(f"No shot events on disk for {self.league} {self.season}")
-        if not us_data:
-            raise RuntimeError(f"No understat match data for {self.league} {self.season}")
+        shots_data: Dict[str, Any] = {"matches": {}}
+        us_data: Dict[str, Any] = {"matches": []}
+        for s in self.seasons:
+            sh = ShotEventsService.load(self.league, s)
+            if sh and sh.get("matches"):
+                shots_data["matches"].update(sh["matches"])  # understat gids are global
+            us = UnderstatService.load(self.league, s)
+            if us:
+                us_data["matches"].extend(us["matches"])
+        if not shots_data["matches"]:
+            raise RuntimeError(f"No shot events on disk for {self.league} {self.seasons}")
+        if not us_data["matches"]:
+            raise RuntimeError(f"No understat match data for {self.league} {self.seasons}")
 
         team_matches = self._collect_team_matches(shots_data, us_data, as_of_date, window)
         if not team_matches:
@@ -80,7 +93,8 @@ class ZonesEngine:
         player_scores = None
         if include_players:
             from services.zones.player_layer import PlayerLayer
-            player_scores = PlayerLayer.team_band_scores(self.league, self.season)
+            # player quality from the LATEST season (refreshed weekly)
+            player_scores = PlayerLayer.team_band_scores(self.league, self.seasons[-1])
             # NOTE: season-cumulative player stats — fine live, but backtest
             # calibration passes include_players=False to stay walk-forward-clean.
 

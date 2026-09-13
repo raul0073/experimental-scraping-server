@@ -634,7 +634,9 @@ async def match_page(request: Request, league: str, home: str, away: str):
     return templates.TemplateResponse(request, "match.html", {
         "league": league, "home": home, "away": away, "bottom": bottom,
         "pred": pred, "battles": battles, "headline": headline, "bands": bands,
-        "zones_season": ZONES_SOURCE_SEASON,
+        "zones_season": "+".join(f"{s[:2]}/{s[2:]}" for s in
+                                 ([ZONES_SOURCE_SEASON] if isinstance(ZONES_SOURCE_SEASON, str)
+                                  else ZONES_SOURCE_SEASON)),
         "facts_season": facts["season"],
         "hfacts": facts["teams"].get(home), "afacts": facts["teams"].get(away),
         "hshots": shots.get(home), "ashots": shots.get(away),
