@@ -114,7 +114,8 @@
   <div class="slip-leg {{ 'banker' if leg.role == 'banker' }}">
     <span class="mark">{{ leg.mark }}</span>
     <span class="fx"><strong>{{ leg.fixture }}</strong>
-      {% if leg.role == 'banker' %}<bdi class="bk">באנקר</bdi> {{ leg.team }} to win{% endif %}</span>
+      {% if leg.role == 'banker' %}<bdi class="bk">באנקר</bdi> {{ leg.team }} to win
+      {% elif leg.role == 'fav' %}{{ leg.team }} to win{% endif %}</span>
     <span class="badge">{{ leg.league }}</span>
     <span class="meta">{{ leg.kickoff | default('') }}</span>
     <span class="num">{{ (leg.prob * 100) | round(1) }}% · be {{ leg.breakeven }}</span>

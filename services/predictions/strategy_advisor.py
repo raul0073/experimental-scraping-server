@@ -208,7 +208,10 @@ def advise(weekly: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     # across two seasons). Frequent-but-small profit shape: winner pairs pay
     # ~2.2-2.8x a line, so profit needs 3+ hits but hits come often.
     if len(banker_legs) >= 4:
-        homes4 = banker_legs[:4]
+        # in a pure-favorites system these are ordinary selections, not
+        # bankers — a באנקר is a FIXED leg multiplied into every line, and
+        # this form has none (user caught the mislabel 2026-09-13)
+        homes4 = [{**b, "role": "fav"} for b in banker_legs[:4]]
         candidates.append(build(
             "שיטה 2/4 בתים", "system 2/4 on 4 home favorites",
             homes4, 2,

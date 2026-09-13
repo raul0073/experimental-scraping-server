@@ -16,6 +16,17 @@
     <div class="sub">graded / placed · {{ m.profit_weeks }} profit weeks</div></div>
 </div>
 
+{% if upcoming %}
+<div class="upcoming">
+  <span class="utag">NEXT MOVE — not booked yet</span>
+  <strong><bdi>{{ upcoming.title_he }}</bdi></strong> · {{ upcoming.title_en }}
+  · window {{ upcoming.window }} · {{ upcoming.lines }} lines · {{ upcoming.stake | int }}₪
+  · P(profit) {{ (upcoming.p_profit * 100) | round }}%
+  <span class="meta">books automatically on {{ upcoming.books }} (within {{ 2 }} days of the window opening) —
+    marks: {% for l in upcoming.legs %}{{ l.mark }} {{ l.fixture }}{{ '' if loop.last else ' · ' }}{% endfor %}</span>
+</div>
+{% endif %}
+
 <h2>Week by week</h2>
 <table>
   <thead><tr><th>Window</th><th>Form</th><th>Legs</th><th class="num">Stake</th>

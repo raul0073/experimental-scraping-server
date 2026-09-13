@@ -830,11 +830,31 @@ async def history_page(request: Request):
 @router.get("/dashboard/monkey", response_class=HTMLResponse)
 async def monkey_page(request: Request):
     from services.predictions.gold_ledger import GoldLedger
-    from services.predictions.slip_ledger import SlipLedger
+    from services.predictions.slip_ledger import UNIT as SLIP_UNIT, SlipLedger
     SlipLedger.grade()
     GoldLedger.grade()
+    m = SlipLedger.monkey()
+
+    # the next round's advised move, visible BEFORE the booking guards let it
+    # commit (books automatically within MAX_DAYS_AHEAD of the window opening)
+    upcoming = None
+    weekly = _cached(("weekly", None), lambda: PredictionService().weekly_picks(None))
+    st = (weekly or {}).get("strategy") or {}
+    win = (weekly or {}).get("window") or {}
+    if st.get("slip") and win.get("start"):
+        booked = any(r["window"] == win["start"] for r in m["weeks"])
+        if not booked:
+            from datetime import date, timedelta
+            s = st["slip"]
+            books = date.fromisoformat(win["start"]) - timedelta(days=SlipLedger.MAX_DAYS_AHEAD)
+            upcoming = {"window": win["start"], "title_he": s["title_he"],
+                        "title_en": s["title_en"], "lines": s["lines"],
+                        "stake": round(s["lines"] * SLIP_UNIT),
+                        "p_profit": s.get("p_profit", 0), "legs": s["legs"],
+                        "books": max(books, date.today()).isoformat()}
+
     return templates.TemplateResponse(request, "monkey.html", {
-        "m": SlipLedger.monkey(), "g": GoldLedger.summary(), "page": "monkey",
+        "m": m, "g": GoldLedger.summary(), "upcoming": upcoming, "page": "monkey",
     })
 
 
