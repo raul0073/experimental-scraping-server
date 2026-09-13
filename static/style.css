@@ -88,6 +88,9 @@ tbody tr.alt td strong { font-weight: 500; }
 .probbar .lbls .fav { font-weight: 700; color: var(--ink); }
 
 .stalewarn { color: var(--bad); font-weight: 700; }
+.pickchip { background: #eef4fa; color: #123a52; border: 1px solid #c9dcec; font-weight: 600; }
+.pickchip.win { background: #dcefdd; color: #0a7d38; border-color: #b5dcba; }
+.pickchip.loss { background: #f7dcd7; color: #b23b2e; border-color: #e8c0b8; }
 .hit { color: var(--good); font-weight: 600; }
 .miss { color: var(--bad); font-weight: 600; }
 .pending { color: var(--ink-3); }

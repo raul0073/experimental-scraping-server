@@ -794,6 +794,18 @@ async def history_page(request: Request):
     HistoryService.grade()
     entries = HistoryService.entries()
 
+    # join committed BETS onto the prediction rows: History grades the
+    # model's most-likely-outcome call (argmax), while a draw pick is a bet
+    # on a ~32% event — the same fixture can be an argmax miss AND a winning
+    # pick (Paris FC v Lyon 0-0, 2026-09-12). Show both, clearly.
+    picks = {(r["season"], r["league"], r["home"], r["away"]): r
+             for r in LedgerService.entries()}
+    for e in entries:
+        p = picks.get((e["season"], e["league"], e["home"], e["away"]))
+        if p:
+            e["pick"] = {"type": p["pick_type"],
+                         "hit": p.get("hit") if p["status"] == "graded" else None}
+
     def tier_of(r):
         p = max(r["probabilities"].values())
         return "gold" if p >= 0.55 else "silver" if p >= 0.45 else "flip"

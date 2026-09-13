@@ -26,6 +26,10 @@
 </div>
 
 <h2>Every prediction, graded</h2>
+<p class="meta">Two different questions live here: the <strong>bold team</strong> and Verdict grade the model's
+   <em>most likely single outcome</em> (argmax of H/D/A) — while a <span class="badge pickchip">X pick</span> chip
+   marks a fixture we actually BET, judged by its own market (a draw pick is a ~32% event, never the argmax —
+   so "✗ outcome, X pick ✓" is the strategy working, not a contradiction). Bet money lives in Ledger &amp; Monkey.</p>
 <table>
   <thead>
     <tr><th>Kickoff</th><th>League</th><th>Fixture</th><th>H / D / A</th>
@@ -41,7 +45,9 @@
           {% elif r.pred_outcome == 'away' %}{{ r.home }} v <strong>{{ r.away }}</strong>
           {% else %}{{ r.home }} v {{ r.away }}{% endif %}
           {% if r.tier == 'gold' %}<span class="vbadge tgold">G</span>{% elif r.tier == 'silver' %}<span class="vbadge tsilver">S</span>{% endif %}
-          {% if r.confidence == 'low' %}<span class="badge low">low conf</span>{% endif %}</td>
+          {% if r.confidence == 'low' %}<span class="badge low">low conf</span>{% endif %}
+          {% if r.pick %}<span class="badge pickchip {{ 'win' if r.pick.hit else 'loss' if r.pick.hit is not none else '' }}"
+            title="committed bet — graded by its own market, independent of the argmax verdict">{{ 'X' if r.pick.type == 'draw' else '1' }} pick{% if r.pick.hit is not none %} {{ '✓' if r.pick.hit else '✗' }}{% endif %}</span>{% endif %}</td>
       <td class="num scorelines">{{ (r.probabilities.home * 100) | round }} / {{ (r.probabilities.draw * 100) | round }} / {{ (r.probabilities.away * 100) | round }}</td>
       <td class="num">{{ r.pred_xg[0] }}–{{ r.pred_xg[1] }}</td>
       <td class="num">{{ r.pred_score }}</td>
