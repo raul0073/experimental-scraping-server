@@ -124,15 +124,15 @@ def main() -> int:
         step("grade gold", GoldLedger.grade)
         step("commit gold", lambda: GoldLedger.commit(weekly))
         step("notify", lambda: _notify(weekly))
-    step("backup state", _backup_state)
-        print("\n=== DRAW PICKS (EPL + Serie A) ===")
+        print("\n=== DRAW PICKS ===")
         for p in weekly["draw_picks"]:
             print(f"  {p['rank']}. [{p['league']}] {p['home']} v {p['away']}  "
                   f"P(draw)={p['pick_prob']:.0%}  xg={p['xg']}  {p['kickoff']}")
-        print("=== HOME-WIN PICKS (EPL + Ligue 1) ===")
+        print("=== HOME-WIN PICKS ===")
         for p in weekly["home_win_picks"]:
             print(f"  {p['rank']}. [{p['league']}] {p['home']} v {p['away']}  "
                   f"P(home)={p['pick_prob']:.0%}  xg={p['xg']}  {p['kickoff']}")
+    step("backup state", _backup_state)
 
     print("\n=== LEDGER ===")
     print(LedgerService.summary())

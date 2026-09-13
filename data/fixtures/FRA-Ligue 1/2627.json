@@ -2,7 +2,7 @@
   "league": "FRA-Ligue 1",
   "season": "2627",
   "match_count": 306,
-  "played_count": 28,
+  "played_count": 33,
   "matches": [
     {
       "date": "2026-08-21",
@@ -374,11 +374,11 @@
       "week": 4,
       "home_team": "Auxerre",
       "away_team": "Nice",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 0,
+      "played": true,
       "venue": "Stade de l'Abbé Deschamps",
-      "referee": null,
+      "referee": "François Letexier",
       "game_id": "2026-09-12 Auxerre-Nice"
     },
     {
@@ -387,11 +387,11 @@
       "week": 4,
       "home_team": "Le Havre",
       "away_team": "Angers",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 0,
+      "away_goals": 0,
+      "played": true,
       "venue": "Stade Océane",
-      "referee": null,
+      "referee": "Ruddy Buquet",
       "game_id": "2026-09-12 Le Havre-Angers"
     },
     {
@@ -400,11 +400,11 @@
       "week": 4,
       "home_team": "Lorient",
       "away_team": "Toulouse",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 2,
+      "played": true,
       "venue": "Stade Yves Allainmat",
-      "referee": null,
+      "referee": "Aurélien Petit",
       "game_id": "2026-09-12 Lorient-Toulouse"
     },
     {
@@ -413,11 +413,11 @@
       "week": 4,
       "home_team": "Paris FC",
       "away_team": "Lyon",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 0,
+      "away_goals": 0,
+      "played": true,
       "venue": "Stade Jean-Bouin",
-      "referee": null,
+      "referee": "Jérôme Brisard",
       "game_id": "2026-09-12 Paris FC-Lyon"
     },
     {
@@ -426,11 +426,11 @@
       "week": 4,
       "home_team": "Strasbourg",
       "away_team": "Monaco",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 1,
+      "played": true,
       "venue": "Stade de la Meinau",
-      "referee": null,
+      "referee": "Eric Wattellier",
       "game_id": "2026-09-12 Strasbourg-Monaco"
     },
     {

@@ -1,7 +1,7 @@
 {
   "league": "ITA-Serie A",
   "season": "2627",
-  "match_count": 31,
+  "match_count": 33,
   "matches": [
     {
       "date": "2026-08-22",
@@ -591,6 +591,44 @@
       "home_xpts": 0.28300000000000003,
       "away_xpts": 2.5996,
       "understat_game_id": 31590
+    },
+    {
+      "date": "2026-09-12",
+      "understat_date": "2026-09-12",
+      "home_team": "Atalanta",
+      "away_team": "Cagliari",
+      "home_goals": 1,
+      "away_goals": 2,
+      "home_xg": 1.47514,
+      "away_xg": 1.30851,
+      "home_npxg": 1.47514,
+      "away_npxg": 0.54721,
+      "home_ppda": 13.956521739130435,
+      "away_ppda": 27.692307692307693,
+      "home_deep": 11,
+      "away_deep": 3,
+      "home_xpts": 1.4312999999999998,
+      "away_xpts": 1.2671999999999999,
+      "understat_game_id": 31593
+    },
+    {
+      "date": "2026-09-12",
+      "understat_date": "2026-09-12",
+      "home_team": "Genoa",
+      "away_team": "Frosinone",
+      "home_goals": 1,
+      "away_goals": 1,
+      "home_xg": 1.84249,
+      "away_xg": 1.74599,
+      "home_npxg": 1.0812,
+      "away_npxg": 1.74599,
+      "home_ppda": 7.333333333333333,
+      "away_ppda": 6.222222222222222,
+      "home_deep": 2,
+      "away_deep": 9,
+      "home_xpts": 1.4693,
+      "away_xpts": 1.2764,
+      "understat_game_id": 31591
     }
   ]
 }

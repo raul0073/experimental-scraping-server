@@ -2,7 +2,7 @@
   "league": "ITA-Serie A",
   "season": "2627",
   "match_count": 380,
-  "played_count": 31,
+  "played_count": 34,
   "matches": [
     {
       "date": "2026-08-22",
@@ -413,11 +413,11 @@
       "week": 4,
       "home_team": "Atalanta",
       "away_team": "Cagliari",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 2,
+      "played": true,
       "venue": "New Balance Arena",
-      "referee": null,
+      "referee": "Alberto Arena",
       "game_id": "2026-09-12 Atalanta-Cagliari"
     },
     {
@@ -426,11 +426,11 @@
       "week": 4,
       "home_team": "Genoa",
       "away_team": "Frosinone",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 1,
+      "played": true,
       "venue": "Stadio Comunale Luigi Ferraris",
-      "referee": null,
+      "referee": "Antonio Rapuano",
       "game_id": "2026-09-12 Genoa-Frosinone"
     },
     {
@@ -439,11 +439,11 @@
       "week": 4,
       "home_team": "Lazio",
       "away_team": "Milan",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 2,
+      "played": true,
       "venue": "Stadio Olimpico",
-      "referee": null,
+      "referee": "Matteo Marcenaro",
       "game_id": "2026-09-12 Lazio-Milan"
     },
     {

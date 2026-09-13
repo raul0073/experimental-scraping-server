@@ -168,20 +168,20 @@ class PredictionService:
                         for lg, ms in unplayed.items()}
 
         def league_cluster(ms):
-            """A league's NEXT round: consecutive match days (gap < 2), span
-            capped at 3 days (Fri->Mon) so back-to-back rounds never merge."""
-            dates = sorted({m["date"] for m in ms})
-            if not dates:
+            """A league's NEXT round = the fbref ROUND NUMBER of its earliest
+            upcoming fixture. Date-clustering merged two rounds whenever a
+            league played daily (La Liga leftovers + midweek round put the
+            same team on one slip twice, 2026-09-13); round numbers make
+            round-purity structural. Span still capped defensively."""
+            dated = [m for m in ms if m["date"]]
+            if not dated:
                 return None
-            first = dates[0]
-            end = first
-            for d in dates[1:]:
-                gap = (_date.fromisoformat(d) - _date.fromisoformat(end)).days
-                span = (_date.fromisoformat(d) - _date.fromisoformat(first)).days
-                if gap >= WINDOW_GAP_DAYS or span > 3:
-                    break
-                end = d
-            return first, end
+            first = min(m["date"] for m in dated)
+            wk = min(m["week"] for m in dated if m["date"] == first)
+            dates = sorted({m["date"] for m in dated if m["week"] == wk
+                            and (_date.fromisoformat(m["date"])
+                                 - _date.fromisoformat(first)).days <= WINDOW_MAX_DAYS})
+            return first, dates[-1], wk
 
         clusters = {lg: league_cluster(ms) for lg, ms in unplayed.items()}
         starts = [c[0] for c in clusters.values() if c]
@@ -199,7 +199,8 @@ class PredictionService:
         preds: Dict[str, List[Dict]] = {}
         for league, ms in unplayed.items():
             c = active.get(league)
-            in_scope = [m for m in ms if c and c[0] <= m["date"] <= c[1]]
+            in_scope = [m for m in ms
+                        if c and m["week"] == c[2] and c[0] <= m["date"] <= c[1]]
             rows = self.predict_fixtures(league, in_scope)
             for p in rows:
                 p["in_window"] = True  # each league shows ONLY its own next round
@@ -211,8 +212,16 @@ class PredictionService:
                     and score_fn(p) is not None]
             pool.sort(key=score_fn, reverse=True)
             picks = []
-            for rank, p in enumerate(pool[:n], 1):
-                picks.append({**p, "rank": rank, "pick_type": pick_type,
+            used_teams: set = set()
+            for p in pool:
+                if len(picks) == n:
+                    break
+                # no team twice on one board — system math assumes independent
+                # legs, and a doubled team correlates them
+                if p["home"] in used_teams or p["away"] in used_teams:
+                    continue
+                used_teams.update((p["home"], p["away"]))
+                picks.append({**p, "rank": len(picks) + 1, "pick_type": pick_type,
                               "pick_prob": round(score_fn(p), 4)})
             return picks
 

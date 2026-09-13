@@ -76,12 +76,16 @@ class HistoryService:
     def grade(cls) -> Dict[str, int]:
         rows = cls._read()
         pending = [r for r in rows if r["status"] == "pending"]
-        if not pending:
+        # rows graded before understat published their xG (their feed can lag
+        # a match by a day) get the xG backfilled on later passes
+        need_xg = [r for r in rows if r["status"] == "graded"
+                   and r.get("real_xg") is None]
+        if not pending and not need_xg:
             return {"graded": 0}
 
         fx_res: Dict[tuple, Dict] = {}
         xg_res: Dict[tuple, tuple] = {}
-        for league, season in {(r["league"], r["season"]) for r in pending}:
+        for league, season in {(r["league"], r["season"]) for r in pending + need_xg}:
             fx = FixturesService.load(league, season)
             if fx:
                 for m in fx["matches"]:
@@ -128,9 +132,23 @@ class HistoryService:
                 r["xg_hit"] = None
             r["perfect"] = bool(r["score_hit"] and r["xg_hit"])
             graded += 1
-        if graded:
+
+        backfilled = 0
+        for r in need_xg:
+            xg = xg_res.get((r["league"], r["home"], r["away"]))
+            if not xg:
+                pair = xg_res.get((r["league"], r["away"], r["home"]))
+                xg = (pair[1], pair[0]) if pair else None
+            if xg:
+                r["real_xg"] = [round(xg[0], 2), round(xg[1], 2)]
+                r["xg_hit"] = (abs(r["pred_xg"][0] - xg[0]) <= XG_TOL
+                               and abs(r["pred_xg"][1] - xg[1]) <= XG_TOL)
+                r["perfect"] = bool(r["score_hit"] and r["xg_hit"])
+                backfilled += 1
+        if graded or backfilled:
             cls._write(rows)
-        return {"graded": graded, "still_pending": len(pending) - graded}
+        return {"graded": graded, "still_pending": len(pending) - graded,
+                "xg_backfilled": backfilled}
 
     # ------------------------------------------------ summary
 

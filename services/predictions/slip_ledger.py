@@ -41,6 +41,8 @@ class SlipLedger:
 
     # ------------------------------------------------ commit
 
+    MIN_ROUND_GAP_DAYS = 4  # one slip per round — see LedgerService
+
     @classmethod
     def commit(cls, weekly: Dict[str, Any]) -> Dict[str, Any]:
         strategy = weekly.get("strategy")
@@ -48,6 +50,13 @@ class SlipLedger:
         if not strategy or not strategy.get("slip") or not win.get("start"):
             return {"committed": 0, "reason": "no slip"}
         rows = cls._read()
+        last = max((r["committed_at"] for r in rows), default=None)
+        if last:
+            age_d = (datetime.now(timezone.utc)
+                     - datetime.fromisoformat(last)).total_seconds() / 86400
+            if age_d < cls.MIN_ROUND_GAP_DAYS:
+                return {"committed": 0,
+                        "reason": f"round guard: last slip {age_d:.1f}d ago"}
         # one slip per window: skip when a pending slip has a leg kickoff
         # inside this window (drift-proof, same rule as the pick ledger)
         for r in rows:

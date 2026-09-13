@@ -481,14 +481,22 @@ async def picks_page(request: Request, start: Optional[str] = Query(None)):
     w = data.get("window") or {}
     week_label = f"{w.get('start', '—')} → {w.get('end', '—')}"
 
-    from pathlib import Path
     stamp = Path("data/reports/last_weekly_run.txt")
-    last_update = (stamp.read_text(encoding="utf-8").strip().replace("T", " ")[:16]
-                   if stamp.exists() else None)
+    last_update = None
+    stale = False
+    if stamp.exists():
+        raw = stamp.read_text(encoding="utf-8").strip()
+        last_update = raw.replace("T", " ")[:16]
+        try:
+            from datetime import datetime as _dt
+            stale = (_dt.now() - _dt.fromisoformat(raw)).total_seconds() > 26 * 3600
+        except ValueError:
+            pass
 
     return templates.TemplateResponse(request, "picks.html",
                                       {"data": data, "week_label": week_label,
-                                       "last_update": last_update, "page": "picks"})
+                                       "last_update": last_update, "stale": stale,
+                                       "page": "picks"})
 
 
 @router.get("/dashboard/ledger", response_class=HTMLResponse)

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Picks — week {{ week_label }}{% endblock %}
-{% block headmeta %}season {{ data.season }} · generated {{ data.generated_at }}{% if last_update %} · data refreshed {{ last_update }}{% endif %}{% endblock %}
+{% block headmeta %}season {{ data.season }} · generated {{ data.generated_at }}{% if last_update %} · <span class="{{ 'stalewarn' if stale }}">data refreshed {{ last_update }}{{ ' ⚠ STALE — check data\\reports\\launch_refresh.err.log' if stale }}</span>{% endif %}{% endblock %}
 {% block content %}
 
 {% macro fixture(p) %}{% set pr = p.probabilities -%}

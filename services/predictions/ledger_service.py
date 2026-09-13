@@ -37,6 +37,10 @@ class LedgerService:
 
     # ------------------------------------------------ commit
 
+    MIN_ROUND_GAP_DAYS = 4  # one pick set per round: the user bets once per
+    # round, placed before it — daily runs must not re-pick mid-round after
+    # early fixtures grade and the window re-clusters around the leftovers
+
     @classmethod
     def commit(cls, weekly: Dict[str, Any]) -> Dict[str, Any]:
         """Record this week's picks; refuses to double-commit a week."""
@@ -45,6 +49,14 @@ class LedgerService:
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         win = weekly.get("window") or {}
         window, window_end = win.get("start"), win.get("end")
+
+        last = max((r["committed_at"] for r in rows), default=None)
+        if last:
+            age_d = (datetime.now(timezone.utc)
+                     - datetime.fromisoformat(last)).total_seconds() / 86400
+            if age_d < cls.MIN_ROUND_GAP_DAYS:
+                return {"added": 0, "skipped_existing_weeks": 0,
+                        "reason": f"round guard: last commit {age_d:.1f}d ago"}
 
         # a window is "already committed" for a pick type when pending picks of
         # that type have kickoffs inside it — robust to the window label
