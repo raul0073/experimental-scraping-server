@@ -886,6 +886,13 @@ async def mental_page(request: Request, league: Optional[str] = Query(None),
                 and (not role or r["role"] == role)]
     shown = filtered[:400]
 
+    # columns follow the filter: viewing one role shows THAT role's recipe
+    # columns (a GK view shows shot-stopping, not take-ons), otherwise the
+    # union across roles
+    columns = data["columns"]
+    if role and role in data["components"]:
+        columns = data["components"][role]
+
     teams_by_lg: dict = {}
     for r in rows:
         teams_by_lg.setdefault(r["league"], set()).add(r["team"])
@@ -896,7 +903,7 @@ async def mental_page(request: Request, league: Optional[str] = Query(None),
         "f_league": league or "", "f_team": team or "", "f_role": role or "",
         "f_season": season, "season_options": SEASONS,
         "seasons": data["seasons"], "qualified": data["qualified"],
-        "recipes": data["components"], "columns": data["columns"],
+        "recipes": data["components"], "columns": columns,
         "page": "mental",
     })
 
