@@ -194,6 +194,40 @@ def _gold_projection(gold_parts, sims):
     dips = path.min(axis=1)
     hits_per_sim = hit.sum(axis=1)
 
+    # per BETTING WEEK (ISO week of kickoff): "64% of bets win" and "64% of
+    # weeks are green" are different claims — this section separates them.
+    # A week is green when its net at the given margin is > 0; a week is
+    # "majority-win" when >= half its legs hit (how the week FEELS).
+    from datetime import date as _date
+    wk_idx = {}
+    for i, d in enumerate(dates):
+        try:
+            key = _date.fromisoformat(str(d)).isocalendar()[:2]
+        except ValueError:
+            continue
+        wk_idx.setdefault(key, []).append(i)
+    weeks = [np.array(ix) for _, ix in sorted(wk_idx.items())]
+    weekly = None
+    if weeks:
+        maj = np.stack([hit[:, ix].mean(axis=1) >= 0.5 for ix in weeks], axis=1)
+        weekly = {
+            "n_weeks": len(weeks),
+            "avg_bets_per_week": round(float(np.mean([len(ix) for ix in weeks])), 1),
+            "majority_win_weeks_pct": round(float(maj.mean(axis=1).mean()) * 100, 1),
+            "green_weeks_pct": {},
+        }
+        for m in GOLD_MARGINS:
+            price = (be * (1 + m))[None, :]
+            green = np.stack(
+                [(UNIT * ((hit[:, ix] * price[:, ix]).sum(axis=1) - len(ix))) > 0
+                 for ix in weeks], axis=1)
+            share = green.mean(axis=1)
+            weekly["green_weeks_pct"][f"{m:.2f}"] = {
+                "p50": round(float(np.percentile(share, 50)) * 100, 1),
+                "p5": round(float(np.percentile(share, 5)) * 100, 1),
+                "p95": round(float(np.percentile(share, 95)) * 100, 1),
+            }
+
     # Gate A: when does GRADED evidence reach n=150? (already-graded ledger
     # bets + certified future legs in kickoff order)
     already = sum(1 for r in GoldLedger._read() if r["status"] == "graded"
@@ -212,6 +246,7 @@ def _gold_projection(gold_parts, sims):
         "hit_rate_p5": round(float(np.percentile(hits_per_sim, 5)) / n * 100, 1),
         "hit_rate_p95": round(float(np.percentile(hits_per_sim, 95)) / n * 100, 1),
         "margins": margins,
+        "weekly": weekly,
         "drawdown_be": {
             "p50": round(float(np.percentile(dips, 50)), 0),
             "p95_worst": round(float(np.percentile(dips, 5)), 0),
