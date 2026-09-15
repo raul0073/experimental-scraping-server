@@ -828,7 +828,8 @@ async def history_page(request: Request):
     for e in entries:
         p = picks.get((e["season"], e["league"], e["home"], e["away"]))
         if p:
-            e["pick"] = {"type": p["pick_type"],
+            e["pick"] = {"type": p["pick_type"], "prob": p.get("pick_prob"),
+                         "committed": (p.get("committed_at") or "")[:10],
                          "hit": p.get("hit") if p["status"] == "graded" else None}
 
     def tier_of(r):
