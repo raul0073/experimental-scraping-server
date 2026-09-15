@@ -204,31 +204,26 @@ def advise(weekly: Dict[str, Any]) -> Optional[Dict[str, Any]]:
             three + draw_legs4, 4,
             "35 lines, tail-hunting shape: nothing below 4 hits."))
 
-    # HOME-WIN structures — the model's strongest signal (GOLD tier 65-67%
-    # across two seasons). Frequent-but-small profit shape: winner pairs pay
-    # ~2.2-2.8x a line, so profit needs 3+ hits but hits come often.
-    if len(banker_legs) >= 4:
-        # in a pure-favorites system these are ordinary selections, not
-        # bankers — a באנקר is a FIXED leg multiplied into every line, and
-        # this form has none (user caught the mislabel 2026-09-13)
-        homes4 = [{**b, "role": "fav"} for b in banker_legs[:4]]
-        candidates.append(build(
-            "שיטה 2/4 בתים", "system 2/4 on 4 home favorites",
-            homes4, 2,
-            "the model's best-proven signal in form shape: high hit frequency, "
-            "small pair payouts — profit usually needs 3 of 4."))
-        candidates.append(build(
-            "שיטה 3/4 בתים", "system 3/4 on 4 home favorites",
-            homes4, 3,
-            "4 treble lines on favorites; profit at 3 hits, all-4 pays every line."))
-        candidates.append(build(
-            "אקומולטור 4 בתים", "4-fold accumulator on home favorites",
-            homes4, 4,
-            "one line, all four must win — the frequency of the GOLD tier "
-            "compounded: hits roughly one week in five, pays the full product."))
+    # PURE-FAVORITE forms are deliberately NOT candidates (mandate decision,
+    # user sign-off 2026-09-15). At fair prices every structure is EV-0, so the
+    # choice is about SHAPE: enumerated over the 09-16 legs, a favorites 2/4
+    # risks 60 to win at most +64 and needs 3 of 4, while the draw 2/4 risks
+    # the same 60 to win up to +499 and pays at 2 of 4 — the threshold the
+    # product is actually played for. Those same favorites are already
+    # measured, cleanly and as singles, by the GOLD pot; a favorites system
+    # is duplicate exposure in a costume.
 
-    candidates.sort(key=lambda c: (c["p_profit"], c["p_return"]), reverse=True)
-    slip = candidates[0]
+    # MANDATE: the slip pot bets ONE instrument — the draw system. Ranking by
+    # P(profit) (the old rule) always crowned the highest-frequency shape,
+    # which is how the pot ended up switching products between rounds. The
+    # default is now fixed by mandate; everything else is an ALTERNATIVE the
+    # user may swap into on PRICE, which is their department.
+    primary = "שיטה 2/4" if len(draw_legs4) == 4 else "שיטה 2/3"
+    others = [c for c in candidates if c["title_he"] != primary]
+    others.sort(key=lambda c: (c["p_profit"], c["p_return"]), reverse=True)
+    slip = next((c for c in candidates if c["title_he"] == primary), candidates[0])
+    slip["mandate"] = "draws"
+    candidates = [slip] + others
     slip["alternatives"] = [
         {"title_he": c["title_he"], "title_en": c["title_en"], "lines": c["lines"],
          "p_return": c["p_return"], "p_profit": c["p_profit"]}
@@ -237,12 +232,14 @@ def advise(weekly: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     lines = []
     lines.append(f"The draw board is {board} this week (top-4 average "
                  f"{board_avg:.1%} against a ~32% ceiling).")
-    lines.append(f"Structure chosen by highest P(PROFIT) over every form shape — "
-                 f"draw systems, banker variants AND home-favorite forms (the "
-                 f"model's strongest signal): {slip['title_he']} at "
-                 f"{slip['p_profit']:.0%} profit-weeks. Home forms win the ranking "
-                 f"on weeks with 3-4 GOLD favorites (P(3+ of 4) at 65% each ≈ 56%); "
-                 f"on thin-GOLD weeks the chunky draw pairs (~9-10x a line) rule.")
+    lines.append(f"MANDATE: this pot bets one instrument — the draw system. "
+                 f"{slip['title_he']} ({slip['p_profit']:.0%} profit-weeks) is the "
+                 f"default every round, not a weekly beauty contest: at fair prices "
+                 f"all shapes are EV-0, and the draw system is the one that pays at "
+                 f"2 of 4 with a real tail (a draw pair returns ~9-10x a line). "
+                 f"Pure-favorite forms are off-mandate — they need 3 of 4 to profit, "
+                 f"cap out near the stake, and duplicate the GOLD pot, which already "
+                 f"measures those favorites as singles.")
     if banker:
         lines.append(
             f"Bankers ({', '.join(f'{b['team']} {b['prob']:.0%}' for b in bankers)}) "

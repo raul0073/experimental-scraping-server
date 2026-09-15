@@ -512,6 +512,7 @@ async def picks_page(request: Request, start: Optional[str] = Query(None)):
     from services.predictions.slip_ledger import SlipLedger
     from services.predictions.strategy_advisor import system_scenarios
     booked = None
+    booked_off_mandate = False
     win_start = (data.get("window") or {}).get("start") or ""
     win_end = (data.get("window") or {}).get("end") or ""
     slip_row = next((r for r in SlipLedger._read() if r["status"] == "pending"
@@ -529,11 +530,16 @@ async def picks_page(request: Request, start: Optional[str] = Query(None)):
                    "frozen breakeven prices above once every leg finishes.",
         }
         booked = slip_row["status"]
+        # a slip placed before the draws-only mandate (2026-09-15) still runs
+        # and still shows here — flagged, not hidden
+        booked_off_mandate = slip_row.get("mandate", "draws") != "draws"
 
     return templates.TemplateResponse(request, "picks.html",
                                       {"data": data, "week_label": week_label,
                                        "last_update": last_update, "stale": stale,
-                                       "booked": booked, "rec": rec, "mk": mk_,
+                                       "booked": booked,
+                                       "booked_off_mandate": booked_off_mandate,
+                                       "rec": rec, "mk": mk_,
                                        "page": "picks"})
 
 

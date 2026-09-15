@@ -79,6 +79,11 @@ class SlipLedger:
             "stake": round(s["lines"] * UNIT, 2),
             "p_profit": round(s.get("p_profit", 0), 4),
             "legs": s["legs"],
+            # mandate stamp (user sign-off 2026-09-15): the pot bets ONE
+            # instrument, the draw system. Rows without it are pre-mandate or
+            # off-mandate experiments — real money, kept in the pot balance,
+            # but reported separately so the strategy's P&L means something.
+            "mandate": s.get("mandate", "draws"),
             "status": "pending",
         })
         cls._write(rows)
@@ -178,6 +183,23 @@ class SlipLedger:
         graded = [r for r in rows if r["status"] == "graded"]
         staked_graded = sum(r["stake"] for r in graded)
         in_play = sum(r["stake"] for r in rows if r["status"] == "pending")
+
+        def block(sel):
+            """P&L for one mandate bucket — the pot balance stays whole
+            (money staked is money staked); this only splits the SCORE."""
+            g = [r for r in sel if r["status"] == "graded"]
+            st = sum(r["stake"] for r in g)
+            ret = sum(r["gross_return"] for r in g)
+            return {"slips": len(sel), "graded": len(g),
+                    "staked": round(st, 2), "returned": round(ret, 2),
+                    "net": round(ret - st, 2),
+                    "roi": round((ret - st) / st, 4) if st else None,
+                    "profit_weeks": sum(1 for r in g if r["net"] > 0),
+                    "in_play": round(sum(r["stake"] for r in sel
+                                         if r["status"] == "pending"), 2)}
+
+        on = [r for r in rows if r.get("mandate") == "draws"]
+        off = [r for r in rows if r.get("mandate") != "draws"]
         return {
             "start_pot": START_POT, "pot": round(pot, 2),
             "staked": round(staked, 2), "returned": round(returned, 2),
@@ -187,6 +209,8 @@ class SlipLedger:
             "weeks_played": len(rows), "weeks_graded": len(graded),
             "profit_weeks": sum(1 for r in graded if r["net"] > 0),
             "peak": round(peak, 2),
+            "mandate": "draw systems — one per round",
+            "on_mandate": block(on), "off_mandate": block(off),
             "weeks": list(reversed(weeks)),
         }
 

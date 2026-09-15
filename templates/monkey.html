@@ -3,18 +3,40 @@
 {% block headmeta %}the bot places the advised slip every window · {{ m.start_pot | int }}₪ start · 10₪/line · fair-price returns{% endblock %}
 {% block content %}
 
-<div class="tiles">
-  <div class="tile"><div class="label">🐒 Pot</div>
-    <div class="value">{{ m.pot | int }}₪</div>
-    <div class="sub">started {{ m.start_pot | int }}₪ · peak {{ m.peak | int }}₪</div></div>
-  <div class="tile"><div class="label">Net (graded slips)</div>
-    <div class="value" style="color: {{ 'var(--good)' if m.net >= 0 else 'var(--bad)' }}">{{ '%+d' | format(m.net | int) }}₪</div>
-    <div class="sub">{% if m.roi is not none %}ROI {{ (m.roi * 100) | round(1) }}% · {% endif %}returned {{ m.returned | int }}₪
-      {% if m.in_play > 0 %} · <strong>{{ m.in_play | int }}₪ in play</strong>{% endif %}</div></div>
-  <div class="tile"><div class="label">Weeks</div>
-    <div class="value">{{ m.weeks_graded }}/{{ m.weeks_played }}</div>
-    <div class="sub">graded / placed · {{ m.profit_weeks }} profit weeks</div></div>
+<div class="twoscore">
+  <div class="tsi tsi-bet">
+    <div class="tsh">🐒 The Slip — <em>the product</em></div>
+    <p><strong>Mandate: {{ m.mandate }}.</strong> The top-4 draws as a system, every round, 10₪ a line.
+       Profits at <strong>2 of 4</strong> because a draw pair returns ~9–10× a line — that tail is the
+       whole point. A leg is only worth taking at or above its breakeven price; if four legs don't clear
+       it, the round is a pass. Structure never creates edge, it only shapes variance.</p>
+  </div>
+  <div class="tsi tsi-model">
+    <div class="tsh">🥇 GOLD — <em>the instrument</em></div>
+    <p><strong>Mandate: measure, not earn.</strong> Every certified ≥55% favourite as a single at
+       breakeven, which makes it <strong>EV-zero by construction</strong> — its only job is to answer
+       whether "55%" really realises ~65% (Gate A: n≥150 at ≥62%, due mid-December). If it passes it
+       becomes a real product, with a price rule of breakeven × 1.05.</p>
+  </div>
 </div>
+
+<div class="tiles">
+  <div class="tile tile-money"><div class="label">🐒 Pot — <span class="moneytag">money</span></div>
+    <div class="value">{{ m.pot | int }}₪</div>
+    <div class="sub">started {{ m.start_pot | int }}₪ · peak {{ m.peak | int }}₪ · real balance, every slip included</div></div>
+  <div class="tile"><div class="label">Draw systems — net</div>
+    <div class="value" style="color: {{ 'var(--good)' if m.on_mandate.net >= 0 else 'var(--bad)' }}">{{ '%+d' | format(m.on_mandate.net | int) }}₪</div>
+    <div class="sub">{% if m.on_mandate.roi is not none %}ROI {{ (m.on_mandate.roi * 100) | round(1) }}% · {% endif %}{{ m.on_mandate.graded }}/{{ m.on_mandate.slips }} graded · {{ m.on_mandate.profit_weeks }} profit week{{ '' if m.on_mandate.profit_weeks == 1 else 's' }}{% if m.on_mandate.in_play > 0 %} · <strong>{{ m.on_mandate.in_play | int }}₪ in play</strong>{% endif %}</div></div>
+  {% if m.off_mandate.slips %}
+  <div class="tile"><div class="label">Off-mandate experiments</div>
+    <div class="value" style="color: {{ 'var(--ink-3)' if not m.off_mandate.graded else ('var(--good)' if m.off_mandate.net >= 0 else 'var(--bad)') }}">{% if m.off_mandate.graded %}{{ '%+d' | format(m.off_mandate.net | int) }}₪{% else %}—{% endif %}</div>
+    <div class="sub">{{ m.off_mandate.slips }} slip{{ '' if m.off_mandate.slips == 1 else 's' }} · favourites forms, retired {{ '2026-09-15' }}{% if m.off_mandate.in_play > 0 %} · {{ m.off_mandate.in_play | int }}₪ still riding{% endif %}</div></div>
+  {% endif %}
+</div>
+<p class="meta">Money staked is money staked — the pot balance includes everything. The split above only
+   separates the <em>score</em>: the draw-system record is the strategy's, the experiments are kept
+   visible rather than deleted. Retired 2026-09-15: pure-favourite systems need 3 of 4 to profit, cap
+   out near the stake, and duplicate GOLD's exposure.</p>
 
 {% if upcoming %}
 <div class="upcoming">
@@ -36,7 +58,7 @@
     {% for w in m.weeks %}
     <tr>
       <td class="meta"><a href="/dashboard/monkey/slip?window={{ w.window }}">{{ w.window }} →</a></td>
-      <td><bdi>{{ w.title_he }}</bdi></td>
+      <td><bdi>{{ w.title_he }}</bdi>{% if w.mandate != 'draws' %} <span class="offtag" title="off-mandate experiment: pure-favourite form, retired 2026-09-15 — counted in the pot, excluded from the draw-system record">off-mandate</span>{% endif %}</td>
       <td class="scorelines">
         {% for l in w.legs %}<span title="{{ l.fixture }} {{ l.score | default('') }}">{{ l.mark }}{% if l.hit is defined %}{{ '✓' if l.hit else '✗' }}{% endif %}</span> {% endfor %}
       </td>

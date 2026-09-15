@@ -163,7 +163,8 @@
 <div class="slip">
   <div class="slip-head">
     <span class="slip-title">THE MOVE: <bdi>{{ st.slip.title_he }}</bdi> · {{ st.slip.title_en }}
-      {% if booked %}<span class="bookedtag">✓ BOOKED — running in the Monkey{% if booked == 'graded' %} · graded{% endif %}</span>{% endif %}</span>
+      {% if booked %}<span class="bookedtag">✓ BOOKED — running in the Monkey{% if booked == 'graded' %} · graded{% endif %}</span>{% endif %}
+      {% if booked_off_mandate %}<span class="offtag" title="placed before the draws-only mandate (2026-09-15); it runs to completion and grades normally, but sits outside the draw-system record">off-mandate — pre-mandate bet</span>{% endif %}</span>
     <span class="slip-stats">{{ st.slip.lines }} lines ·
       P(any cash back) {{ (st.slip.p_return * 100) | round }}% ·
       <strong>P(PROFIT) {{ (st.slip.p_profit * 100) | round }}%</strong></span>
