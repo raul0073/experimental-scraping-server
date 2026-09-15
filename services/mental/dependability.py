@@ -138,6 +138,16 @@ METRICS: Dict[str, Dict[str, Any]] = {
         "label": "Hits the target", "unit": "%", "invert": False,
         "desc": "Share of his shots on target (fbref, needs 8+ shots) — "
                 "shooting composure regardless of chance quality."},
+    "killer90": {
+        "label": "Killer balls", "unit": "/90", "invert": False,
+        "desc": "Through balls, chipped passes and lay-offs that DIRECTLY "
+                "created a shot, per 90 (from shot events: he is the assister "
+                "and that was the pass type). The surviving window into "
+                "incisive passing."},
+    "cross_created90": {
+        "label": "Crosses that arrive", "unit": "/90", "invert": False,
+        "desc": "Crosses that actually found a shooter, per 90 — delivery "
+                "QUALITY, unlike raw cross volume."},
     "gk_save_pct": {
         "label": "Save% (real)", "unit": "%", "invert": False,
         "desc": "Actual saves / shots on target faced (fbref, needs 10+ SoT "
@@ -170,6 +180,7 @@ FAMILY: Dict[str, str] = {
     "shot_selection": "chance_quality",
     "delivery": "finishing", "sot_share": "finishing",
     "assist_delivery": "creation", "kp90": "creation",
+    "killer90": "creation", "cross_created90": "creation",
     "takeon90": "initiative", "fld90": "initiative",
     "discipline": "cleanliness", "fls90": "cleanliness",
     "aerial90": "dead_ball", "sp_threat": "dead_ball",
@@ -209,6 +220,7 @@ DEFAULT_ROLE_COMPONENTS: Dict[str, List[Dict[str, Any]]] = {
         {"key": "cons_chain", "weight": 5, "enabled": False},
     ],
     "DEF": [
+        {"key": "cross_created90", "weight": 4, "enabled": False},
         {"key": "tklw90", "weight": 12, "enabled": False},
         {"key": "int90", "weight": 10, "enabled": False},
         {"key": "fls90", "weight": 8, "enabled": False},
@@ -234,6 +246,8 @@ DEFAULT_ROLE_COMPONENTS: Dict[str, List[Dict[str, Any]]] = {
         {"key": "shot_selection", "weight": 5, "enabled": False},
     ],
     "MID": [
+        {"key": "killer90", "weight": 8, "enabled": False},
+        {"key": "cross_created90", "weight": 5, "enabled": False},
         {"key": "tklw90", "weight": 8, "enabled": False},
         {"key": "int90", "weight": 8, "enabled": False},
         {"key": "fld90", "weight": 8, "enabled": False},
@@ -260,6 +274,8 @@ DEFAULT_ROLE_COMPONENTS: Dict[str, List[Dict[str, Any]]] = {
         {"key": "aerial90", "weight": 5, "enabled": False},
     ],
     "ATT": [
+        {"key": "killer90", "weight": 6, "enabled": False},
+        {"key": "cross_created90", "weight": 5, "enabled": False},
         {"key": "sot_share", "weight": 8, "enabled": False},
         {"key": "fld90", "weight": 8, "enabled": False},
         {"key": "fls90", "weight": 4, "enabled": False},
@@ -418,6 +434,8 @@ def _player_metrics(apps: List[Dict], team_dates: Dict[str, List[str]],
         "clean_sheet": round(sum(1 for a in apps if a["minutes"] >= 60
                                  and a.get("conc", 0) == 0)
                              / max(1, sum(1 for a in apps if a["minutes"] >= 60)) * 100),
+        "killer90": round(shots.get("killer", 0) * 90.0 / total_min, 2),
+        "cross_created90": round(shots.get("cross_cr", 0) * 90.0 / total_min, 2),
         "takeon90": round(shots.get("takeon", 0) * 90.0 / total_min, 2),
         "box_presence": round(shots.get("box", 0) * 90.0 / total_min, 2),
         "shot_selection": round(shots.get("shot_xg", 0.0) / n_shots, 3)
@@ -480,6 +498,15 @@ def build_rankings(seasons: List[str] = None,
                     name = s.get("player")
                     if not name or s.get("result") == "OwnGoal":
                         continue
+                    ast = s.get("assist_player")
+                    if ast:
+                        b = shot_agg.setdefault(ast, {"takeon": 0, "aerial": 0,
+                                                      "box": 0, "sp": 0, "shot_xg": 0.0})
+                        la_ = s.get("last_action")
+                        if la_ in ("Throughball", "Chipped", "LayOff"):
+                            b["killer"] = b.get("killer", 0) + 1
+                        elif la_ == "Cross":
+                            b["cross_cr"] = b.get("cross_cr", 0) + 1
                     a = shot_agg.setdefault(name, {"takeon": 0, "aerial": 0,
                                                    "box": 0, "sp": 0, "shot_xg": 0.0})
                     a["shot_xg"] += s.get("xg") or 0.0

@@ -4,37 +4,37 @@
   "DEF": [
    {
     "key": "avail",
-    "weight": 22,
+    "weight": 10,
     "enabled": true
    },
    {
     "key": "big_games",
-    "weight": 14,
+    "weight": 5,
     "enabled": true
    },
    {
     "key": "discipline",
-    "weight": 16,
+    "weight": 10,
     "enabled": true
    },
    {
     "key": "cons_chain",
-    "weight": 10,
+    "weight": 15,
     "enabled": true
    },
    {
     "key": "floor_chain",
     "weight": 8,
-    "enabled": true
+    "enabled": false
    },
    {
     "key": "travels",
-    "weight": 8,
-    "enabled": true
+    "weight": 10,
+    "enabled": false
    },
    {
     "key": "aerial90",
-    "weight": 6,
+    "weight": 10,
     "enabled": true
    },
    {
@@ -45,7 +45,7 @@
    {
     "key": "sp_threat",
     "weight": 10,
-    "enabled": false
+    "enabled": true
    },
    {
     "key": "minutes_share",
@@ -94,6 +94,26 @@
    },
    {
     "key": "shot_selection",
+    "weight": 5,
+    "enabled": false
+   },
+   {
+    "key": "tklw90",
+    "weight": 12,
+    "enabled": true
+   },
+   {
+    "key": "int90",
+    "weight": 10,
+    "enabled": false
+   },
+   {
+    "key": "fls90",
+    "weight": 8,
+    "enabled": false
+   },
+   {
+    "key": "fld90",
     "weight": 5,
     "enabled": false
    }
@@ -193,6 +213,31 @@
     "key": "aerial90",
     "weight": 5,
     "enabled": false
+   },
+   {
+    "key": "tklw90",
+    "weight": 8,
+    "enabled": false
+   },
+   {
+    "key": "int90",
+    "weight": 8,
+    "enabled": false
+   },
+   {
+    "key": "fld90",
+    "weight": 8,
+    "enabled": false
+   },
+   {
+    "key": "fls90",
+    "weight": 6,
+    "enabled": false
+   },
+   {
+    "key": "sot_share",
+    "weight": 5,
+    "enabled": false
    }
   ],
   "ATT": [
@@ -290,6 +335,21 @@
     "key": "discipline",
     "weight": 3,
     "enabled": true
+   },
+   {
+    "key": "sot_share",
+    "weight": 8,
+    "enabled": false
+   },
+   {
+    "key": "fld90",
+    "weight": 8,
+    "enabled": false
+   },
+   {
+    "key": "fls90",
+    "weight": 4,
+    "enabled": false
    }
   ],
   "GK": [
@@ -347,6 +407,11 @@
     "key": "cons_chain",
     "weight": 10,
     "enabled": true
+   },
+   {
+    "key": "gk_save_pct",
+    "weight": 20,
+    "enabled": false
    }
   ]
  }
