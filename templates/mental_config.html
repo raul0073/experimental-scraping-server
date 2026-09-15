@@ -2,9 +2,20 @@
 {% block title %}Mental — algorithm{% endblock %}
 {% block headmeta %}drag metrics between bank and recipe · weights auto-normalize to 100%{% endblock %}
 
+{% set FAM_SHORT = {'presence': 'Presence & minutes', 'ball_winning': 'Ball-winning (fbref)',
+   'xg_involve': 'Involvement (xGChain)', 'chance_quality': 'Chance quality',
+   'finishing': 'Finishing', 'creation': 'Creation & passing',
+   'initiative': 'Initiative & contact', 'dead_ball': 'Dead-ball',
+   'cleanliness': 'Cleanliness', 'context': 'Context (big games / travels)',
+   'gk_stopping': 'Shot-stopping', 'gk_outcome': 'Defensive outcome', 'other': 'Other'} %}
+{% set FAM_ORDER = ['presence', 'ball_winning', 'xg_involve', 'chance_quality', 'finishing',
+   'creation', 'initiative', 'dead_ball', 'cleanliness', 'context',
+   'gk_stopping', 'gk_outcome', 'other'] %}
+
 {% macro card(r, role) %}
 <div class="mcard" draggable="true" id="mc_{{ role }}_{{ r.key }}"
-     data-key="{{ r.key }}" data-family="{{ r.family }}" data-famlabel="{{ r.family_label }}">
+     data-key="{{ r.key }}" data-family="{{ r.family }}"
+     data-famlabel="{{ r.family_label }}" data-famshort="{{ FAM_SHORT.get(r.family, 'Other') }}">
   <div class="mhead"><strong>{{ r.label }}</strong>
     <span class="munit">{{ r.unit }}{{ ' ↓ inverted' if r.invert }}</span>
     <span class="mgrip" title="drag me">⠿</span></div>
@@ -25,22 +36,30 @@
 {% if saved %}<p class="bottomline">✅ Saved — rankings recomputed with the new recipes.</p>{% endif %}
 
 <p class="headline">Drag a metric from the <strong>bank</strong> into the <strong>recipe</strong> to use it —
-   drag it back to drop it. Weights are relative and <strong>auto-normalize to 100%</strong> (the → share
-   updates live). Cards glowing <span class="dupdemo">amber</span> belong to the same family — they partly
-   <em>count the same thing</em>; keep the one you believe in.</p>
+   drag it back to drop it. Weights are relative and <strong>auto-normalize to 100%</strong> (see each
+   bucket's total bar at the bottom). Cards glowing <span class="dupdemo">amber</span> belong to the same
+   family — they partly <em>count the same thing</em>; keep the one you believe in.</p>
 
 {% for role, rows in roles.items() %}
 <section class="cfgrole" data-role="{{ role }}">
-  <h2 class="roletitle">{{ {'DEF': '🛡 Defenders', 'MID': '⚙ Midfielders', 'ATT': '⚡ Attackers', 'GK': '🧤 Goalkeepers'}[role] }}
-    <span class="seasontag rolesum"></span></h2>
+  <h2 class="roletitle">{{ {'DEF': '🛡 Defenders', 'MID': '⚙ Midfielders', 'ATT': '⚡ Attackers', 'GK': '🧤 Goalkeepers'}[role] }}</h2>
   <div class="zones">
     <div class="zone on">
       <div class="zonehead">RECIPE — scores this role</div>
       {% for r in rows if r.enabled %}{{ card(r, role) }}{% endfor %}
+      <div class="ztotal"></div>
     </div>
     <div class="zone off">
-      <div class="zonehead">BANK — available options</div>
-      {% for r in rows if not r.enabled %}{{ card(r, role) }}{% endfor %}
+      <div class="zonehead">BANK — available options, by category</div>
+      {% for fam in FAM_ORDER %}
+      {% set incat = rows | selectattr('enabled', 'equalto', false) | selectattr('family', 'equalto', fam) | list %}
+      {% if rows | selectattr('family', 'equalto', fam) | list %}
+      <div class="bankgrp {{ 'empty' if not incat }}" data-family="{{ fam }}">
+        <div class="bankgrp-h">{{ FAM_SHORT.get(fam, 'Other') }}</div>
+        {% for r in incat %}{{ card(r, role) }}{% endfor %}
+      </div>
+      {% endif %}
+      {% endfor %}
     </div>
   </div>
   <div class="famwarn meta"></div>
@@ -56,11 +75,9 @@
   </p>
 </form>
 
-<p class="meta">The bank is every signal our post-Opta stack can honestly measure: Understat per-match
-   texture (involvement, floors, big games, travels) + fbref's surviving counting tables (tackles won,
-   interceptions, fouls drawn, SoT, real Save%). Family warnings are advice, not law — sometimes you WANT
-   two lenses on one trait; just know you're weighting it twice. Changes persist in
-   data/config/mental_rank.json and apply instantly.</p>
+<p class="meta">The bank is every signal our post-Opta stack can honestly measure — Understat per-match
+   texture and shot-event mining plus fbref's surviving counting tables. Family warnings are advice, not
+   law. Changes persist in data/config/mental_rank.json and apply instantly.</p>
 
 <script>
 (function () {
@@ -75,8 +92,12 @@
       c.querySelector('.mshare').textContent = '→ ' + sh + '%';
       c.querySelector('.mbar span').style.width = sh + '%';
     });
-    sec.querySelector('.rolesum').textContent =
-      on.length + ' metrics · raw ' + sum + ' → normalized 100%';
+    const tot = sec.querySelector('.ztotal');
+    tot.innerHTML = on.length
+      ? 'total raw <b>' + sum + '</b> → auto-normalized <b>100%</b> · ' + on.length + ' metrics'
+      : 'empty recipe — drag metrics in from the bank';
+    sec.querySelectorAll('.zone.off .bankgrp').forEach(g =>
+      g.classList.toggle('empty', !g.querySelector('.mcard')));
     const fam = {};
     sec.querySelectorAll('.mcard').forEach(c => c.classList.remove('dup'));
     on.forEach(c => (fam[c.dataset.family] = fam[c.dataset.family] || []).push(c));
@@ -109,9 +130,14 @@
       z.addEventListener('dragleave', () => z.classList.remove('over'));
       z.addEventListener('drop', e => {
         e.preventDefault(); z.classList.remove('over');
-        if (dragged && dragged.closest('.cfgrole') === sec) {
-          z.appendChild(dragged); recalc(sec);
+        if (!dragged || dragged.closest('.cfgrole') !== sec) return;
+        if (z.classList.contains('on')) {
+          z.insertBefore(dragged, z.querySelector('.ztotal'));
+        } else {
+          const g = z.querySelector('.bankgrp[data-family="' + dragged.dataset.family + '"]');
+          if (g) g.appendChild(dragged); else z.appendChild(dragged);
         }
+        recalc(sec);
       });
     });
     sec.addEventListener('input', e => { if (e.target.matches('.mweight input')) recalc(sec); });
@@ -136,10 +162,10 @@
         const key = c.dataset.key, w = +c.querySelector('input').value || 1;
         if (c.closest('.zone').classList.contains('on')) {
           ser.insertAdjacentHTML('beforeend',
-            `<input type="hidden" name="en_${role}_${key}" value="on">`);
+            '<input type="hidden" name="en_' + role + '_' + key + '" value="on">');
         }
         ser.insertAdjacentHTML('beforeend',
-          `<input type="hidden" name="w_${role}_${key}" value="${w}">`);
+          '<input type="hidden" name="w_' + role + '_' + key + '" value="' + w + '">');
       });
     });
   });

@@ -412,6 +412,14 @@ tr.cfgoff td { opacity: .5; }
 .zone.off .mweight { display: none; }
 .dupdemo { background: #f3dfae; border: 1px solid #e8b23c; border-radius: 4px; padding: 0 5px; }
 .famwarn { margin: 8px 2px 0; color: #8a6206; font-weight: 600; }
+.bankgrp { margin: 4px 0 10px; }
+.bankgrp.empty { display: none; }
+.bankgrp-h { font-size: 10px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); border-bottom: 1px solid var(--line);
+  padding: 2px 4px 3px; margin: 0 2px 2px; }
+.ztotal { border-top: 2px solid #9fc3e0; margin: 10px 2px 2px; padding: 8px 4px 2px;
+  font-size: 12.5px; color: var(--ink-2); }
+.ztotal b { font-size: 14px; color: var(--ink); }
 .stickysave { position: sticky; bottom: 0; background: var(--bg, #fafaf8);
   padding: 12px 0; margin: 14px 0 0; border-top: 1px solid var(--line); }
 
