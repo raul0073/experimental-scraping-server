@@ -101,12 +101,12 @@
   "MID": [
    {
     "key": "avail",
-    "weight": 20,
+    "weight": 10,
     "enabled": true
    },
    {
     "key": "floor_chain",
-    "weight": 15,
+    "weight": 10,
     "enabled": true
    },
    {
@@ -167,12 +167,12 @@
    {
     "key": "floor_xgxa",
     "weight": 5,
-    "enabled": false
+    "enabled": true
    },
    {
     "key": "takeon90",
     "weight": 5,
-    "enabled": false
+    "enabled": true
    },
    {
     "key": "box_presence",

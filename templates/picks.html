@@ -86,7 +86,8 @@
   <a class="tile tlink" href="/dashboard/monkey">
     <div class="label">🐒 Monkey pot</div>
     <div class="value">{{ mk.pot | int }}₪</div>
-    <div class="sub">net {{ '%+d' | format(mk.net | int) }}₪ at fair prices · 🥇 GOLD pot {{ mk.gold_pot | int }}₪</div></a>
+    <div class="sub">net {{ '%+d' | format(mk.net | int) }}₪ at fair prices{% if mk.in_play %} · {{ mk.in_play | int }}₪ riding{% endif %}
+      · 🥇 GOLD {{ mk.gold_pot | int }}₪{% if mk.gold_in_play %} ({{ mk.gold_in_play | int }}₪ riding){% endif %}</div></a>
   {% endif %}
 </div>
 {% endif %}

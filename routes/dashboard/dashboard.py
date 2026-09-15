@@ -501,8 +501,9 @@ async def picks_page(request: Request, start: Optional[str] = Query(None)):
     try:
         from services.predictions.slip_ledger import SlipLedger as _SL
         _m = _SL.monkey()
-        mk_ = {"pot": _m["pot"], "net": _m["net"],
-               "gold_pot": GoldLedger.summary()["pot"]}
+        _g = GoldLedger.summary()
+        mk_ = {"pot": _m["pot"], "net": _m["net"], "in_play": _m["in_play"],
+               "gold_pot": _g["pot"], "gold_in_play": _g["in_play"]}
     except Exception:
         pass
 
