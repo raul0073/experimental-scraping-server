@@ -1,0 +1,68 @@
+{
+  "protocol": "fit 2526 weeks 5-21, frozen eval weeks 22-38 (rosters exist only from 2526)",
+  "stats": {
+    "s1": {
+      "mean": 0.1213,
+      "std": 0.0967
+    },
+    "s2": {
+      "mean": 0.0499,
+      "std": 0.065
+    }
+  },
+  "fit_n": 767,
+  "eval_n": 744,
+  "eval_shipping": 1.0081,
+  "metrics_shipping": {
+    "n": 744,
+    "acc": 50.27,
+    "log_loss": 1.00661,
+    "draws_top4": 33.82,
+    "draws_top4_n": 68,
+    "gold_n": 273,
+    "gold": 64.1
+  },
+  "variants": {
+    "full": {
+      "gammas": {
+        "own_s1": -0.08,
+        "opp_s1": -0.08,
+        "own_s2": 0.015,
+        "opp_s2": 0.085
+      },
+      "fit_base": 0.99521,
+      "fit_fitted": 0.99248,
+      "eval_nll": 1.00546,
+      "metrics": {
+        "n": 744,
+        "acc": 49.6,
+        "log_loss": 1.0043,
+        "draws_top4": 26.47,
+        "draws_top4_n": 68,
+        "gold_n": 285,
+        "gold": 64.56
+      },
+      "verdict": "REJECT"
+    },
+    "diff": {
+      "gammas": {
+        "d_s1": 0.005,
+        "d_s2": 0.03
+      },
+      "fit_base": 0.99521,
+      "fit_fitted": 0.99344,
+      "eval_nll": 1.00387,
+      "metrics": {
+        "n": 744,
+        "acc": 49.87,
+        "log_loss": 1.00303,
+        "draws_top4": 30.88,
+        "draws_top4_n": 68,
+        "gold_n": 288,
+        "gold": 63.89
+      },
+      "verdict": "REJECT"
+    }
+  },
+  "verdict": "REJECT-ALL"
+}

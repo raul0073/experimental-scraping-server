@@ -11,14 +11,20 @@
   <header class="site">
     <h1>⚽ Predictorous</h1>
     <nav>
-      <a href="/dashboard" class="{{ 'active' if page == 'picks' else '' }}">Picks</a>
-      <a href="/dashboard/predictions" class="{{ 'active' if page == 'predictions' else '' }}">Predictions</a>
-      <a href="/dashboard/table" class="{{ 'active' if page == 'table' else '' }}">Table</a>
-      <a href="/dashboard/ledger" class="{{ 'active' if page == 'ledger' else '' }}">Ledger</a>
-      <a href="/dashboard/history" class="{{ 'active' if page == 'history' else '' }}">History</a>
-      <a href="/dashboard/monkey" class="{{ 'active' if page == 'monkey' else '' }}">Monkey 🐒</a>
-      <a href="/dashboard/mental" class="{{ 'active' if page == 'mental' else '' }}">Mental 🧠</a>
-      <a href="/dashboard/backtest" class="{{ 'active' if page == 'backtest' else '' }}">Backtest</a>
+      <span class="navgrp" title="money: what we bet, what it returned">
+        <span class="navlbl">Betting</span>
+        <a href="/dashboard" class="{{ 'active' if page == 'picks' else '' }}">Picks</a>
+        <a href="/dashboard/ledger" class="{{ 'active' if page == 'ledger' else '' }}">Ledger</a>
+        <a href="/dashboard/monkey" class="{{ 'active' if page == 'monkey' else '' }}">Monkey 🐒</a>
+      </span>
+      <span class="navgrp" title="the model: what it says and whether it is true">
+        <span class="navlbl">Model</span>
+        <a href="/dashboard/predictions" class="{{ 'active' if page == 'predictions' else '' }}">Predictions</a>
+        <a href="/dashboard/table" class="{{ 'active' if page == 'table' else '' }}">Table</a>
+        <a href="/dashboard/history" class="{{ 'active' if page == 'history' else '' }}">History</a>
+        <a href="/dashboard/mental" class="{{ 'active' if page == 'mental' else '' }}">Mental 🧠</a>
+        <a href="/dashboard/backtest" class="{{ 'active' if page == 'backtest' else '' }}">Backtest</a>
+      </span>
     </nav>
     <span class="meta">{% block headmeta %}{% endblock %}</span>
   </header>
