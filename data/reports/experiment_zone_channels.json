@@ -1,0 +1,34 @@
+{
+  "gammas": {
+    "flank": -0.03,
+    "central": -0.05,
+    "progress": 0.095,
+    "press": 0.0
+  },
+  "stats": {
+    "flank": {
+      "mean": 0.1153,
+      "std": 0.4069
+    },
+    "central": {
+      "mean": 0.0002,
+      "std": 0.4275
+    },
+    "progress": {
+      "mean": -0.0013,
+      "std": 0.4269
+    },
+    "press": {
+      "mean": 0.0016,
+      "std": 0.4298
+    }
+  },
+  "fit_n": 1368,
+  "eval_n": 1368,
+  "fit_base": 0.9787,
+  "fit_channels": 0.9769,
+  "eval_form_only": 1.00145,
+  "eval_shipping": 1.00093,
+  "eval_channels": 0.99903,
+  "verdict": "KEEP-CHANNELS"
+}
