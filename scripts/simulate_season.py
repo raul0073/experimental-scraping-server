@@ -25,10 +25,12 @@ import numpy as np
 
 from models.fbref.fbref_types import LEAGUE_NAME_MAP
 from services.fbref.fixtures.fixtures_service import FixturesService
+from services.predictions.gold_ledger import GOLD_P, UNIT, GoldLedger
 from services.predictions.prediction_service import SEASON, PredictionService
 
 TOP_N = 4
 REL_N = 3
+GOLD_MARGINS = (0.0, 0.03, 0.05, 0.08)   # odds = breakeven * (1+m)
 OUT_PATH = Path(__file__).resolve().parent.parent / "data" / "reports" / f"season_sim_{SEASON}.json"
 
 
@@ -128,7 +130,97 @@ def simulate_league(svc, league, n_sims, rng):
             "med_pos": int(np.median(pos[:, i])),
         })
     table.sort(key=lambda r: -r["exp_pts"])
-    return {"table": table, "fixtures": _fixture_rows(preds)}, F
+
+    # GOLD instrument legs: same certification as GoldLedger.commit —
+    # normal confidence, home/away side priced >= GOLD_P. hit matrix comes
+    # from the SAME sampled outcomes as the standings (one coherent world
+    # per simulated season).
+    g_dates, g_be, g_p, g_cols, g_side = [], [], [], [], []
+    for f, p in enumerate(preds):
+        pr = p["probabilities"]
+        fav = max(pr, key=pr.get)
+        if p["confidence"] != "normal" or fav not in ("home", "away") or pr[fav] < GOLD_P:
+            continue
+        g_dates.append(p["kickoff"] or "9999-12-31")
+        g_be.append(1.0 / pr[fav])
+        g_p.append(pr[fav])
+        g_cols.append(f)
+        g_side.append(0 if fav == "home" else 2)
+    gold = None
+    if g_cols:
+        hit = out[:, np.array(g_cols)] == np.array(g_side)[None, :]  # (n_sims, Fg)
+        gold = {"league": league, "dates": g_dates,
+                "be": np.array(g_be), "p": np.array(g_p), "hit": hit}
+    return {"table": table, "fixtures": _fixture_rows(preds)}, F, gold
+
+
+def _gold_projection(gold_parts, sims):
+    """The GOLD betting model played through the remaining season, inside
+    the same simulated worlds as the standings. At exact breakeven odds the
+    EV is zero BY CONSTRUCTION (outcomes are sampled from the model's own
+    calibrated probabilities) — the honest outputs are volume, variance,
+    drawdown, and what a price margin above breakeven turns into. Odds
+    themselves stay the user's business."""
+    if not gold_parts:
+        return None
+    order = np.argsort(np.concatenate([np.array(g["dates"], dtype=object)
+                                       for g in gold_parts]), kind="stable")
+    be = np.concatenate([g["be"] for g in gold_parts])[order]
+    p = np.concatenate([g["p"] for g in gold_parts])[order]
+    hit = np.concatenate([g["hit"] for g in gold_parts], axis=1)[:, order]
+    dates = np.concatenate([np.array(g["dates"], dtype=object)
+                            for g in gold_parts])[order]
+    n = len(be)
+
+    by_league = {}
+    for g in gold_parts:
+        by_league[g["league"]] = len(g["be"])
+
+    margins = {}
+    for m in GOLD_MARGINS:
+        net = UNIT * (hit * (be * (1 + m))[None, :]).sum(axis=1) - UNIT * n
+        margins[f"{m:.2f}"] = {
+            "p5": round(float(np.percentile(net, 5)), 0),
+            "p25": round(float(np.percentile(net, 25)), 0),
+            "p50": round(float(np.percentile(net, 50)), 0),
+            "p75": round(float(np.percentile(net, 75)), 0),
+            "p95": round(float(np.percentile(net, 95)), 0),
+            "mean": round(float(net.mean()), 0),
+            "p_profit": round(float((net > 0).mean()) * 100, 1),
+        }
+
+    # pot path at breakeven, chronological: how deep does the ride dip?
+    path = np.cumsum(UNIT * (hit * be[None, :] - 1.0), axis=1)
+    dips = path.min(axis=1)
+    hits_per_sim = hit.sum(axis=1)
+
+    # Gate A: when does GRADED evidence reach n=150? (already-graded ledger
+    # bets + certified future legs in kickoff order)
+    already = sum(1 for r in GoldLedger._read() if r["status"] == "graded"
+                  for _ in r["bets"])
+    need = max(0, 150 - already)
+    gate_date = str(dates[need - 1]) if 0 < need <= n else (
+        "already reached" if need == 0 else None)
+
+    return {
+        "criteria": f"p(fav) >= {GOLD_P:.2f}, normal confidence, priced at breakeven 1/p",
+        "unit": UNIT, "n_bets": n, "by_league": by_league,
+        "stake_total": round(UNIT * n, 0),
+        "avg_prob": round(float(p.mean()), 4),
+        "exp_hit_rate": round(float(p.mean()) * 100, 1),
+        "sim_hit_rate_p50": round(float(np.percentile(hits_per_sim, 50)) / n * 100, 1),
+        "hit_rate_p5": round(float(np.percentile(hits_per_sim, 5)) / n * 100, 1),
+        "hit_rate_p95": round(float(np.percentile(hits_per_sim, 95)) / n * 100, 1),
+        "margins": margins,
+        "drawdown_be": {
+            "p50": round(float(np.percentile(dips, 50)), 0),
+            "p95_worst": round(float(np.percentile(dips, 5)), 0),
+        },
+        "gate_a": {"already_graded": already, "n150_on": gate_date},
+        "note": ("EV at exact breakeven is 0 by construction; profit comes only "
+                 "from odds above breakeven (margins simulated), and from "
+                 "realized accuracy beating stated probability (Gate A measures that live)."),
+    }
 
 
 def run(sims: int = 10000, verbose: bool = True):
@@ -138,10 +230,13 @@ def run(sims: int = 10000, verbose: bool = True):
     out = {"season": SEASON, "sims": sims, "as_of": date.today().isoformat(),
            "leagues": {}}
     total_f = 0
+    gold_parts = []
     for league in LEAGUE_NAME_MAP:
-        blob, f = simulate_league(svc, league, sims, rng)
+        blob, f, gold = simulate_league(svc, league, sims, rng)
         out["leagues"][league] = blob
         total_f += f
+        if gold:
+            gold_parts.append(gold)
         if verbose:
             table = blob["table"]
             print(f"\n=== {league} ({f} fixtures simulated x {sims}) ===", flush=True)
@@ -153,11 +248,24 @@ def run(sims: int = 10000, verbose: bool = True):
             for r in table[-3:]:
                 print(f"{r['team']:<22}{r['pts_now']:>4}{r['exp_pts']:>7}"
                       f"{r['p_title']:>8}{r['p_top4']:>7}{r['p_rel']:>6}")
+    out["gold"] = _gold_projection(gold_parts, sims)
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     if verbose:
+        g = out["gold"]
+        if g:
+            print(f"\n=== GOLD projection: {g['n_bets']} certified bets "
+                  f"(avg p {g['avg_prob']:.3f}) ===")
+            for m, r in g["margins"].items():
+                print(f"  margin +{float(m) * 100:.0f}%: median {r['p50']:+.0f} "
+                      f"(p5 {r['p5']:+.0f} / p95 {r['p95']:+.0f}), "
+                      f"P(profit) {r['p_profit']}%")
+            print(f"  breakeven pot dip: median {g['drawdown_be']['p50']:.0f}, "
+                  f"bad-run {g['drawdown_be']['p95_worst']:.0f} · "
+                  f"Gate-A n=150 on {g['gate_a']['n150_on']}")
         print(f"\n-> {OUT_PATH}", flush=True)
-    return {"leagues": len(out["leagues"]), "fixtures": total_f, "sims": sims}
+    return {"leagues": len(out["leagues"]), "fixtures": total_f, "sims": sims,
+            "gold_bets": (out["gold"] or {}).get("n_bets", 0)}
 
 
 def main() -> int:

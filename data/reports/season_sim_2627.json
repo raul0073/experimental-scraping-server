@@ -22709,5 +22709,70 @@
     }
    ]
   }
+ },
+ "gold": {
+  "criteria": "p(fav) >= 0.55, normal confidence, priced at breakeven 1/p",
+  "unit": 10.0,
+  "n_bets": 485,
+  "by_league": {
+   "ENG-Premier League": 70,
+   "ESP-La Liga": 101,
+   "ITA-Serie A": 132,
+   "GER-Bundesliga": 93,
+   "FRA-Ligue 1": 89
+  },
+  "stake_total": 4850.0,
+  "avg_prob": 0.6451,
+  "exp_hit_rate": 64.5,
+  "sim_hit_rate_p50": 64.5,
+  "hit_rate_p5": 60.8,
+  "hit_rate_p95": 68.0,
+  "margins": {
+   "0.00": {
+    "p5": -276.0,
+    "p25": -112.0,
+    "p50": 1.0,
+    "p75": 112.0,
+    "p95": 270.0,
+    "mean": -0.0,
+    "p_profit": 50.3
+   },
+   "0.03": {
+    "p5": -139.0,
+    "p25": 31.0,
+    "p50": 146.0,
+    "p75": 261.0,
+    "p95": 423.0,
+    "mean": 145.0,
+    "p_profit": 80.0
+   },
+   "0.05": {
+    "p5": -48.0,
+    "p25": 125.0,
+    "p50": 243.0,
+    "p75": 360.0,
+    "p95": 526.0,
+    "mean": 242.0,
+    "p_profit": 91.5
+   },
+   "0.08": {
+    "p5": 89.0,
+    "p25": 267.0,
+    "p50": 389.0,
+    "p75": 509.0,
+    "p95": 679.0,
+    "mean": 388.0,
+    "p_profit": 98.4
+   }
+  },
+  "drawdown_be": {
+   "p50": -109.0,
+   "p95_worst": -328.0
+  },
+  "gate_a": {
+   "already_graded": 0,
+   "n150_on": "2026-12-12"
+  },
+  "note": "EV at exact breakeven is 0 by construction; profit comes only from odds above breakeven (margins simulated), and from realized accuracy beating stated probability (Gate A measures that live)."
  }
 }
