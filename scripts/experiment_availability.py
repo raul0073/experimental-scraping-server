@@ -42,9 +42,9 @@ from services.understat.rosters_service import RostersService
 from services.understat.understat_service import UnderstatService
 from services.zones.zones_engine import ZonesEngine, channel_boosts
 
-EVAL = "2526"
+FIT_SEASON = "2425"        # rosters backfilled 2026-09-15 (1,750 matches)
+EVAL_SEASON = "2526"       # whole unseen season — same standard zones passed
 FROM_WEEK = 5
-FIT_MAX_WEEK = 21          # forward holdout: fit <= 21, eval >= 22
 MIN_TEAM_MATCHES_IN_WINDOW = 8
 MIN_PRIOR_MATCHES = 5      # shock needs a squad picture first
 CORE_SHARE = 0.5           # a "regular": >= 50% of available minutes so far
@@ -88,22 +88,21 @@ def shocks(timeline, date):
     return s1, s2
 
 
-def build_samples():
+def build_samples(season):
     params = json.loads(Path("data/config/model_params.json").read_text(encoding="utf-8"))
     rho = params["rho"]
     zb = json.loads(Path("data/config/zone_blend.json").read_text(encoding="utf-8"))
-    clf = DrawModel.load()
     samples = []
     skipped = 0
     for league in LEAGUE_NAME_MAP:
         boosts = params["leagues"][league]
-        fm = FormModel(league, ["2425", EVAL])
-        us = UnderstatService.load(league, EVAL)
-        fx = FixturesService.load(league, EVAL)
+        fm = FormModel(league, (["2425", season] if season != "2425" else [season]))
+        us = UnderstatService.load(league, season)
+        fx = FixturesService.load(league, season)
         wk = {(m["home_team"], m["away_team"]): m["week"]
               for m in fx["matches"] if isinstance(m["week"], int)}
-        eng = ZonesEngine(league, EVAL)
-        tl = team_timelines(league, EVAL)
+        eng = ZonesEngine(league, season)
+        tl = team_timelines(league, season)
         zcache = {}
         counts = {}
         for m in sorted(us["matches"], key=lambda x: x["date"]):
@@ -148,7 +147,7 @@ def build_samples():
                             "s1h": sh[0], "s2h": sh[1], "s1a": sa[0], "s2a": sa[1],
                             "outcome": outcome})
         print(f"  {league}: {len(samples)} cumulative (skipped {skipped})", flush=True)
-    return samples, clf
+    return samples
 
 
 def standardize(samples, stats=None):
@@ -248,28 +247,30 @@ def metrics(samples, g, clf, mode="full"):
             "gold": round(g_hit / len(gold) * 100, 2) if gold else None}
 
 
-CACHE = Path("data/reports/_availability_samples.json")
+def cached_samples(season):
+    path = Path(f"data/reports/_availability_samples_{season}.json")
+    if path.exists():
+        rows = json.loads(path.read_text(encoding="utf-8"))
+        print(f"loaded {len(rows)} cached samples for {season}", flush=True)
+        return rows
+    print(f"building {season} samples with the SHIPPING model as baseline "
+          "(zone builds — several minutes)...", flush=True)
+    rows = build_samples(season)
+    path.write_text(json.dumps(rows), encoding="utf-8")
+    return rows
 
 
 def main() -> int:
     clf = DrawModel.load()
-    if CACHE.exists():
-        samples = json.loads(CACHE.read_text(encoding="utf-8"))
-        print(f"loaded {len(samples)} cached samples ({CACHE})", flush=True)
-    else:
-        print("building 25/26 samples with the SHIPPING model as baseline "
-              "(zone builds — several minutes)...", flush=True)
-        samples, clf = build_samples()
-        CACHE.write_text(json.dumps(samples), encoding="utf-8")
-    fit = [s for s in samples if s["week"] <= FIT_MAX_WEEK]
-    ev = [s for s in samples if s["week"] > FIT_MAX_WEEK]
+    fit = cached_samples(FIT_SEASON)
+    ev = cached_samples(EVAL_SEASON)
     stats = standardize(fit)
     standardize(ev, stats)
-    print(f"fit n={len(fit)} (weeks {FROM_WEEK}-{FIT_MAX_WEEK}) | "
-          f"eval n={len(ev)} (weeks {FIT_MAX_WEEK + 1}-38)", flush=True)
+    print(f"fit n={len(fit)} ({FIT_SEASON}) | eval n={len(ev)} ({EVAL_SEASON}, "
+          f"whole unseen season)", flush=True)
 
-    s1 = [s["s1h"] for s in samples] + [s["s1a"] for s in samples]
-    s2 = [s["s2h"] for s in samples] + [s["s2a"] for s in samples]
+    s1 = [s["s1h"] for s in fit] + [s["s1a"] for s in fit]
+    s2 = [s["s2h"] for s in fit] + [s["s2a"] for s in fit]
     print(f"shock1 mean {sum(s1)/len(s1):.3f} max {max(s1):.3f} | "
           f"shock2 mean {sum(s2)/len(s2):.3f} max {max(s2):.3f}", flush=True)
 
@@ -280,8 +281,8 @@ def main() -> int:
           f"GOLD {m_base['gold']}% (n={m_base['gold_n']})")
 
     out = {
-        "protocol": f"fit 2526 weeks {FROM_WEEK}-{FIT_MAX_WEEK}, frozen eval weeks "
-                    f"{FIT_MAX_WEEK + 1}-38 (rosters exist only from 2526)",
+        "protocol": f"fit {FIT_SEASON} (GW{FROM_WEEK}+), FROZEN eval {EVAL_SEASON} "
+                    f"whole season — same standard the zone channels passed",
         "stats": {k: {"mean": round(v[0], 4), "std": round(v[1], 4)}
                   for k, v in stats.items()},
         "fit_n": len(fit), "eval_n": len(ev),
@@ -311,9 +312,9 @@ def main() -> int:
 
     out["verdict"] = ("SHIP-" + max(verdicts, key=lambda k: verdicts[k] == "SHIP").upper()
                       if "SHIP" in verdicts.values() else "REJECT-ALL")
-    print(f"\nVERDICT: {out['verdict']}  (within-season forward holdout — weaker "
-          f"evidence than a whole unseen season; any SHIP needs live 26/27 "
-          f"confirmation before it touches picks)")
+    print(f"\nVERDICT: {out['verdict']}  (fit {FIT_SEASON} -> frozen {EVAL_SEASON}; "
+          f"nothing touches live picks mid-cycle — any SHIP is wired during the "
+          f"international break and frozen before the Oct 7 booking)")
     Path("data/reports/experiment_availability.json").write_text(
         json.dumps(out, indent=2), encoding="utf-8")
     print("-> data/reports/experiment_availability.json")
