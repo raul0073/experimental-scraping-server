@@ -113,6 +113,7 @@ class GoldLedger:
                             if m["played"]:
                                 books[key][(m["home_team"], m["away_team"])] = m
         graded = 0
+        resolved_now = 0   # legs settled this pass, even in unfinished windows
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         for r in pending:
             all_resolved = True
@@ -133,6 +134,7 @@ class GoldLedger:
                 winner = b["home"] if hg > ag else b["away"] if ag > hg else None
                 b["score"] = f"{hg}-{ag}"
                 b["hit"] = winner == b["team"]
+                resolved_now += 1
             if not all_resolved:
                 continue
             hits = sum(1 for b in r["bets"] if b["hit"])
@@ -143,9 +145,14 @@ class GoldLedger:
             r["gross_return"] = round(gross, 2)
             r["net"] = round(gross - r["stake"], 2)
             graded += 1
-        if graded:
+        # persist settled legs even when their window is not finished — a
+        # window grades atomically, but throwing away resolved legs meant
+        # re-deriving them every run and showing no progress until the last
+        # kickoff landed (15-bet windows can straddle four days)
+        if graded or resolved_now:
             cls._write(rows)
-        return {"graded": graded, "still_pending": len(pending) - graded}
+        return {"graded": graded, "still_pending": len(pending) - graded,
+                "legs_resolved": resolved_now}
 
     # ------------------------------------------------ summary (Gate A)
 
@@ -168,6 +175,12 @@ class GoldLedger:
         n = len(graded_bets)
         hits = sum(1 for b in graded_bets if b["hit"])
         exp_hits = sum(b["prob"] for b in graded_bets)
+        # live view: every settled leg, including those in windows still
+        # waiting on a late kickoff (the money is decided, the row isn't)
+        settled = [b for r in rows for b in r["bets"] if "hit" in b]
+        s_hits = sum(1 for b in settled if b["hit"])
+        s_exp = sum(b["prob"] for b in settled)
+        pend_legs = sum(1 for r in rows for b in r["bets"] if "hit" not in b)
         staked_graded = sum(r["stake"] for r in rows if r["status"] == "graded")
         return {
             "start_pot": START_POT, "pot": round(pot, 2),
@@ -178,6 +191,9 @@ class GoldLedger:
             "bets_graded": n, "hits": hits,
             "realized": round(hits / n, 4) if n else None,
             "expected": round(exp_hits / n, 4) if n else None,
+            "settled": {"n": len(settled), "hits": s_hits, "pending_legs": pend_legs,
+                        "realized": round(s_hits / len(settled), 4) if settled else None,
+                        "expected": round(s_exp / len(settled), 4) if settled else None},
             "gate_a": {"target_n": 150, "target_acc": 0.62,
                        "on_track": (hits / n >= 0.62) if n else None},
             "weeks": list(reversed(weeks)),

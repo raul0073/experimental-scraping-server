@@ -85,9 +85,10 @@
   <div class="tile"><div class="label">Pot</div>
     <div class="value">{{ g.pot | int }}₪</div>
     <div class="sub">started {{ g.start_pot | int }}₪{% if g.in_play > 0 %} · {{ g.in_play | int }}₪ in play{% endif %}</div></div>
-  <div class="tile"><div class="label">Realized v expected</div>
-    <div class="value">{% if g.realized is not none %}{{ (g.realized * 100) | round(1) }}%{% else %}—{% endif %}</div>
-    <div class="sub">{% if g.expected is not none %}model said {{ (g.expected * 100) | round(1) }}% · {% endif %}{{ g.hits }}/{{ g.bets_graded }} bets</div></div>
+  <div class="tile"><div class="label">Realized v expected <span class="meta">— settled legs</span></div>
+    <div class="value">{% if g.settled.realized is not none %}{{ (g.settled.realized * 100) | round(1) }}%{% else %}—{% endif %}</div>
+    <div class="sub">{% if g.settled.expected is not none %}model said <strong>{{ (g.settled.expected * 100) | round(1) }}%</strong> · {% endif %}{{ g.settled.hits }}/{{ g.settled.n }} decided{% if g.settled.pending_legs %} · {{ g.settled.pending_legs }} still to play{% endif %}<br>
+      <span class="meta">windows grade whole, so a window waiting on one late kickoff still shows its decided legs here</span></div></div>
   <div class="tile"><div class="label">Net at fair prices</div>
     <div class="value" style="color: {{ 'var(--good)' if g.net >= 0 else 'var(--bad)' }}">{{ '%+d' | format(g.net | int) }}₪</div>
     <div class="sub">{% if g.roi is not none %}ROI {{ (g.roi * 100) | round(1) }}%{% else %}nothing graded yet{% endif %}</div></div>
