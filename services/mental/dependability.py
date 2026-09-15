@@ -31,7 +31,7 @@ K_EVIDENCE = 12.0
 SEASONS = ["2526", "2627"]
 LEAGUES = ["ENG-Premier League", "ITA-Serie A", "ESP-La Liga",
            "GER-Bundesliga", "FRA-Ligue 1"]
-ROLES = ("DEF", "MID", "ATT")
+ROLES = ("DEF", "MID", "ATT", "GK")
 CONFIG_PATH = Path("data/config/mental_rank.json")
 
 # ---- the bank: every dependability signal our data can honestly measure ----
@@ -116,10 +116,34 @@ METRICS: Dict[str, Dict[str, Any]] = {
         "label": "Travels well", "unit": "%", "invert": False,
         "desc": "Away-day involvement versus his own norm — showing up "
                 "outside the comfort zone is mental."},
+    # ---- goalkeeper family ----
+    "shot_stop": {
+        "label": "Shot-stopping", "unit": "prevented/90", "invert": False,
+        "desc": "Goals prevented versus the xG his team faced while he was on "
+                "the pitch, per 90. Understat xG is pre-shot, so this is the "
+                "standard keeper over/under-performance proxy — real signal, "
+                "noisy season to season."},
+    "clean_sheet": {
+        "label": "Clean sheets", "unit": "%", "invert": False,
+        "desc": "Share of his 60'+ appearances conceding zero — the keeper's "
+                "bottom-line dependability stat."},
 }
 
 # per-role default recipes — you can't expect a defender to attack his man
 DEFAULT_ROLE_COMPONENTS: Dict[str, List[Dict[str, Any]]] = {
+    "GK": [
+        {"key": "shot_stop", "weight": 30, "enabled": True},
+        {"key": "avail", "weight": 25, "enabled": True},
+        {"key": "clean_sheet", "weight": 15, "enabled": True},
+        {"key": "discipline", "weight": 10, "enabled": True},
+        {"key": "buildup90", "weight": 10, "enabled": True},
+        {"key": "starter_share", "weight": 10, "enabled": True},
+        {"key": "minutes_share", "weight": 15, "enabled": False},
+        {"key": "finish_starts", "weight": 10, "enabled": False},
+        {"key": "big_games", "weight": 10, "enabled": False},
+        {"key": "travels", "weight": 10, "enabled": False},
+        {"key": "cons_chain", "weight": 5, "enabled": False},
+    ],
     "DEF": [
         {"key": "avail", "weight": 25, "enabled": True},
         {"key": "big_games", "weight": 15, "enabled": True},
@@ -194,7 +218,11 @@ def load_config() -> Dict[str, List[Dict[str, Any]]]:
             if roles:
                 out = {}
                 for role in ROLES:
-                    comps = [c for c in roles.get(role, []) if c.get("key") in METRICS]
+                    stored = roles.get(role)
+                    if stored is None:  # role added later (GK) -> full defaults
+                        out[role] = [dict(c) for c in DEFAULT_ROLE_COMPONENTS[role]]
+                        continue
+                    comps = [c for c in stored if c.get("key") in METRICS]
                     have = {c["key"] for c in comps}
                     for d in DEFAULT_ROLE_COMPONENTS[role]:  # new bank entries: off
                         if d["key"] not in have:
@@ -308,6 +336,12 @@ def _player_metrics(apps: List[Dict], team_dates: Dict[str, List[str]],
                              + 3 * sum(a["red"] for a in apps)) * 90.0 / total_min, 2),
         "delivery": round((goals + 1.0) / (xg + 1.0), 2),
         "assist_delivery": round((assists + 1.0) / (xa + 1.0), 2),
+        "shot_stop": round((sum(a.get("xga", 0.0) for a in apps)
+                            - sum(a.get("conc", 0) for a in apps))
+                           * 90.0 / total_min, 2),
+        "clean_sheet": round(sum(1 for a in apps if a["minutes"] >= 60
+                                 and a.get("conc", 0) == 0)
+                             / max(1, sum(1 for a in apps if a["minutes"] >= 60)) * 100),
         "takeon90": round(shots.get("takeon", 0) * 90.0 / total_min, 2),
         "box_presence": round(shots.get("box", 0) * 90.0 / total_min, 2),
         "shot_selection": round(shots.get("shot_xg", 0.0) / n_shots, 3)
@@ -353,12 +387,20 @@ def build_rankings(seasons: List[str] = None,
                     pts[t] = pts.get(t, 0) + (3 if gf > ga else 1 if gf == ga else 0)
             top6[season] = set(sorted(pts, key=pts.get, reverse=True)[:6])
 
-        # per-player behavioral shot counts (the mental family)
+        # per-player behavioral shot counts (the mental family) + per-match
+        # defensive lines (xG faced / goals conceded per side) for keepers
         shot_agg: Dict[str, Dict[str, float]] = {}
+        defense: Dict[tuple, Dict[str, list]] = {}
         for season in seasons:
             sh = ShotEventsService.load(league, season)
             for sm in (sh or {}).get("matches", {}).values():
+                dkey = (sm["date"], sm["home_team"], sm["away_team"])
+                dd = defense.setdefault(dkey, {"h": [0.0, 0], "a": [0.0, 0]})
                 for s in sm["shots"]:
+                    side_def = "a" if s.get("side") == "h" else "h"
+                    dd[side_def][0] += s.get("xg") or 0.0
+                    if s.get("result") in ("Goal", "OwnGoal"):
+                        dd[side_def][1] += 1
                     name = s.get("player")
                     if not name or s.get("result") == "OwnGoal":
                         continue
@@ -384,9 +426,12 @@ def build_rankings(seasons: List[str] = None,
                     mins = p.get("minutes") or 0
                     if not p.get("player") or mins <= 0:
                         continue
+                    d = defense.get((m["date"], m["home_team"], m["away_team"]),
+                                    {"h": [0.0, 0], "a": [0.0, 0]})[side]
                     e = players.setdefault(p["player"], {"apps": [], "pos": {}})
                     e["apps"].append({
                         "date": m["date"], "team": team, "opp": opp,
+                        "xga": d[0], "conc": d[1],
                         "minutes": mins, "away": side == "a",
                         "start": (p.get("position") or "Sub") != "Sub",
                         "chain": p.get("xg_chain") or 0.0,
@@ -409,7 +454,7 @@ def build_rankings(seasons: List[str] = None,
             if not e["pos"]:
                 continue
             bucket = _bucket(max(e["pos"], key=e["pos"].get))
-            if bucket in ("", "GK"):
+            if not bucket:
                 continue
             m = _player_metrics(e["apps"], team_dates, shot_agg.get(name, {}), top6)
             if not m:

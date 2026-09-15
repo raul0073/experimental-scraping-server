@@ -15,7 +15,7 @@
 
 <form method="post" action="/dashboard/mental/config">
 {% for role, rows in roles.items() %}
-<h2 class="roletitle">{{ {'DEF': '🛡 Defenders', 'MID': '⚙ Midfielders', 'ATT': '⚡ Attackers'}[role] }}</h2>
+<h2 class="roletitle">{{ {'DEF': '🛡 Defenders', 'MID': '⚙ Midfielders', 'ATT': '⚡ Attackers', 'GK': '🧤 Goalkeepers'}[role] }}</h2>
 <table class="fair cfg">
   <thead><tr><th>In</th><th>Metric</th><th class="num">Weight</th><th class="num">Share</th><th>What it measures</th></tr></thead>
   <tbody>

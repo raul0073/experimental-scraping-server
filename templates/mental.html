@@ -36,7 +36,7 @@
   <label>Position
     <select name="role">
       <option value="">all</option>
-      {% for r in ('DEF', 'MID', 'ATT') %}<option value="{{ r }}" {{ 'selected' if r == f_role }}>{{ r }}</option>{% endfor %}
+      {% for r in ('DEF', 'MID', 'ATT', 'GK') %}<option value="{{ r }}" {{ 'selected' if r == f_role }}>{{ r }}</option>{% endfor %}
     </select></label>
   <button class="btn" type="submit">Filter</button>
   <a class="btn ghost" href="/dashboard/mental">Clear</a>
@@ -71,7 +71,8 @@
    one round behind. <strong>Evidence correction</strong>: scores shrink toward neutral 50 by sample size
    (minutes÷90 against a 12-match prior — hover a score for the raw number), so a 37-game season rightly
    outranks the same profile built on 20 games. Big-game presence sits neutral until a player logs 3 such
-   starts. Goalkeepers excluded
+   starts. Goalkeepers have their own recipe (shot-stopping vs xG faced, clean sheets, sweeper build-up)
+   and are ranked only against other keepers
    (involvement metrics don't fit them). Percentiles are computed within league AND role bucket, so a
    centre-back's numbers are judged against centre-backs. Hover a column header for what it measures.
    Honest limits stated where they exist — e.g. aerial threat is attacking headers only; defensive
