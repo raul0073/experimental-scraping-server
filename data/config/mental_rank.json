@@ -3,24 +3,59 @@
  "roles": {
   "DEF": [
    {
-    "key": "avail",
-    "weight": 10,
-    "enabled": false
-   },
-   {
-    "key": "big_games",
-    "weight": 5,
+    "key": "tklw90",
+    "weight": 18,
     "enabled": true
    },
    {
     "key": "discipline",
+    "weight": 14,
+    "enabled": true
+   },
+   {
+    "key": "int90",
+    "weight": 12,
+    "enabled": true
+   },
+   {
+    "key": "clean_sheet",
+    "weight": 12,
+    "enabled": true
+   },
+   {
+    "key": "aerial90",
     "weight": 10,
     "enabled": true
    },
    {
-    "key": "cons_chain",
-    "weight": 15,
+    "key": "big_games",
+    "weight": 10,
     "enabled": true
+   },
+   {
+    "key": "buildup90",
+    "weight": 8,
+    "enabled": true
+   },
+   {
+    "key": "cross_created90",
+    "weight": 6,
+    "enabled": true
+   },
+   {
+    "key": "fld90",
+    "weight": 5,
+    "enabled": true
+   },
+   {
+    "key": "shot_stop",
+    "weight": 10,
+    "enabled": false
+   },
+   {
+    "key": "fls90",
+    "weight": 8,
+    "enabled": false
    },
    {
     "key": "floor_chain",
@@ -29,41 +64,21 @@
    },
    {
     "key": "travels",
-    "weight": 10,
+    "weight": 8,
     "enabled": false
    },
    {
-    "key": "aerial90",
-    "weight": 10,
-    "enabled": true
-   },
-   {
-    "key": "finish_starts",
+    "key": "cons_chain",
     "weight": 6,
     "enabled": false
    },
    {
     "key": "sp_threat",
-    "weight": 10,
-    "enabled": true
-   },
-   {
-    "key": "minutes_share",
-    "weight": 15,
+    "weight": 6,
     "enabled": false
    },
    {
-    "key": "starter_share",
-    "weight": 10,
-    "enabled": false
-   },
-   {
-    "key": "buildup90",
-    "weight": 10,
-    "enabled": true
-   },
-   {
-    "key": "kp90",
+    "key": "killer90",
     "weight": 5,
     "enabled": false
    },
@@ -78,86 +93,96 @@
     "enabled": false
    },
    {
-    "key": "assist_delivery",
-    "weight": 5,
-    "enabled": false
-   },
-   {
     "key": "takeon90",
-    "weight": 5,
+    "weight": 4,
     "enabled": false
    },
    {
-    "key": "box_presence",
-    "weight": 5,
-    "enabled": false
-   },
-   {
-    "key": "shot_selection",
-    "weight": 5,
-    "enabled": false
-   },
-   {
-    "key": "tklw90",
-    "weight": 12,
-    "enabled": true
-   },
-   {
-    "key": "int90",
+    "key": "avail",
     "weight": 10,
     "enabled": false
    },
    {
-    "key": "fls90",
+    "key": "minutes_share",
+    "weight": 10,
+    "enabled": false
+   },
+   {
+    "key": "starter_share",
     "weight": 8,
     "enabled": false
    },
    {
-    "key": "fld90",
+    "key": "finish_starts",
     "weight": 5,
     "enabled": false
    }
   ],
   "MID": [
    {
-    "key": "avail",
-    "weight": 10,
-    "enabled": false
-   },
-   {
     "key": "floor_chain",
-    "weight": 10,
+    "weight": 16,
     "enabled": true
    },
    {
     "key": "big_games",
-    "weight": 13,
-    "enabled": true
-   },
-   {
-    "key": "travels",
-    "weight": 8,
-    "enabled": true
-   },
-   {
-    "key": "cons_chain",
     "weight": 12,
     "enabled": true
    },
    {
-    "key": "delivery",
-    "weight": 10,
-    "enabled": false
+    "key": "killer90",
+    "weight": 12,
+    "enabled": true
    },
    {
-    "key": "kp90",
-    "weight": 8,
+    "key": "tklw90",
+    "weight": 10,
     "enabled": true
    },
    {
     "key": "discipline",
+    "weight": 10,
+    "enabled": true
+   },
+   {
+    "key": "fld90",
+    "weight": 10,
+    "enabled": true
+   },
+   {
+    "key": "int90",
     "weight": 8,
     "enabled": true
+   },
+   {
+    "key": "floor_xgxa",
+    "weight": 8,
+    "enabled": true
+   },
+   {
+    "key": "buildup90",
+    "weight": 8,
+    "enabled": false
+   },
+   {
+    "key": "travels",
+    "weight": 8,
+    "enabled": false
+   },
+   {
+    "key": "cons_chain",
+    "weight": 6,
+    "enabled": false
+   },
+   {
+    "key": "kp90",
+    "weight": 6,
+    "enabled": false
+   },
+   {
+    "key": "fls90",
+    "weight": 6,
+    "enabled": false
    },
    {
     "key": "assist_delivery",
@@ -165,47 +190,17 @@
     "enabled": false
    },
    {
-    "key": "buildup90",
-    "weight": 10,
-    "enabled": true
-   },
-   {
-    "key": "minutes_share",
-    "weight": 15,
-    "enabled": false
-   },
-   {
-    "key": "starter_share",
-    "weight": 10,
-    "enabled": false
-   },
-   {
-    "key": "finish_starts",
-    "weight": 6,
-    "enabled": false
-   },
-   {
-    "key": "floor_xgxa",
-    "weight": 10,
-    "enabled": true
-   },
-   {
-    "key": "takeon90",
-    "weight": 5,
-    "enabled": true
-   },
-   {
-    "key": "box_presence",
+    "key": "cross_created90",
     "weight": 5,
     "enabled": false
    },
    {
-    "key": "shot_selection",
+    "key": "sot_share",
     "weight": 5,
     "enabled": false
    },
    {
-    "key": "sp_threat",
+    "key": "delivery",
     "weight": 5,
     "enabled": false
    },
@@ -215,129 +210,79 @@
     "enabled": false
    },
    {
-    "key": "tklw90",
+    "key": "takeon90",
+    "weight": 4,
+    "enabled": false
+   },
+   {
+    "key": "sp_threat",
+    "weight": 4,
+    "enabled": false
+   },
+   {
+    "key": "avail",
+    "weight": 10,
+    "enabled": false
+   },
+   {
+    "key": "minutes_share",
+    "weight": 10,
+    "enabled": false
+   },
+   {
+    "key": "starter_share",
     "weight": 8,
     "enabled": false
    },
    {
-    "key": "int90",
-    "weight": 8,
-    "enabled": false
-   },
-   {
-    "key": "fld90",
-    "weight": 8,
-    "enabled": false
-   },
-   {
-    "key": "fls90",
-    "weight": 6,
-    "enabled": false
-   },
-   {
-    "key": "sot_share",
+    "key": "finish_starts",
     "weight": 5,
     "enabled": false
    }
   ],
   "ATT": [
    {
-    "key": "avail",
-    "weight": 15,
-    "enabled": false
-   },
-   {
     "key": "delivery",
-    "weight": 16,
+    "weight": 18,
     "enabled": true
    },
    {
     "key": "box_presence",
+    "weight": 16,
+    "enabled": true
+   },
+   {
+    "key": "big_games",
     "weight": 14,
     "enabled": true
    },
    {
     "key": "takeon90",
-    "weight": 8,
+    "weight": 10,
     "enabled": true
-   },
-   {
-    "key": "big_games",
-    "weight": 12,
-    "enabled": true
-   },
-   {
-    "key": "travels",
-    "weight": 8,
-    "enabled": true
-   },
-   {
-    "key": "floor_xgxa",
-    "weight": 12,
-    "enabled": true
-   },
-   {
-    "key": "shot_selection",
-    "weight": 8,
-    "enabled": false
    },
    {
     "key": "aerial90",
+    "weight": 8,
+    "enabled": true
+   },
+   {
+    "key": "killer90",
+    "weight": 8,
+    "enabled": true
+   },
+   {
+    "key": "discipline",
     "weight": 4,
     "enabled": true
    },
    {
-    "key": "sp_threat",
-    "weight": 5,
-    "enabled": false
-   },
-   {
-    "key": "assist_delivery",
-    "weight": 10,
-    "enabled": false
-   },
-   {
-    "key": "kp90",
-    "weight": 5,
-    "enabled": false
-   },
-   {
-    "key": "cons_chain",
-    "weight": 5,
-    "enabled": false
-   },
-   {
-    "key": "floor_chain",
-    "weight": 2,
-    "enabled": false
-   },
-   {
-    "key": "minutes_share",
-    "weight": 10,
-    "enabled": false
-   },
-   {
-    "key": "starter_share",
-    "weight": 10,
-    "enabled": false
-   },
-   {
-    "key": "finish_starts",
-    "weight": 10,
-    "enabled": false
-   },
-   {
-    "key": "buildup90",
-    "weight": 5,
-    "enabled": false
-   },
-   {
-    "key": "discipline",
-    "weight": 3,
-    "enabled": true
-   },
-   {
     "key": "sot_share",
+    "weight": 8,
+    "enabled": false
+   },
+   {
+    "key": "floor_xgxa",
     "weight": 8,
     "enabled": false
    },
@@ -347,16 +292,59 @@
     "enabled": false
    },
    {
+    "key": "travels",
+    "weight": 8,
+    "enabled": false
+   },
+   {
+    "key": "shot_selection",
+    "weight": 6,
+    "enabled": false
+   },
+   {
+    "key": "floor_chain",
+    "weight": 5,
+    "enabled": false
+   },
+   {
+    "key": "cons_chain",
+    "weight": 5,
+    "enabled": false
+   },
+   {
+    "key": "kp90",
+    "weight": 5,
+    "enabled": false
+   },
+   {
+    "key": "assist_delivery",
+    "weight": 5,
+    "enabled": false
+   },
+   {
+    "key": "cross_created90",
+    "weight": 5,
+    "enabled": false
+   },
+   {
+    "key": "sp_threat",
+    "weight": 5,
+    "enabled": false
+   },
+   {
     "key": "fls90",
     "weight": 4,
     "enabled": false
-   }
-  ],
-  "GK": [
+   },
    {
-    "key": "shot_stop",
-    "weight": 30,
-    "enabled": true
+    "key": "tklw90",
+    "weight": 4,
+    "enabled": false
+   },
+   {
+    "key": "int90",
+    "weight": 3,
+    "enabled": false
    },
    {
     "key": "avail",
@@ -364,53 +352,85 @@
     "enabled": false
    },
    {
-    "key": "clean_sheet",
+    "key": "minutes_share",
     "weight": 10,
+    "enabled": false
+   },
+   {
+    "key": "starter_share",
+    "weight": 8,
+    "enabled": false
+   },
+   {
+    "key": "finish_starts",
+    "weight": 5,
+    "enabled": false
+   }
+  ],
+  "GK": [
+   {
+    "key": "gk_save_pct",
+    "weight": 30,
     "enabled": true
    },
    {
-    "key": "discipline",
-    "weight": 10,
+    "key": "clean_sheet",
+    "weight": 22,
     "enabled": true
    },
    {
     "key": "buildup90",
-    "weight": 10,
+    "weight": 12,
     "enabled": true
    },
    {
-    "key": "starter_share",
+    "key": "discipline",
+    "weight": 8,
+    "enabled": true
+   },
+   {
+    "key": "shot_stop",
+    "weight": 15,
+    "enabled": false
+   },
+   {
+    "key": "big_games",
+    "weight": 8,
+    "enabled": false
+   },
+   {
+    "key": "travels",
+    "weight": 8,
+    "enabled": false
+   },
+   {
+    "key": "cons_chain",
+    "weight": 5,
+    "enabled": false
+   },
+   {
+    "key": "fls90",
+    "weight": 5,
+    "enabled": false
+   },
+   {
+    "key": "avail",
     "weight": 10,
     "enabled": false
    },
    {
     "key": "minutes_share",
-    "weight": 15,
+    "weight": 10,
+    "enabled": false
+   },
+   {
+    "key": "starter_share",
+    "weight": 8,
     "enabled": false
    },
    {
     "key": "finish_starts",
-    "weight": 10,
-    "enabled": false
-   },
-   {
-    "key": "big_games",
-    "weight": 10,
-    "enabled": true
-   },
-   {
-    "key": "travels",
-    "weight": 10,
-    "enabled": true
-   },
-   {
-    "key": "cons_chain",
-    "weight": 10,
-    "enabled": true
-   },
-   {
-    "key": "gk_save_pct",
-    "weight": 20,
+    "weight": 5,
     "enabled": false
    }
   ]
