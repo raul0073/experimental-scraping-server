@@ -59,7 +59,7 @@
       <td><span class="badge lgbadge"><img src="{{ league_crest(r.league) }}" width="14" height="14" alt="" onerror="this.remove()">{{ r.league.split('-')[1] }}</span></td>
       <td class="meta">{{ r.role }}</td>
       <td class="num"><span class="mscore" title="raw {{ r.score_raw }} · evidence {{ r.evid }} matches-worth of minutes → keeps {{ r.kept_pct }}% of its deviation from 50">{{ r.score }}</span></td>
-      {% for c in columns %}<td class="num">{{ r[c.key] }}{{ '%' if c.unit == '%' }}</td>{% endfor %}
+      {% for c in columns %}<td class="num">{% if r[c.key] is none %}<span class="meta">—</span>{% else %}{{ r[c.key] }}{{ '%' if c.unit == '%' }}{% endif %}</td>{% endfor %}
       <td class="num meta" title="{{ r.evid }} matches-worth of minutes">{{ r.apps }}</td>
     </tr>
     {% endfor %}

@@ -383,6 +383,35 @@ table.cfg .winput { width: 64px; font: inherit; padding: 3px 6px;
   border: 1px solid var(--line); border-radius: 6px; text-align: right; }
 tr.cfgoff td { opacity: .5; }
 .roletitle { margin-top: 26px; }
+
+/* drag-and-drop recipe builder */
+.cfgrole .zones { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+@media (max-width: 1100px) { .cfgrole .zones { grid-template-columns: 1fr; } }
+.zone { border: 2px dashed var(--line); border-radius: 12px; padding: 10px;
+  min-height: 120px; background: #fbfbfa; }
+.zone.on { border-color: #9fc3e0; background: #f4f8fc; }
+.zone.over { border-color: #4a7ba6; background: #ecf3fa; }
+.zonehead { font-size: 10.5px; font-weight: 700; letter-spacing: .09em;
+  color: var(--ink-3); margin: 2px 4px 8px; }
+.mcard { background: var(--card); border: 1px solid var(--line); border-radius: 9px;
+  padding: 8px 12px; margin: 7px 2px; cursor: grab; box-shadow: 0 1px 2px #0001; }
+.mcard.lift { opacity: .45; }
+.mcard.dup { border-color: #e8b23c; box-shadow: 0 0 0 2px #f3dfae; }
+.mcard .mhead { display: flex; align-items: baseline; gap: 8px; font-size: 13px; }
+.mcard .munit { color: var(--ink-3); font-size: 11px; }
+.mcard .mgrip { margin-left: auto; color: var(--ink-3); cursor: grab; }
+.mcard .mdesc { color: var(--ink-2); font-size: 11.5px; line-height: 1.45; margin: 3px 0 6px; }
+.mcard .mweight { display: flex; align-items: center; gap: 7px; font-size: 12px; }
+.mcard .mweight input { width: 56px; font: inherit; padding: 2px 5px;
+  border: 1px solid var(--line); border-radius: 6px; text-align: right; }
+.wbtn { font: inherit; width: 24px; height: 24px; border-radius: 6px;
+  border: 1px solid var(--line); background: #fff; cursor: pointer; line-height: 1; }
+.mcard .mshare { font-weight: 700; min-width: 52px; }
+.mcard .mbar { flex: 1; height: 5px; background: var(--tint-even); border-radius: 3px; overflow: hidden; }
+.mcard .mbar span { display: block; height: 100%; background: #4a7ba6; }
+.zone.off .mweight { display: none; }
+.dupdemo { background: #f3dfae; border: 1px solid #e8b23c; border-radius: 4px; padding: 0 5px; }
+.famwarn { margin: 8px 2px 0; color: #8a6206; font-weight: 600; }
 .stickysave { position: sticky; bottom: 0; background: var(--bg, #fafaf8);
   padding: 12px 0; margin: 14px 0 0; border-top: 1px solid var(--line); }
 

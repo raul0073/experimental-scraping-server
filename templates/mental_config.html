@@ -1,46 +1,148 @@
 {% extends "base.html" %}
 {% block title %}Mental — algorithm{% endblock %}
-{% block headmeta %}the dependability recipe, per position — yours to tune{% endblock %}
+{% block headmeta %}drag metrics between bank and recipe · weights auto-normalize to 100%{% endblock %}
+
+{% macro card(r, role) %}
+<div class="mcard" draggable="true" id="mc_{{ role }}_{{ r.key }}"
+     data-key="{{ r.key }}" data-family="{{ r.family }}" data-famlabel="{{ r.family_label }}">
+  <div class="mhead"><strong>{{ r.label }}</strong>
+    <span class="munit">{{ r.unit }}{{ ' ↓ inverted' if r.invert }}</span>
+    <span class="mgrip" title="drag me">⠿</span></div>
+  <div class="mdesc">{{ r.desc }}</div>
+  <div class="mweight">
+    <button type="button" class="wbtn" data-d="-5">−</button>
+    <input type="number" min="1" max="100" value="{{ r.weight }}">
+    <button type="button" class="wbtn" data-d="5">+</button>
+    <span class="mshare">—</span>
+    <div class="mbar"><span></span></div>
+  </div>
+</div>
+{% endmacro %}
+
 {% block content %}
 
 <h2>⚙ Mental algorithm <a class="cfglink" href="/dashboard/mental">← back to rankings</a></h2>
-
 {% if saved %}<p class="bottomline">✅ Saved — rankings recomputed with the new recipes.</p>{% endif %}
 
-<p class="headline">score = Σ ( weight<sub>i</sub> / Σweights ) × percentile<sub>i</sub> —
-   computed <strong>per position</strong>: each role has its own recipe, because a defender
-   shouldn't be judged on attacking his man. Percentiles are within league + role
-   (GKs excluded); inverted metrics (↓) are flipped so higher is always better.
-   Weights are relative and normalize within each role.</p>
+<p class="headline">Drag a metric from the <strong>bank</strong> into the <strong>recipe</strong> to use it —
+   drag it back to drop it. Weights are relative and <strong>auto-normalize to 100%</strong> (the → share
+   updates live). Cards glowing <span class="dupdemo">amber</span> belong to the same family — they partly
+   <em>count the same thing</em>; keep the one you believe in.</p>
 
-<form method="post" action="/dashboard/mental/config">
 {% for role, rows in roles.items() %}
-<h2 class="roletitle">{{ {'DEF': '🛡 Defenders', 'MID': '⚙ Midfielders', 'ATT': '⚡ Attackers', 'GK': '🧤 Goalkeepers'}[role] }}</h2>
-<table class="fair cfg">
-  <thead><tr><th>In</th><th>Metric</th><th class="num">Weight</th><th class="num">Share</th><th>What it measures</th></tr></thead>
-  <tbody>
-    {% for r in rows %}
-    <tr class="{{ 'cfgoff' if not r.enabled }}">
-      <td><input type="checkbox" name="en_{{ role }}_{{ r.key }}" {{ 'checked' if r.enabled }}></td>
-      <td><strong>{{ r.label }}</strong> <span class="meta">({{ r.unit }}{{ ' ↓ inverted' if r.invert }})</span></td>
-      <td class="num"><input class="winput" type="number" name="w_{{ role }}_{{ r.key }}" value="{{ r.weight }}" min="0" max="100"></td>
-      <td class="num">{{ r.norm }}%</td>
-      <td class="meta">{{ r.desc }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<section class="cfgrole" data-role="{{ role }}">
+  <h2 class="roletitle">{{ {'DEF': '🛡 Defenders', 'MID': '⚙ Midfielders', 'ATT': '⚡ Attackers', 'GK': '🧤 Goalkeepers'}[role] }}
+    <span class="seasontag rolesum"></span></h2>
+  <div class="zones">
+    <div class="zone on">
+      <div class="zonehead">RECIPE — scores this role</div>
+      {% for r in rows if r.enabled %}{{ card(r, role) }}{% endfor %}
+    </div>
+    <div class="zone off">
+      <div class="zonehead">BANK — available options</div>
+      {% for r in rows if not r.enabled %}{{ card(r, role) }}{% endfor %}
+    </div>
+  </div>
+  <div class="famwarn meta"></div>
+</section>
 {% endfor %}
-<p class="stickysave">
-  <button class="btn" type="submit">Save &amp; recompute all roles</button>
-  <button class="btn ghost" type="submit" name="action" value="reset"
-    onclick="return confirm('Reset ALL three role recipes to defaults?')">Reset to defaults</button>
-</p>
+
+<form id="cfgform" method="post" action="/dashboard/mental/config">
+  <div id="ser" hidden></div>
+  <p class="stickysave">
+    <button class="btn" type="submit">Save &amp; recompute all roles</button>
+    <button class="btn ghost" type="submit" name="action" value="reset"
+      onclick="return confirm('Reset ALL role recipes to defaults?')">Reset to defaults</button>
+  </p>
 </form>
 
-<p class="meta">The bank is every dependability signal our post-Opta data can honestly measure — per-match
-   rosters (minutes, positions, xGChain, xGBuildup, xG, xA, key passes, cards) and shot events (locations,
-   TakeOn/Aerial preludes, set-piece situations). A metric can be ON for one role and OFF for another;
-   an unchecked metric costs a role nothing. Changes persist in data/config/mental_rank.json and apply
-   instantly. Take your time — tuning this IS the product decision.</p>
+<p class="meta">The bank is every signal our post-Opta stack can honestly measure: Understat per-match
+   texture (involvement, floors, big games, travels) + fbref's surviving counting tables (tackles won,
+   interceptions, fouls drawn, SoT, real Save%). Family warnings are advice, not law — sometimes you WANT
+   two lenses on one trait; just know you're weighting it twice. Changes persist in
+   data/config/mental_rank.json and apply instantly.</p>
+
+<script>
+(function () {
+  let dragged = null;
+
+  function recalc(sec) {
+    const on = [...sec.querySelectorAll('.zone.on .mcard')];
+    const sum = on.reduce((s, c) => s + (+c.querySelector('input').value || 0), 0) || 1;
+    on.forEach(c => {
+      const w = +c.querySelector('input').value || 0;
+      const sh = Math.round(w / sum * 100);
+      c.querySelector('.mshare').textContent = '→ ' + sh + '%';
+      c.querySelector('.mbar span').style.width = sh + '%';
+    });
+    sec.querySelector('.rolesum').textContent =
+      on.length + ' metrics · raw ' + sum + ' → normalized 100%';
+    const fam = {};
+    sec.querySelectorAll('.mcard').forEach(c => c.classList.remove('dup'));
+    on.forEach(c => (fam[c.dataset.family] = fam[c.dataset.family] || []).push(c));
+    const warns = [];
+    for (const k in fam) {
+      if (fam[k].length > 1 && k !== 'other') {
+        fam[k].forEach(c => c.classList.add('dup'));
+        warns.push(fam[k][0].dataset.famlabel + ' ×' + fam[k].length);
+      }
+    }
+    sec.querySelector('.famwarn').textContent =
+      warns.length ? '⚠ possible double-counting — ' + warns.join('  ·  ') : '';
+  }
+
+  document.querySelectorAll('.cfgrole').forEach(sec => {
+    sec.addEventListener('dragstart', e => {
+      const c = e.target.closest('.mcard');
+      if (c) { dragged = c; c.classList.add('lift'); }
+    });
+    sec.addEventListener('dragend', () => {
+      if (dragged) dragged.classList.remove('lift');
+      dragged = null;
+    });
+    sec.querySelectorAll('.zone').forEach(z => {
+      z.addEventListener('dragover', e => {
+        if (dragged && dragged.closest('.cfgrole') === sec) {
+          e.preventDefault(); z.classList.add('over');
+        }
+      });
+      z.addEventListener('dragleave', () => z.classList.remove('over'));
+      z.addEventListener('drop', e => {
+        e.preventDefault(); z.classList.remove('over');
+        if (dragged && dragged.closest('.cfgrole') === sec) {
+          z.appendChild(dragged); recalc(sec);
+        }
+      });
+    });
+    sec.addEventListener('input', e => { if (e.target.matches('.mweight input')) recalc(sec); });
+    sec.addEventListener('click', e => {
+      const b = e.target.closest('.wbtn');
+      if (b) {
+        const inp = b.parentElement.querySelector('input');
+        inp.value = Math.max(1, Math.min(100, (+inp.value || 0) + (+b.dataset.d)));
+        recalc(sec);
+      }
+    });
+    recalc(sec);
+  });
+
+  document.getElementById('cfgform').addEventListener('submit', e => {
+    if (e.submitter && e.submitter.value === 'reset') return;
+    const ser = document.getElementById('ser');
+    ser.innerHTML = '';
+    document.querySelectorAll('.cfgrole').forEach(sec => {
+      const role = sec.dataset.role;
+      sec.querySelectorAll('.mcard').forEach(c => {
+        const key = c.dataset.key, w = +c.querySelector('input').value || 1;
+        if (c.closest('.zone').classList.contains('on')) {
+          ser.insertAdjacentHTML('beforeend',
+            `<input type="hidden" name="en_${role}_${key}" value="on">`);
+        }
+        ser.insertAdjacentHTML('beforeend',
+          `<input type="hidden" name="w_${role}_${key}" value="${w}">`);
+      });
+    });
+  });
+})();
+</script>
 {% endblock %}

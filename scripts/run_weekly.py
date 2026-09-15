@@ -106,6 +106,10 @@ def main() -> int:
             step(f"understat players {league}", lambda lg=league: UnderstatService(lg, SEASON).build_players())
             step(f"shots {league}", lambda lg=league: ShotEventsService(lg, SEASON, refresh=True).build())
             step(f"rosters {league}", lambda lg=league: RostersService(lg, SEASON).build())
+        from services.fbref.player_stats_service import FbrefPlayerStatsService
+        for league in LEAGUE_NAME_MAP:
+            step(f"fbref players {league}",
+                 lambda lg=league: FbrefPlayerStatsService(lg, SEASON).build())
 
     from services.predictions.history_service import HistoryService
     from services.predictions.ledger_service import LedgerService

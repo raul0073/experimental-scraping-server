@@ -116,6 +116,34 @@ METRICS: Dict[str, Dict[str, Any]] = {
         "label": "Travels well", "unit": "%", "invert": False,
         "desc": "Away-day involvement versus his own norm — showing up "
                 "outside the comfort zone is mental."},
+    # ---- fbref counting family (season aggregates joined by name; the
+    # tables that SURVIVED the Opta loss — user caught this 2026-09-15) ----
+    "tklw90": {
+        "label": "Wins his tackles", "unit": "/90", "invert": False,
+        "desc": "Tackles WON per 90 (fbref) — not volume, wins. The closest "
+                "surviving stat to 'competes and comes out with the ball'."},
+    "int90": {
+        "label": "Reads the game", "unit": "/90", "invert": False,
+        "desc": "Interceptions per 90 (fbref) — anticipation: being where the "
+                "pass was going before it was played."},
+    "fld90": {
+        "label": "Draws fouls", "unit": "/90", "invert": False,
+        "desc": "Fouls drawn per 90 (fbref) — carries into contact and makes "
+                "defenders break the rules; buys free kicks and cards."},
+    "fls90": {
+        "label": "Clean aggression", "unit": "fouls/90", "invert": True,
+        "desc": "Fouls committed per 90 (fbref), INVERTED — competes without "
+                "conceding free kicks; pairs with the cards metric."},
+    "sot_share": {
+        "label": "Hits the target", "unit": "%", "invert": False,
+        "desc": "Share of his shots on target (fbref, needs 8+ shots) — "
+                "shooting composure regardless of chance quality."},
+    "gk_save_pct": {
+        "label": "Save% (real)", "unit": "%", "invert": False,
+        "desc": "Actual saves / shots on target faced (fbref, needs 10+ SoT "
+                "faced) — real stopping, no xG proxy. The Raya-fixer: a "
+                "keeper behind a great defense is no longer punished for "
+                "having little xG to 'prevent'."},
     # ---- goalkeeper family ----
     "shot_stop": {
         "label": "Shot-stopping", "unit": "prevented/90", "invert": False,
@@ -129,9 +157,45 @@ METRICS: Dict[str, Dict[str, Any]] = {
                 "bottom-line dependability stat."},
 }
 
+# overlap families: metrics in one family partly COUNT THE SAME THING
+# (user caught the xG triangle 2026-09-15: xG+xA floor / xG-per-shot /
+# xGChain floor). The config UI warns when a recipe stacks siblings.
+FAMILY: Dict[str, str] = {
+    "avail": "presence", "minutes_share": "presence",
+    "starter_share": "presence", "finish_starts": "presence",
+    "floor_chain": "xg_involve", "cons_chain": "xg_involve",
+    "buildup90": "xg_involve",
+    "big_games": "context", "travels": "context",
+    "floor_xgxa": "chance_quality", "box_presence": "chance_quality",
+    "shot_selection": "chance_quality",
+    "delivery": "finishing", "sot_share": "finishing",
+    "assist_delivery": "creation", "kp90": "creation",
+    "takeon90": "initiative", "fld90": "initiative",
+    "discipline": "cleanliness", "fls90": "cleanliness",
+    "aerial90": "dead_ball", "sp_threat": "dead_ball",
+    "tklw90": "ball_winning", "int90": "ball_winning",
+    "shot_stop": "gk_stopping", "gk_save_pct": "gk_stopping",
+    "clean_sheet": "gk_outcome",
+}
+FAMILY_LABEL: Dict[str, str] = {
+    "presence": "presence/minutes (all measure 'plays a lot')",
+    "xg_involve": "xG-involvement (all derived from xGChain)",
+    "context": "context ratios (vs own norm)",
+    "chance_quality": "chance quality (good chances ≈ in-box ≈ high xG/shot)",
+    "finishing": "finishing execution (G v xG ≈ on-target rate)",
+    "creation": "creation (assists v xA ≈ key-pass volume)",
+    "initiative": "initiative/contact",
+    "cleanliness": "cleanliness (fouls ≈ cards)",
+    "dead_ball": "dead-ball threat (headers ≈ set-piece shots)",
+    "ball_winning": "ball-winning (tackles ≈ interceptions)",
+    "gk_stopping": "shot-stopping (xG proxy vs real Save% — same construct!)",
+    "gk_outcome": "defensive outcome",
+}
+
 # per-role default recipes — you can't expect a defender to attack his man
 DEFAULT_ROLE_COMPONENTS: Dict[str, List[Dict[str, Any]]] = {
     "GK": [
+        {"key": "gk_save_pct", "weight": 20, "enabled": False},
         {"key": "shot_stop", "weight": 30, "enabled": True},
         {"key": "avail", "weight": 25, "enabled": True},
         {"key": "clean_sheet", "weight": 15, "enabled": True},
@@ -145,6 +209,10 @@ DEFAULT_ROLE_COMPONENTS: Dict[str, List[Dict[str, Any]]] = {
         {"key": "cons_chain", "weight": 5, "enabled": False},
     ],
     "DEF": [
+        {"key": "tklw90", "weight": 12, "enabled": False},
+        {"key": "int90", "weight": 10, "enabled": False},
+        {"key": "fls90", "weight": 8, "enabled": False},
+        {"key": "fld90", "weight": 5, "enabled": False},
         {"key": "avail", "weight": 25, "enabled": True},
         {"key": "big_games", "weight": 15, "enabled": True},
         {"key": "discipline", "weight": 15, "enabled": True},
@@ -166,6 +234,11 @@ DEFAULT_ROLE_COMPONENTS: Dict[str, List[Dict[str, Any]]] = {
         {"key": "shot_selection", "weight": 5, "enabled": False},
     ],
     "MID": [
+        {"key": "tklw90", "weight": 8, "enabled": False},
+        {"key": "int90", "weight": 8, "enabled": False},
+        {"key": "fld90", "weight": 8, "enabled": False},
+        {"key": "fls90", "weight": 6, "enabled": False},
+        {"key": "sot_share", "weight": 5, "enabled": False},
         {"key": "avail", "weight": 20, "enabled": True},
         {"key": "floor_chain", "weight": 15, "enabled": True},
         {"key": "big_games", "weight": 15, "enabled": True},
@@ -187,6 +260,9 @@ DEFAULT_ROLE_COMPONENTS: Dict[str, List[Dict[str, Any]]] = {
         {"key": "aerial90", "weight": 5, "enabled": False},
     ],
     "ATT": [
+        {"key": "sot_share", "weight": 8, "enabled": False},
+        {"key": "fld90", "weight": 8, "enabled": False},
+        {"key": "fls90", "weight": 4, "enabled": False},
         {"key": "avail", "weight": 15, "enabled": True},
         {"key": "delivery", "weight": 20, "enabled": True},
         {"key": "box_presence", "weight": 15, "enabled": True},
@@ -194,7 +270,7 @@ DEFAULT_ROLE_COMPONENTS: Dict[str, List[Dict[str, Any]]] = {
         {"key": "big_games", "weight": 10, "enabled": True},
         {"key": "travels", "weight": 10, "enabled": True},
         {"key": "floor_xgxa", "weight": 10, "enabled": True},
-        {"key": "shot_selection", "weight": 10, "enabled": True},
+        {"key": "shot_selection", "weight": 10, "enabled": False},
         {"key": "aerial90", "weight": 5, "enabled": False},
         {"key": "sp_threat", "weight": 5, "enabled": False},
         {"key": "assist_delivery", "weight": 10, "enabled": False},
@@ -416,6 +492,23 @@ def build_rankings(seasons: List[str] = None,
                     if s.get("situation") in ("FromCorner", "SetPiece"):
                         a["sp"] += 1
 
+        # fbref counting stats, both seasons summed, keyed by normalized name
+        from services.fbref.player_stats_service import (FbrefPlayerStatsService,
+                                                         norm_name)
+        fbp: Dict[str, Dict] = {}
+        for season in seasons:
+            d = FbrefPlayerStatsService.load(league, season)
+            for nm, p in (d or {}).get("players", {}).items():
+                k = norm_name(nm)
+                agg = fbp.setdefault(k, {"n90s": 0.0})
+                agg["n90s"] += p.get("n90s") or 0.0
+                for f in ("tklw", "int", "fld", "fls", "sh", "sot",
+                          "sota", "saves"):
+                    agg[f] = agg.get(f, 0.0) + (p.get(f) or 0.0)
+        last_idx: Dict[str, list] = {}
+        for k in fbp:
+            last_idx.setdefault(k.split()[-1], []).append(k)
+
         team_dates: Dict[str, List[str]] = {}
         players: Dict[str, Dict] = {}
         for m in matches:
@@ -459,6 +552,22 @@ def build_rankings(seasons: List[str] = None,
             m = _player_metrics(e["apps"], team_dates, shot_agg.get(name, {}), top6)
             if not m:
                 continue
+            fb = fbp.get(norm_name(name))
+            if fb is None:
+                cands = last_idx.get(norm_name(name).split()[-1], [])
+                fb = fbp[cands[0]] if len(cands) == 1 else None
+            n90 = fb["n90s"] if fb else 0.0
+
+            def _p90(f):
+                return round(fb[f] / n90, 2) if fb and n90 >= 3 else None
+            m.update({
+                "tklw90": _p90("tklw"), "int90": _p90("int"),
+                "fld90": _p90("fld"), "fls90": _p90("fls"),
+                "sot_share": round(fb["sot"] / fb["sh"] * 100)
+                if fb and fb.get("sh", 0) >= 8 else None,
+                "gk_save_pct": round(fb["saves"] / fb["sota"] * 100, 1)
+                if bucket == "GK" and fb and fb.get("sota", 0) >= 10 else None,
+            })
             rows.append({"player": name, "league": league, "role": bucket, **m})
 
         # percentiles within (league, role) using THAT ROLE'S recipe;
@@ -471,14 +580,23 @@ def build_rankings(seasons: List[str] = None,
                 continue
             for c in comps:
                 key = c["key"]
-                ordered = sorted(grp, key=lambda r: r[key],
+                have = [r for r in grp if r.get(key) is not None]
+                for r in grp:  # no fbref name-join / below sample floor:
+                    if r.get(key) is None:  # neutral, never punished
+                        r[f"{key}_p"] = 50.0
+                nh = len(have)
+                if nh < 2:
+                    for r in have:
+                        r[f"{key}_p"] = 50.0
+                    continue
+                ordered = sorted(have, key=lambda r: r[key],
                                  reverse=METRICS[key]["invert"])
                 i = 0
-                while i < n:
+                while i < nh:
                     j = i
-                    while j + 1 < n and ordered[j + 1][key] == ordered[i][key]:
+                    while j + 1 < nh and ordered[j + 1][key] == ordered[i][key]:
                         j += 1
-                    avg_p = (i + j) / 2.0 / (n - 1) * 100
+                    avg_p = (i + j) / 2.0 / (nh - 1) * 100
                     for k in range(i, j + 1):
                         ordered[k][f"{key}_p"] = avg_p
                     i = j + 1

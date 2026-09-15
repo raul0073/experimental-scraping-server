@@ -910,13 +910,16 @@ async def mental_page(request: Request, league: Optional[str] = Query(None),
 
 @router.get("/dashboard/mental/config", response_class=HTMLResponse)
 async def mental_config_page(request: Request, saved: Optional[int] = Query(None)):
-    from services.mental.dependability import METRICS, ROLES, load_config
+    from services.mental.dependability import (FAMILY, FAMILY_LABEL, METRICS,
+                                               ROLES, load_config)
     cfg = load_config()
     roles = {}
     for role in ROLES:
         comps = cfg[role]
         w_sum = sum(c["weight"] for c in comps if c["enabled"] and c["weight"] > 0) or 1
         roles[role] = [{**c, **METRICS[c["key"]],
+                        "family": FAMILY.get(c["key"], "other"),
+                        "family_label": FAMILY_LABEL.get(FAMILY.get(c["key"], ""), ""),
                         "norm": round(c["weight"] / w_sum * 100)
                         if c["enabled"] and c["weight"] > 0 else 0}
                        for c in comps]
