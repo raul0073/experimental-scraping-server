@@ -68,6 +68,27 @@
 </div>
 {% endmacro %}
 
+<div class="twoscore">
+  <div class="tsi tsi-model">
+    <div class="tsh">🔬 The model — <em>what will happen</em></div>
+    <p>Produces a probability for every fixture. Judged by <strong>calibration</strong>: did the things it
+       called 32% happen about 32% of the time. A 32% pick that loses is the model working, not failing —
+       it never claimed more. Lives in <a href="/dashboard/predictions">Predictions</a>,
+       <a href="/dashboard/history">History</a>, <a href="/dashboard/table">Table</a>.</p>
+  </div>
+  <div class="tsi tsi-bet">
+    <div class="tsh">🎰 The betting — <em>what money is on</em></div>
+    <p>Turns some of those probabilities into stakes at a price, in a structure. Judged by
+       <strong>P&amp;L</strong>. <strong>One bet cycle per round</strong>: a single שיטה slip plus the GOLD
+       measurement pot — never a bet on every pick. Lives in <a href="/dashboard/ledger">Ledger</a> and
+       <a href="/dashboard/monkey">Monkey 🐒</a>.</p>
+  </div>
+</div>
+<p class="meta tsnote">The two disagree on purpose: a losing draw pick can still be a good bet (the price paid
+   for a 32% event), and a winning favourite can still be a bad bet (backed below its breakeven). Every pick
+   below carries <strong>be</strong> = the minimum price worth taking. Below that number, don't bet it —
+   no structure turns a bad price into a good one.</p>
+
 {% if rec %}
 <div class="tiles">
   <a class="tile tlink bc-x" href="/dashboard/ledger">
@@ -83,8 +104,8 @@
     <div class="value">{% if rec.away and rec.away.graded %}{{ (rec.away.hit_rate * 100) | round(1) }}%{% else %}—{% endif %}</div>
     <div class="sub">{% if rec.away and rec.away.graded %}{{ rec.away.hits }}/{{ rec.away.graded }} graded · said {{ (rec.away.avg_pick_prob * 100) | round(1) }}% avg{% else %}new product — first bets book with the October round{% endif %}</div></a>
   {% if mk %}
-  <a class="tile tlink" href="/dashboard/monkey">
-    <div class="label">🐒 Monkey pot</div>
+  <a class="tile tlink tile-money" href="/dashboard/monkey">
+    <div class="label">🐒 Monkey pot — <span class="moneytag">money</span></div>
     <div class="value">{{ mk.pot | int }}₪</div>
     <div class="sub">net {{ '%+d' | format(mk.net | int) }}₪ at fair prices{% if mk.in_play %} · {{ mk.in_play | int }}₪ riding{% endif %}
       · 🥇 GOLD {{ mk.gold_pot | int }}₪{% if mk.gold_in_play %} ({{ mk.gold_in_play | int }}₪ riding){% endif %}</div></a>
@@ -92,7 +113,7 @@
 </div>
 {% endif %}
 
-<h2>This round's bets <span class="seasontag">window {{ data.window.start }} → {{ data.window.end }} ·
+<h2>This round's selections <span class="seasontag">what the model likes — the money is THE MOVE below · window {{ data.window.start }} → {{ data.window.end }} ·
   breakeven = minimum odds worth taking · full board on the <a href="/dashboard/predictions">Predictions page</a></span></h2>
 
 <div class="betcols">

@@ -511,3 +511,19 @@ table.predfx td { padding: 3px 6px; }
 .callchip.c2 { background: #fae5d9; color: #a34a22; border: 1px solid #eec4ab; }
 .proj .pheavy { font-weight: 750; }
 .proj .pdanger { color: var(--bad); font-weight: 700; }
+
+/* picks page: model-vs-betting explainer (the two scoreboards) */
+.twoscore { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 14px; margin: 14px 0 8px; }
+.tsi { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  padding: 10px 14px 12px; }
+.tsi p { margin: 4px 0 0; font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
+.tsi .tsh { font-weight: 700; font-size: 13.5px; }
+.tsi .tsh em { font-style: normal; font-weight: 400; color: var(--ink-3); }
+.tsi-model { border-top: 3px solid #4a7ba6; }
+.tsi-bet { border-top: 3px solid #d9a300; }
+.tsnote { margin: 2px 0 14px; line-height: 1.55; }
+.tile-money { border-left: 3px solid #d9a300; }
+.moneytag { font-size: 10px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; background: #efe3ad; color: #6b5606;
+  border-radius: 999px; padding: 1px 7px; vertical-align: 1px; }
