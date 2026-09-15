@@ -481,3 +481,25 @@ tr.cfgoff td { opacity: .5; }
 details.fixture-why { margin: 4px 0; }
 details.fixture-why summary { cursor: pointer; color: var(--ink-2); font-size: 13px; }
 .scorelines { color: var(--ink-3); font-size: 12px; }
+
+/* table page: season simulation — projected finish + predicted scores */
+.simsplit { margin-top: 10px; align-items: start; }
+.simh { margin: 10px 0 6px; }
+details.rnd { border: 1px solid var(--line); border-radius: 8px;
+  background: var(--card); padding: 4px 12px; margin: 6px 0; }
+details.rnd summary { cursor: pointer; font-size: 13px; font-weight: 600;
+  padding: 4px 0; }
+table.predfx td { padding: 3px 6px; }
+.predfx .fxdate { font-size: 11px; white-space: nowrap; }
+.predfx .fxh { text-align: right; white-space: nowrap; }
+.predfx .fxa { text-align: left; white-space: nowrap; }
+.predfx .fxscore { text-align: center; font-weight: 750; white-space: nowrap;
+  font-variant-numeric: tabular-nums; background: #f6f7f8; border-radius: 6px; }
+.predfx .fxp { font-size: 11px; white-space: nowrap; letter-spacing: .02em; }
+.callchip { display: inline-block; min-width: 20px; text-align: center;
+  font-size: 11px; font-weight: 700; border-radius: 999px; padding: 1px 7px; }
+.callchip.c1 { background: #e3eef7; color: #1c5b8a; border: 1px solid #b9d5e8; }
+.callchip.cx { background: #efe3ad; color: #6b5606; border: 1px solid #dcc97e; }
+.callchip.c2 { background: #fae5d9; color: #a34a22; border: 1px solid #eec4ab; }
+.proj .pheavy { font-weight: 750; }
+.proj .pdanger { color: var(--bad); font-weight: 700; }

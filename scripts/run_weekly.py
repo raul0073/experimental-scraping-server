@@ -136,6 +136,10 @@ def main() -> int:
         for p in weekly["home_win_picks"]:
             print(f"  {p['rank']}. [{p['league']}] {p['home']} v {p['away']}  "
                   f"P(home)={p['pick_prob']:.0%}  xg={p['xg']}  {p['kickoff']}")
+    def _season_sim():
+        import simulate_season  # sibling script; scripts/ is sys.path[0]
+        return simulate_season.run(sims=10000, verbose=False)
+    step("season simulation", _season_sim)
     step("backup state", _backup_state)
 
     print("\n=== LEDGER ===")

@@ -8,8 +8,16 @@
    (fade candidates); deep <span class="luck pos">green</span> teams are owed points (value candidates). Players
    board: xG+xA per 90, minimum 180 minutes.</p>
 
+{% if sim %}
+<p class="meta">⬇ Each league also shows the <strong>projected finish</strong> — the predictor priced every remaining
+   fixture and replayed the season {{ '{:,}'.format(sim.sims) }} times (as of {{ sim.as_of }}) — and, because we're a
+   predictor, <strong>the score it calls for every remaining match</strong>, round by round. Ratings are frozen at
+   today: no transfers or injuries are simulated, so May fixtures carry September's strengths.</p>
+{% endif %}
+
 {% for L in leagues %}
 {% set b = L.badge %}
+{% set S = sim.leagues.get(L.league) if sim and sim.leagues else None %}
 <h2 class="lgh"><img src="{{ league_crest(L.league) }}" width="22" height="22" alt="" onerror="this.remove()">
   {{ L.league.split('-')[1] }}</h2>
 <div class="tablesplit">
@@ -43,6 +51,58 @@
     </tbody>
   </table>
 </div>
+
+{% if S %}
+<div class="tablesplit simsplit">
+  <div>
+    <h3 class="simh">Projected finish <span class="seasontag">{{ '{:,}'.format(sim.sims) }} simulated seasons · as of {{ sim.as_of }}</span></h3>
+    <table class="fair proj">
+      <thead><tr><th>#</th><th>Team</th>
+        <th class="num" title="points already banked">Now</th>
+        <th class="num" title="expected final points across all simulated seasons">xPts</th>
+        <th class="num" title="share of simulated seasons won">Title</th>
+        <th class="num">Top 4</th><th class="num" title="bottom-3 finish">Releg.</th></tr></thead>
+      <tbody>
+        {% for r in S.table %}
+        {% set bd = b(r.team) %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td class="teamcell">{% if bd.logo %}<img class="crestimg" src="{{ bd.logo }}" width="16" height="16" alt="" loading="lazy">{% endif %} {{ r.team }}</td>
+          <td class="num meta">{{ r.pts_now }}</td>
+          <td class="num"><strong>{{ r.exp_pts }}</strong></td>
+          <td class="num">{% if r.p_title >= 0.1 %}<span class="{{ 'pheavy' if r.p_title >= 20 }}">{{ r.p_title }}%</span>{% else %}<span class="meta">—</span>{% endif %}</td>
+          <td class="num">{% if r.p_top4 >= 0.1 %}{{ r.p_top4 }}%{% else %}<span class="meta">—</span>{% endif %}</td>
+          <td class="num">{% if r.p_rel >= 0.1 %}<span class="{{ 'pdanger' if r.p_rel >= 30 }}">{{ r.p_rel }}%</span>{% else %}<span class="meta">—</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h3 class="simh">Predicted scores <span class="seasontag">the model's call for every remaining match</span></h3>
+    {% for R in S.rounds %}
+    <details class="rnd" {{ 'open' if loop.first }}>
+      <summary>Round {{ R.week }} <span class="meta">· {{ R.start[5:] }}{% if R.end != R.start %} → {{ R.end[5:] }}{% endif %} · {{ R.matches | length }} matches</span></summary>
+      <table class="fair predfx">
+        <tbody>
+          {% for f in R.matches %}
+          {% set bh = b(f.home) %}{% set ba = b(f.away) %}
+          <tr title="P(1) {{ f.p_home }}% · P(X) {{ f.p_draw }}% · P(2) {{ f.p_away }}% — modal score of the {{ {'home': 'home-win', 'draw': 'draw', 'away': 'away-win'}[f.call] }} call ({{ f.score_p }}%) · xG {{ f.xg_h }} : {{ f.xg_a }}">
+            <td class="meta fxdate">{{ (f.date or '')[5:] }}</td>
+            <td class="fxh">{{ f.home }}{% if bh.logo %} <img class="crestimg" src="{{ bh.logo }}" width="14" height="14" alt="" loading="lazy">{% endif %}</td>
+            <td class="fxscore">{{ f.score }}</td>
+            <td class="fxa">{% if ba.logo %}<img class="crestimg" src="{{ ba.logo }}" width="14" height="14" alt="" loading="lazy"> {% endif %}{{ f.away }}</td>
+            <td class="num"><span class="callchip c{{ {'home': '1', 'draw': 'x', 'away': '2'}[f.call] }}">{{ {'home': '1', 'draw': '✕', 'away': '2'}[f.call] }}</span></td>
+            <td class="num meta fxp">{{ f.p_home | round | int }}·{{ f.p_draw | round | int }}·{{ f.p_away | round | int }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </details>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
 {% endfor %}
 
 <p class="meta">Luck coloring is from the bettor's side: red = the market table flatters them, green = the table

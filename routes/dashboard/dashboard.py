@@ -858,9 +858,33 @@ async def table_page(request: Request):
         return {"league": lg, "table": table, "players": players[:10],
                 "badge": _badge_fn(lg)}
 
+    def build_sim():
+        """Season simulation report (scripts/simulate_season.py, refreshed by
+        run_weekly): projected finish + the predictor's scoreline call for
+        every remaining fixture, grouped into rounds."""
+        p = Path("data/reports") / f"season_sim_{SEASON}.json"
+        if not p.exists():
+            return None
+        d = json.loads(p.read_text(encoding="utf-8"))
+        leagues = {}
+        for lg, blob in d.get("leagues", {}).items():
+            if not isinstance(blob, dict):     # pre-fixtures schema
+                blob = {"table": blob, "fixtures": []}
+            by_week: dict = {}
+            for f in blob.get("fixtures", []):
+                by_week.setdefault(f["week"], []).append(f)
+            rounds = [{"week": w,
+                       "start": min((f["date"] or "" for f in ms), default=""),
+                       "end": max((f["date"] or "" for f in ms), default=""),
+                       "matches": ms}
+                      for w, ms in sorted(by_week.items())]
+            leagues[lg] = {"table": blob.get("table", []), "rounds": rounds}
+        return {"as_of": d.get("as_of"), "sims": d.get("sims"), "leagues": leagues}
+
     leagues = _cached(("fairtables",), lambda: [build_league(lg) for lg in DRAW_LEAGUES])
+    sim = _cached(("seasonsim",), build_sim)
     return templates.TemplateResponse(request, "table.html",
-                                      {"leagues": leagues, "page": "table"})
+                                      {"leagues": leagues, "sim": sim, "page": "table"})
 
 
 @router.get("/dashboard/mental", response_class=HTMLResponse)
