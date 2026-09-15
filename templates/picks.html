@@ -52,12 +52,48 @@
 </table>
 {% endmacro %}
 
-<h2>Draw candidates — top {{ data.draw_candidates | length }} (all leagues pooled)</h2>
-<p class="meta">Betting window: <strong>{{ data.window.start }} → {{ data.window.end }}</strong> —
-   only fixtures playable on one form are ticket-eligible; later rounds appear in the league
-   tables below marked "next window". Ranks 1–4 are the official ticket (ledger-graded);
-   5–8 are alternates: swap in when their offered odds beat a top-4 pick's — a line is worth
-   taking only when probability × odds &gt; 1.</p>
+{% macro betrow(p, side) %}
+<div class="betrow" {% if p.draw_drivers %}title="{% for c in p.draw_drivers %}{{ '▲' if c.s > 0 else '▼' }} {{ c.t }}{{ '' if loop.last else ' · ' }}{% endfor %}"{% endif %}>
+  <span class="brk">{{ p.rank }}</span>
+  <span class="brfx">
+    {% if side == 'home' %}<strong>{{ p.home }}</strong> v {{ p.away }}
+    {% elif side == 'away' %}<strong>{{ p.away }}</strong> @ {{ p.home }}
+    {% else %}{{ p.home }} – {{ p.away }}{% endif %}
+    <span class="badge lgbadge"><img src="{{ league_crest(p.league) }}" width="13" height="13" alt="" onerror="this.remove()">{{ p.league.split('-')[1] }}</span>
+    <span class="meta">{{ p.kickoff }}</span>
+  </span>
+  <span class="brnum"><strong>{{ (p.pick_prob * 100) | round(1) }}%</strong></span>
+  <span class="brnum meta" title="breakeven odds — take only above this price">be {{ (1 / p.pick_prob) | round(2) }}</span>
+  <a href="/dashboard/match?league={{ p.league | urlencode }}&home={{ p.home | urlencode }}&away={{ p.away | urlencode }}">→</a>
+</div>
+{% endmacro %}
+
+<h2>This round's bets <span class="seasontag">window {{ data.window.start }} → {{ data.window.end }} ·
+  breakeven = minimum odds worth taking · full board on the <a href="/dashboard/predictions">Predictions page</a></span></h2>
+
+<div class="betcols">
+  <div class="betcard bc-x">
+    <div class="bethead">✕ Draws — the ticket <span class="meta">(שיטה legs)</span></div>
+    {% for p in data.draw_picks %}{{ betrow(p, 'draw') }}{% endfor %}
+    {% if not data.draw_picks %}<p class="meta">none this round</p>{% endif %}
+    {% if data.draw_candidates | length > 4 %}
+    <details class="betalts"><summary>alternates 5–8 (price-swap options)</summary>
+      {% for p in data.draw_candidates[4:] %}{{ betrow(p, 'draw') }}{% endfor %}
+    </details>
+    {% endif %}
+  </div>
+  <div class="betcard bc-1">
+    <div class="bethead">1 Home wins <span class="meta">(EPL + Ligue 1)</span></div>
+    {% for p in data.home_win_picks %}{{ betrow(p, 'home') }}{% endfor %}
+    {% if not data.home_win_picks %}<p class="meta">none this round</p>{% endif %}
+  </div>
+  <div class="betcard bc-2">
+    <div class="bethead">2 Away wins <span class="meta">(all leagues)</span></div>
+    {% for p in data.away_win_picks %}{{ betrow(p, 'away') }}{% endfor %}
+    {% if not data.away_win_picks %}<p class="meta">none this round</p>{% endif %}
+  </div>
+</div>
+
 {% if data.trixy %}
 <div class="tiles">
   <div class="tile"><div class="label">Trixy: P(≥2 of 4) — money back</div>
@@ -69,35 +105,9 @@
     <div class="sub">≈ once per {{ (1 / data.trixy.p_4of4) | round | int if data.trixy.p_4of4 > 0 else '∞' }} weeks at this level</div></div>
 </div>
 {% endif %}
-<table>
-  <thead>
-    <tr><th>#</th><th></th><th>League</th><th>Fixture</th><th>Kickoff</th>
-        <th>P(draw)</th><th class="num">Breakeven odds</th><th class="num">xG</th><th></th></tr>
-  </thead>
-  <tbody>
-    {% for p in data.draw_candidates %}
-    <tr class="{{ 'alt' if p.rank > 4 }}">
-      <td>{{ p.rank }}</td>
-      <td>{% if p.rank <= 4 %}<span class="badge ticket">ticket</span>{% else %}<span class="badge">alt</span>{% endif %}</td>
-      <td><span class="badge lgbadge"><img src="{{ league_crest(p.league) }}" width="14" height="14" alt="" onerror="this.remove()">{{ p.league.split('-')[1] }}</span></td>
-      <td>{{ fixture(p) }}
-        {% if p.draw_drivers %}<div class="chips">{% for c in p.draw_drivers %}<span class="chip {{ 'pos' if c.s > 0 else 'neg' }}" title="log-odds {{ '%+0.2f' % (c.s * c.w) }}">{{ '▲' if c.s > 0 else '▼' }} {{ c.t }}</span>{% endfor %}</div>{% endif %}</td>
-      <td class="meta">{{ p.kickoff }}</td>
-      <td>
-        <span class="meter">
-          <span class="bar"><span style="width: {{ (p.pick_prob * 100) | round }}%"></span></span>
-          <span class="val">{{ (p.pick_prob * 100) | round(1) }}%</span>
-        </span>
-      </td>
-      <td class="num">{{ (1 / p.pick_prob) | round(2) }}</td>
-      <td class="num">{{ p.xg[p.home] }} – {{ p.xg[p.away] }}</td>
-      <td><a href="/dashboard/match?league={{ p.league | urlencode }}&home={{ p.home | urlencode }}&away={{ p.away | urlencode }}">zones →</a></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<p class="meta">▲/▼ chips: what pushes this fixture's draw probability up or down, straight from the
-   classifier's own feature contributions — the model arguing its case, not a story written after the fact.</p>
+<p class="meta">Hover a draw row for its ▲/▼ why-chips (the classifier's own feature contributions).
+   Ranks 1–4 draws are the official ticket (ledger-graded); alternates are price-swap options — a line
+   is worth taking only when probability × odds &gt; 1.</p>
 
 {% if data.strategy %}
 {% set st = data.strategy %}
@@ -205,33 +215,8 @@
 </table>
 {% endif %}
 
-<h2>Home-win picks — top {{ data.home_win_picks | length }} (EPL + Ligue 1)</h2>
-{{ pick_table(data.home_win_picks, "P(home)") }}
-
-{% for league, preds in data.all_predictions.items() %}
-<h2>{{ league }}{% if data.weeks[league] %} — round {{ data.weeks[league] | join('/') }}{% endif %}</h2>
-<table>
-  <thead>
-    <tr><th>Fixture</th><th>Kickoff</th><th>Home / Draw / Away</th>
-        <th class="num">xG</th><th>Likely score per outcome</th><th></th></tr>
-  </thead>
-  <tbody>
-    {% for p in preds %}
-    <tr>
-      <td>{{ fixture(p) }}
-          {% if p.tier == 'gold' %}<span class="vbadge tgold">GOLD</span>
-          {% elif p.tier == 'silver' %}<span class="vbadge tsilver">SILVER</span>{% endif %}
-          {% if p.confidence == 'low' %}<span class="badge low">low confidence</span>{% endif %}
-          {% if not p.in_window %}<span class="badge">next window</span>{% endif %}</td>
-      <td class="meta">{{ p.kickoff }}</td>
-      <td>{{ probbar(p) }}</td>
-      <td class="num">{{ p.xg[p.home] }} – {{ p.xg[p.away] }}</td>
-      <td class="scorelines">H {{ p.modal_scores.home[0] }} · D {{ p.modal_scores.draw[0] }} · A {{ p.modal_scores.away[0] }}</td>
-      <td><a href="/dashboard/match?league={{ p.league | urlencode }}&home={{ p.home | urlencode }}&away={{ p.away | urlencode }}">zones →</a></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% endfor %}
+<p class="meta" style="margin-top: 26px">Looking for the full board? Every league's round with all probabilities,
+   likely scores and zones links — including past rounds with results — lives on the
+   <a href="/dashboard/predictions"><strong>Predictions page →</strong></a></p>
 
 {% endblock %}

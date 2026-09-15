@@ -88,6 +88,26 @@ tbody tr.alt td strong { font-weight: 500; }
 .probbar .lbls .fav { font-weight: 700; color: var(--ink); }
 
 .stalewarn { color: var(--bad); font-weight: 700; }
+
+/* dashboard bet columns: draws / home wins / away wins */
+.betcols { display: grid; grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+  gap: 16px; margin: 12px 0 6px; }
+.betcard { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  padding: 10px 14px 12px; }
+.betcard.bc-x { border-top: 3px solid #d9a300; }
+.betcard.bc-1 { border-top: 3px solid #4a90c2; }
+.betcard.bc-2 { border-top: 3px solid #e0784a; }
+.bethead { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+.betrow { display: flex; align-items: center; gap: 10px; padding: 7px 2px;
+  border-top: 1px solid var(--line); font-size: 13px; }
+.betrow .brk { color: var(--ink-3); font-weight: 600; width: 14px; flex: none; }
+.betrow .brfx { flex: 1; min-width: 0; }
+.betrow .brfx .meta { font-size: 11.5px; }
+.betrow .brnum { flex: none; font-variant-numeric: tabular-nums; }
+.betalts summary { cursor: pointer; color: var(--ink-2); font-size: 12.5px;
+  padding: 7px 0 3px; }
+.betalts .betrow { color: var(--ink-2); }
+.filterbar .btn.cur { border-color: #4a90c2; color: #123a52; font-weight: 700; }
 .pickchip { background: #eef4fa; color: #123a52; border: 1px solid #c9dcec; font-weight: 600; }
 .vbadge.xdraw { background: #efe3ad; color: #6b5606; }
 .bookedtag { margin-left: 12px; font-size: 11.5px; font-weight: 700;

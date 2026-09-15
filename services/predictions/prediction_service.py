@@ -32,7 +32,8 @@ ZONES_SOURCE_SEASON = ["2526", "2627"]
 DRAW_LEAGUES = ["ENG-Premier League", "ITA-Serie A", "ESP-La Liga",
                 "GER-Bundesliga", "FRA-Ligue 1"]
 HOME_LEAGUES = ["ENG-Premier League", "FRA-Ligue 1"]
-N_DRAWS, N_HOME = 4, 3
+AWAY_LEAGUES = DRAW_LEAGUES  # away favorites pool wide; GOLD tier is side-agnostic
+N_DRAWS, N_HOME, N_AWAY = 4, 3, 3
 
 # ticket window: leagues' rounds don't align and calendar weeks lie (rounds
 # drift Fri-Mon / Fri-Sat / midweek). A window is the next CLUSTER of match
@@ -319,6 +320,8 @@ class PredictionService:
         draw_picks = draw_candidates[:N_DRAWS]
         home_picks = pick(HOME_LEAGUES, lambda p: p["probabilities"]["home"],
                           N_HOME, "home")
+        away_picks = pick(AWAY_LEAGUES, lambda p: p["probabilities"]["away"],
+                          N_AWAY, "away")
 
         # uncertified watchlist: low-confidence fixtures whose draw number is
         # ticket-grade — shown to the user (their judgment), never picked or
@@ -340,6 +343,7 @@ class PredictionService:
             "draw_candidates": draw_candidates,
             "draw_watchlist": draw_watchlist,
             "home_win_picks": home_picks,
+            "away_win_picks": away_picks,
             "trixy": _trixy_outlook([p["pick_prob"] for p in draw_picks]),
             "all_predictions": preds,
         }

@@ -49,7 +49,7 @@
           {% if r.tier == 'gold' %}<span class="vbadge tgold">G</span>{% elif r.tier == 'silver' %}<span class="vbadge tsilver">S</span>{% endif %}
           {% if r.confidence == 'low' %}<span class="badge low">low conf</span>{% endif %}
           {% if r.pick %}<span class="badge pickchip {{ 'win' if r.pick.hit else 'loss' if r.pick.hit is not none else '' }}"
-            title="committed bet, placed {{ r.pick.committed }} at the probabilities of THAT day — this row's numbers are the first-ever snapshot (frozen by the honesty rule) and may differ">{{ 'X' if r.pick.type == 'draw' else '1' }} pick{% if r.pick.prob %} @ {{ (r.pick.prob * 100) | round(1) }}%{% endif %}{% if r.pick.hit is not none %} {{ '✓' if r.pick.hit else '✗' }}{% endif %}</span>{% endif %}</td>
+            title="committed bet, placed {{ r.pick.committed }} at the probabilities of THAT day — this row's numbers are the first-ever snapshot (frozen by the honesty rule) and may differ">{{ 'X' if r.pick.type == 'draw' else '2' if r.pick.type == 'away' else '1' }} pick{% if r.pick.prob %} @ {{ (r.pick.prob * 100) | round(1) }}%{% endif %}{% if r.pick.hit is not none %} {{ '✓' if r.pick.hit else '✗' }}{% endif %}</span>{% endif %}</td>
       <td class="num scorelines">{{ (r.probabilities.home * 100) | round }} / {{ (r.probabilities.draw * 100) | round }} / {{ (r.probabilities.away * 100) | round }}</td>
       <td class="num">{{ r.pred_xg[0] }}–{{ r.pred_xg[1] }}</td>
       <td class="num">{{ r.pred_score }}</td>

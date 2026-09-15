@@ -74,7 +74,8 @@ class LedgerService:
                  if r["status"] == "pending" and window and window_end
                  and r.get("kickoff") and window <= r["kickoff"] <= window_end}
 
-        for p in weekly["draw_picks"] + weekly["home_win_picks"]:
+        for p in (weekly["draw_picks"] + weekly["home_win_picks"]
+                  + weekly.get("away_win_picks", [])):
             if (p["season"], p["pick_type"]) in taken:
                 skipped += 1
                 continue
@@ -143,8 +144,10 @@ class LedgerService:
             outcome = "home" if m["home_goals"] > m["away_goals"] else \
                       "away" if m["away_goals"] > m["home_goals"] else "draw"
             # hit is judged from OUR pick's perspective: a draw pick is
-            # venue-agnostic; a home pick means "our home team wins"
-            our_team_won = outcome == ("away" if flipped else "home")
+            # venue-agnostic; home/away picks mean "OUR home/away team wins"
+            # even when fbref flipped the venue after commit
+            our_home_won = outcome == ("away" if flipped else "home")
+            our_away_won = outcome == ("home" if flipped else "away")
             r["status"] = "graded"
             r["graded_at"] = now
             r["score"] = f"{m['home_goals']}-{m['away_goals']}"
@@ -152,7 +155,8 @@ class LedgerService:
             if flipped:
                 r["note"] = f"graded via fallback (played as {m['home_team']} v {m['away_team']})"
             r["hit"] = (outcome == "draw") if r["pick_type"] == "draw" else \
-                       our_team_won if r["pick_type"] == "home" else outcome == r["pick_type"]
+                       our_home_won if r["pick_type"] == "home" else \
+                       our_away_won if r["pick_type"] == "away" else outcome == r["pick_type"]
             graded += 1
         if graded:
             cls._write(rows)
@@ -164,7 +168,7 @@ class LedgerService:
     def summary(cls) -> Dict[str, Any]:
         rows = cls._read()
         out: Dict[str, Any] = {"total_picks": len(rows), "by_type": {}}
-        for pick_type in ("draw", "home"):
+        for pick_type in ("draw", "home", "away"):
             sub = [r for r in rows if r["pick_type"] == pick_type]
             graded = [r for r in sub if r["status"] == "graded"]
             hits = sum(1 for r in graded if r["hit"])

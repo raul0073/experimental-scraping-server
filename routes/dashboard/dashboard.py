@@ -670,6 +670,84 @@ async def match_page(request: Request, league: str, home: str, away: str):
     })
 
 
+@router.get("/dashboard/predictions", response_class=HTMLResponse)
+async def predictions_page(request: Request, shift: int = Query(0),
+                           league: Optional[str] = Query(None)):
+    """All five leagues, one round per league, navigable: shift=0 is each
+    league's next/current round, negative steps back through played rounds
+    (frozen first predictions + results from History), positive peeks ahead
+    (live model view)."""
+    from services.fbref.fixtures.fixtures_service import FixturesService
+    from services.predictions.history_service import HistoryService
+    from services.predictions.prediction_service import DRAW_LEAGUES, SEASON
+
+    shift = max(-12, min(3, shift))
+
+    def build():
+        svc = PredictionService()
+        hist = {(h["league"], h["home"], h["away"]): h for h in HistoryService.entries()}
+
+        def tier_of(probs):
+            p = max(probs.values())
+            return "gold" if p >= 0.55 else "silver" if p >= 0.45 else "flip"
+
+        sections = []
+        for lg in DRAW_LEAGUES:
+            fx = FixturesService.load(lg, SEASON)
+            if not fx:
+                continue
+            ms = [m for m in fx["matches"] if isinstance(m["week"], int) and m["date"]]
+            upcoming = [m["week"] for m in ms if not m["played"]]
+            base = min(upcoming) if upcoming else max((m["week"] for m in ms), default=None)
+            if base is None:
+                continue
+            wk = base + shift
+            fixtures = [m for m in ms if m["week"] == wk]
+            if not fixtures:
+                continue
+            need = [m for m in fixtures if not m["played"]
+                    and (lg, m["home_team"], m["away_team"]) not in hist]
+            live = {(p["home"], p["away"]): p
+                    for p in (svc.predict_fixtures(lg, need) if need else [])}
+            rows = []
+            for m in sorted(fixtures, key=lambda x: (x["date"], x["home_team"])):
+                h = hist.get((lg, m["home_team"], m["away_team"]))
+                if h:
+                    rows.append({
+                        "home": h["home"], "away": h["away"], "kickoff": h["kickoff"],
+                        "probs": h["probabilities"], "xg": h["pred_xg"],
+                        "pred_score": h["pred_score"], "pred_outcome": h["pred_outcome"],
+                        "tier": tier_of(h["probabilities"]), "conf": h.get("confidence"),
+                        "graded": h["status"] == "graded", "score": h.get("score"),
+                        "outcome_hit": h.get("outcome_hit"), "score_hit": h.get("score_hit"),
+                        "src": "frozen"})
+                else:
+                    p = live.get((m["home_team"], m["away_team"]))
+                    if not p:
+                        continue
+                    mx = max(p["probabilities"], key=p["probabilities"].get)
+                    rows.append({
+                        "home": p["home"], "away": p["away"], "kickoff": p["kickoff"],
+                        "probs": p["probabilities"],
+                        "xg": [p["xg"][p["home"]], p["xg"][p["away"]]],
+                        "pred_score": p["modal_scores"][mx][0], "pred_outcome": mx,
+                        "tier": p["tier"], "conf": p["confidence"],
+                        "graded": False, "score": None,
+                        "outcome_hit": None, "score_hit": None, "src": "live"})
+            if rows:
+                sections.append({"league": lg, "week": wk, "rows": rows})
+        return sections
+
+    sections = _cached(("predpage", shift), build)
+    if league:
+        sections = [s for s in sections if s["league"] == league]
+    from services.predictions.prediction_service import DRAW_LEAGUES as _LGS
+    return templates.TemplateResponse(request, "predictions.html", {
+        "sections": sections, "shift": shift, "f_league": league or "",
+        "leagues": _LGS, "page": "predictions",
+    })
+
+
 @router.get("/dashboard/table", response_class=HTMLResponse)
 async def table_page(request: Request):
     """Fair tables: real standings next to xPTS with a luck delta, plus a
