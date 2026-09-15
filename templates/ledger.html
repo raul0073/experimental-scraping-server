@@ -1,44 +1,65 @@
 {% extends "base.html" %}
 {% block title %}Ledger{% endblock %}
-{% block headmeta %}{{ summary.total_picks }} picks recorded{% endblock %}
+{% block headmeta %}the dashboard picks' own history — committed before kickoff, never edited{% endblock %}
+
+{% macro lrow(r, t) %}
+<div class="betrow">
+  <span class="brk">{{ r.rank }}</span>
+  <span class="brfx">
+    {% if t == 'home' %}<strong>{{ r.home }}</strong> v {{ r.away }}
+    {% elif t == 'away' %}<strong>{{ r.away }}</strong> @ {{ r.home }}
+    {% else %}{{ r.home }} – {{ r.away }}{% endif %}
+    <span class="badge lgbadge"><img src="{{ league_crest(r.league) }}" width="13" height="13" alt="" onerror="this.remove()">{{ r.league.split('-')[1] }}</span>
+    <span class="meta">{{ r.kickoff }}</span>
+    {% if r.note %}<span class="badge low" title="{{ r.note }}">venue note</span>{% endif %}
+  </span>
+  <span class="brnum meta">said {{ (r.pick_prob * 100) | round(1) }}%</span>
+  {% if r.status == 'graded' %}
+  <span class="brnum"><strong>{{ r.score }}</strong></span>
+  <span class="brnum">{% if r.hit %}<span class="hit">✓</span>{% else %}<span class="miss">✗</span>{% endif %}</span>
+  {% else %}
+  <span class="brnum pending">pending</span>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% macro lcol(t, cls, title, sub, d) %}
+<div class="betcard {{ cls }}">
+  <div class="bethead">{{ title }}</div>
+  <div class="lstats">
+    <span class="lrate">{{ d.rate if d.rate is not none else '—' }}{% if d.rate is not none %}%{% endif %}</span>
+    <span class="lsub">{{ d.hits }}/{{ d.graded }} graded · {{ d.committed }} committed
+      {% if d.avg_prob is not none %}<br>model said {{ d.avg_prob }}% on average{% endif %}
+      <br>{{ sub }}</span>
+    {% if d.spark %}
+    <svg class="spark" viewBox="0 0 140 26" title="cumulative hit rate, round by round">
+      <line x1="3" y1="13" x2="137" y2="13" class="mid"/>
+      <polyline points="{{ d.spark }}" class="line"/>
+    </svg>
+    {% endif %}
+  </div>
+  {% for w in d.windows %}
+  <div class="lwin"><span>round of {{ w.window }}</span>
+    <span>{% if w.graded %}{{ w.hits }}/{{ w.graded }} ✓{% else %}in play{% endif %}</span></div>
+  {% for r in w.rows %}{{ lrow(r, t) }}{% endfor %}
+  {% endfor %}
+  {% if not d.windows %}<p class="meta">no picks committed yet — first set books with the next window</p>{% endif %}
+</div>
+{% endmacro %}
+
 {% block content %}
 
-<div class="tiles">
-  {% for t, s in summary.by_type.items() %}
-  <div class="tile">
-    <div class="label">{{ "Draw picks" if t == "draw" else "Home-win picks" }}</div>
-    <div class="value">{{ (s.hit_rate * 100) | round(1) if s.hit_rate is not none else "—" }}{% if s.hit_rate is not none %}%{% endif %}</div>
-    <div class="sub">{{ s.hits }}/{{ s.graded }} graded · {{ s.committed }} committed
-      {% if s.avg_pick_prob %} · predicted {{ (s.avg_pick_prob * 100) | round }}%{% endif %}</div>
-  </div>
-  {% endfor %}
+<h2>Pick ledger <span class="seasontag">every dashboard pick, frozen at commit, graded when it plays —
+  the sparkline is the cumulative hit rate over time</span></h2>
+
+<div class="betcols">
+  {{ lcol('draw', 'bc-x', '✕ Draws — the ticket', 'claimed ~32% · random baseline 24.8%', types.draw) }}
+  {{ lcol('home', 'bc-1', '1 Home wins', 'GOLD-grade claim: 65–67% when model says ≥55%', types.home) }}
+  {{ lcol('away', 'bc-2', '2 Away wins', 'new product — building its sample from the October round', types.away) }}
 </div>
 
-<h2>All picks</h2>
-<table>
-  <thead>
-    <tr><th>Week</th><th>Type</th><th>#</th><th>League</th><th>Fixture</th>
-        <th>Kickoff</th><th class="num">P(pick)</th><th>Result</th><th>Outcome</th></tr>
-  </thead>
-  <tbody>
-    {% for r in entries %}
-    <tr>
-      <td>{{ r.week }}</td>
-      <td>{{ r.pick_type }}</td>
-      <td>{{ r.rank }}</td>
-      <td><span class="badge lgbadge"><img src="{{ league_crest(r.league) }}" width="14" height="14" alt="" onerror="this.remove()">{{ r.league.split('-')[1] }}</span></td>
-      <td>{% if r.pick_type == 'home' %}<strong>{{ r.home }}</strong> v {{ r.away }}{% else %}{{ r.home }} v {{ r.away }}{% endif %}</td>
-      <td class="meta">{{ r.kickoff }}</td>
-      <td class="num">{{ (r.pick_prob * 100) | round }}%</td>
-      <td>{{ r.score if r.status == 'graded' else '—' }}</td>
-      <td>
-        {% if r.status == 'graded' %}
-          {% if r.hit %}<span class="hit">✓ HIT</span>{% else %}<span class="miss">✗ MISS</span>{% endif %}
-        {% else %}<span class="pending">pending</span>{% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
+<p class="meta">"said X%" is the probability frozen at commit — over time each column's hit rate should track
+   what the model said (that's calibration, and it's the whole game). Slips staked on these picks live in the
+   <a href="/dashboard/monkey">Monkey</a>; the full prediction record (every fixture, not just bets) is in
+   <a href="/dashboard/history">History</a>.</p>
 {% endblock %}

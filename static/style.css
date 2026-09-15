@@ -108,6 +108,18 @@ tbody tr.alt td strong { font-weight: 500; }
   padding: 7px 0 3px; }
 .betalts .betrow { color: var(--ink-2); }
 .filterbar .btn.cur { border-color: #4a90c2; color: #123a52; font-weight: 700; }
+
+/* ledger columns: per-type performance over time */
+.lstats { display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 4px 0 10px; border-bottom: 2px solid var(--line); }
+.lrate { font-size: 30px; font-weight: 750; }
+.lsub { font-size: 11.5px; color: var(--ink-2); line-height: 1.45; }
+.spark { width: 140px; height: 26px; margin-left: auto; }
+.spark .line { fill: none; stroke: #4a7ba6; stroke-width: 2; }
+.spark .mid { stroke: #e4e7ea; stroke-width: 1; stroke-dasharray: 3 3; }
+.lwin { display: flex; justify-content: space-between; font-size: 11.5px;
+  color: var(--ink-2); background: #f6f7f8; border-radius: 6px;
+  padding: 3px 9px; margin-top: 10px; font-weight: 600; }
 .pickchip { background: #eef4fa; color: #123a52; border: 1px solid #c9dcec; font-weight: 600; }
 .vbadge.xdraw { background: #efe3ad; color: #6b5606; }
 .bookedtag { margin-left: 12px; font-size: 11.5px; font-weight: 700;

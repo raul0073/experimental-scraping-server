@@ -524,11 +524,49 @@ async def picks_page(request: Request, start: Optional[str] = Query(None)):
 
 @router.get("/dashboard/ledger", response_class=HTMLResponse)
 async def ledger_page(request: Request):
-    entries = sorted(LedgerService.entries(), key=lambda r: (r["season"], r["week"], r["pick_type"], r["rank"]),
-                     reverse=True)
+    """The dashboard picks' own history: one column per pick type, mirroring
+    the dashboard's bet columns, with performance over time."""
+    LedgerService.grade()
+    entries = LedgerService.entries()
+    types: dict = {}
+    for t in ("draw", "home", "away"):
+        rows = [r for r in entries if r["pick_type"] == t]
+        graded = [r for r in rows if r["status"] == "graded"]
+        hits = sum(1 for r in graded if r["hit"])
+        wins: dict = {}
+        for r in rows:
+            wins.setdefault(r.get("window") or r["kickoff"], []).append(r)
+        win_list = []
+        for w in sorted(wins, reverse=True):
+            ws = sorted(wins[w], key=lambda r: r["rank"])
+            g = [r for r in ws if r["status"] == "graded"]
+            win_list.append({"window": w, "rows": ws, "graded": len(g),
+                             "hits": sum(1 for r in g if r["hit"])})
+        # cumulative hit-rate after each graded window -> sparkline points
+        pts = []
+        ch = cg = 0
+        for w in sorted(wins):
+            g = [r for r in wins[w] if r["status"] == "graded"]
+            if not g:
+                continue
+            cg += len(g)
+            ch += sum(1 for r in g if r["hit"])
+            pts.append(ch / cg)
+        spark = ""
+        if len(pts) >= 2:
+            W, H, pad = 140, 26, 3
+            xs = [pad + i * (W - 2 * pad) / (len(pts) - 1) for i in range(len(pts))]
+            spark = " ".join(f"{x:.0f},{pad + (1 - p) * (H - 2 * pad):.0f}"
+                             for x, p in zip(xs, pts))
+        types[t] = {
+            "committed": len(rows), "graded": len(graded), "hits": hits,
+            "rate": round(hits / len(graded) * 100, 1) if graded else None,
+            "avg_prob": round(sum(r["pick_prob"] for r in graded) / len(graded) * 100, 1)
+            if graded else None,
+            "windows": win_list, "spark": spark,
+        }
     return templates.TemplateResponse(request, "ledger.html",
-                                      {"summary": LedgerService.summary(),
-                                       "entries": entries, "page": "ledger"})
+                                      {"types": types, "page": "ledger"})
 
 
 @router.get("/dashboard/match", response_class=HTMLResponse)
