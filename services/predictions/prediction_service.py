@@ -102,18 +102,29 @@ class PredictionService:
                 ratings, m["home_team"], m["away_team"],
                 boosts["home_boost"], boosts["away_boost"])
 
-            # calibrated zone-matchup blend (gamma fit on 24/25, tiny by design
-            # of the evidence: zones are mostly redundant with xG form)
-            if self.zone_blend and self.zone_blend.get("gamma"):
-                import math
-                from services.zones.zones_engine import zone_advantage
+            # calibrated zone-matchup blend. channels mode (Experiment A,
+            # 2026-09-15) keeps the 9-zone STRUCTURE as four fitted channel
+            # gammas — gated on frozen 25/26 full-stack (beats the scalar on
+            # log-loss/acc/GOLD, draws top-4 equal); legacy scalar kept as
+            # fallback for old configs.
+            if self.zone_blend:
                 zones = self._zones_for(league)
-                adv = zone_advantage(zones, m["home_team"], m["away_team"]) if zones else None
-                if adv:
-                    g = self.zone_blend["gamma"]
-                    mu, sd = self.zone_blend["adv_mean"], self.zone_blend["adv_std"] or 1.0
-                    lam_h *= math.exp(g * (adv[0] - mu) / sd)
-                    lam_a *= math.exp(g * (adv[1] - mu) / sd)
+                if zones and self.zone_blend.get("mode") == "channels":
+                    from services.zones.zones_engine import channel_boosts
+                    b = channel_boosts(zones, m["home_team"], m["away_team"],
+                                       self.zone_blend)
+                    if b:
+                        lam_h *= b[0]
+                        lam_a *= b[1]
+                elif zones and self.zone_blend.get("gamma"):
+                    import math
+                    from services.zones.zones_engine import zone_advantage
+                    adv = zone_advantage(zones, m["home_team"], m["away_team"])
+                    if adv:
+                        g = self.zone_blend["gamma"]
+                        mu, sd = self.zone_blend["adv_mean"], self.zone_blend["adv_std"] or 1.0
+                        lam_h *= math.exp(g * (adv[0] - mu) / sd)
+                        lam_a *= math.exp(g * (adv[1] - mu) / sd)
 
             probs = outcome_probs(lam_h, lam_a, rho)
 

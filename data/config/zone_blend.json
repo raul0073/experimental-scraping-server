@@ -1,9 +1,22 @@
 {
-  "gamma": 0.02,
-  "adv_mean": 0.0013,
-  "adv_std": 3.2593,
-  "fit_log_loss": 0.97847,
+  "mode": "channels",
+  "gammas": {
+    "flank": -0.03,
+    "central": -0.05,
+    "progress": 0.095,
+    "press": 0.0
+  },
+  "stats": {
+    "flank": {"mean": 0.1153, "std": 0.4069},
+    "central": {"mean": 0.0002, "std": 0.4275},
+    "progress": {"mean": -0.0013, "std": 0.4269},
+    "press": {"mean": 0.0016, "std": 0.4298}
+  },
+  "fitted": "2026-09-15 experiment_zone_channels (fit 2425 walk-forward n=1368, frozen eval 2526 n=1368)",
   "eval_form_only": 1.00145,
-  "eval_blended": 1.00092,
-  "verdict": "KEEP"
+  "eval_scalar": 1.00093,
+  "eval_channels": 0.99903,
+  "stack_gate": "experiment_zone_channels_stack: ll 1.00004 vs scalar 1.00148, acc 51.15 vs 51.03, draws top-4 31.62 = 31.62, GOLD 65.18 (n=537) vs 64.92 (n=533) -> SHIP-CHANNELS",
+  "legacy_scalar": {"gamma": 0.02, "adv_mean": 0.0013, "adv_std": 3.2593},
+  "verdict": "SHIP-CHANNELS"
 }

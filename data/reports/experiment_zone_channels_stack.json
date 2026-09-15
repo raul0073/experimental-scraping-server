@@ -1,0 +1,30 @@
+{
+  "none": {
+    "n": 1560,
+    "outcome_acc": 50.9,
+    "log_loss": 1.00175,
+    "draws_top4": 33.09,
+    "draws_top4_n": 136,
+    "gold_n": 498,
+    "gold_realized": 66.06
+  },
+  "scalar": {
+    "n": 1560,
+    "outcome_acc": 51.03,
+    "log_loss": 1.00148,
+    "draws_top4": 31.62,
+    "draws_top4_n": 136,
+    "gold_n": 533,
+    "gold_realized": 64.92
+  },
+  "channels": {
+    "n": 1560,
+    "outcome_acc": 51.15,
+    "log_loss": 1.00004,
+    "draws_top4": 31.62,
+    "draws_top4_n": 136,
+    "gold_n": 537,
+    "gold_realized": 65.18
+  },
+  "verdict": "SHIP-CHANNELS"
+}

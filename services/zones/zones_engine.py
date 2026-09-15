@@ -32,6 +32,45 @@ def zone_advantage(zones: Dict[str, Any], home: str, away: str):
                 for a, d in ZONE_MATCHUPS.items())
     return adv_h, adv_a
 
+
+# Zone CHANNELS (Experiment A, 2026-09-15): the scalar above compresses all
+# nine matchups into one number; these four keep the structure. Gated in by
+# fit 24/25 / frozen 25/26 (stage 1 + full-stack stage 2) — see
+# scripts/experiment_zone_channels*.py and data/reports for the receipts.
+CHANNELS = ("flank", "central", "progress", "press")
+
+
+def channel_feats(zones: Dict[str, Any], team: str, opp: str):
+    """Per-side matchup channels: best flank hole, central punch,
+    build-up through their screen, press vs their build-up."""
+    zt, zo = zones[team], zones[opp]
+    r = lambda z, k: z[k]["rating"]
+    return {
+        "flank": max(r(zt, "attLeft") - r(zo, "defRight"),
+                     r(zt, "attRight") - r(zo, "defLeft")) / 100.0,
+        "central": (r(zt, "attCentral") - r(zo, "defCentral")) / 100.0,
+        "progress": (r(zt, "midProgress") - r(zo, "midShield")) / 100.0,
+        "press": (r(zt, "midPress") - r(zo, "midProgress")) / 100.0,
+    }
+
+
+def channel_boosts(zones: Dict[str, Any], home: str, away: str, cfg: Dict[str, Any]):
+    """exp(sum gamma_k * z_k) multiplier per side from a channels-mode
+    zone_blend config ({gammas: {...}, stats: {c: {mean, std}}})."""
+    import math
+    if home not in zones or away not in zones:
+        return None
+    fh = channel_feats(zones, home, away)
+    fa = channel_feats(zones, away, home)
+    bh = ba = 0.0
+    for c in CHANNELS:
+        g = cfg["gammas"].get(c, 0.0)
+        mu = cfg["stats"][c]["mean"]
+        sd = cfg["stats"][c]["std"] or 1.0
+        bh += g * (fh[c] - mu) / sd
+        ba += g * (fa[c] - mu) / sd
+    return math.exp(bh), math.exp(ba)
+
 # v3 component weights per band (players optional — weights renormalize).
 # NOTE: fbref defensive-volume basics (TklW+Int) were removed after the Stage 4
 # gate showed they correlate POSITIVELY with goals conceded (bad teams defend

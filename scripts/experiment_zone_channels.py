@@ -32,22 +32,9 @@ from scripts.calibrate_zone_blend import zone_advantage  # scalar comparator
 from services.predictions.form_model import FormModel
 from services.predictions.probability_service import outcome_probs
 from services.understat.understat_service import UnderstatService
-from services.zones.zones_engine import ZonesEngine
+from services.zones.zones_engine import CHANNELS, ZonesEngine, channel_feats
 
 MIN_TEAM_MATCHES_IN_WINDOW = 8   # same zone-depth gate as the scalar fit
-CHANNELS = ("flank", "central", "progress", "press")
-
-
-def channel_feats(zones, team, opp):
-    zt, zo = zones[team], zones[opp]
-    r = lambda z, k: z[k]["rating"]
-    return {
-        "flank": max(r(zt, "attLeft") - r(zo, "defRight"),
-                     r(zt, "attRight") - r(zo, "defLeft")) / 100.0,
-        "central": (r(zt, "attCentral") - r(zo, "defCentral")) / 100.0,
-        "progress": (r(zt, "midProgress") - r(zo, "midShield")) / 100.0,
-        "press": (r(zt, "midPress") - r(zo, "midProgress")) / 100.0,
-    }
 
 
 def build_samples(season):

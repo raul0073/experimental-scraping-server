@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from models.fbref.fbref_types import LEAGUE_NAME_MAP
 from scripts.calibrate_zone_blend import zone_advantage
-from scripts.experiment_zone_channels import CHANNELS, channel_feats
+from services.zones.zones_engine import CHANNELS, channel_feats
 from services.fbref.fixtures.fixtures_service import FixturesService
 from services.predictions.draw_model import DrawModel
 from services.predictions.form_model import FormModel
