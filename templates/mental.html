@@ -38,6 +38,10 @@
       <option value="">all</option>
       {% for r in ('DEF', 'MID', 'ATT', 'GK') %}<option value="{{ r }}" {{ 'selected' if r == f_role }}>{{ r }}</option>{% endfor %}
     </select></label>
+  <label title="eligibility gate: minimum share of his team's minutes actually played (since joining the club) — presence is a condition for ranking, not a score">Min minutes
+    <select name="min_share">
+      {% for v in (40, 50, 60, 70) %}<option value="{{ v }}" {{ 'selected' if v == f_min_share }}>{{ v }}%+</option>{% endfor %}
+    </select></label>
   <button class="btn" type="submit">Filter</button>
   <a class="btn ghost" href="/dashboard/mental">Clear</a>
   <span class="meta">{{ total }} players{% if capped %} — showing top 400, refine filters{% endif %}</span>
@@ -66,9 +70,11 @@
   </tbody>
 </table>
 
-<p class="meta">Qualification adapts per player to HIS OWN team's played matches in the selected window (60% of them,
-   floor 2, cap 8) — leagues start on different weekends, so a league-wide bar would hide whole teams that are
-   one round behind. <strong>Evidence correction</strong>: scores shrink toward neutral 50 by sample size
+<p class="meta"><strong>Presence is a gate, not a score</strong> (user decision): only players with the selected
+   share of their team's minutes (measured from their first appearance for the current club — a January signing
+   playing every minute qualifies immediately) are ranked, and percentiles are computed within that eligible
+   pool; the presence metrics were retired from every recipe. <strong>Evidence correction</strong> still
+   applies: scores shrink toward neutral 50 by sample size
    (minutes÷90 against a 12-match prior — hover a score for the raw number), so a 37-game season rightly
    outranks the same profile built on 20 games. Big-game presence sits neutral until a player logs 3 such
    starts. Goalkeepers have their own recipe (shot-stopping vs xG faced, clean sheets, sweeper build-up)

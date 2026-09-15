@@ -867,13 +867,17 @@ async def table_page(request: Request):
 async def mental_page(request: Request, league: Optional[str] = Query(None),
                       team: Optional[str] = Query(None),
                       role: Optional[str] = Query(None),
-                      season: Optional[str] = Query(None)):
+                      season: Optional[str] = Query(None),
+                      min_share: int = Query(60)):
     """Dependability rankings — the mental concept reborn on per-match data.
-    Full all-league board, filterable by league / team / role / season."""
+    Full all-league board, filterable by league / team / role / season.
+    Presence is an eligibility GATE (min % of team minutes), not a score."""
     from services.mental.dependability import SEASONS, build_rankings
     season = season if season in SEASONS else ""
     seasons_sel = [season] if season else SEASONS
-    data = _cached(("mental", season), lambda: build_rankings(seasons_sel))
+    min_share = min_share if min_share in (0, 40, 50, 60, 70) else 60
+    data = _cached(("mental", season, min_share),
+                   lambda: build_rankings(seasons_sel, min_share=min_share))
     rows = data["players"]
     badges = {lg: _badge_fn(lg) for lg in {r["league"] for r in rows}}
     for i, r in enumerate(rows, 1):  # idempotent decoration of the cached rows
@@ -901,7 +905,7 @@ async def mental_page(request: Request, league: Optional[str] = Query(None),
         "leagues": sorted(teams_by_lg),
         "teams_by_lg": {lg: sorted(ts) for lg, ts in sorted(teams_by_lg.items())},
         "f_league": league or "", "f_team": team or "", "f_role": role or "",
-        "f_season": season, "season_options": SEASONS,
+        "f_season": season, "season_options": SEASONS, "f_min_share": min_share,
         "seasons": data["seasons"], "qualified": data["qualified"],
         "recipes": data["components"], "columns": columns,
         "page": "mental",

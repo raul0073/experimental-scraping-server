@@ -208,11 +208,11 @@ DEFAULT_ROLE_COMPONENTS: Dict[str, List[Dict[str, Any]]] = {
     "GK": [
         {"key": "gk_save_pct", "weight": 20, "enabled": False},
         {"key": "shot_stop", "weight": 30, "enabled": True},
-        {"key": "avail", "weight": 25, "enabled": True},
+        {"key": "avail", "weight": 25, "enabled": False},
         {"key": "clean_sheet", "weight": 15, "enabled": True},
         {"key": "discipline", "weight": 10, "enabled": True},
         {"key": "buildup90", "weight": 10, "enabled": True},
-        {"key": "starter_share", "weight": 10, "enabled": True},
+        {"key": "starter_share", "weight": 10, "enabled": False},
         {"key": "minutes_share", "weight": 15, "enabled": False},
         {"key": "finish_starts", "weight": 10, "enabled": False},
         {"key": "big_games", "weight": 10, "enabled": False},
@@ -225,14 +225,14 @@ DEFAULT_ROLE_COMPONENTS: Dict[str, List[Dict[str, Any]]] = {
         {"key": "int90", "weight": 10, "enabled": False},
         {"key": "fls90", "weight": 8, "enabled": False},
         {"key": "fld90", "weight": 5, "enabled": False},
-        {"key": "avail", "weight": 25, "enabled": True},
+        {"key": "avail", "weight": 25, "enabled": False},
         {"key": "big_games", "weight": 15, "enabled": True},
         {"key": "discipline", "weight": 15, "enabled": True},
         {"key": "cons_chain", "weight": 10, "enabled": True},
         {"key": "floor_chain", "weight": 10, "enabled": True},
         {"key": "travels", "weight": 10, "enabled": True},
         {"key": "aerial90", "weight": 10, "enabled": True},
-        {"key": "finish_starts", "weight": 5, "enabled": True},
+        {"key": "finish_starts", "weight": 5, "enabled": False},
         {"key": "sp_threat", "weight": 10, "enabled": False},
         {"key": "minutes_share", "weight": 15, "enabled": False},
         {"key": "starter_share", "weight": 10, "enabled": False},
@@ -253,7 +253,7 @@ DEFAULT_ROLE_COMPONENTS: Dict[str, List[Dict[str, Any]]] = {
         {"key": "fld90", "weight": 8, "enabled": False},
         {"key": "fls90", "weight": 6, "enabled": False},
         {"key": "sot_share", "weight": 5, "enabled": False},
-        {"key": "avail", "weight": 20, "enabled": True},
+        {"key": "avail", "weight": 20, "enabled": False},
         {"key": "floor_chain", "weight": 15, "enabled": True},
         {"key": "big_games", "weight": 15, "enabled": True},
         {"key": "travels", "weight": 10, "enabled": True},
@@ -279,7 +279,7 @@ DEFAULT_ROLE_COMPONENTS: Dict[str, List[Dict[str, Any]]] = {
         {"key": "sot_share", "weight": 8, "enabled": False},
         {"key": "fld90", "weight": 8, "enabled": False},
         {"key": "fls90", "weight": 4, "enabled": False},
-        {"key": "avail", "weight": 15, "enabled": True},
+        {"key": "avail", "weight": 15, "enabled": False},
         {"key": "delivery", "weight": 20, "enabled": True},
         {"key": "box_presence", "weight": 15, "enabled": True},
         {"key": "takeon90", "weight": 10, "enabled": True},
@@ -448,7 +448,14 @@ def _player_metrics(apps: List[Dict], team_dates: Dict[str, List[str]],
 
 
 def build_rankings(seasons: List[str] = None,
-                   roles_cfg: Dict[str, List[Dict[str, Any]]] = None) -> Dict[str, Any]:
+                   roles_cfg: Dict[str, List[Dict[str, Any]]] = None,
+                   min_share: int = 60) -> Dict[str, Any]:
+    """min_share: eligibility GATE (user decision 2026-09-15) — a player must
+    have played at least this % of his team's possible minutes (recency-
+    weighted, counted from his first appearance for the current club, so a
+    January signing playing every minute qualifies at once). Presence is a
+    condition for being ranked, not a scored trait — percentiles are computed
+    within the ELIGIBLE pool only."""
     from services.understat.shot_events_service import ShotEventsService
     from services.understat.understat_service import UnderstatService
 
@@ -579,6 +586,8 @@ def build_rankings(seasons: List[str] = None,
             m = _player_metrics(e["apps"], team_dates, shot_agg.get(name, {}), top6)
             if not m:
                 continue
+            if m["minutes_share"] < min_share:
+                continue  # presence is the gate, not a score
             fb = fbp.get(norm_name(name))
             if fb is None:
                 cands = last_idx.get(norm_name(name).split()[-1], [])
