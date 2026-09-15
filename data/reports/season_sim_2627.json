@@ -1,0 +1,881 @@
+{
+ "season": "2627",
+ "sims": 10000,
+ "leagues": {
+  "ENG-Premier League": [
+   {
+    "team": "Arsenal",
+    "pts_now": 12,
+    "exp_pts": 83.3,
+    "p_title": 69.2,
+    "p_top4": 99.8,
+    "p_rel": 0.0,
+    "med_pos": 1
+   },
+   {
+    "team": "Manchester City",
+    "pts_now": 12,
+    "exp_pts": 77.9,
+    "p_title": 29.0,
+    "p_top4": 98.0,
+    "p_rel": 0.0,
+    "med_pos": 2
+   },
+   {
+    "team": "Manchester Utd",
+    "pts_now": 4,
+    "exp_pts": 62.6,
+    "p_title": 1.0,
+    "p_top4": 53.3,
+    "p_rel": 0.0,
+    "med_pos": 4
+   },
+   {
+    "team": "Brighton",
+    "pts_now": 7,
+    "exp_pts": 58.3,
+    "p_title": 0.3,
+    "p_top4": 30.4,
+    "p_rel": 0.3,
+    "med_pos": 6
+   },
+   {
+    "team": "Chelsea",
+    "pts_now": 7,
+    "exp_pts": 57.9,
+    "p_title": 0.2,
+    "p_top4": 26.9,
+    "p_rel": 0.3,
+    "med_pos": 6
+   },
+   {
+    "team": "Liverpool",
+    "pts_now": 6,
+    "exp_pts": 57.8,
+    "p_title": 0.2,
+    "p_top4": 27.3,
+    "p_rel": 0.4,
+    "med_pos": 6
+   },
+   {
+    "team": "Leeds United",
+    "pts_now": 8,
+    "exp_pts": 57.0,
+    "p_title": 0.2,
+    "p_top4": 23.4,
+    "p_rel": 0.4,
+    "med_pos": 7
+   },
+   {
+    "team": "Brentford",
+    "pts_now": 6,
+    "exp_pts": 55.2,
+    "p_title": 0.0,
+    "p_top4": 17.0,
+    "p_rel": 0.9,
+    "med_pos": 7
+   },
+   {
+    "team": "Bournemouth",
+    "pts_now": 3,
+    "exp_pts": 54.0,
+    "p_title": 0.0,
+    "p_top4": 13.9,
+    "p_rel": 1.4,
+    "med_pos": 8
+   },
+   {
+    "team": "Newcastle",
+    "pts_now": 5,
+    "exp_pts": 47.7,
+    "p_title": 0.0,
+    "p_top4": 2.6,
+    "p_rel": 8.3,
+    "med_pos": 12
+   },
+   {
+    "team": "Nottingham",
+    "pts_now": 5,
+    "exp_pts": 46.2,
+    "p_title": 0.0,
+    "p_top4": 1.7,
+    "p_rel": 12.0,
+    "med_pos": 13
+   },
+   {
+    "team": "Crystal Palace",
+    "pts_now": 3,
+    "exp_pts": 46.0,
+    "p_title": 0.0,
+    "p_top4": 1.4,
+    "p_rel": 12.7,
+    "med_pos": 13
+   },
+   {
+    "team": "Everton",
+    "pts_now": 6,
+    "exp_pts": 45.8,
+    "p_title": 0.0,
+    "p_top4": 1.3,
+    "p_rel": 12.0,
+    "med_pos": 13
+   },
+   {
+    "team": "Aston Villa",
+    "pts_now": 1,
+    "exp_pts": 45.7,
+    "p_title": 0.0,
+    "p_top4": 1.5,
+    "p_rel": 13.9,
+    "med_pos": 13
+   },
+   {
+    "team": "Sunderland",
+    "pts_now": 4,
+    "exp_pts": 42.2,
+    "p_title": 0.0,
+    "p_top4": 0.5,
+    "p_rel": 26.1,
+    "med_pos": 15
+   },
+   {
+    "team": "Ipswich Town",
+    "pts_now": 6,
+    "exp_pts": 41.8,
+    "p_title": 0.0,
+    "p_top4": 0.3,
+    "p_rel": 29.7,
+    "med_pos": 16
+   },
+   {
+    "team": "Hull City",
+    "pts_now": 8,
+    "exp_pts": 41.6,
+    "p_title": 0.0,
+    "p_top4": 0.3,
+    "p_rel": 29.4,
+    "med_pos": 16
+   },
+   {
+    "team": "Fulham",
+    "pts_now": 1,
+    "exp_pts": 40.6,
+    "p_title": 0.0,
+    "p_top4": 0.2,
+    "p_rel": 33.9,
+    "med_pos": 16
+   },
+   {
+    "team": "Tottenham",
+    "pts_now": 2,
+    "exp_pts": 40.5,
+    "p_title": 0.0,
+    "p_top4": 0.2,
+    "p_rel": 35.6,
+    "med_pos": 16
+   },
+   {
+    "team": "Coventry City",
+    "pts_now": 0,
+    "exp_pts": 31.8,
+    "p_title": 0.0,
+    "p_top4": 0.0,
+    "p_rel": 82.7,
+    "med_pos": 20
+   }
+  ],
+  "ESP-La Liga": [
+   {
+    "team": "Barcelona",
+    "pts_now": 15,
+    "exp_pts": 85.6,
+    "p_title": 74.5,
+    "p_top4": 100.0,
+    "p_rel": 0.0,
+    "med_pos": 1
+   },
+   {
+    "team": "Real Madrid",
+    "pts_now": 12,
+    "exp_pts": 79.2,
+    "p_title": 24.9,
+    "p_top4": 99.0,
+    "p_rel": 0.0,
+    "med_pos": 2
+   },
+   {
+    "team": "Real Betis",
+    "pts_now": 12,
+    "exp_pts": 61.4,
+    "p_title": 0.2,
+    "p_top4": 45.4,
+    "p_rel": 0.1,
+    "med_pos": 5
+   },
+   {
+    "team": "Atlético Madrid",
+    "pts_now": 10,
+    "exp_pts": 59.4,
+    "p_title": 0.2,
+    "p_top4": 34.9,
+    "p_rel": 0.2,
+    "med_pos": 6
+   },
+   {
+    "team": "Alavés",
+    "pts_now": 10,
+    "exp_pts": 58.6,
+    "p_title": 0.1,
+    "p_top4": 32.1,
+    "p_rel": 0.2,
+    "med_pos": 6
+   },
+   {
+    "team": "Racing Sant",
+    "pts_now": 7,
+    "exp_pts": 57.8,
+    "p_title": 0.1,
+    "p_top4": 27.3,
+    "p_rel": 0.4,
+    "med_pos": 6
+   },
+   {
+    "team": "Athletic Club",
+    "pts_now": 7,
+    "exp_pts": 56.7,
+    "p_title": 0.0,
+    "p_top4": 23.1,
+    "p_rel": 0.5,
+    "med_pos": 7
+   },
+   {
+    "team": "Osasuna",
+    "pts_now": 7,
+    "exp_pts": 54.3,
+    "p_title": 0.0,
+    "p_top4": 13.4,
+    "p_rel": 1.3,
+    "med_pos": 8
+   },
+   {
+    "team": "Villarreal",
+    "pts_now": 2,
+    "exp_pts": 53.5,
+    "p_title": 0.0,
+    "p_top4": 11.7,
+    "p_rel": 1.6,
+    "med_pos": 8
+   },
+   {
+    "team": "Rayo Vallecano",
+    "pts_now": 4,
+    "exp_pts": 49.6,
+    "p_title": 0.0,
+    "p_top4": 4.6,
+    "p_rel": 5.5,
+    "med_pos": 11
+   },
+   {
+    "team": "Real Sociedad",
+    "pts_now": 7,
+    "exp_pts": 47.5,
+    "p_title": 0.0,
+    "p_top4": 2.1,
+    "p_rel": 8.7,
+    "med_pos": 12
+   },
+   {
+    "team": "Levante",
+    "pts_now": 5,
+    "exp_pts": 46.9,
+    "p_title": 0.0,
+    "p_top4": 2.0,
+    "p_rel": 9.9,
+    "med_pos": 13
+   },
+   {
+    "team": "Espanyol",
+    "pts_now": 7,
+    "exp_pts": 45.6,
+    "p_title": 0.0,
+    "p_top4": 1.3,
+    "p_rel": 12.7,
+    "med_pos": 13
+   },
+   {
+    "team": "Sevilla",
+    "pts_now": 10,
+    "exp_pts": 44.9,
+    "p_title": 0.0,
+    "p_top4": 1.0,
+    "p_rel": 15.0,
+    "med_pos": 14
+   },
+   {
+    "team": "Dep. A Coruña",
+    "pts_now": 9,
+    "exp_pts": 44.6,
+    "p_title": 0.0,
+    "p_top4": 1.1,
+    "p_rel": 15.5,
+    "med_pos": 14
+   },
+   {
+    "team": "Celta Vigo",
+    "pts_now": 4,
+    "exp_pts": 43.1,
+    "p_title": 0.0,
+    "p_top4": 0.6,
+    "p_rel": 20.9,
+    "med_pos": 15
+   },
+   {
+    "team": "Valencia",
+    "pts_now": 1,
+    "exp_pts": 42.0,
+    "p_title": 0.0,
+    "p_top4": 0.3,
+    "p_rel": 28.7,
+    "med_pos": 16
+   },
+   {
+    "team": "Getafe",
+    "pts_now": 5,
+    "exp_pts": 40.4,
+    "p_title": 0.0,
+    "p_top4": 0.2,
+    "p_rel": 35.7,
+    "med_pos": 16
+   },
+   {
+    "team": "Elche",
+    "pts_now": 2,
+    "exp_pts": 36.5,
+    "p_title": 0.0,
+    "p_top4": 0.1,
+    "p_rel": 59.9,
+    "med_pos": 18
+   },
+   {
+    "team": "Málaga",
+    "pts_now": 3,
+    "exp_pts": 31.8,
+    "p_title": 0.0,
+    "p_top4": 0.0,
+    "p_rel": 83.3,
+    "med_pos": 20
+   }
+  ],
+  "ITA-Serie A": [
+   {
+    "team": "Inter",
+    "pts_now": 12,
+    "exp_pts": 86.0,
+    "p_title": 65.9,
+    "p_top4": 99.3,
+    "p_rel": 0.0,
+    "med_pos": 1
+   },
+   {
+    "team": "Juventus",
+    "pts_now": 7,
+    "exp_pts": 77.1,
+    "p_title": 12.4,
+    "p_top4": 91.0,
+    "p_rel": 0.0,
+    "med_pos": 3
+   },
+   {
+    "team": "Roma",
+    "pts_now": 12,
+    "exp_pts": 76.8,
+    "p_title": 13.2,
+    "p_top4": 90.2,
+    "p_rel": 0.0,
+    "med_pos": 3
+   },
+   {
+    "team": "Como",
+    "pts_now": 10,
+    "exp_pts": 75.1,
+    "p_title": 8.2,
+    "p_top4": 85.3,
+    "p_rel": 0.0,
+    "med_pos": 3
+   },
+   {
+    "team": "Napoli",
+    "pts_now": 6,
+    "exp_pts": 61.9,
+    "p_title": 0.2,
+    "p_top4": 14.6,
+    "p_rel": 0.0,
+    "med_pos": 6
+   },
+   {
+    "team": "Milan",
+    "pts_now": 8,
+    "exp_pts": 61.5,
+    "p_title": 0.2,
+    "p_top4": 13.0,
+    "p_rel": 0.0,
+    "med_pos": 6
+   },
+   {
+    "team": "Atalanta",
+    "pts_now": 6,
+    "exp_pts": 54.8,
+    "p_title": 0.0,
+    "p_top4": 2.6,
+    "p_rel": 0.4,
+    "med_pos": 8
+   },
+   {
+    "team": "Lazio",
+    "pts_now": 10,
+    "exp_pts": 54.5,
+    "p_title": 0.0,
+    "p_top4": 2.6,
+    "p_rel": 0.4,
+    "med_pos": 8
+   },
+   {
+    "team": "Sassuolo",
+    "pts_now": 7,
+    "exp_pts": 49.1,
+    "p_title": 0.0,
+    "p_top4": 0.4,
+    "p_rel": 2.5,
+    "med_pos": 11
+   },
+   {
+    "team": "Monza",
+    "pts_now": 1,
+    "exp_pts": 49.0,
+    "p_title": 0.0,
+    "p_top4": 0.5,
+    "p_rel": 3.0,
+    "med_pos": 11
+   },
+   {
+    "team": "Bologna",
+    "pts_now": 1,
+    "exp_pts": 47.4,
+    "p_title": 0.0,
+    "p_top4": 0.2,
+    "p_rel": 4.7,
+    "med_pos": 11
+   },
+   {
+    "team": "Fiorentina",
+    "pts_now": 3,
+    "exp_pts": 46.4,
+    "p_title": 0.0,
+    "p_top4": 0.2,
+    "p_rel": 5.9,
+    "med_pos": 12
+   },
+   {
+    "team": "Cagliari",
+    "pts_now": 9,
+    "exp_pts": 44.4,
+    "p_title": 0.0,
+    "p_top4": 0.1,
+    "p_rel": 8.5,
+    "med_pos": 13
+   },
+   {
+    "team": "Torino",
+    "pts_now": 3,
+    "exp_pts": 43.3,
+    "p_title": 0.0,
+    "p_top4": 0.1,
+    "p_rel": 11.6,
+    "med_pos": 14
+   },
+   {
+    "team": "Udinese",
+    "pts_now": 4,
+    "exp_pts": 42.9,
+    "p_title": 0.0,
+    "p_top4": 0.0,
+    "p_rel": 13.1,
+    "med_pos": 14
+   },
+   {
+    "team": "Genoa",
+    "pts_now": 1,
+    "exp_pts": 40.5,
+    "p_title": 0.0,
+    "p_top4": 0.0,
+    "p_rel": 21.6,
+    "med_pos": 15
+   },
+   {
+    "team": "Frosinone",
+    "pts_now": 7,
+    "exp_pts": 40.2,
+    "p_title": 0.0,
+    "p_top4": 0.0,
+    "p_rel": 22.0,
+    "med_pos": 15
+   },
+   {
+    "team": "Lecce",
+    "pts_now": 6,
+    "exp_pts": 35.0,
+    "p_title": 0.0,
+    "p_top4": 0.0,
+    "p_rel": 52.3,
+    "med_pos": 18
+   },
+   {
+    "team": "Venezia",
+    "pts_now": 0,
+    "exp_pts": 31.7,
+    "p_title": 0.0,
+    "p_top4": 0.0,
+    "p_rel": 70.5,
+    "med_pos": 19
+   },
+   {
+    "team": "Parma",
+    "pts_now": 1,
+    "exp_pts": 28.7,
+    "p_title": 0.0,
+    "p_top4": 0.0,
+    "p_rel": 83.4,
+    "med_pos": 19
+   }
+  ],
+  "GER-Bundesliga": [
+   {
+    "team": "Bayern Munich",
+    "pts_now": 7,
+    "exp_pts": 76.0,
+    "p_title": 79.2,
+    "p_top4": 99.6,
+    "p_rel": 0.0,
+    "med_pos": 1
+   },
+   {
+    "team": "Dortmund",
+    "pts_now": 9,
+    "exp_pts": 66.0,
+    "p_title": 12.8,
+    "p_top4": 87.4,
+    "p_rel": 0.0,
+    "med_pos": 2
+   },
+   {
+    "team": "RB Leipzig",
+    "pts_now": 6,
+    "exp_pts": 60.9,
+    "p_title": 4.2,
+    "p_top4": 68.9,
+    "p_rel": 0.0,
+    "med_pos": 4
+   },
+   {
+    "team": "Leverkusen",
+    "pts_now": 4,
+    "exp_pts": 60.0,
+    "p_title": 3.0,
+    "p_top4": 64.1,
+    "p_rel": 0.0,
+    "med_pos": 4
+   },
+   {
+    "team": "Stuttgart",
+    "pts_now": 3,
+    "exp_pts": 52.6,
+    "p_title": 0.2,
+    "p_top4": 20.2,
+    "p_rel": 0.3,
+    "med_pos": 6
+   },
+   {
+    "team": "Freiburg",
+    "pts_now": 9,
+    "exp_pts": 51.7,
+    "p_title": 0.2,
+    "p_top4": 18.8,
+    "p_rel": 0.3,
+    "med_pos": 7
+   },
+   {
+    "team": "Hoffenheim",
+    "pts_now": 3,
+    "exp_pts": 51.5,
+    "p_title": 0.2,
+    "p_top4": 16.8,
+    "p_rel": 0.3,
+    "med_pos": 7
+   },
+   {
+    "team": "Mainz 05",
+    "pts_now": 4,
+    "exp_pts": 50.0,
+    "p_title": 0.1,
+    "p_top4": 13.0,
+    "p_rel": 0.5,
+    "med_pos": 8
+   },
+   {
+    "team": "Augsburg",
+    "pts_now": 7,
+    "exp_pts": 45.6,
+    "p_title": 0.0,
+    "p_top4": 4.3,
+    "p_rel": 2.3,
+    "med_pos": 9
+   },
+   {
+    "team": "Frankfurt",
+    "pts_now": 4,
+    "exp_pts": 45.3,
+    "p_title": 0.0,
+    "p_top4": 3.6,
+    "p_rel": 3.0,
+    "med_pos": 10
+   },
+   {
+    "team": "Köln",
+    "pts_now": 4,
+    "exp_pts": 44.0,
+    "p_title": 0.0,
+    "p_top4": 2.5,
+    "p_rel": 4.5,
+    "med_pos": 10
+   },
+   {
+    "team": "Union Berlin",
+    "pts_now": 1,
+    "exp_pts": 37.3,
+    "p_title": 0.0,
+    "p_top4": 0.3,
+    "p_rel": 21.9,
+    "med_pos": 13
+   },
+   {
+    "team": "Elversberg",
+    "pts_now": 6,
+    "exp_pts": 37.2,
+    "p_title": 0.0,
+    "p_top4": 0.2,
+    "p_rel": 21.1,
+    "med_pos": 13
+   },
+   {
+    "team": "Werder Bremen",
+    "pts_now": 4,
+    "exp_pts": 36.6,
+    "p_title": 0.0,
+    "p_top4": 0.2,
+    "p_rel": 23.3,
+    "med_pos": 14
+   },
+   {
+    "team": "Gladbach",
+    "pts_now": 0,
+    "exp_pts": 35.4,
+    "p_title": 0.0,
+    "p_top4": 0.1,
+    "p_rel": 33.3,
+    "med_pos": 14
+   },
+   {
+    "team": "Schalke 04",
+    "pts_now": 4,
+    "exp_pts": 33.0,
+    "p_title": 0.0,
+    "p_top4": 0.1,
+    "p_rel": 44.6,
+    "med_pos": 15
+   },
+   {
+    "team": "Hamburger SV",
+    "pts_now": 0,
+    "exp_pts": 30.2,
+    "p_title": 0.0,
+    "p_top4": 0.0,
+    "p_rel": 64.8,
+    "med_pos": 16
+   },
+   {
+    "team": "Paderborn 07",
+    "pts_now": 1,
+    "exp_pts": 26.9,
+    "p_title": 0.0,
+    "p_top4": 0.0,
+    "p_rel": 79.8,
+    "med_pos": 17
+   }
+  ],
+  "FRA-Ligue 1": [
+   {
+    "team": "PSG",
+    "pts_now": 5,
+    "exp_pts": 69.0,
+    "p_title": 62.3,
+    "p_top4": 96.4,
+    "p_rel": 0.0,
+    "med_pos": 1
+   },
+   {
+    "team": "Lens",
+    "pts_now": 4,
+    "exp_pts": 61.6,
+    "p_title": 15.8,
+    "p_top4": 76.3,
+    "p_rel": 0.0,
+    "med_pos": 3
+   },
+   {
+    "team": "Lille",
+    "pts_now": 10,
+    "exp_pts": 60.3,
+    "p_title": 11.4,
+    "p_top4": 69.1,
+    "p_rel": 0.0,
+    "med_pos": 3
+   },
+   {
+    "team": "Monaco",
+    "pts_now": 10,
+    "exp_pts": 56.9,
+    "p_title": 5.1,
+    "p_top4": 48.7,
+    "p_rel": 0.1,
+    "med_pos": 5
+   },
+   {
+    "team": "Lyon",
+    "pts_now": 8,
+    "exp_pts": 52.8,
+    "p_title": 1.7,
+    "p_top4": 27.4,
+    "p_rel": 0.1,
+    "med_pos": 6
+   },
+   {
+    "team": "Marseille",
+    "pts_now": 3,
+    "exp_pts": 52.5,
+    "p_title": 1.4,
+    "p_top4": 25.6,
+    "p_rel": 0.2,
+    "med_pos": 6
+   },
+   {
+    "team": "Strasbourg",
+    "pts_now": 7,
+    "exp_pts": 51.0,
+    "p_title": 0.9,
+    "p_top4": 18.1,
+    "p_rel": 0.3,
+    "med_pos": 7
+   },
+   {
+    "team": "Rennes",
+    "pts_now": 10,
+    "exp_pts": 50.1,
+    "p_title": 0.6,
+    "p_top4": 14.5,
+    "p_rel": 0.8,
+    "med_pos": 8
+   },
+   {
+    "team": "Paris FC",
+    "pts_now": 8,
+    "exp_pts": 49.4,
+    "p_title": 0.6,
+    "p_top4": 13.2,
+    "p_rel": 0.5,
+    "med_pos": 8
+   },
+   {
+    "team": "Toulouse",
+    "pts_now": 2,
+    "exp_pts": 45.5,
+    "p_title": 0.1,
+    "p_top4": 4.4,
+    "p_rel": 2.7,
+    "med_pos": 10
+   },
+   {
+    "team": "Brest",
+    "pts_now": 5,
+    "exp_pts": 44.4,
+    "p_title": 0.0,
+    "p_top4": 3.7,
+    "p_rel": 3.9,
+    "med_pos": 10
+   },
+   {
+    "team": "Lorient",
+    "pts_now": 5,
+    "exp_pts": 43.2,
+    "p_title": 0.0,
+    "p_top4": 2.3,
+    "p_rel": 5.4,
+    "med_pos": 11
+   },
+   {
+    "team": "Auxerre",
+    "pts_now": 3,
+    "exp_pts": 36.0,
+    "p_title": 0.0,
+    "p_top4": 0.1,
+    "p_rel": 30.1,
+    "med_pos": 14
+   },
+   {
+    "team": "Le Mans",
+    "pts_now": 3,
+    "exp_pts": 34.0,
+    "p_title": 0.0,
+    "p_top4": 0.1,
+    "p_rel": 39.2,
+    "med_pos": 15
+   },
+   {
+    "team": "Nice",
+    "pts_now": 2,
+    "exp_pts": 32.9,
+    "p_title": 0.0,
+    "p_top4": 0.1,
+    "p_rel": 46.9,
+    "med_pos": 15
+   },
+   {
+    "team": "Troyes",
+    "pts_now": 4,
+    "exp_pts": 32.1,
+    "p_title": 0.0,
+    "p_top4": 0.0,
+    "p_rel": 53.3,
+    "med_pos": 16
+   },
+   {
+    "team": "Le Havre",
+    "pts_now": 2,
+    "exp_pts": 31.3,
+    "p_title": 0.0,
+    "p_top4": 0.1,
+    "p_rel": 56.5,
+    "med_pos": 16
+   },
+   {
+    "team": "Angers",
+    "pts_now": 4,
+    "exp_pts": 30.8,
+    "p_title": 0.0,
+    "p_top4": 0.0,
+    "p_rel": 60.0,
+    "med_pos": 16
+   }
+  ]
+ },
+ "as_of": "2026-09-15"
+}
