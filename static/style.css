@@ -482,13 +482,13 @@ details.fixture-why { margin: 4px 0; }
 details.fixture-why summary { cursor: pointer; color: var(--ink-2); font-size: 13px; }
 .scorelines { color: var(--ink-3); font-size: 12px; }
 
-/* table page: season simulation — projected finish + predicted scores */
-.simsplit { margin-top: 10px; align-items: start; }
-.simh { margin: 10px 0 6px; }
-details.rnd { border: 1px solid var(--line); border-radius: 8px;
-  background: var(--card); padding: 4px 12px; margin: 6px 0; }
-details.rnd summary { cursor: pointer; font-size: 13px; font-weight: 600;
-  padding: 4px 0; }
+/* table page: season simulation — table toggle + next-round predicted scores */
+.tblswitch { display: flex; gap: 6px; margin: 0 0 8px; }
+.tswb { font: inherit; font-size: 12.5px; font-weight: 600; padding: 3px 12px;
+  border-radius: 999px; border: 1px solid var(--line); background: #fff;
+  color: var(--ink-2); cursor: pointer; }
+.tswb.on { border-color: #4a90c2; background: #e3eef7; color: #123a52; }
+.nextrnd { margin-top: 16px; }
 table.predfx td { padding: 3px 6px; }
 .predfx .fxdate { font-size: 11px; white-space: nowrap; }
 .predfx .fxh { text-align: right; white-space: nowrap; }
