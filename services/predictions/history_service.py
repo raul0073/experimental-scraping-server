@@ -52,7 +52,10 @@ class HistoryService:
                 if key in seen:
                     continue
                 seen.add(key)
-                pred_outcome = max(p["probabilities"], key=p["probabilities"].get)
+                # the model's stated call (draw-ceiling rule); older rows were
+                # recorded under pure argmax and stand as recorded
+                pred_outcome = p.get("call") or max(p["probabilities"],
+                                                    key=p["probabilities"].get)
                 rows.append({
                     "recorded_at": now,
                     "retro": retro,

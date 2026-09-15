@@ -67,6 +67,14 @@
       <span class="hp"><b>{{ (pred.probabilities.away * 100) | round }}%</b><i>away</i></span>
     </div>
     <div class="hbar"><span style="width: {{ (pred.probabilities.home * 100) | round(1) }}%"></span><span class="d" style="width: {{ (pred.probabilities.draw * 100) | round(1) }}%"></span><span class="a" style="width: {{ (pred.probabilities.away * 100) | round(1) }}%"></span></div>
+    {% set pm = pred.probabilities %}
+    {% set call = pred.call or ('home' if pm.home >= pm.draw and pm.home >= pm.away else ('draw' if pm.draw >= pm.away else 'away')) %}
+    <div class="hcall" title="the model's stated call (draw once P(draw) ≥ 32% — the draw ceiling) + its most likely scoreline ({{ (pred.modal_scores[call][1] * 100) | round(1) }}% for this exact score)">
+      <span class="hcalltag">our call</span>
+      <span class="callchip c{{ {'home': '1', 'draw': 'x', 'away': '2'}[call] }}">{{ {'home': '1', 'draw': '✕', 'away': '2'}[call] }}</span>
+      <strong>{{ home ~ ' win' if call == 'home' else (away ~ ' win' if call == 'away' else 'Draw') }}</strong>
+      · {{ pred.modal_scores[call][0] }} <span class="meta">@ {{ (pm[call] * 100) | round }}%</span>
+    </div>
     <div class="hxg">xG {{ pred.xg[home] }}–{{ pred.xg[away] }} &nbsp;·&nbsp; likely scores
       H {{ pred.modal_scores.home[0] }} · D {{ pred.modal_scores.draw[0] }} · A {{ pred.modal_scores.away[0] }}</div>
     {% if pred.draw_drivers %}

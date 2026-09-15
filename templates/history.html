@@ -27,11 +27,12 @@
 
 <h2>Every prediction, graded</h2>
 <p class="meta">Two different questions live here: the <strong>bold team</strong> and Verdict grade the model's
-   <em>most likely single outcome</em> (argmax of H/D/A) — while a <span class="badge pickchip">X pick</span> chip
-   marks a fixture we actually BET, judged by its own market. A draw is a ~20–34% event, so it is almost never
-   the argmax — no bold team + an <span class="vbadge xdraw">X call</span> badge marks the rare rows where it is
-   (e.g. a 33/34/33 coin-flip). "✗ outcome, X pick ✓" is the strategy working, not a contradiction — bet money
-   lives in Ledger &amp; Monkey.</p>
+   <em>stated call</em> — while a <span class="badge pickchip">X pick</span> chip
+   marks a fixture we actually BET, judged by its own market. A draw caps at ~32–35% so a pure argmax almost
+   never says it; since 2026-09-15 the call is a <span class="vbadge xdraw">X call</span> (no bold team) whenever
+   P(draw) reaches the <strong>32% draw ceiling</strong> — football has ~26% draws and the page should say so
+   (older rows were recorded under pure argmax and stand as recorded). "✗ outcome, X pick ✓" is the strategy
+   working, not a contradiction — bet money lives in Ledger &amp; Monkey.</p>
 <table>
   <thead>
     <tr><th>Kickoff</th><th>League</th><th>Fixture</th><th>H / D / A</th>
@@ -45,7 +46,7 @@
       <td><span class="badge lgbadge"><img src="{{ league_crest(r.league) }}" width="14" height="14" alt="" onerror="this.remove()">{{ r.league.split('-')[1] }}</span></td>
       <td>{% if r.pred_outcome == 'home' %}<strong>{{ r.home }}</strong> v {{ r.away }}
           {% elif r.pred_outcome == 'away' %}{{ r.home }} v <strong>{{ r.away }}</strong>
-          {% else %}{{ r.home }} v {{ r.away }} <span class="vbadge xdraw" title="rare: the model's most likely single outcome here IS the draw">X call</span>{% endif %}
+          {% else %}{{ r.home }} v {{ r.away }} <span class="vbadge xdraw" title="the model's stated call is the draw (P(draw) at the 32% ceiling, or pre-rule argmax)">X call</span>{% endif %}
           {% if r.tier == 'gold' %}<span class="vbadge tgold">G</span>{% elif r.tier == 'silver' %}<span class="vbadge tsilver">S</span>{% endif %}
           {% if r.confidence == 'low' %}<span class="badge low">low conf</span>{% endif %}
           {% if r.pick %}<span class="badge pickchip {{ 'win' if r.pick.hit else 'loss' if r.pick.hit is not none else '' }}"

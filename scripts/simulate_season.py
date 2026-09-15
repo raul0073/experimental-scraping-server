@@ -33,13 +33,14 @@ OUT_PATH = Path(__file__).resolve().parent.parent / "data" / "reports" / f"seaso
 
 
 def _fixture_rows(preds):
-    """The predictor's call per fixture: argmax outcome of the unified
-    triplet + the modal scoreline GIVEN that outcome (the unconditional
-    mode is misleadingly 1-1 for even games)."""
+    """The predictor's call per fixture (draw-ceiling rule via the shared
+    call_outcome) + the modal scoreline GIVEN that outcome (the
+    unconditional mode is misleadingly 1-1 for even games)."""
+    from services.predictions.probability_service import call_outcome
     rows = []
     for p in preds:
         pr = p["probabilities"]
-        call = max(pr, key=pr.get)
+        call = p.get("call") or call_outcome(pr)
         modal = (p.get("modal_scores") or {}).get(call) or ("", 0.0)
         score = modal[0] or (p.get("top_scorelines") or [("?", 0)])[0][0]
         rows.append({

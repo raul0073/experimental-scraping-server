@@ -9,7 +9,9 @@
    board: xG+xA per 90, minimum 180 minutes.
    {% if sim %}Flip any table to <strong>Projected finish</strong> — the predictor priced every remaining fixture and
    replayed the season {{ '{:,}'.format(sim.sims) }} times (as of {{ sim.as_of }}; ratings frozen at today — no
-   transfers or injuries simulated). Next round's predicted scores sit under the players board.{% endif %}</p>
+   transfers or injuries simulated). Next round's predicted scores sit under the players board — the call flips
+   to <strong>✕ draw once P(draw) reaches 32%</strong> (the draw ceiling): football has ~26% draws and a pure
+   argmax would almost never say so.{% endif %}</p>
 
 {% for L in leagues %}
 {% set b = L.badge %}

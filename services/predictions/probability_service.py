@@ -65,6 +65,23 @@ def unified_probs(poisson: Dict[str, float], p_draw_clf: float | None) -> Dict[s
             "away": round(poisson["away"] / s * rest, 4)}
 
 
+# A pure argmax essentially never says draw (draws cap at ~32-35% while a
+# win side spreads to 36%+), which misrepresents football — ~26% of matches
+# draw. Rule (user decision 2026-09-15, threshold picked by sweep on the 194
+# graded live rows): once the calibrated draw probability reaches the
+# validated draw CEILING zone, the call is a draw. At 0.32 the flip costs
+# 0.0pp realized accuracy (51.0% -> 51.0%) and those draw calls hit 34.9%
+# vs the 26.8% base rate; 0.30 would cost 6pp.
+DRAW_CALL_MIN = 0.32
+
+
+def call_outcome(probs: Dict[str, float]) -> str:
+    """The model's single stated call for a fixture."""
+    if probs.get("draw", 0.0) >= DRAW_CALL_MIN:
+        return "draw"
+    return max(probs, key=probs.get)
+
+
 def modal_scores_by_outcome(lam_home: float, lam_away: float,
                             rho: float = 0.0) -> Dict[str, Tuple[str, float]]:
     """Most likely scoreline GIVEN each outcome. The unconditional modal

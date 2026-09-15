@@ -319,6 +319,9 @@ tbody tr.alt td strong { font-weight: 500; }
 .hero .hprobs .mid b { color: #8a6d00; }
 .hero .hprobs i { font-style: normal; font-size: 10.5px; color: var(--ink-3);
   text-transform: uppercase; letter-spacing: .07em; }
+.hero .hcall { margin: 9px 0 1px; font-size: 14px; }
+.hero .hcall .hcalltag { font-size: 10px; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--ink-3); margin-right: 4px; }
 .hero .hbar { display: flex; height: 6px; border-radius: 4px; overflow: hidden;
   margin: 9px auto 7px; max-width: 340px; background: #eee; }
 .hero .hbar span { background: #4a90c2; }

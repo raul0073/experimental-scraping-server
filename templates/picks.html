@@ -45,7 +45,7 @@
         </span>
       </td>
       <td class="num">{{ p.xg[p.home] }} – {{ p.xg[p.away] }}</td>
-      <td><a href="/dashboard/match?league={{ p.league | urlencode }}&home={{ p.home | urlencode }}&away={{ p.away | urlencode }}">zones →</a></td>
+      <td><a href="/dashboard/match?league={{ p.league | urlencode }}&home={{ p.home | urlencode }}&away={{ p.away | urlencode }}">match stats →</a></td>
     </tr>
     {% endfor %}
   </tbody>
@@ -234,7 +234,7 @@
       </td>
       <td class="num">{{ (1 / p.pick_prob) | round(2) }}</td>
       <td class="num">{{ p.xg[p.home] }} – {{ p.xg[p.away] }}</td>
-      <td><a href="/dashboard/match?league={{ p.league | urlencode }}&home={{ p.home | urlencode }}&away={{ p.away | urlencode }}">zones →</a></td>
+      <td><a href="/dashboard/match?league={{ p.league | urlencode }}&home={{ p.home | urlencode }}&away={{ p.away | urlencode }}">match stats →</a></td>
     </tr>
     {% endfor %}
   </tbody>

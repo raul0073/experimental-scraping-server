@@ -73,7 +73,7 @@
       {% else %}
       <td class="num pending">—</td><td><span class="pending">{{ 'pending' if r.src == 'frozen' else '' }}</span></td>
       {% endif %}
-      <td><a href="/dashboard/match?league={{ s.league | urlencode }}&home={{ r.home | urlencode }}&away={{ r.away | urlencode }}">zones →</a></td>
+      <td><a href="/dashboard/match?league={{ s.league | urlencode }}&home={{ r.home | urlencode }}&away={{ r.away | urlencode }}">match stats →</a></td>
     </tr>
     {% endfor %}
   </tbody>

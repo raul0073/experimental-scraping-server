@@ -9,6 +9,7 @@ from services.fbref.fixtures.fixtures_service import FixturesService
 from services.predictions.draw_model import DrawModel
 from services.predictions.form_model import FormModel
 from services.predictions.probability_service import (
+    call_outcome,
     modal_scores_by_outcome,
     outcome_probs,
     top_scorelines,
@@ -145,6 +146,9 @@ class PredictionService:
                 "xg": {m["home_team"]: round(lam_h, 2), m["away_team"]: round(lam_a, 2)},
                 # official triplet: classifier-calibrated draw, Poisson H:A ratio
                 "probabilities": probs_unified,
+                # the model's stated call: draw once P(draw) hits the ceiling
+                # zone (DRAW_CALL_MIN), else argmax — football has ~26% draws
+                "call": call_outcome(probs_unified),
                 "probabilities_poisson": probs,
                 "p_draw_classifier": p_draw_clf,
                 "draw_drivers": draw_drivers,
