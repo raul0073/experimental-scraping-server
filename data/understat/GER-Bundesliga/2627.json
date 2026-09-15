@@ -1,7 +1,7 @@
 {
   "league": "GER-Bundesliga",
   "season": "2627",
-  "match_count": 25,
+  "match_count": 27,
   "matches": [
     {
       "date": "2026-08-28",
@@ -477,6 +477,44 @@
       "home_xpts": 1.4039000000000001,
       "away_xpts": 1.3304,
       "understat_game_id": 32266
+    },
+    {
+      "date": "2026-09-13",
+      "understat_date": "2026-09-13",
+      "home_team": "Elversberg",
+      "away_team": "Bayern Munich",
+      "home_goals": 1,
+      "away_goals": 2,
+      "home_xg": 1.02972,
+      "away_xg": 3.06035,
+      "home_npxg": 1.02972,
+      "away_npxg": 3.06035,
+      "home_ppda": 23.764705882352942,
+      "away_ppda": 7.321428571428571,
+      "home_deep": 3,
+      "away_deep": 19,
+      "home_xpts": 0.3028,
+      "away_xpts": 2.5738000000000003,
+      "understat_game_id": 32760
+    },
+    {
+      "date": "2026-09-13",
+      "understat_date": "2026-09-13",
+      "home_team": "RB Leipzig",
+      "away_team": "Hamburger SV",
+      "home_goals": 5,
+      "away_goals": 0,
+      "home_xg": 2.4682,
+      "away_xg": 0.508374,
+      "home_npxg": 2.4682,
+      "away_npxg": 0.508374,
+      "home_ppda": 9.8,
+      "away_ppda": 18.6,
+      "home_deep": 13,
+      "away_deep": 5,
+      "home_xpts": 2.6721,
+      "away_xpts": 0.21989999999999998,
+      "understat_game_id": 32270
     }
   ]
 }

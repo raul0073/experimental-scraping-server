@@ -2,7 +2,7 @@
   "league": "FRA-Ligue 1",
   "season": "2627",
   "match_count": 306,
-  "played_count": 33,
+  "played_count": 36,
   "matches": [
     {
       "date": "2026-08-21",
@@ -439,11 +439,11 @@
       "week": 4,
       "home_team": "Brest",
       "away_team": "PSG",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 0,
+      "away_goals": 1,
+      "played": true,
       "venue": "Stade Francis-Le Blé",
-      "referee": null,
+      "referee": "Willy Delajod",
       "game_id": "2026-09-13 Brest-Paris SG"
     },
     {
@@ -452,11 +452,11 @@
       "week": 4,
       "home_team": "Le Mans",
       "away_team": "Lens",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 2,
+      "played": true,
       "venue": "Stade Marie Marvingt",
-      "referee": null,
+      "referee": "Hakim Ben El Hadj Salem",
       "game_id": "2026-09-13 Le Mans-Lens"
     },
     {
@@ -465,11 +465,11 @@
       "week": 4,
       "home_team": "Lille",
       "away_team": "Troyes",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 0,
+      "played": true,
       "venue": "Decathlon Arena - Stade Pierre-Mauroy",
-      "referee": null,
+      "referee": "Romain Lissorgue",
       "game_id": "2026-09-13 Lille-Troyes"
     },
     {

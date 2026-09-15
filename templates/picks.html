@@ -105,7 +105,8 @@
 
 <div class="slip">
   <div class="slip-head">
-    <span class="slip-title">THE MOVE: <bdi>{{ st.slip.title_he }}</bdi> · {{ st.slip.title_en }}</span>
+    <span class="slip-title">THE MOVE: <bdi>{{ st.slip.title_he }}</bdi> · {{ st.slip.title_en }}
+      {% if booked %}<span class="bookedtag">✓ BOOKED — running in the Monkey{% if booked == 'graded' %} · graded{% endif %}</span>{% endif %}</span>
     <span class="slip-stats">{{ st.slip.lines }} lines ·
       P(any cash back) {{ (st.slip.p_return * 100) | round }}% ·
       <strong>P(PROFIT) {{ (st.slip.p_profit * 100) | round }}%</strong></span>

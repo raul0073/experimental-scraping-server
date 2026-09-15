@@ -493,10 +493,33 @@ async def picks_page(request: Request, start: Optional[str] = Query(None)):
         except ValueError:
             pass
 
+    # while a slip overlapping this window is pending, THE MOVE shows the
+    # COMMITTED bet (frozen legs + its exact scenario math), not a fresh idea
+    from services.predictions.slip_ledger import SlipLedger
+    from services.predictions.strategy_advisor import system_scenarios
+    booked = None
+    win_start = (data.get("window") or {}).get("start") or ""
+    win_end = (data.get("window") or {}).get("end") or ""
+    slip_row = next((r for r in SlipLedger._read() if r["status"] == "pending"
+                     and any(win_start <= (l.get("kickoff") or "") <= win_end
+                             for l in r["legs"])), None)
+    if slip_row and data.get("strategy"):
+        scen = system_scenarios(slip_row["legs"], slip_row["k"])
+        data["strategy"]["slip"] = {
+            "title_he": slip_row["title_he"], "title_en": slip_row["title_en"],
+            "k": slip_row["k"], "lines": slip_row["lines"],
+            "p_profit": slip_row.get("p_profit", 0),
+            "p_return": round(sum(s["p"] for s in scen if s["lines_won"] > 0), 4),
+            "legs": slip_row["legs"], "scenarios": scen, "alternatives": [],
+            "how": "this exact form is committed in the Monkey — it grades at the "
+                   "frozen breakeven prices above once every leg finishes.",
+        }
+        booked = slip_row["status"]
+
     return templates.TemplateResponse(request, "picks.html",
                                       {"data": data, "week_label": week_label,
                                        "last_update": last_update, "stale": stale,
-                                       "page": "picks"})
+                                       "booked": booked, "page": "picks"})
 
 
 @router.get("/dashboard/ledger", response_class=HTMLResponse)
@@ -844,7 +867,8 @@ async def monkey_page(request: Request):
     st = (weekly or {}).get("strategy") or {}
     win = (weekly or {}).get("window") or {}
     if st.get("slip") and win.get("start"):
-        booked = any(r["window"] == win["start"] for r in m["weeks"])
+        booked = any(r["status"] == "pending" for r in m["weeks"]) \
+            or any(r["window"] == win["start"] for r in m["weeks"])
         if not booked:
             from datetime import date, timedelta
             s = st["slip"]

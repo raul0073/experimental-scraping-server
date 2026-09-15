@@ -180,6 +180,39 @@ class PredictionService:
                         latest = k
         return latest
 
+    @staticmethod
+    def _pending_bets_span() -> Optional[tuple]:
+        """(first upcoming kickoff, last kickoff) across PENDING bets. While a
+        booked round is still in play the dashboard must show THAT round —
+        not leap to the next one (bug caught 2026-09-15: booking Monday made
+        the dash skip to October while the live bet hadn't kicked off).
+        Already-played kickoffs inside a still-pending group (gold grades as
+        a block) don't drag the span backwards."""
+        import json as _json
+        from datetime import date as _d
+        ks: list = []
+        for path, kicks in (
+                (Path("data/ledger/picks.jsonl"),
+                 lambda r: [r.get("kickoff")] if r.get("status") == "pending" else []),
+                (Path("data/slips/slips.jsonl"),
+                 lambda r: [l.get("kickoff") for l in r.get("legs", [])]
+                 if r.get("status") == "pending" else []),
+                (Path("data/slips/gold.jsonl"),
+                 lambda r: [b.get("kickoff") for b in r.get("bets", [])]
+                 if r.get("status") == "pending" else [])):
+            if not path.exists():
+                continue
+            for line in path.read_text(encoding="utf-8").splitlines():
+                if line.strip():
+                    ks.extend(k for k in kicks(_json.loads(line)) if k)
+        if not ks:
+            return None
+        today = _d.today().isoformat()
+        future = [k for k in ks if k >= today]
+        if not future:
+            return None  # all played, grading lag — fall through to next round
+        return min(future), max(ks)
+
     def weekly_picks(self, start: Optional[str] = None) -> Dict[str, Any]:
         """Weekend-based selection: league round numbers drift (Serie A can be
         on round 2 while the EPL is on round 1, cup weeks shift things), so the
@@ -192,11 +225,21 @@ class PredictionService:
         if start:
             unplayed = {lg: [m for m in ms if m["date"] >= start]
                         for lg, ms in unplayed.items()}
-        else:
-            last_end = self._last_bet_end()
-            if last_end:
-                unplayed = {lg: [m for m in ms if m["date"] > last_end]
+        pending_span = None
+        if not start:
+            # while a booked round is pending, show exactly its remaining
+            # span (no re-clustering, no fresh move); once it fully grades,
+            # move past the last bet to the next round
+            pending_span = self._pending_bets_span()
+            if pending_span:
+                lo, hi = pending_span
+                unplayed = {lg: [m for m in ms if lo <= m["date"] <= hi]
                             for lg, ms in unplayed.items()}
+            else:
+                last_end = self._last_bet_end()
+                if last_end:
+                    unplayed = {lg: [m for m in ms if m["date"] > last_end]
+                                for lg, ms in unplayed.items()}
 
         def league_cluster(ms):
             """A league's NEXT round = the fbref ROUND NUMBER of its earliest
@@ -214,28 +257,39 @@ class PredictionService:
                                  - _date.fromisoformat(first)).days <= WINDOW_MAX_DAYS})
             return first, dates[-1], wk
 
-        clusters = {lg: league_cluster(ms) for lg, ms in unplayed.items()}
-        starts = [c[0] for c in clusters.values() if c]
-        if not starts:
-            return {"season": SEASON, "window": None, "weeks": {},
-                    "draw_picks": [], "draw_candidates": [], "home_win_picks": [],
-                    "trixy": None, "all_predictions": {}, "strategy": None}
-        earliest = min(starts)
-        # only leagues whose round STARTS with the pack join this window
-        active = {lg: c for lg, c in clusters.items() if c and
-                  (_date.fromisoformat(c[0]) - _date.fromisoformat(earliest)).days <= 2}
-        window_start = earliest
-        window_end = max(c[1] for c in active.values())
+        if pending_span:
+            # the booked round IS the window — every league shows its
+            # remaining games in the span, round labels come from the data
+            window_start, window_end = pending_span
+            preds: Dict[str, List[Dict]] = {}
+            for league, ms in unplayed.items():
+                rows = self.predict_fixtures(league, ms)
+                for p in rows:
+                    p["in_window"] = True
+                preds[league] = rows
+        else:
+            clusters = {lg: league_cluster(ms) for lg, ms in unplayed.items()}
+            starts = [c[0] for c in clusters.values() if c]
+            if not starts:
+                return {"season": SEASON, "window": None, "weeks": {},
+                        "draw_picks": [], "draw_candidates": [], "home_win_picks": [],
+                        "trixy": None, "all_predictions": {}, "strategy": None}
+            earliest = min(starts)
+            # only leagues whose round STARTS with the pack join this window
+            active = {lg: c for lg, c in clusters.items() if c and
+                      (_date.fromisoformat(c[0]) - _date.fromisoformat(earliest)).days <= 2}
+            window_start = earliest
+            window_end = max(c[1] for c in active.values())
 
-        preds: Dict[str, List[Dict]] = {}
-        for league, ms in unplayed.items():
-            c = active.get(league)
-            in_scope = [m for m in ms
-                        if c and m["week"] == c[2] and c[0] <= m["date"] <= c[1]]
-            rows = self.predict_fixtures(league, in_scope)
-            for p in rows:
-                p["in_window"] = True  # each league shows ONLY its own next round
-            preds[league] = rows
+            preds = {}
+            for league, ms in unplayed.items():
+                c = active.get(league)
+                in_scope = [m for m in ms
+                            if c and m["week"] == c[2] and c[0] <= m["date"] <= c[1]]
+                rows = self.predict_fixtures(league, in_scope)
+                for p in rows:
+                    p["in_window"] = True  # each league shows ONLY its own next round
+                preds[league] = rows
 
         def pick(leagues, score_fn, n, pick_type):
             pool = [p for lg in leagues for p in preds[lg]

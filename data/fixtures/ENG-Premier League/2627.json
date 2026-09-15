@@ -2,7 +2,7 @@
   "league": "ENG-Premier League",
   "season": "2627",
   "match_count": 380,
-  "played_count": 37,
+  "played_count": 40,
   "matches": [
     {
       "date": "2026-08-21",
@@ -491,11 +491,11 @@
       "week": 4,
       "home_team": "Coventry City",
       "away_team": "Brighton",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 0,
+      "away_goals": 5,
+      "played": true,
       "venue": "Coventry Building Society Arena",
-      "referee": null,
+      "referee": "Tony Harrington",
       "game_id": "2026-09-13 Coventry City-Brighton"
     },
     {
@@ -504,11 +504,11 @@
       "week": 4,
       "home_team": "Manchester Utd",
       "away_team": "Manchester City",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 0,
+      "away_goals": 1,
+      "played": true,
       "venue": "Old Trafford",
-      "referee": null,
+      "referee": "Michael Oliver",
       "game_id": "2026-09-13 Manchester Utd-Manchester City"
     },
     {
@@ -517,11 +517,11 @@
       "week": 4,
       "home_team": "Leeds United",
       "away_team": "Newcastle",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 4,
+      "away_goals": 1,
+      "played": true,
       "venue": "Elland Road",
-      "referee": null,
+      "referee": "Michael Salisbury",
       "game_id": "2026-09-14 Leeds United-Newcastle"
     },
     {
