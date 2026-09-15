@@ -94,9 +94,11 @@ tbody tr.alt td strong { font-weight: 500; }
   gap: 16px; margin: 12px 0 6px; }
 .betcard { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
   padding: 10px 14px 12px; }
-.betcard.bc-x { border-top: 3px solid #d9a300; }
-.betcard.bc-1 { border-top: 3px solid #4a90c2; }
-.betcard.bc-2 { border-top: 3px solid #e0784a; }
+.bc-x { border-top: 3px solid #d9a300; }
+.bc-1 { border-top: 3px solid #4a90c2; }
+.bc-2 { border-top: 3px solid #e0784a; }
+.tile.tlink { display: block; color: inherit; text-decoration: none; }
+.tile.tlink:hover { border-color: #b9c2ca; text-decoration: none; }
 .bethead { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
 .betrow { display: flex; align-items: center; gap: 10px; padding: 7px 2px;
   border-top: 1px solid var(--line); font-size: 13px; }

@@ -493,6 +493,19 @@ async def picks_page(request: Request, start: Optional[str] = Query(None)):
         except ValueError:
             pass
 
+    # the record strip: the ledger's overall per-type performance + the pots —
+    # the dashboard opens with what actually happened, then this week's bets
+    from services.predictions.gold_ledger import GoldLedger
+    rec = LedgerService.summary()["by_type"]
+    mk_ = None
+    try:
+        from services.predictions.slip_ledger import SlipLedger as _SL
+        _m = _SL.monkey()
+        mk_ = {"pot": _m["pot"], "net": _m["net"],
+               "gold_pot": GoldLedger.summary()["pot"]}
+    except Exception:
+        pass
+
     # while a slip overlapping this window is pending, THE MOVE shows the
     # COMMITTED bet (frozen legs + its exact scenario math), not a fresh idea
     from services.predictions.slip_ledger import SlipLedger
@@ -519,7 +532,8 @@ async def picks_page(request: Request, start: Optional[str] = Query(None)):
     return templates.TemplateResponse(request, "picks.html",
                                       {"data": data, "week_label": week_label,
                                        "last_update": last_update, "stale": stale,
-                                       "booked": booked, "page": "picks"})
+                                       "booked": booked, "rec": rec, "mk": mk_,
+                                       "page": "picks"})
 
 
 @router.get("/dashboard/ledger", response_class=HTMLResponse)

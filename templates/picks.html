@@ -68,6 +68,29 @@
 </div>
 {% endmacro %}
 
+{% if rec %}
+<div class="tiles">
+  <a class="tile tlink bc-x" href="/dashboard/ledger">
+    <div class="label">✕ Draws — record</div>
+    <div class="value">{% if rec.draw and rec.draw.graded %}{{ (rec.draw.hit_rate * 100) | round(1) }}%{% else %}—{% endif %}</div>
+    <div class="sub">{% if rec.draw and rec.draw.graded %}{{ rec.draw.hits }}/{{ rec.draw.graded }} graded · said {{ (rec.draw.avg_pick_prob * 100) | round(1) }}% avg{% else %}nothing graded yet{% endif %} · random 24.8%</div></a>
+  <a class="tile tlink bc-1" href="/dashboard/ledger">
+    <div class="label">1 Home wins — record</div>
+    <div class="value">{% if rec.home and rec.home.graded %}{{ (rec.home.hit_rate * 100) | round(1) }}%{% else %}—{% endif %}</div>
+    <div class="sub">{% if rec.home and rec.home.graded %}{{ rec.home.hits }}/{{ rec.home.graded }} graded · said {{ (rec.home.avg_pick_prob * 100) | round(1) }}% avg{% else %}nothing graded yet{% endif %} · GOLD claim 65–67%</div></a>
+  <a class="tile tlink bc-2" href="/dashboard/ledger">
+    <div class="label">2 Away wins — record</div>
+    <div class="value">{% if rec.away and rec.away.graded %}{{ (rec.away.hit_rate * 100) | round(1) }}%{% else %}—{% endif %}</div>
+    <div class="sub">{% if rec.away and rec.away.graded %}{{ rec.away.hits }}/{{ rec.away.graded }} graded · said {{ (rec.away.avg_pick_prob * 100) | round(1) }}% avg{% else %}new product — first bets book with the October round{% endif %}</div></a>
+  {% if mk %}
+  <a class="tile tlink" href="/dashboard/monkey">
+    <div class="label">🐒 Monkey pot</div>
+    <div class="value">{{ mk.pot | int }}₪</div>
+    <div class="sub">net {{ '%+d' | format(mk.net | int) }}₪ at fair prices · 🥇 GOLD pot {{ mk.gold_pot | int }}₪</div></a>
+  {% endif %}
+</div>
+{% endif %}
+
 <h2>This round's bets <span class="seasontag">window {{ data.window.start }} → {{ data.window.end }} ·
   breakeven = minimum odds worth taking · full board on the <a href="/dashboard/predictions">Predictions page</a></span></h2>
 
@@ -95,6 +118,8 @@
 </div>
 
 {% if data.trixy %}
+<h2>This ticket's outlook <span class="seasontag">probabilities BEFORE kickoff — the record strip above is
+  what has actually happened</span></h2>
 <div class="tiles">
   <div class="tile"><div class="label">Trixy: P(≥2 of 4) — money back</div>
     <div class="value">{{ (data.trixy.p_ge2 * 100) | round(1) }}%</div></div>
