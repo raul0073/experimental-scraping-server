@@ -103,8 +103,8 @@ function Flow() {
         h={54}
         fill="#f3f4f6"
         stroke="#d5d9dd"
-        title="Stamped with the score at that minute"
-        sub="level · behind · ahead · late"
+        title="Stamped with the state at that minute"
+        sub="level · behind · ahead · a man down · late"
       />
       <Node
         x={120}
@@ -114,7 +114,7 @@ function Flow() {
         fill="#e3eef7"
         stroke="#7fb0d4"
         title="ZONES — built from the players who occupy them"
-        sub="what he tried · what he won · where he touched it"
+        sub="what he tried · what he won · where he controlled it"
         bold
       />
       <Node
@@ -376,6 +376,19 @@ export default function HowItWorksPage() {
           attackers get their touches, and where it keeps losing the ball. A
           zone cannot be rated without the players who occupy it, so the zone
           and the player rating are the same measurement read at two levels.
+        </p>
+        <p className="mt-3 max-w-3xl text-[13.5px] leading-relaxed text-ink-2">
+          Two distinctions do a lot of work here.{" "}
+          <strong className="font-semibold text-ink">
+            Controlled, not touched
+          </strong>{" "}
+          — a touch counts deflections, blocks and miscontrols, which says
+          nothing about where a player operates; what matters is where he had
+          the ball and did something deliberate with it. And the state stamped
+          on each event is not only the scoreline but{" "}
+          <strong className="font-semibold text-ink">the man count</strong>: a
+          red card changes a match more than a goal does, and how a side plays
+          with ten is one of the most revealing things about it.
         </p>
 
         <Flow />
