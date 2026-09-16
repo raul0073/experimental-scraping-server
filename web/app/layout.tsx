@@ -1,6 +1,30 @@
 import type { Metadata } from "next";
+import { Genos, Montserrat, Prosto_One } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
+
+// Self-hosted at build time by next/font: no external request at runtime and
+// no layout shift. Each face has one job — Prosto One is display-only (single
+// weight, wide), Montserrat carries everything that gets read, and Genos is
+// held for the 3D visualiser's overlay labels.
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--ff-body",
+  display: "swap",
+});
+
+const prosto = Prosto_One({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--ff-display",
+  display: "swap",
+});
+
+const genos = Genos({
+  subsets: ["latin"],
+  variable: "--ff-accent",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Predictorous",
@@ -18,14 +42,20 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${montserrat.variable} ${prosto.variable} ${genos.variable}`}
+    >
       <body className="antialiased">
         <header className="border-b border-line">
           <div className="mx-auto flex max-w-6xl items-baseline gap-8 px-6 py-4">
-            <Link href="/" className="text-[17px] font-semibold tracking-tight">
+            <Link
+              href="/"
+              className="font-display text-[19px] tracking-[0.02em]"
+            >
               Predictorous
             </Link>
-            <nav className="flex gap-5 text-[14px]">
+            <nav className="flex gap-5 text-[13.5px]">
               {NAV.map((n) => (
                 <Link
                   key={n.href}

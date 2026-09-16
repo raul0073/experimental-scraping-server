@@ -37,7 +37,7 @@ export default function Home() {
   return (
     <div>
       <section className="max-w-3xl">
-        <h1 className="text-[26px] font-semibold leading-tight tracking-tight">
+        <h1 className="font-display text-[30px] leading-[1.25] tracking-[0.01em]">
           A football model that shows its work.
         </h1>
         <p className="mt-3 text-ink-2">
@@ -81,7 +81,7 @@ export default function Home() {
             className="group flex flex-col rounded-xl border border-line bg-card p-5 transition-colors hover:border-ink-3"
           >
             <div className="flex items-center justify-between">
-              <h2 className="text-[17px] font-semibold tracking-tight">
+              <h2 className="font-display text-[18px] tracking-[0.01em]">
                 {t.name}
               </h2>
               <span

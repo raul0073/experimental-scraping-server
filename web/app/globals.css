@@ -12,17 +12,26 @@
   --color-away: #e0784a;
   --color-good: #1a7f37;
   --color-bad: #b3261e;
-  --font-sans: system-ui, "Segoe UI", sans-serif;
+
+  /* next/font sets --ff-*; the theme tokens must NOT reuse those names or
+     each one resolves to a self-referencing cycle and silently drops. */
+  --font-sans: var(--ff-body), system-ui, sans-serif;
+  --font-display: var(--ff-display), var(--ff-body), sans-serif;
+  --font-accent: var(--ff-accent), var(--ff-body), sans-serif;
 }
 
 body {
   background: var(--color-surface);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 14.5px;
+  line-height: 1.6;
 }
 
-.num {
+/* Data tables live or die on column alignment: force tabular figures so
+   digits share a width even where the face defaults to proportional. */
+.num,
+table {
   font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }

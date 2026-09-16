@@ -1,7 +1,7 @@
 export default function MentalPage() {
   return (
     <div className="max-w-3xl">
-      <h1 className="text-[22px] font-semibold tracking-tight">Mental</h1>
+      <h1 className="font-display text-[24px] tracking-[0.01em]">Mental</h1>
       <p className="mt-2 text-[13.5px] text-ink-2">
         A dependability benchmark for players and teams: not who is best, but
         who holds their level when it is level, behind, or protecting a lead.

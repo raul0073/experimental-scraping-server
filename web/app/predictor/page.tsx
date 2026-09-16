@@ -60,7 +60,7 @@ export default function PredictorPage() {
 
   return (
     <div>
-      <h1 className="text-[22px] font-semibold tracking-tight">Predictor</h1>
+      <h1 className="font-display text-[24px] tracking-[0.01em]">Predictor</h1>
       <p className="mt-2 max-w-3xl text-[13.5px] text-ink-2">
         Every fixture of the next round, with the model&apos;s probability, the
         outcome it calls, its most likely scoreline, and the{" "}

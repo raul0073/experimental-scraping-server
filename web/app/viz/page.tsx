@@ -1,7 +1,7 @@
 export default function VizPage() {
   return (
     <div className="max-w-3xl">
-      <h1 className="text-[22px] font-semibold tracking-tight">Visualiser</h1>
+      <h1 className="font-display text-[24px] tracking-[0.01em]">Visualiser</h1>
       <p className="mt-2 text-[13.5px] text-ink-2">
         The raw events, on a real pitch, in three dimensions.
       </p>
