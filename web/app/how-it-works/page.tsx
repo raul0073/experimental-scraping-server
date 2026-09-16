@@ -1,5 +1,163 @@
 import Link from "next/link";
 
+const BOX = { r: 6 };
+
+function Node({
+  x,
+  y,
+  w,
+  h,
+  fill,
+  stroke,
+  title,
+  sub,
+  bold,
+}: {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  fill: string;
+  stroke: string;
+  title: string;
+  sub?: string;
+  bold?: boolean;
+}) {
+  return (
+    <g>
+      <rect x={x} y={y} width={w} height={h} rx={BOX.r} fill={fill} stroke={stroke} />
+      <text
+        x={x + w / 2}
+        y={sub ? y + h / 2 - 8 : y + h / 2}
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontSize={bold ? 14.5 : 13.5}
+        fontWeight={bold ? 700 : 600}
+        fill="#1f2429"
+      >
+        {title}
+      </text>
+      {sub ? (
+        <text
+          x={x + w / 2}
+          y={y + h / 2 + 11}
+          textAnchor="middle"
+          dominantBaseline="central"
+          fontSize={11.5}
+          fill="#55606b"
+        >
+          {sub}
+        </text>
+      ) : null}
+    </g>
+  );
+}
+
+/** The target pipeline, with zones as the organising unit rather than a
+ *  by-product: events locate every action, players own those actions, zones
+ *  are the players who occupy them, and the team is the sum of its zones. */
+function Flow() {
+  const a = "#8a949e";
+  return (
+    <svg
+      viewBox="0 0 720 452"
+      className="mt-5 w-full"
+      role="img"
+      aria-label="Pipeline: events stamped with score state, become located player actions, which build zones, which sum to team strength and a manager residual, feeding the predictor through a validation gate."
+    >
+      <defs>
+        <marker
+          id="fa"
+          viewBox="0 0 10 10"
+          refX="8"
+          refY="5"
+          markerWidth="6"
+          markerHeight="6"
+          orient="auto-start-reverse"
+        >
+          <path
+            d="M2 1L8 5L2 9"
+            fill="none"
+            stroke={a}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </marker>
+      </defs>
+
+      <Node
+        x={160}
+        y={12}
+        w={400}
+        h={54}
+        fill="#f3f4f6"
+        stroke="#d5d9dd"
+        title="Every event"
+        sub="player · where on the pitch · outcome · minute"
+      />
+      <Node
+        x={160}
+        y={98}
+        w={400}
+        h={54}
+        fill="#f3f4f6"
+        stroke="#d5d9dd"
+        title="Stamped with the score at that minute"
+        sub="level · behind · ahead · late"
+      />
+      <Node
+        x={120}
+        y={184}
+        w={480}
+        h={62}
+        fill="#e3eef7"
+        stroke="#7fb0d4"
+        title="ZONES — built from the players who occupy them"
+        sub="what he tried · what he won · where he touched it"
+        bold
+      />
+      <Node
+        x={108}
+        y={282}
+        w={232}
+        h={54}
+        fill="#faf0cd"
+        stroke="#e4d49a"
+        title="Team = sum of its zones"
+        sub="how it occupies space"
+      />
+      <Node
+        x={380}
+        y={282}
+        w={232}
+        h={54}
+        fill="#e8f3ec"
+        stroke="#c2e0cd"
+        title="Manager = the residual"
+        sub="what players don't explain"
+      />
+      <Node
+        x={160}
+        y={372}
+        w={400}
+        h={54}
+        fill="#ffffff"
+        stroke="#d5d9dd"
+        title="Predictor — only what passes the gate"
+        sub="baseline stays blind, so it can judge the rest"
+      />
+
+      <line x1={360} y1={66} x2={360} y2={94} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
+      <line x1={360} y1={152} x2={360} y2={180} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
+      <line x1={300} y1={246} x2={230} y2={278} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
+      <line x1={420} y1={246} x2={490} y2={278} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
+      <line x1={230} y1={336} x2={320} y2={368} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
+      <line x1={490} y1={336} x2={400} y2={368} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
+    </svg>
+  );
+}
+
 function Stage({
   n,
   title,
@@ -195,27 +353,77 @@ export default function HowItWorksPage() {
       </section>
 
       <section className="mt-8 rounded-xl border border-[#e4d49a] bg-[#fdfaf0] p-5">
-        <h2 className="text-[17px] font-semibold">What is being built next</h2>
+        <h2 className="text-[17px] font-semibold">
+          What is being built next: zones as the unit
+        </h2>
         <p className="mt-2 max-w-3xl text-[13.5px] leading-relaxed text-ink-2">
-          Everything above runs on shot data. The next version runs on{" "}
-          <strong className="font-semibold text-ink">every event</strong> — each
-          pass, duel, tackle, carry and error, with its position, its outcome
-          and its minute. Because the minute can be matched to the scoreline at
-          that moment, it becomes possible to ask the question this project
-          exists for:{" "}
-          <em>
-            not how often a player beats his man, but how often he still tries
-            when his team is losing.
-          </em>{" "}
-          Intent, measured under pressure.
+          Everything above runs on 25 shots a match — about 1.8% of what
+          actually happens. The next version runs on{" "}
+          <strong className="font-semibold text-ink">every event</strong>:
+          roughly 1,431 per match, each with the player, where on the pitch it
+          happened, whether it came off, and the minute. The minute is the key
+          that unlocks the rest, because it can be matched to the scoreline at
+          that moment.
         </p>
         <p className="mt-3 max-w-3xl text-[13.5px] leading-relaxed text-ink-2">
-          That unlocks three things in order: player ratings built from actions
-          rather than involvement, zones built from who actually occupies the
-          space, and a team rating that can be compared against the sum of its
-          players — the difference being what the collective adds or destroys.
-          None of it is published until it passes the same gate as everything
-          else.
+          The organising idea:{" "}
+          <strong className="font-semibold text-ink">
+            a team is as strong as the way it occupies space
+          </strong>
+          . Not how good its players are in the abstract — how often the left
+          attacker actually runs at his man, how often the midfield tries the
+          switch, what share of its duels a side wins in each area, where its
+          attackers get their touches, and where it keeps losing the ball. A
+          zone cannot be rated without the players who occupy it, so the zone
+          and the player rating are the same measurement read at two levels.
+        </p>
+
+        <Flow />
+
+        <div className="mt-5 grid gap-4 md:grid-cols-3">
+          <div>
+            <h3 className="text-[13.5px] font-semibold">
+              Intent, reported honestly
+            </h3>
+            <p className="mt-1 text-[13px] leading-relaxed text-ink-2">
+              What matters is how often a player <em>tried</em>, not only how
+              often it worked. But attempts alone would crown the wasteful, so
+              attempt rate and success rate are published as two numbers, never
+              blended into one that hides which half is doing the work.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-[13.5px] font-semibold">
+              Game state, without the trap
+            </h3>
+            <p className="mt-1 text-[13px] leading-relaxed text-ink-2">
+              Weak teams are behind constantly, so raw &ldquo;performance while
+              losing&rdquo; quietly rewards being bad. Everything is measured
+              per minute spent in that state and against the player&apos;s{" "}
+              <em>own</em> baseline — the question is never who was losing, but
+              who changed when it got hard.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-[13.5px] font-semibold">
+              Opponent-adjusted, thresholded
+            </h3>
+            <p className="mt-1 text-[13px] leading-relaxed text-ink-2">
+              A winger who spends a season against the league&apos;s worst
+              full-backs will look elite unless the ratings correct for who he
+              faced. And splitting by zone, state and game phase fragments the
+              data fast, so every cell carries a minimum sample before it is
+              shown.
+            </p>
+          </div>
+        </div>
+
+        <p className="mt-5 max-w-3xl text-[13px] leading-relaxed text-ink-2">
+          None of this is published as fact until it passes the same gate as
+          everything else: fitted on one season, frozen, judged on a season it
+          has never seen. And the prediction baseline stays deliberately blind
+          to all of it — a metric cannot be validated against a model that
+          already contains it.
         </p>
       </section>
     </div>
