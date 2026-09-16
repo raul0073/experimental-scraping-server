@@ -60,10 +60,10 @@ function Flow() {
   const a = "#8a949e";
   return (
     <svg
-      viewBox="0 0 720 452"
+      viewBox="0 0 720 512"
       className="mt-5 w-full"
       role="img"
-      aria-label="Pipeline: events stamped with score state, become located player actions, which build zones, which sum to team strength and a manager residual, feeding the predictor through a validation gate."
+      aria-label="Pipeline: every event is stamped with the match state, becomes a player ranking, which computes the team's zones; that joins team counting stats and a managerial edge ranking to feed the predictor through a validation gate."
     >
       <defs>
         <marker
@@ -87,73 +87,84 @@ function Flow() {
       </defs>
 
       <Node
-        x={160}
+        x={210}
         y={12}
-        w={400}
-        h={54}
+        w={300}
+        h={50}
         fill="#f3f4f6"
         stroke="#d5d9dd"
         title="Every event"
-        sub="player · where on the pitch · outcome · minute"
+        sub="player · position · outcome · minute"
       />
       <Node
-        x={160}
-        y={98}
-        w={400}
-        h={54}
+        x={170}
+        y={92}
+        w={380}
+        h={52}
         fill="#f3f4f6"
         stroke="#d5d9dd"
         title="Stamped with the state at that minute"
         sub="level · behind · ahead · a man down · late"
       />
       <Node
-        x={120}
-        y={184}
-        w={480}
-        h={62}
+        x={190}
+        y={174}
+        w={340}
+        h={54}
         fill="#e3eef7"
-        stroke="#7fb0d4"
-        title="ZONES — built from the players who occupy them"
-        sub="what he tried · what he won · where he controlled it"
+        stroke="#b9d5e8"
+        title="PLAYER RANKING"
+        sub="what he tried · won · controlled, by state"
+      />
+      <Node
+        x={150}
+        y={258}
+        w={420}
+        h={58}
+        fill="#d8e8f4"
+        stroke="#4a7ba6"
+        title="TEAM ZONES COMPUTE"
+        sub="a zone is the players who occupy it, weighted"
         bold
       />
       <Node
-        x={108}
-        y={282}
-        w={232}
+        x={78}
+        y={348}
+        w={272}
         h={54}
         fill="#faf0cd"
         stroke="#e4d49a"
-        title="Team = sum of its zones"
-        sub="how it occupies space"
+        title="Team v team stats"
+        sub="fbref counting stats"
       />
       <Node
-        x={380}
-        y={282}
-        w={232}
+        x={370}
+        y={348}
+        w={272}
         h={54}
         fill="#e8f3ec"
         stroke="#c2e0cd"
-        title="Manager = the residual"
-        sub="what players don't explain"
+        title="Managerial edge"
+        sub="his own ranking, from his history"
       />
       <Node
-        x={160}
-        y={372}
-        w={400}
-        h={54}
+        x={210}
+        y={438}
+        w={300}
+        h={52}
         fill="#ffffff"
         stroke="#d5d9dd"
-        title="Predictor — only what passes the gate"
-        sub="baseline stays blind, so it can judge the rest"
+        title="Predictor"
+        sub="only what passes the gate"
       />
 
-      <line x1={360} y1={66} x2={360} y2={94} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
-      <line x1={360} y1={152} x2={360} y2={180} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
-      <line x1={300} y1={246} x2={230} y2={278} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
-      <line x1={420} y1={246} x2={490} y2={278} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
-      <line x1={230} y1={336} x2={320} y2={368} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
-      <line x1={490} y1={336} x2={400} y2={368} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
+      <line x1={360} y1={62} x2={360} y2={88} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
+      <line x1={360} y1={144} x2={360} y2={170} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
+      <line x1={360} y1={228} x2={360} y2={254} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
+      <line x1={290} y1={316} x2={214} y2={344} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
+      <line x1={430} y1={316} x2={506} y2={344} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
+      <line x1={214} y1={402} x2={330} y2={434} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
+      <line x1={506} y1={402} x2={390} y2={434} stroke={a} strokeWidth="1.5" markerEnd="url(#fa)" />
     </svg>
   );
 }
@@ -392,6 +403,20 @@ export default function HowItWorksPage() {
         </p>
 
         <Flow />
+
+        <p className="mt-4 max-w-3xl text-[13.5px] leading-relaxed text-ink-2">
+          The manager is{" "}
+          <strong className="font-semibold text-ink">ranked, not inferred</strong>
+          . He gets his own record the same way a player does, built from his
+          history rather than from this squad&apos;s zones: what his teams do
+          when level, behind and a man down, how often they hold a lead or
+          retrieve a lost one, their discipline, and how results compare with
+          the chances created — across every club he has managed, which is what
+          separates a manager from the team he inherited. It is the one layer we
+          cannot start yet: nothing in our data records who was in charge, so
+          managerial tenures have to be collected before any of it can be
+          computed.
+        </p>
 
         <div className="mt-5 grid gap-4 md:grid-cols-3">
           <div>
