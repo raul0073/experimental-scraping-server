@@ -36,6 +36,7 @@ const NAV = [
   { href: "/predictor", label: "Predictor" },
   { href: "/mental", label: "Mental" },
   { href: "/viz", label: "Visualiser" },
+  { href: "/how-it-works", label: "How it works" },
 ];
 
 export default function RootLayout({
