@@ -65,3 +65,6 @@ data/reports/last_weekly_run.txt
 data/reports/_*.json
 data/config/telegram.json
 data/backups/
+
+# WhoScored event streams: hundreds of MB, re-fetchable, never published raw
+/data/whoscored/
