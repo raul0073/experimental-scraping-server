@@ -31,6 +31,11 @@ from services.predictions.prediction_service import SEASON, PredictionService
 TOP_N = 4
 REL_N = 3
 GOLD_MARGINS = (0.0, 0.03, 0.05, 0.08)   # odds = breakeven * (1+m)
+# Per-team, per-simulated-season strength error, in log-odds. Calibrated so
+# the spread of simulated final points matches how wrong this method actually
+# is (see experiment_title_spread.py), instead of the far narrower spread you
+# get by pretending today's ratings are the truth for the whole season.
+STRENGTH_SD = 0.53
 OUT_PATH = Path(__file__).resolve().parent.parent / "data" / "reports" / f"season_sim_{SEASON}.json"
 
 
@@ -57,6 +62,32 @@ def _fixture_rows(preds):
         })
     rows.sort(key=lambda r: (r["week"], r["date"] or "9999", r["home"]))
     return rows
+
+
+def _recentred_ratio(ph0, pd0, tau, nodes=21):
+    """Strength noise shrinks extremes toward 50/50 (Jensen), which would
+    quietly contradict the calibration the model is validated on — our
+    stated probabilities are the ones that came true in the buckets. So
+    solve, per fixture, for the home:away odds ratio whose AVERAGE over the
+    noise reproduces the stated P(home) exactly. Gauss-Hermite quadrature
+    for the expectation, bisection in log-ratio (monotone)."""
+    x, w = np.polynomial.hermite.hermgauss(nodes)
+    shift = np.exp(np.sqrt(2.0) * tau * x)           # (K,)
+    rest = 1.0 - pd0
+    target = ph0 / np.maximum(rest, 1e-9)            # target share of non-draw
+
+    def mean_share(log_r):
+        r = np.exp(log_r)[:, None] * shift[None, :]
+        return (w[None, :] * (r / (1.0 + r))).sum(axis=1) / np.sqrt(np.pi)
+
+    lo = np.full_like(ph0, -8.0)
+    hi = np.full_like(ph0, 8.0)
+    for _ in range(60):
+        mid = 0.5 * (lo + hi)
+        too_low = mean_share(mid) < target
+        lo = np.where(too_low, mid, lo)
+        hi = np.where(too_low, hi, mid)
+    return np.exp(0.5 * (lo + hi))
 
 
 def simulate_league(svc, league, n_sims, rng):
@@ -91,9 +122,29 @@ def simulate_league(svc, league, n_sims, rng):
     h_idx = np.array([idx[p["home"]] for p in preds])
     a_idx = np.array([idx[p["away"]] for p in preds])
 
-    cum = probs.cumsum(axis=1)                    # (F, 3)
-    u = rng.random((n_sims, F))
-    out = (u[:, :, None] > cum[None, :, :]).sum(axis=2)   # 0=H,1=D,2=A
+    # Sampling outcomes from FIXED probabilities models the randomness of
+    # results but treats our estimate of team strength as perfect. Measured
+    # on 25/26 from the same stage, that made projections 1.45x too confident
+    # (internal SD 6.85 pts vs actual RMSE 9.94) — teams drift: Nice were
+    # projected 56 and finished 32. So each simulated season now draws its own
+    # per-team strength error, which shifts the balance of every match that
+    # team plays. See scripts/experiment_title_spread.py.
+    out = np.empty((n_sims, F), dtype=np.int8)
+    ph0, pd0, pa0 = probs[:, 0], probs[:, 1], probs[:, 2]
+    rest = 1.0 - pd0
+    base_ratio = _recentred_ratio(ph0, pd0, STRENGTH_SD * np.sqrt(2.0))
+    CHUNK = 2000
+    for lo in range(0, n_sims, CHUNK):
+        hi = min(lo + CHUNK, n_sims)
+        s = rng.normal(0.0, STRENGTH_SD, size=(hi - lo, T))
+        delta = s[:, h_idx] - s[:, a_idx]            # (chunk, F)
+        r = base_ratio[None, :] * np.exp(delta)
+        ph = rest[None, :] * r / (1.0 + r)
+        u = rng.random((hi - lo, F))
+        o = np.zeros((hi - lo, F), dtype=np.int8)
+        o[u >= ph] = 1                                # draw
+        o[u >= ph + pd0[None, :]] = 2                 # away
+        out[lo:hi] = o
     margins = 1 + rng.poisson(0.4, size=(n_sims, F))
 
     pts = np.tile(base_pts, (n_sims, 1))
@@ -128,6 +179,7 @@ def simulate_league(svc, league, n_sims, rng):
             "team": t,
             "pts_now": int(base_pts[i]),
             "exp_pts": round(float(pts[:, i].mean()), 1),
+            "sd_pts": round(float(pts[:, i].std()), 2),
             "p_title": round(float((pos[:, i] == 1).mean()) * 100, 1),
             "p_top4": round(float((pos[:, i] <= TOP_N).mean()) * 100, 1),
             "p_rel": round(float((pos[:, i] > T - REL_N).mean()) * 100, 1),
