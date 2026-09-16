@@ -1,4 +1,5 @@
-import { getRecord, getRound, leagueShort } from "@/lib/data";
+import Link from "next/link";
+import { getRecord, getRound, leagueShort, slugify } from "@/lib/data";
 import { Crest } from "../../components/Crest";
 
 export default function HistoryPage() {
@@ -18,7 +19,7 @@ export default function HistoryPage() {
         The first prediction stands — nothing is revised once a result is known.
       </p>
 
-      <div className="num mt-5 flex flex-wrap gap-8 rounded-xl border border-line bg-card px-5 py-4">
+      <div className="num mt-5 flex justify-evenly gap-8 rounded-xl border border-line bg-card px-5 py-4">
         {[
           { label: "Calls graded", value: record.graded },
           { label: "Landed", value: `${record.hit_rate}%` },
@@ -100,21 +101,28 @@ export default function HistoryPage() {
 
       <section className="mt-8">
         <h2 className="text-[16px] font-semibold">By competition</h2>
+        <p className="mt-1 text-[13px] text-ink-2">
+          Open a competition for every prediction it has made, graded
+          match by match.
+        </p>
         <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {Object.entries(record.by_league).map(([league, v]) => (
-            <div
+            <Link
               key={league}
-              className="flex items-center gap-3 rounded-xl border border-line bg-card px-4 py-3"
+              href={`/predictor/history/${slugify(league)}`}
+              className="group flex items-center gap-3 rounded-xl border border-line bg-card px-4 py-3 transition-colors hover:border-ink-3"
             >
               <Crest src={round?.crests.leagues[league]} alt="" size={24} />
               <div className="flex-1">
                 <div className="text-[13.5px]">{leagueShort(league)}</div>
-                <div className="text-[11.5px] text-ink-3">{v.n} calls</div>
+                <div className="text-[11.5px] text-ink-3">
+                  {v.n} calls · open →
+                </div>
               </div>
               <div className="num text-[19px] font-semibold">
                 {v.hit_rate}%
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

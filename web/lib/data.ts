@@ -58,6 +58,36 @@ export type RecordData = {
   calibration: { bucket: string; n: number; said: number; landed: number }[];
 };
 
+export type HistoryRow = {
+  kickoff: string;
+  home: string;
+  away: string;
+  p: Record<Outcome, number>;
+  call: Outcome;
+  our_score: string;
+  our_xg: [number, number] | null;
+  status: "graded" | "pending";
+  score: string | null;
+  real_xg: [number, number] | null;
+  outcome_hit: boolean | null;
+  score_hit: boolean | null;
+};
+
+export type HistoryLeague = {
+  name: string;
+  crest?: string;
+  rows: HistoryRow[];
+  graded: number;
+  hits: number;
+  exact: number;
+  teams: Record<string, string>;
+};
+
+export type HistoryData = {
+  generated: string;
+  leagues: Record<string, HistoryLeague>;
+};
+
 function read<T>(name: string): T | null {
   try {
     return JSON.parse(fs.readFileSync(path.join(DATA_DIR, name), "utf-8")) as T;
@@ -69,6 +99,10 @@ function read<T>(name: string): T | null {
 
 export const getRound = () => read<RoundData>("round.json");
 export const getRecord = () => read<RecordData>("record.json");
+export const getHistory = () => read<HistoryData>("history.json");
+
+export const slugify = (league: string) =>
+  league.toLowerCase().replace(/[ _]/g, "-");
 
 export const leagueShort = (league: string) => league.split("-")[1] ?? league;
 

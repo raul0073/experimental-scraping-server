@@ -115,7 +115,7 @@ export default function NextRoundPage() {
                       {o.mark}
                     </th>
                   ))}
-                  <th className="py-2 pl-3 pr-4 text-right font-semibold">xG</th>
+                  <th className="py-2 pl-3 pr-4 text-right font-semibold">Expected xG</th>
                 </tr>
               </thead>
               <tbody>

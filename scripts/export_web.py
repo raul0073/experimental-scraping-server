@@ -133,10 +133,48 @@ def export_record() -> dict:
     }
 
 
+def slugify(league: str) -> str:
+    return league.lower().replace(" ", "-").replace("_", "-")
+
+
+def export_history() -> dict:
+    """Every recorded prediction, per competition — the drill-down behind the
+    track record. Pending rows are included so the page shows what is live,
+    not only what is settled."""
+    rows = [json.loads(l) for l in HIST.read_text(encoding="utf-8").splitlines() if l.strip()]
+    crests = crest_index()
+    leagues: dict = {}
+    for r in rows:
+        lg = r["league"]
+        entry = leagues.setdefault(slugify(lg), {
+            "name": lg, "crest": crests["leagues"].get(lg), "rows": [],
+        })
+        pr = r["probabilities"]
+        entry["rows"].append({
+            "kickoff": r["kickoff"], "home": r["home"], "away": r["away"],
+            "p": {"home": round(pr["home"] * 100, 1), "draw": round(pr["draw"] * 100, 1),
+                  "away": round(pr["away"] * 100, 1)},
+            "call": r["pred_outcome"], "our_score": r["pred_score"],
+            "our_xg": r.get("pred_xg"),
+            "status": r["status"], "score": r.get("score"),
+            "real_xg": r.get("real_xg"),
+            "outcome_hit": r.get("outcome_hit"), "score_hit": r.get("score_hit"),
+        })
+    for e in leagues.values():
+        e["rows"].sort(key=lambda x: (x["kickoff"], x["home"]), reverse=True)
+        graded = [x for x in e["rows"] if x["status"] == "graded"]
+        e["graded"] = len(graded)
+        e["hits"] = sum(1 for x in graded if x["outcome_hit"])
+        e["exact"] = sum(1 for x in graded if x["score_hit"])
+        e["teams"] = crests["teams"].get(e["name"], {})
+    return {"generated": date.today().isoformat(), "leagues": leagues}
+
+
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     print(f"OK   logos synced ({sync_logos()} new/updated)")
-    for name, builder in (("round", export_round), ("record", export_record)):
+    for name, builder in (("round", export_round), ("record", export_record),
+                         ("history", export_history)):
         try:
             data = builder()
         except Exception as e:  # one bad artifact must not block the others
