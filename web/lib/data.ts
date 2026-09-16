@@ -20,18 +20,32 @@ export type Fixture = {
   xg: [number, number];
 };
 
+export type ZoneKey =
+  | "ucl"
+  | "uclq"
+  | "uel"
+  | "uecl"
+  | "mid"
+  | "playoff"
+  | "rel";
+
+export type Zone = { key: ZoneKey; label: string; from: number; to: number };
+
 export type LeagueRound = {
   week: number;
   start: string;
   end: string;
   fixtures: Fixture[];
+  /** Finishing zones for THIS league — European places and the relegation
+   *  shape differ per competition (18-team leagues have a play-off). */
+  zones: Zone[];
   projection: {
     team: string;
     played_pts: number;
     exp_pts: number;
     title: number;
-    top4: number;
-    rel: number;
+    med_pos: number;
+    zone: Partial<Record<ZoneKey, number>>;
   }[];
 };
 
@@ -45,8 +59,69 @@ export type RoundData = {
   season: string;
   as_of: string;
   crests: Crests;
+  zones_note?: string;
   leagues: Record<string, LeagueRound>;
 };
+
+export const ZONE_STYLE: Record<
+  ZoneKey,
+  { fill: string; text: string; chip: string; short: string }
+> = {
+  ucl: {
+    fill: "#2f6fae",
+    text: "#1c5b8a",
+    chip: "bg-[#e3eef7] border-[#b9d5e8]",
+    short: "UCL",
+  },
+  uclq: {
+    fill: "#6fa3ca",
+    text: "#1c5b8a",
+    chip: "bg-[#eef5fb] border-[#cfe1ef]",
+    short: "UCL Q",
+  },
+  uel: {
+    fill: "#e0784a",
+    text: "#a34a22",
+    chip: "bg-[#fae5d9] border-[#eec4ab]",
+    short: "UEL",
+  },
+  uecl: {
+    fill: "#4a9e6b",
+    text: "#1a7f37",
+    chip: "bg-[#e8f3ec] border-[#c2e0cd]",
+    short: "UECL",
+  },
+  mid: {
+    fill: "#e4e7ea",
+    text: "#55606b",
+    chip: "bg-[#f3f4f6] border-line",
+    short: "mid-table",
+  },
+  playoff: {
+    fill: "#d9a300",
+    text: "#6b5606",
+    chip: "bg-[#faf0cd] border-[#e4d49a]",
+    short: "play-off",
+  },
+  rel: {
+    fill: "#c0392b",
+    text: "#b3261e",
+    chip: "bg-[#fbe9e7] border-[#f0c4bf]",
+    short: "relegation",
+  },
+};
+
+/** Order segments the way a table reads: Europe at the top, danger at the
+ *  bottom, so the bar's shape alone tells you what a club is fighting for. */
+export const ZONE_ORDER: ZoneKey[] = [
+  "ucl",
+  "uclq",
+  "uel",
+  "uecl",
+  "mid",
+  "playoff",
+  "rel",
+];
 
 export type RecordData = {
   generated: string;

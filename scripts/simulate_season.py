@@ -120,6 +120,10 @@ def simulate_league(svc, league, n_sims, rng):
 
     table = []
     for t, i in idx.items():
+        # full finishing distribution: every zone question (Europe, playoff,
+        # relegation) is answered from this, so league rules live in config
+        # instead of being baked into the simulator.
+        counts = np.bincount(pos[:, i], minlength=T + 1)[1:]
         table.append({
             "team": t,
             "pts_now": int(base_pts[i]),
@@ -128,6 +132,7 @@ def simulate_league(svc, league, n_sims, rng):
             "p_top4": round(float((pos[:, i] <= TOP_N).mean()) * 100, 1),
             "p_rel": round(float((pos[:, i] > T - REL_N).mean()) * 100, 1),
             "med_pos": int(np.median(pos[:, i])),
+            "p_pos": [round(float(c) / n_sims * 100, 2) for c in counts],
         })
     table.sort(key=lambda r: -r["exp_pts"])
 

@@ -66,9 +66,28 @@ def fair(p: float) -> float:
     return round(1.0 / p, 2) if p > 0 else 0.0
 
 
+ZONES_CFG = ROOT / "data" / "config" / "league_zones.json"
+
+
+def zone_probs(p_pos: list, zones: list) -> dict:
+    """Probability of finishing in each configured zone, from the simulated
+    position distribution. Anything not covered by a zone is mid-table."""
+    out = {}
+    claimed = 0.0
+    for z in zones:
+        # p_pos is 0-indexed by position-1
+        share = sum(p_pos[z["from"] - 1: z["to"]])
+        out[z["key"]] = round(share, 1)
+        claimed += share
+    out["mid"] = round(max(0.0, 100.0 - claimed), 1)
+    return out
+
+
 def export_round() -> dict:
     sim = json.loads(SIM.read_text(encoding="utf-8"))
     crests = crest_index()
+    cfg = json.loads(ZONES_CFG.read_text(encoding="utf-8")) if ZONES_CFG.exists() else {}
+    zones_by_league = cfg.get("leagues", {})
     out = {"generated": date.today().isoformat(), "season": sim.get("season"),
            "as_of": sim.get("as_of"), "crests": crests, "leagues": {}}
     for league, blob in sim.get("leagues", {}).items():
@@ -90,11 +109,15 @@ def export_round() -> dict:
                 "call": f["call"], "score": f["score"],
                 "xg": [f["xg_h"], f["xg_a"]],
             } for f in rnd],
+            "zones": zones_by_league.get(league, {}).get("zones", []),
             "projection": [
                 {"team": r["team"], "played_pts": r["pts_now"], "exp_pts": r["exp_pts"],
-                 "title": r["p_title"], "top4": r["p_top4"], "rel": r["p_rel"]}
+                 "title": r["p_title"], "med_pos": r.get("med_pos"),
+                 "zone": zone_probs(r.get("p_pos") or [],
+                                    zones_by_league.get(league, {}).get("zones", []))}
                 for r in blob.get("table", [])],
         }
+    out["zones_note"] = (cfg.get("_note") or "").split(" EDIT THIS")[0]
     return out
 
 

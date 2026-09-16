@@ -1,0 +1,54 @@
+{
+  "_note": "Finishing zones per competition, by league position. EDIT THIS when allocations change - the simulator exports a full position distribution and every zone probability is derived from these ranges, so nothing in the model needs touching. Cup winners' European routes and UEFA coefficient bonus places are NOT modelled: a domestic cup win can hand a mid-table side a European spot and shift everyone below them.",
+  "_zone_keys": "ucl = Champions League, uclq = Champions League qualifying, uel = Europa League, uecl = Conference League, playoff = relegation play-off, rel = automatic relegation",
+  "leagues": {
+    "ENG-Premier League": {
+      "teams": 20,
+      "zones": [
+        { "key": "ucl", "label": "Champions League", "from": 1, "to": 4 },
+        { "key": "uel", "label": "Europa League", "from": 5, "to": 5 },
+        { "key": "uecl", "label": "Conference League", "from": 6, "to": 6 },
+        { "key": "rel", "label": "Relegation", "from": 18, "to": 20 }
+      ]
+    },
+    "ESP-La Liga": {
+      "teams": 20,
+      "zones": [
+        { "key": "ucl", "label": "Champions League", "from": 1, "to": 4 },
+        { "key": "uel", "label": "Europa League", "from": 5, "to": 6 },
+        { "key": "uecl", "label": "Conference League", "from": 7, "to": 7 },
+        { "key": "rel", "label": "Relegation", "from": 18, "to": 20 }
+      ]
+    },
+    "ITA-Serie A": {
+      "teams": 20,
+      "zones": [
+        { "key": "ucl", "label": "Champions League", "from": 1, "to": 4 },
+        { "key": "uel", "label": "Europa League", "from": 5, "to": 6 },
+        { "key": "uecl", "label": "Conference League", "from": 7, "to": 7 },
+        { "key": "rel", "label": "Relegation", "from": 18, "to": 20 }
+      ]
+    },
+    "GER-Bundesliga": {
+      "teams": 18,
+      "zones": [
+        { "key": "ucl", "label": "Champions League", "from": 1, "to": 4 },
+        { "key": "uel", "label": "Europa League", "from": 5, "to": 6 },
+        { "key": "uecl", "label": "Conference League", "from": 7, "to": 7 },
+        { "key": "playoff", "label": "Relegation play-off", "from": 16, "to": 16 },
+        { "key": "rel", "label": "Relegation", "from": 17, "to": 18 }
+      ]
+    },
+    "FRA-Ligue 1": {
+      "teams": 18,
+      "zones": [
+        { "key": "ucl", "label": "Champions League", "from": 1, "to": 3 },
+        { "key": "uclq", "label": "Champions League qualifying", "from": 4, "to": 4 },
+        { "key": "uel", "label": "Europa League", "from": 5, "to": 5 },
+        { "key": "uecl", "label": "Conference League", "from": 6, "to": 6 },
+        { "key": "playoff", "label": "Relegation play-off", "from": 16, "to": 16 },
+        { "key": "rel", "label": "Relegation", "from": 17, "to": 18 }
+      ]
+    }
+  }
+}
