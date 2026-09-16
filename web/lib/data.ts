@@ -35,10 +35,16 @@ export type LeagueRound = {
   }[];
 };
 
+export type Crests = {
+  teams: Record<string, Record<string, string>>;
+  leagues: Record<string, string>;
+};
+
 export type RoundData = {
   generated: string;
   season: string;
   as_of: string;
+  crests: Crests;
   leagues: Record<string, LeagueRound>;
 };
 

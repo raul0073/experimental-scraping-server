@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# crests are mirrored from ../static/logos by scripts/export_web.py
+/public/logos

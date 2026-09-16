@@ -24,6 +24,40 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "web"
 SIM = ROOT / "data" / "reports" / "season_sim_2627.json"
 HIST = ROOT / "data" / "history" / "predictions.jsonl"
+LOGOS_SRC = ROOT / "static" / "logos"
+LOGOS_DST = ROOT / "web" / "public" / "logos"
+
+
+def sync_logos() -> int:
+    """Mirror crests into the client's public folder. They live in one place
+    (static/logos, shared with the desktop app) and are copied rather than
+    committed twice — web/public/logos is gitignored."""
+    import shutil
+    if not LOGOS_SRC.exists():
+        return 0
+    n = 0
+    for src in LOGOS_SRC.rglob("*.png"):
+        dst = LOGOS_DST / src.relative_to(LOGOS_SRC)
+        if dst.exists() and dst.stat().st_mtime >= src.stat().st_mtime:
+            continue
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+        n += 1
+    return n
+
+
+def crest_index() -> dict:
+    """team -> public URL, plus each league's own crest."""
+    path = LOGOS_SRC / "manifest.json"
+    teams: dict = {}
+    if path.exists():
+        for league, mapping in json.loads(path.read_text(encoding="utf-8")).items():
+            for team, p in mapping.items():
+                teams.setdefault(league, {})[team] = p.replace("/static/logos", "/logos")
+    leagues = {}
+    for p in (LOGOS_SRC / "leagues").glob("*.png"):
+        leagues[p.stem] = f"/logos/leagues/{p.name}"
+    return {"teams": teams, "leagues": leagues}
 
 
 def fair(p: float) -> float:
@@ -34,8 +68,9 @@ def fair(p: float) -> float:
 
 def export_round() -> dict:
     sim = json.loads(SIM.read_text(encoding="utf-8"))
+    crests = crest_index()
     out = {"generated": date.today().isoformat(), "season": sim.get("season"),
-           "as_of": sim.get("as_of"), "leagues": {}}
+           "as_of": sim.get("as_of"), "crests": crests, "leagues": {}}
     for league, blob in sim.get("leagues", {}).items():
         fixtures = blob.get("fixtures") or []
         if not fixtures:
@@ -100,6 +135,7 @@ def export_record() -> dict:
 
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
+    print(f"OK   logos synced ({sync_logos()} new/updated)")
     for name, builder in (("round", export_round), ("record", export_record)):
         try:
             data = builder()
