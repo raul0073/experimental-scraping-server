@@ -273,7 +273,8 @@ export default function HowItWorksPage() {
           </li>
           <li>
             <strong className="font-semibold text-ink">Does not model managers, cups or transfers.</strong>{" "}
-            A new manager reaches the ratings only through results, slowly.
+            A new manager reaches today&apos;s ratings only through results,
+            slowly — the managerial layer below is being built, not running.
           </li>
           <li>
             <strong className="font-semibold text-ink">Player ratings do not feed predictions.</strong>{" "}
@@ -350,9 +351,10 @@ export default function HowItWorksPage() {
           He gets his own record the way a player does, from his history rather
           than this squad&apos;s zones: what his teams do level, behind and a
           man down, whether leads are held or retrieved, discipline, results
-          against chances created — across every club he has managed. Blocked
-          until managerial tenures are collected; nothing in our data records
-          who was in charge.
+          against chances created — across every club he has managed, which is
+          what separates the manager from the squad he inherited. Every match
+          records who was in charge, so his spells are derived rather than
+          collected: first match to last, club by club.
         </Rule>
         <Rule title="Opponent-adjusted, with minimum samples">
           A winger who spent a season against the league&apos;s worst full-backs
