@@ -62,7 +62,13 @@ RELEVANT = {
 
 
 def position_map(league: str, season: str) -> dict:
-    """A player's usual position, from the line-ups in the match cache."""
+    """A player's usual ROLE, from the line-ups in the match cache.
+
+    Group each appearance first, THEN take the most common group — not the
+    other way round. Domínguez started AML 6 times, MC 5 and DMC 4: his
+    single most common position is wide, but he is plainly a central
+    midfielder, and grouping last put him top of a winger ranking on duels
+    while sitting in the 4th percentile for running at anyone."""
     counts = defaultdict(Counter)
     folder = CACHE / f"{league}_{season}"
     for path in folder.glob("*.json"):
@@ -72,11 +78,10 @@ def position_map(league: str, season: str) -> dict:
             continue
         for side in ("home", "away"):
             for p in d.get(side, {}).get("players", []):
-                pos = p.get("position")
-                if pos and pos != "Sub":
-                    counts[p["name"]][pos] += 1
-    return {name: GROUPS.get(c.most_common(1)[0][0])
-            for name, c in counts.items() if c}
+                grp = GROUPS.get(p.get("position") or "")
+                if grp:
+                    counts[p["name"]][grp] += 1
+    return {name: c.most_common(1)[0][0] for name, c in counts.items() if c}
 
 
 def rho(x: pd.Series, y: pd.Series) -> tuple:
