@@ -19,6 +19,7 @@ import pandas as pd
 
 # pitch is 0-100 in both directions, attacking left -> right
 FINAL_THIRD = 66.7
+DEF_THIRD = 33.3
 BOX_X, BOX_Y_LO, BOX_Y_HI = 83.0, 21.1, 78.9
 PROGRESSIVE_GAIN = 10.0        # metres of pitch (in 0-100 units) up the field
 SWITCH_WIDTH = 35.0            # lateral shift that counts as a switch
@@ -146,10 +147,34 @@ METRICS: Dict[str, Dict[str, Any]] = {
     "card_90": {"label": "Cards", "unit": "/90", "invert": True,
                 "group": "discipline",
                 "desc": "Bookings per 90 (a red counts as three)."},
-    "error_90": {"label": "Errors", "unit": "/90", "invert": True,
-                 "group": "discipline",
-                 "desc": "Mistakes Opta flags as leading to a shot. Rare, so "
-                         "unreliable over a single season."},
+    # ---- mistakes: the mental cost of giving it away ---------------------
+    # Opta's Error flag fires ~1.7 times a match across BOTH teams, so a
+    # player collects one or two a season and no rating can stand on it.
+    # The same instinct measured on a base twenty times larger: every time
+    # he lost the ball through his own doing.
+    "error_90": {"label": "Errors (Opta flag)", "unit": "/90", "invert": True,
+                 "group": "mistakes",
+                 "desc": "Mistakes Opta flags as leading directly to a shot. "
+                         "About 1.7 a match across both teams, so a single "
+                         "season cannot rank anyone on it — kept visible, but "
+                         "it will not repeat."},
+    "miscontrol_90": {"label": "Miscontrols", "unit": "/90", "invert": True,
+                      "group": "mistakes",
+                      "desc": "Touches where the ball got away from him."},
+    "giveaway_90": {"label": "Gives it away", "unit": "/90", "invert": True,
+                    "group": "mistakes",
+                    "desc": "Every loss of possession through his own doing — "
+                            "dispossessed, miscontrolled, or an outright "
+                            "error. The measurable version of 'he makes "
+                            "mistakes'."},
+    "giveaway_def_90": {"label": "Gives it away in his own third",
+                        "unit": "/90", "invert": True, "group": "mistakes",
+                        "desc": "The same, but only where it costs: losses in "
+                                "his defensive third, which is where a mistake "
+                                "becomes a chance for the opponent."},
+    "dribbled_past_90": {"label": "Dribbled past", "unit": "/90",
+                         "invert": True, "group": "mistakes",
+                         "desc": "Times an opponent beat him one-on-one."},
     "fouled_90": {"label": "Gets fouled", "unit": "/90", "invert": False,
                   "group": "discipline",
                   "desc": "Fouls won per 90 — carries into contact."},
@@ -158,7 +183,7 @@ METRICS: Dict[str, Dict[str, Any]] = {
 GROUP_LABEL = {
     "intent": "Intent on the ball", "creation": "Creation",
     "progression": "Progression", "possession": "Keeping it",
-    "duels": "Duels", "defending": "Defending", "discipline": "Discipline",
+    "duels": "Duels", "defending": "Defending", "discipline": "Discipline", "mistakes": "Mistakes",
 }
 
 DUEL_TYPES = ("Aerial", "Tackle", "Challenge")
@@ -180,9 +205,9 @@ def _in_box(x, y) -> bool:
 # duels simply because opponents hold the ball less — measured across the top
 # three clubs. So these are additionally expressed per OPPORTUNITY: scaled to
 # what the player would do in an even, 50/50 game.
-DEFENSIVE_KEYS = {"tackle_90", "interception_90", "clearance_90", "recovery_90",
+DEFENSIVE_KEYS = {"dribbled_past_90", "tackle_90", "interception_90", "clearance_90", "recovery_90",
                   "ground_duel_90", "aerial_def_90", "lastman_90"}
-ATTACKING_KEYS = {"takeon_90", "keypass_90", "cross_90", "box_pass_90",
+ATTACKING_KEYS = {"giveaway_90", "giveaway_def_90", "miscontrol_90", "takeon_90", "keypass_90", "cross_90", "box_pass_90",
                   "prog_pass_90", "final_third_90", "touch_box_90",
                   "carry_box_90", "pass_90", "dispossessed_90",
                   "bigchance_90", "throughball_90", "switch_90",
@@ -264,6 +289,16 @@ def accumulate(match: pd.DataFrame, acc: dict, minutes: dict | None = None) -> N
             a["recovery"] += 1
         elif t == "Dispossessed":
             a["dispossessed"] += 1
+            a["giveaway"] += 1
+            if row.x is not None and row.x < DEF_THIRD:
+                a["giveaway_def"] += 1
+        elif t == "BallTouch" and not ok:
+            a["miscontrol"] += 1
+            a["giveaway"] += 1
+            if row.x is not None and row.x < DEF_THIRD:
+                a["giveaway_def"] += 1
+        elif t == "Challenge":
+            a["dribbled_past"] += 1
         elif t == "Foul":
             # Opta logs the offence on the offender and the win on the victim
             if ok:
@@ -274,6 +309,9 @@ def accumulate(match: pd.DataFrame, acc: dict, minutes: dict | None = None) -> N
             a["card"] += 3 if row.card_type in ("Red", "SecondYellow") else 1
         elif t == "Error":
             a["error"] += 1
+            a["giveaway"] += 1
+            if row.x is not None and row.x < DEF_THIRD:
+                a["giveaway_def"] += 1
 
         if t in ("Tackle", "Challenge"):
             a["ground_duel_att"] += 1
@@ -329,6 +367,10 @@ def finalise(acc: dict, minutes: dict, min_minutes: int) -> pd.DataFrame:
             "press_height": (a["def_x_sum"] / a["def_x_n"]) if a.get("def_x_n") else np.nan,
             "foul_90": p90("foul"), "card_90": p90("card"),
             "error_90": p90("error"), "fouled_90": p90("fouled"),
+            "miscontrol_90": p90("miscontrol"),
+            "giveaway_90": p90("giveaway"),
+            "giveaway_def_90": p90("giveaway_def"),
+            "dribbled_past_90": p90("dribbled_past"),
         })
     return pd.DataFrame(rows).set_index("player")
 
