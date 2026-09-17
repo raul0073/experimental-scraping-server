@@ -74,8 +74,16 @@ def overlap(a: tuple, b: tuple) -> int:
     return max(0, min(a[1], b[1]) - max(a[0], b[0]))
 
 
-def season_table(path: Path) -> pd.DataFrame:
+def season_table(path: Path, half: str | None = None) -> pd.DataFrame:
+    """half='odd'/'even' splits the season's matches for a RELIABILITY check:
+    a metric that will not agree with itself inside one season cannot be
+    expected to agree across two, and the failure is measurement noise
+    rather than the absence of a trait."""
     df = pd.read_parquet(path)
+    if half:
+        gids = sorted(df["game_id"].unique())
+        keep = {g for i, g in enumerate(gids) if (i % 2 == 0) == (half == "even")}
+        df = df[df["game_id"].isin(keep)]
     rows = defaultdict(lambda: defaultdict(float))
 
     for _, match in df.groupby("game_id", sort=False):
@@ -159,7 +167,44 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--league", default="ENG-Premier League")
     ap.add_argument("--seasons", nargs=2, default=["2425", "2526"])
+    ap.add_argument("--split-half", metavar="SEASON", default=None,
+                    help="reliability check: correlate a season's odd matches "
+                         "against its even ones. A metric that cannot agree "
+                         "with itself inside one season is too noisy to "
+                         "measure, which is different from the trait not "
+                         "existing.")
     args = ap.parse_args()
+
+    if args.split_half:
+        global MIN_MINUTES
+        MIN_MINUTES = 450                       # each half holds ~19 matches
+        p = RAW / args.league / f"{args.split_half}_stamped.parquet"
+        odd, even = season_table(p, "odd"), season_table(p, "even")
+        shared = odd.index.intersection(even.index)
+        print(f"split-half within {args.split_half}: {len(shared)} players\n")
+        print(f"{'metric':<22}{'n':>5}{'rho':>9}   reliability")
+        print("-" * 60)
+        out = []
+        for m in odd.columns:
+            if m in ("minutes", "min_behind") or m not in even.columns:
+                continue
+            x, y = odd.loc[shared, m], even.loc[shared, m]
+            ok = x.notna() & y.notna()
+            if ok.sum() < 30:
+                continue
+            rho = float(x[ok].rank().corr(y[ok].rank()))
+            verdict = ("measurable" if rho >= 0.6 else
+                       "marginal" if rho >= 0.4 else
+                       "TOO NOISY TO MEASURE")
+            out.append({"metric": m, "n": int(ok.sum()), "rho": round(rho, 3)})
+            print(f"{m:<22}{int(ok.sum()):>5}{rho:>9.3f}   {verdict}")
+        path = ROOT / "data" / "reports" / "experiment_reliability.json"
+        path.write_text(json.dumps(
+            {"league": args.league, "season": args.split_half,
+             "min_minutes": MIN_MINUTES, "results": out}, indent=2),
+            encoding="utf-8")
+        print(f"\n-> {path}")
+        return 0
 
     tables = {}
     for s in args.seasons:

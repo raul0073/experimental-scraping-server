@@ -1,0 +1,77 @@
+{
+  "league": "ENG-Premier League",
+  "season": "2425",
+  "min_minutes": 450,
+  "results": [
+    {
+      "metric": "takeon_90",
+      "n": 291,
+      "rho": 0.931
+    },
+    {
+      "metric": "takeon_pct",
+      "n": 259,
+      "rho": 0.239
+    },
+    {
+      "metric": "duel_90",
+      "n": 291,
+      "rho": 0.848
+    },
+    {
+      "metric": "duel_pct",
+      "n": 291,
+      "rho": 0.629
+    },
+    {
+      "metric": "aerial_pct",
+      "n": 291,
+      "rho": 0.623
+    },
+    {
+      "metric": "pass_90",
+      "n": 291,
+      "rho": 0.913
+    },
+    {
+      "metric": "pass_pct",
+      "n": 291,
+      "rho": 0.897
+    },
+    {
+      "metric": "recovery_90",
+      "n": 291,
+      "rho": 0.814
+    },
+    {
+      "metric": "dispossessed_90",
+      "n": 291,
+      "rho": 0.882
+    },
+    {
+      "metric": "foul_90",
+      "n": 291,
+      "rho": 0.859
+    },
+    {
+      "metric": "error_90",
+      "n": 291,
+      "rho": 0.228
+    },
+    {
+      "metric": "takeon_behind_idx",
+      "n": 167,
+      "rho": 0.016
+    },
+    {
+      "metric": "duel_behind_idx",
+      "n": 190,
+      "rho": 0.095
+    },
+    {
+      "metric": "pass_pct_behind_idx",
+      "n": 190,
+      "rho": 0.224
+    }
+  ]
+}
