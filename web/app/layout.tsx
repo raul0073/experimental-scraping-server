@@ -49,7 +49,7 @@ export default function RootLayout({
     >
       <body className="antialiased">
         <header className="border-b border-line">
-          <div className="mx-auto flex max-w-6xl items-baseline gap-8 px-6 py-4">
+          <div className="mx-auto flex max-w-[1440px] items-baseline gap-8 px-6 py-4">
             <Link
               href="/"
               className="font-display text-[19px] tracking-[0.02em]"
@@ -69,8 +69,8 @@ export default function RootLayout({
             </nav>
           </div>
         </header>
-        <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
-        <footer className="mx-auto max-w-6xl px-6 pb-12 pt-6 text-[12.5px] text-ink-3">
+        <main className="mx-auto max-w-[1440px] px-6 py-8">{children}</main>
+        <footer className="mx-auto max-w-[1440px] px-6 pb-12 pt-6 text-[12.5px] text-ink-3">
           Probabilities and fair prices only — never betting advice. Data:
           Understat and fbref, with limits stated on each metric.
         </footer>

@@ -67,6 +67,7 @@ export function MentalBoard() {
   const [weights, setWeights] = useState<Record<string, number>>({});
   const [blockUnreliable, setBlockUnreliable] = useState(true);
   const [showAll, setShowAll] = useState(false);
+  const [minMinutes, setMinMinutes] = useState(900);
 
   useEffect(() => {
     fetch("/data/mental.json")
@@ -93,14 +94,14 @@ export function MentalBoard() {
     });
     const total = active.reduce((a, [, w]) => a + w, 0) || 1;
     return (data.players[season] ?? [])
-      .filter((p) => p.p === pos)
+      .filter((p) => p.p === pos && p.m >= minMinutes)
       .map((p) => {
         let score = 0;
         for (const [k, w] of active) score += (p.q[k] ?? 50) * w;
         return { ...p, score: score / total };
       })
       .sort((a, b) => b.score - a.score);
-  }, [data, season, pos, weights, blockUnreliable]);
+  }, [data, season, pos, weights, blockUnreliable, minMinutes]);
 
   if (!data) {
     return <p className="text-[13.5px] text-ink-2">Loading the board…</p>;
@@ -137,6 +138,21 @@ export function MentalBoard() {
           </button>
         ))}
         <span className="ml-auto flex items-center gap-2 text-[12.5px] text-ink-2">
+          min minutes
+          <select
+            value={minMinutes}
+            onChange={(e) => setMinMinutes(Number(e.target.value))}
+            className="rounded-md border border-line bg-card px-2 py-1"
+            title="a bigger sample is a more trustworthy rating, but fewer players qualify"
+          >
+            {[900, 1200, 1800, 2400, 3000].map((v) => (
+              <option key={v} value={v}>
+                {v.toLocaleString()}+
+              </option>
+            ))}
+          </select>
+        </span>
+        <span className="flex items-center gap-2 text-[12.5px] text-ink-2">
           season
           <select
             value={season}
@@ -150,9 +166,10 @@ export function MentalBoard() {
             ))}
           </select>
         </span>
+        <span className="num text-[12px] text-ink-3">{rows.length} players</span>
       </div>
 
-      <div className="mt-5 grid gap-5 lg:grid-cols-[320px_1fr]">
+      <div className="mt-5 grid gap-5 lg:grid-cols-[300px_1fr]">
         {/* ------------------------------------------------ the config */}
         <div className="rounded-xl border border-line bg-card p-4">
           <div className="flex items-baseline justify-between">
@@ -178,7 +195,7 @@ export function MentalBoard() {
             ignore metrics that don&apos;t repeat
           </label>
 
-          <div className="mt-3 max-h-[560px] space-y-4 overflow-y-auto pr-1">
+          <div className="mt-3 max-h-[640px] space-y-4 overflow-y-auto pr-1">
             {data.metric_groups.map((mg) => {
               const items = shown.filter((m) => m.group === mg.key);
               if (!items.length) return null;
@@ -249,7 +266,7 @@ export function MentalBoard() {
               </tr>
             </thead>
             <tbody>
-              {rows.slice(0, 40).map((p, i) => (
+              {rows.slice(0, 60).map((p, i) => (
                 <tr key={p.n} className="border-t border-line">
                   <td className="num py-2 pl-4 pr-2 text-ink-3">{i + 1}</td>
                   <td className="whitespace-nowrap py-2 pr-3 font-medium">
