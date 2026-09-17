@@ -1,0 +1,179 @@
+{
+  "league": "ENG-Premier League",
+  "results": [
+    {
+      "group": "WIDE",
+      "metric": "takeon_90",
+      "n": 30,
+      "rho": 0.885
+    },
+    {
+      "group": "WIDE",
+      "metric": "takeon_behind_idx",
+      "n": 26,
+      "rho": 0.324
+    },
+    {
+      "group": "WIDE",
+      "metric": "duel_90",
+      "n": 30,
+      "rho": 0.837
+    },
+    {
+      "group": "WIDE",
+      "metric": "duel_behind_idx",
+      "n": 26,
+      "rho": -0.019
+    },
+    {
+      "group": "WIDE",
+      "metric": "dispossessed_90",
+      "n": 30,
+      "rho": 0.624
+    },
+    {
+      "group": "WIDE",
+      "metric": "pass_pct",
+      "n": 30,
+      "rho": 0.784
+    },
+    {
+      "group": "AM",
+      "metric": "takeon_90",
+      "n": 20,
+      "rho": 0.8
+    },
+    {
+      "group": "AM",
+      "metric": "takeon_behind_idx",
+      "n": 20,
+      "rho": 0.132
+    },
+    {
+      "group": "AM",
+      "metric": "duel_90",
+      "n": 20,
+      "rho": 0.788
+    },
+    {
+      "group": "AM",
+      "metric": "duel_behind_idx",
+      "n": 20,
+      "rho": 0.397
+    },
+    {
+      "group": "AM",
+      "metric": "dispossessed_90",
+      "n": 20,
+      "rho": 0.364
+    },
+    {
+      "group": "AM",
+      "metric": "pass_pct",
+      "n": 20,
+      "rho": 0.848
+    },
+    {
+      "group": "CM",
+      "metric": "pass_90",
+      "n": 48,
+      "rho": 0.648
+    },
+    {
+      "group": "CM",
+      "metric": "pass_pct",
+      "n": 48,
+      "rho": 0.745
+    },
+    {
+      "group": "CM",
+      "metric": "pass_pct_behind_idx",
+      "n": 43,
+      "rho": 0.182
+    },
+    {
+      "group": "CM",
+      "metric": "duel_90",
+      "n": 48,
+      "rho": 0.775
+    },
+    {
+      "group": "CM",
+      "metric": "duel_behind_idx",
+      "n": 43,
+      "rho": -0.068
+    },
+    {
+      "group": "CM",
+      "metric": "recovery_90",
+      "n": 48,
+      "rho": 0.718
+    },
+    {
+      "group": "FB",
+      "metric": "takeon_90",
+      "n": 41,
+      "rho": 0.707
+    },
+    {
+      "group": "FB",
+      "metric": "duel_90",
+      "n": 41,
+      "rho": 0.667
+    },
+    {
+      "group": "FB",
+      "metric": "duel_behind_idx",
+      "n": 37,
+      "rho": 0.087
+    },
+    {
+      "group": "FB",
+      "metric": "pass_pct",
+      "n": 41,
+      "rho": 0.725
+    },
+    {
+      "group": "FB",
+      "metric": "recovery_90",
+      "n": 41,
+      "rho": 0.714
+    },
+    {
+      "group": "CB",
+      "metric": "duel_90",
+      "n": 42,
+      "rho": 0.729
+    },
+    {
+      "group": "CB",
+      "metric": "duel_behind_idx",
+      "n": 38,
+      "rho": 0.064
+    },
+    {
+      "group": "CB",
+      "metric": "aerial_pct",
+      "n": 42,
+      "rho": 0.46
+    },
+    {
+      "group": "CB",
+      "metric": "pass_pct",
+      "n": 42,
+      "rho": 0.655
+    },
+    {
+      "group": "CB",
+      "metric": "recovery_90",
+      "n": 42,
+      "rho": 0.717
+    },
+    {
+      "group": "CB",
+      "metric": "foul_90",
+      "n": 42,
+      "rho": 0.724
+    }
+  ]
+}
