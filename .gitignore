@@ -68,3 +68,6 @@ data/backups/
 
 # WhoScored event streams: hundreds of MB, re-fetchable, never published raw
 /data/whoscored/
+
+# cached experiment samples, regenerable
+data/reports/_player_zone_samples_*.json
