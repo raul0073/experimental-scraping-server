@@ -82,19 +82,28 @@ METRICS: Dict[str, Dict[str, Any]] = {
     "pass_90": {"label": "On the ball", "unit": "/90", "invert": False,
                 "group": "possession",
                 "desc": "Passes attempted per 90 — involvement, not quality."},
-    "pass_pct": {"label": "Keeps it", "unit": "%", "invert": False,
+    "pass_pct": {"label": "Keeps possession", "unit": "%", "invert": False,
                  "group": "possession",
                  "desc": "Pass completion. Flattered by safe, short passing."},
     "touch_box_90": {"label": "Touches in the box", "unit": "/90",
                      "invert": False, "group": "possession",
                      "desc": "Any touch inside the opposition penalty area."},
-    # ---- duels and defending -------------------------------------------
-    "duel_90": {"label": "Duels", "unit": "/90", "invert": False,
-                "group": "duels",
-                "desc": "Aerials, tackles and challenges contested per 90 — "
-                        "how often he competes."},
-    "duel_pct": {"label": "Duels won", "unit": "%", "invert": False,
-                 "group": "duels", "desc": "Share of contested duels won."},
+    # ---- duels: ground and air kept apart, because they are different
+    # jobs. A small technical midfielder can dominate on the floor and lose
+    # everything in the air; lumping them together hides exactly that.
+    "ground_duel_90": {"label": "Ground duels", "unit": "/90", "invert": False,
+                       "group": "duels",
+                       "desc": "Tackles and challenges contested per 90 — "
+                               "duels on the floor, air excluded."},
+    "ground_duel_pct": {"label": "Ground duels won", "unit": "%",
+                        "invert": False, "group": "duels",
+                        "desc": "Share of ground duels won. A challenge is a "
+                                "duel he was beaten in, so it counts against."},
+    "aerial_90": {"label": "Aerial duels", "unit": "/90", "invert": False,
+                  "group": "duels",
+                  "desc": "All aerial duels contested per 90, both ends."},
+    "aerial_pct": {"label": "Aerial duels won", "unit": "%", "invert": False,
+                   "group": "duels", "desc": "Share of aerial duels won."},
     "aerial_def_90": {"label": "Defensive headers", "unit": "/90",
                       "invert": False, "group": "duels",
                       "desc": "Aerial duels contested while defending. Not "
@@ -166,8 +175,36 @@ def _in_box(x, y) -> bool:
     return x is not None and x >= BOX_X and BOX_Y_LO <= y <= BOX_Y_HI
 
 
-def accumulate(match: pd.DataFrame, acc: dict) -> None:
-    """Add one match's events into the running per-player totals."""
+# Defensive work depends on the opponent having the ball, attacking work on
+# your own team having it. A defender at a dominant side contests ~18% fewer
+# duels simply because opponents hold the ball less — measured across the top
+# three clubs. So these are additionally expressed per OPPORTUNITY: scaled to
+# what the player would do in an even, 50/50 game.
+DEFENSIVE_KEYS = {"tackle_90", "interception_90", "clearance_90", "recovery_90",
+                  "ground_duel_90", "aerial_def_90", "lastman_90"}
+ATTACKING_KEYS = {"takeon_90", "keypass_90", "cross_90", "box_pass_90",
+                  "prog_pass_90", "final_third_90", "touch_box_90",
+                  "carry_box_90", "pass_90", "dispossessed_90",
+                  "bigchance_90", "throughball_90", "switch_90",
+                  "aerial_att_90", "carry_box_90"}
+
+
+def accumulate(match: pd.DataFrame, acc: dict, minutes: dict | None = None) -> None:
+    """Add one match's events into the running per-player totals.
+
+    `minutes` (player -> minutes played in THIS match) lets us bank each
+    player's exposure to his own team's possession and to the opponent's,
+    which is what the possession-adjusted rates are built on."""
+    if minutes:
+        touches = match[match["is_touch"] == True].groupby("team").size()  # noqa: E712
+        total = float(touches.sum()) or 1.0
+        share = (touches / total).to_dict()
+        team_of = match.dropna(subset=["player"]).groupby("player")["team"].first()
+        for player, played in minutes.items():
+            own = share.get(team_of.get(player), 0.5)
+            acc[player]["own_poss_min"] += played * own
+            acc[player]["opp_poss_min"] += played * (1.0 - own)
+
     ev = match.dropna(subset=["player"])
     for row in ev.itertuples(index=False):
         a = acc[row.player]
@@ -238,9 +275,12 @@ def accumulate(match: pd.DataFrame, acc: dict) -> None:
         elif t == "Error":
             a["error"] += 1
 
-        if t in DUEL_TYPES:
-            a["duel_att"] += 1
-            a["duel_ok"] += ok
+        if t in ("Tackle", "Challenge"):
+            a["ground_duel_att"] += 1
+            a["ground_duel_ok"] += ok
+        elif t == "Aerial":
+            a["aerial_all_att"] += 1
+            a["aerial_all_ok"] += ok
         if t in ("Tackle", "Interception", "Clearance", "BallRecovery"):
             if row.x is not None:
                 a["def_x_sum"] += row.x
@@ -275,7 +315,10 @@ def finalise(acc: dict, minutes: dict, min_minutes: int) -> pd.DataFrame:
             "switch_90": p90("switch"), "longball_pct": pct("long_ok", "long_att"),
             "pass_90": p90("pass_att"), "pass_pct": pct("pass_ok", "pass_att", 50),
             "touch_box_90": p90("touch_box"),
-            "duel_90": p90("duel_att"), "duel_pct": pct("duel_ok", "duel_att", 25),
+            "ground_duel_90": p90("ground_duel_att"),
+            "ground_duel_pct": pct("ground_duel_ok", "ground_duel_att", 20),
+            "aerial_90": p90("aerial_all_att"),
+            "aerial_pct": pct("aerial_all_ok", "aerial_all_att", 20),
             "aerial_def_90": p90("aerial_def_att"),
             "aerial_def_pct": pct("aerial_def_ok", "aerial_def_att"),
             "aerial_att_90": p90("aerial_att_att"),
@@ -288,6 +331,30 @@ def finalise(acc: dict, minutes: dict, min_minutes: int) -> pd.DataFrame:
             "error_90": p90("error"), "fouled_90": p90("fouled"),
         })
     return pd.DataFrame(rows).set_index("player")
+
+
+def possession_adjust(bank: pd.DataFrame, acc: dict) -> pd.DataFrame:
+    """Re-express rates per OPPORTUNITY instead of per minute.
+
+    A defensive action needs the opponent to have the ball; an attacking one
+    needs your own team to. Scaling each to an even 50/50 game stops a
+    player being penalised — or flattered — by how much of the ball his team
+    happens to enjoy."""
+    out = bank.copy()
+    for player in bank.index:
+        a = acc.get(player, {})
+        own, opp = a.get("own_poss_min", 0.0), a.get("opp_poss_min", 0.0)
+        mins = own + opp
+        if mins <= 0:
+            continue
+        # a 50/50 game gives each side half the minutes-of-possession
+        def_scale = (mins * 0.5 / opp) if opp > 0 else 1.0
+        att_scale = (mins * 0.5 / own) if own > 0 else 1.0
+        for key in DEFENSIVE_KEYS & set(out.columns):
+            out.at[player, key] = bank.at[player, key] * def_scale
+        for key in ATTACKING_KEYS & set(out.columns):
+            out.at[player, key] = bank.at[player, key] * att_scale
+    return out
 
 
 def new_accumulator() -> dict:

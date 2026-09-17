@@ -15,8 +15,12 @@ type Player = {
   t: string;
   p: string;
   m: number;
+  /** raw per-90 values and their percentile within position */
   v: Record<string, number>;
   q: Record<string, number>;
+  /** the same, adjusted for how much of the ball the player's team had */
+  va: Record<string, number>;
+  qa: Record<string, number>;
 };
 type Data = {
   league: string;
@@ -33,25 +37,75 @@ type Data = {
  *  a claim about what "mental" means; that is the question the page exists
  *  to let you answer. */
 const PRESETS: Record<string, Record<string, number>> = {
-  CB: { aerial_def_pct: 20, duel_90: 15, interception_90: 15, tackle_pct: 12,
+  CB: { aerial_def_pct: 20, ground_duel_90: 15, interception_90: 15, tackle_pct: 12,
         recovery_90: 12, pass_pct: 10, clearance_90: 8, foul_90: 8 },
-  FB: { duel_90: 15, tackle_pct: 12, interception_90: 12, recovery_90: 12,
+  FB: { ground_duel_90: 15, tackle_pct: 12, interception_90: 12, recovery_90: 12,
         cross_90: 12, takeon_90: 12, prog_pass_90: 10, pass_pct: 10,
         aerial_def_pct: 5 },
-  CM: { prog_pass_90: 18, pass_pct: 15, recovery_90: 15, duel_90: 15,
+  CM: { prog_pass_90: 18, pass_pct: 15, recovery_90: 15, ground_duel_90: 15,
         interception_90: 10, final_third_90: 10, tackle_pct: 10, pass_90: 7 },
   AM: { keypass_90: 20, takeon_90: 15, box_pass_90: 15, throughball_90: 10,
-        prog_pass_90: 10, duel_90: 10, pass_pct: 10, dispossessed_90: 10 },
+        prog_pass_90: 10, ground_duel_90: 10, pass_pct: 10, dispossessed_90: 10 },
   WIDE: { takeon_90: 20, keypass_90: 15, box_pass_90: 10, cross_pct: 10,
-          touch_box_90: 10, carry_box_90: 10, duel_90: 10,
+          touch_box_90: 10, carry_box_90: 10, ground_duel_90: 10,
           dispossessed_90: 8, pass_pct: 7 },
-  ST: { touch_box_90: 20, aerial_att_pct: 15, duel_90: 15, bigchance_90: 10,
+  ST: { touch_box_90: 20, aerial_att_pct: 15, ground_duel_90: 15, bigchance_90: 10,
         keypass_90: 10, takeon_90: 10, dispossessed_90: 10, pass_pct: 10 },
   GK: { pass_pct: 60, pass_90: 40 },
 };
 
 const RELIABLE = 0.6;
 const MARGINAL = 0.4;
+
+/** Percentile as a wash of colour: blue where a player leads his position,
+ *  warm where he trails it, nothing in the middle where the number is
+ *  unremarkable and ink would only add noise. */
+function tint(pct?: number): string | undefined {
+  if (pct === undefined || Number.isNaN(pct)) return undefined;
+  if (pct >= 60) return `rgba(74, 123, 166, ${((pct - 60) / 40) * 0.22})`;
+  if (pct <= 40) return `rgba(224, 120, 74, ${((40 - pct) / 40) * 0.18})`;
+  return undefined;
+}
+
+function Th({
+  k,
+  sort,
+  setSort,
+  children,
+  align = "right",
+  title,
+}: {
+  k: string;
+  sort: { key: string; dir: 1 | -1 };
+  setSort: (s: { key: string; dir: 1 | -1 }) => void;
+  children: React.ReactNode;
+  align?: "left" | "right";
+  title?: string;
+}) {
+  const active = sort.key === k;
+  return (
+    <th
+      title={title}
+      onClick={() =>
+        setSort({
+          key: k,
+          // first click on a new column sorts biggest-first, which is what
+          // anyone reading a ranking wants
+          dir: active ? ((sort.dir * -1) as 1 | -1) : k === "n" || k === "t" ? 1 : -1,
+        })
+      }
+      className={`cursor-pointer select-none px-2 py-2 font-semibold transition-colors hover:text-ink ${
+        align === "left" ? "text-left" : "text-right"
+      } ${active ? "text-ink" : ""}`}
+    >
+      {children}
+      <span className={active ? "" : "opacity-0"}>
+        {" "}
+        {sort.dir === -1 ? "▾" : "▴"}
+      </span>
+    </th>
+  );
+}
 
 function relTone(rho?: number) {
   if (rho === undefined) return { cls: "text-ink-3", tip: "not tested for this position yet" };
@@ -68,6 +122,11 @@ export function MentalBoard() {
   const [blockUnreliable, setBlockUnreliable] = useState(true);
   const [showAll, setShowAll] = useState(false);
   const [minMinutes, setMinMinutes] = useState(900);
+  const [padj, setPadj] = useState(true);
+  const [sort, setSort] = useState<{ key: string; dir: 1 | -1 }>({
+    key: "score",
+    dir: -1,
+  });
 
   useEffect(() => {
     fetch("/data/mental.json")
@@ -93,15 +152,30 @@ export function MentalBoard() {
       return true;
     });
     const total = active.reduce((a, [, w]) => a + w, 0) || 1;
-    return (data.players[season] ?? [])
+    const scored = (data.players[season] ?? [])
       .filter((p) => p.p === pos && p.m >= minMinutes)
       .map((p) => {
+        const q = padj ? p.qa : p.q;
         let score = 0;
-        for (const [k, w] of active) score += (p.q[k] ?? 50) * w;
+        for (const [k, w] of active) score += (q[k] ?? 50) * w;
         return { ...p, score: score / total };
-      })
-      .sort((a, b) => b.score - a.score);
-  }, [data, season, pos, weights, blockUnreliable, minMinutes]);
+      });
+    const pick = (p: (typeof scored)[number]) => {
+      if (sort.key === "score") return p.score;
+      if (sort.key === "m") return p.m;
+      if (sort.key === "n") return p.n;
+      if (sort.key === "t") return p.t;
+      return (padj ? p.va : p.v)[sort.key] ?? -Infinity;
+    };
+    return scored.sort((a, b) => {
+      const x = pick(a);
+      const y = pick(b);
+      if (typeof x === "string" || typeof y === "string") {
+        return String(x).localeCompare(String(y)) * sort.dir;
+      }
+      return (x - y) * sort.dir;
+    });
+  }, [data, season, pos, weights, blockUnreliable, minMinutes, padj, sort]);
 
   if (!data) {
     return <p className="text-[13.5px] text-ink-2">Loading the board…</p>;
@@ -194,6 +268,17 @@ export function MentalBoard() {
             />
             ignore metrics that don&apos;t repeat
           </label>
+          <label
+            className="mt-1.5 flex items-center gap-2 text-[12px] text-ink-2"
+            title="A defender at a dominant side contests ~16% fewer duels simply because opponents have less of the ball. This scales every rate to an even game so nobody is punished for their team being good."
+          >
+            <input
+              type="checkbox"
+              checked={padj}
+              onChange={(e) => setPadj(e.target.checked)}
+            />
+            adjust for possession
+          </label>
 
           <div className="mt-3 max-h-[640px] space-y-4 overflow-y-auto pr-1">
             {data.metric_groups.map((mg) => {
@@ -250,53 +335,60 @@ export function MentalBoard() {
             <thead>
               <tr className="bg-[#f7f8f9] text-[11px] uppercase tracking-wider text-ink-3">
                 <th className="py-2 pl-4 pr-2 text-left font-semibold">#</th>
-                <th className="py-2 pr-3 text-left font-semibold">Player</th>
-                <th className="py-2 pr-3 text-left font-semibold">Team</th>
-                <th className="px-3 py-2 text-right font-semibold">Score</th>
+                <Th k="n" sort={sort} setSort={setSort} align="left">Player</Th>
+                <Th k="t" sort={sort} setSort={setSort} align="left">Team</Th>
+                <Th k="score" sort={sort} setSort={setSort}>Score</Th>
                 {cols.map((c) => (
-                  <th
-                    key={c}
-                    className="px-2 py-2 text-right font-semibold"
-                    title={byKey[c]?.desc}
-                  >
+                  <Th key={c} k={c} sort={sort} setSort={setSort} title={byKey[c]?.desc}>
                     {byKey[c]?.label}
-                  </th>
+                  </Th>
                 ))}
-                <th className="py-2 pl-2 pr-4 text-right font-semibold">Min</th>
+                <Th k="m" sort={sort} setSort={setSort}>Min</Th>
               </tr>
             </thead>
             <tbody>
-              {rows.slice(0, 60).map((p, i) => (
-                <tr key={p.n} className="border-t border-line">
-                  <td className="num py-2 pl-4 pr-2 text-ink-3">{i + 1}</td>
-                  <td className="whitespace-nowrap py-2 pr-3 font-medium">
-                    {p.n}
-                  </td>
-                  <td className="whitespace-nowrap py-2 pr-3 text-[12.5px] text-ink-2">
-                    {p.t}
-                  </td>
-                  <td className="num px-3 py-2 text-right font-semibold">
-                    {p.score.toFixed(1)}
-                  </td>
-                  {cols.map((c) => (
-                    <td key={c} className="num px-2 py-2 text-right">
-                      {p.v[c] === undefined ? (
-                        <span className="text-ink-3">—</span>
-                      ) : (
-                        <>
-                          {p.v[c]}
-                          <span className="ml-1 text-[11px] text-ink-3">
-                            ({p.q[c] ?? "-"})
-                          </span>
-                        </>
-                      )}
+              {rows.slice(0, 60).map((p, i) => {
+                const vals = padj ? p.va : p.v;
+                const pcts = padj ? p.qa : p.q;
+                return (
+                  <tr key={p.n} className="border-t border-line hover:bg-[#fafbfc]">
+                    <td className="num py-2 pl-4 pr-2 text-ink-3">{i + 1}</td>
+                    <td className="whitespace-nowrap py-2 pr-3 font-medium">
+                      {p.n}
                     </td>
-                  ))}
-                  <td className="num py-2 pl-2 pr-4 text-right text-[12px] text-ink-3">
-                    {p.m}
-                  </td>
-                </tr>
-              ))}
+                    <td className="whitespace-nowrap py-2 pr-3 text-[12.5px] text-ink-2">
+                      {p.t}
+                    </td>
+                    <td
+                      className="num px-3 py-2 text-right font-semibold"
+                      style={{ background: tint(p.score) }}
+                    >
+                      {p.score.toFixed(1)}
+                    </td>
+                    {cols.map((c) => (
+                      <td
+                        key={c}
+                        className="num px-2 py-2 text-right"
+                        style={{ background: tint(pcts[c]) }}
+                      >
+                        {vals[c] === undefined ? (
+                          <span className="text-ink-3">—</span>
+                        ) : (
+                          <>
+                            {vals[c]}
+                            <span className="ml-1 text-[11px] text-ink-3">
+                              ({pcts[c] ?? "-"})
+                            </span>
+                          </>
+                        )}
+                      </td>
+                    ))}
+                    <td className="num py-2 pl-2 pr-4 text-right text-[12px] text-ink-3">
+                      {p.m}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
           {!rows.length && (

@@ -24,6 +24,7 @@ import pandas as pd
 
 from services.mental.event_metrics import (
     GROUP_LABEL, METRICS, accumulate, finalise, new_accumulator,
+    possession_adjust,
 )
 from scripts.experiment_persistence import player_minutes
 from scripts.experiment_persistence_by_position import position_map
@@ -38,23 +39,24 @@ GROUP_NAME = {"GK": "Goalkeepers", "CB": "Centre-backs", "FB": "Full-backs",
               "WIDE": "Wide attackers", "ST": "Strikers"}
 
 
-def season_bank(league: str, season: str) -> pd.DataFrame:
+def season_bank(league: str, season: str):
+    """Returns (raw bank, possession-adjusted bank)."""
     path = RAW / league / f"{season}_stamped.parquet"
     df = pd.read_parquet(path)
     acc = new_accumulator()
     minutes: dict = {}
     for _, match in df.groupby("game_id", sort=False):
-        for player, (_s, _f, played) in player_minutes(match).items():
-            if played > 0:
-                minutes[player] = minutes.get(player, 0.0) + played
-        accumulate(match, acc)
+        played_now = {p: m for p, (_s, _f, m) in player_minutes(match).items() if m > 0}
+        for player, played in played_now.items():
+            minutes[player] = minutes.get(player, 0.0) + played
+        accumulate(match, acc, played_now)
     bank = finalise(acc, minutes, MIN_MINUTES)
     bank["pos"] = bank.index.map(position_map(league, season))
-    # a player's club, for display: where he played most
     team = (df.dropna(subset=["player"]).groupby("player")["team"]
             .agg(lambda s: s.value_counts().index[0]))
     bank["team"] = bank.index.map(team)
-    return bank
+    adj = possession_adjust(bank, acc)
+    return bank, adj
 
 
 def percentiles(bank: pd.DataFrame) -> pd.DataFrame:
@@ -74,16 +76,18 @@ def percentiles(bank: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
-def reliability() -> dict:
-    """metric -> position -> how well it repeats across seasons."""
-    path = ROOT / "data" / "reports" / "experiment_position_persistence.json"
+def reliability() -> tuple:
+    """metric -> position -> how well it repeats (and whether it can even be
+    measured). Built by scripts/build_reliability.py over the whole bank."""
+    path = ROOT / "data" / "reports" / "metric_reliability.json"
     if not path.exists():
-        return {}
-    out: dict = {}
-    for r in json.loads(path.read_text(encoding="utf-8")).get("results", []):
-        if r.get("rho") is not None:
-            out.setdefault(r["metric"], {})[r["group"]] = r["rho"]
-    return out
+        return {}, {}
+    d = json.loads(path.read_text(encoding="utf-8"))
+    flat = lambda block: {                                        # noqa: E731
+        metric: {grp: v["rho"] for grp, v in per.items()}
+        for metric, per in block.items()
+    }
+    return flat(d.get("repeat", {})), flat(d.get("self", {}))
 
 
 def main() -> int:
@@ -94,6 +98,7 @@ def main() -> int:
         print("no stamped seasons — run scripts/stamp_event_state.py first")
         return 1
 
+    _rel = reliability()
     payload = {
         "league": league,
         "seasons": seasons,
@@ -105,24 +110,29 @@ def main() -> int:
              "group": m["group"], "invert": m["invert"], "desc": m["desc"]}
             for k, m in METRICS.items()
         ],
-        "reliability": reliability(),
+        "reliability": _rel[0],
+        "self_reliability": _rel[1],
         "players": {},
     }
 
     for season in seasons:
-        bank = percentiles(season_bank(league, season))
+        raw, adj = season_bank(league, season)
+        bank, badj = percentiles(raw), percentiles(adj)
         rows = []
         for name, r in bank.iterrows():
             if not isinstance(r["pos"], str):
                 continue
+            a = badj.loc[name]
             row = {"n": name, "t": r["team"], "p": r["pos"],
-                   "m": int(r["minutes"]), "v": {}, "q": {}}
+                   "m": int(r["minutes"]),
+                   "v": {}, "q": {}, "va": {}, "qa": {}}
             for key in METRICS:
-                val, pct = r.get(key), r.get(f"p_{key}")
-                if val is not None and not pd.isna(val):
-                    row["v"][key] = round(float(val), 2)
-                if pct is not None and not pd.isna(pct):
-                    row["q"][key] = int(pct)
+                for src, vkey, qkey in ((r, "v", "q"), (a, "va", "qa")):
+                    val, pct = src.get(key), src.get(f"p_{key}")
+                    if val is not None and not pd.isna(val):
+                        row[vkey][key] = round(float(val), 2)
+                    if pct is not None and not pd.isna(pct):
+                        row[qkey][key] = int(pct)
             rows.append(row)
         payload["players"][season] = rows
         print(f"OK   {season}: {len(rows)} players")
