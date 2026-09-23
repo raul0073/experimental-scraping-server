@@ -44,7 +44,131 @@ METRICS: Dict[str, Dict[str, Any]] = {
     "carry_box_90": {"label": "Carries into the box", "unit": "/90",
                      "invert": False, "group": "intent",
                      "desc": "Take-ons completed inside the penalty area per 90."},
+    # ---- shooting ------------------------------------------------------
+    # Penalties are excluded from every rate here. They are converted about
+    # four times in five by whoever takes them, so including them measures
+    # who the manager trusts from twelve yards rather than how a player
+    # shoots. The penalty itself is not lost — it is counted in the decisive
+    # acts, where a spot-kick in the 89th at 1-1 is exactly the point.
+    "shot_90": {"label": "Shots", "unit": "/90", "invert": False,
+                "group": "shooting",
+                "desc": "Shots attempted per 90, penalties excluded. Volume "
+                        "is a choice: whether he takes it on."},
+    "shot_box_pct": {"label": "Shoots from in the box", "unit": "%",
+                     "invert": False, "group": "shooting",
+                     "desc": "Share of his shots taken inside the area. Shot "
+                             "selection — the discipline to work a better one "
+                             "rather than hit it from 30 yards."},
+    "shot_dist": {"label": "Average shot distance", "unit": "m", "invert": True,
+                  "group": "shooting",
+                  "desc": "How far out he shoots from, in pitch units. The "
+                          "same trait as the one above, as a distance."},
+    "shot_target_pct": {"label": "Hits the target", "unit": "%",
+                        "invert": False, "group": "shooting",
+                        "desc": "Share of shots on target — saved, or in."},
+    "goal_90": {"label": "Goals", "unit": "/90", "invert": False,
+                "group": "shooting",
+                "desc": "Non-penalty goals per 90."},
+    "conversion_pct": {"label": "Converts", "unit": "%", "invert": False,
+                       "group": "shooting",
+                       "desc": "Non-penalty goals per shot. Famously the "
+                               "least stable number in football — check what "
+                               "the gate says for this position before you "
+                               "weight it."},
+    "bigchance_shot_90": {"label": "Big chances he gets", "unit": "/90",
+                          "invert": False, "group": "shooting",
+                          "desc": "Chances Opta rates as big that fell to "
+                                  "him. Getting into those positions is a "
+                                  "repeatable habit; what happens next may "
+                                  "not be."},
+    "bigchance_conv_pct": {"label": "Takes his big chances", "unit": "%",
+                           "invert": False, "group": "shooting",
+                           "desc": "Share of big chances he scored. The "
+                                   "number everyone reaches for to call a "
+                                   "player a bottler, on a sample of about "
+                                   "ten a season."},
+    "bigchance_missed_90": {"label": "Big chances missed", "unit": "/90",
+                            "invert": True, "group": "shooting",
+                            "desc": "Big chances that fell to him and did "
+                                    "not go in, per 90."},
+    # ---- decisive acts --------------------------------------------------
+    "decisive_90": {"label": "Decisive acts", "unit": "/90", "invert": False,
+                    "group": "decisive",
+                    "desc": "Goals, assists, big chances made, saves, "
+                            "last-ditch blocks and tackles, penalties won — "
+                            "minus own goals, errors, penalties conceded and "
+                            "red cards. Valued in goals and netted off. One "
+                            "list for every position; what a player is judged "
+                            "on sorts itself out, a keeper's being 95% saves "
+                            "and a striker's 71% goals."},
+    "decisive_lev_90": {"label": "Decisive acts, weighted by the moment",
+                        "unit": "/90", "invert": False, "group": "decisive",
+                        "desc": "The same, with every act weighted by how "
+                                "much the match hung on it. A goal at level "
+                                "with five minutes left counts 2.3 times; the "
+                                "fourth in a 4-0 counts nothing."},
+    "decisive_bad_90": {"label": "Costly mistakes", "unit": "/90",
+                        "invert": True, "group": "decisive",
+                        "desc": "The negatives alone — own goals, errors, "
+                                "penalties conceded, red cards — per 90."},
+    "availability_pct": {"label": "Available", "unit": "%", "invert": False,
+                         "group": "decisive",
+                         "desc": "Share of his club's minutes he was on the "
+                                 "pitch for, across the matches his club "
+                                 "played while he was there. Being fit and "
+                                 "being picked is part of being dependable."},
+    # ---- goalkeeping ---------------------------------------------------
+    # Without these a keeper was ranked purely on his passing, which is at
+    # most half his job. Note which of them are about the keeper and which
+    # are about the side in front of him: he does not choose how many shots
+    # he faces, so save and concede rates say as much about his defence as
+    # about him. What he DOES choose — whether to come for the cross,
+    # whether to hold it or parry it, how far off his line he lives — is his.
+    "save_pct": {"label": "Saves what he faces", "unit": "%", "invert": False,
+                 "group": "keeping",
+                 "desc": "Saves as a share of shots on target faced (saves "
+                         "plus goals conceded). Heavily driven by the quality "
+                         "of chance he faces, which is not his doing."},
+    "save_90": {"label": "Saves", "unit": "/90", "invert": False,
+                "group": "keeping",
+                "desc": "Saves per 90. A busy keeper is usually a keeper "
+                        "behind a bad defence."},
+    "conceded_90": {"label": "Goals conceded", "unit": "/90", "invert": True,
+                    "group": "keeping",
+                    "desc": "Goals conceded per 90 while he was on the pitch. "
+                            "As much a measure of his team as of him."},
+    "catch_pct": {"label": "Holds it", "unit": "%", "invert": False,
+                  "group": "keeping",
+                  "desc": "Share of saves he catches rather than parries. A "
+                          "choice, and a nerve."},
+    "parry_danger_pct": {"label": "Parries into danger", "unit": "%",
+                         "invert": True, "group": "keeping",
+                         "desc": "Of the saves he parries, the share he pushes "
+                                 "back into a dangerous area rather than away."},
+    "claim_90": {"label": "Comes for crosses", "unit": "/90", "invert": False,
+                 "group": "keeping",
+                 "desc": "High claims attempted per 90 — command of his box."},
+    "claim_pct": {"label": "Claims it cleanly", "unit": "%", "invert": False,
+                  "group": "keeping",
+                  "desc": "Share of high claims he takes cleanly, counting "
+                          "crosses he came for and missed against him."},
+    "punch_90": {"label": "Punches", "unit": "/90", "invert": False,
+                 "group": "keeping",
+                 "desc": "Punches per 90 — the alternative to catching it."},
+    "sweeper_90": {"label": "Sweeps behind the line", "unit": "/90",
+                   "invert": False, "group": "keeping",
+                   "desc": "Actions off his line to clear up behind the "
+                           "defence. How high he dares to live."},
     # ---- creation ------------------------------------------------------
+    "assist_90": {"label": "Assists", "unit": "/90", "invert": False,
+                  "group": "creation",
+                  "desc": "Deliberate assists per 90. Opta tags 536 of these "
+                          "a season against 690 goals credited as assisted — "
+                          "the gap is deflections and knock-downs, where the "
+                          "assisting touch was not a chosen pass. Only the "
+                          "chosen ones count here. Like goals, an assist "
+                          "depends on someone else finishing, so check the "
+                          "gate before weighting it heavily."},
     "keypass_90": {"label": "Key passes", "unit": "/90", "invert": False,
                    "group": "creation",
                    "desc": "Passes that directly set up a shot, per 90."},
@@ -181,12 +305,49 @@ METRICS: Dict[str, Dict[str, Any]] = {
 }
 
 GROUP_LABEL = {
-    "intent": "Intent on the ball", "creation": "Creation",
+    "decisive": "Decisive acts", "intent": "Intent on the ball",
+    "shooting": "Shooting", "keeping": "Goalkeeping", "creation": "Creation",
     "progression": "Progression", "possession": "Keeping it",
     "duels": "Duels", "defending": "Defending", "discipline": "Discipline", "mistakes": "Mistakes",
 }
 
 DUEL_TYPES = ("Aerial", "Tackle", "Challenge")
+SHOT_TYPES = ("Goal", "SavedShot", "MissedShots", "ShotOnPost")
+GOAL_X, GOAL_Y = 100.0, 50.0
+
+# ---------------------------------------------------------------------------
+# DECISIVE ACTS — the things that actually change a football match.
+#
+# One universal list for every position, because an action is an action: a
+# goal is a goal whoever scores it, and a last-ditch block in the 90th is the
+# same act from a striker as from a centre-back. No per-position weighting is
+# applied and none is needed — the composition sorts itself out. A keeper's
+# decisive acts come out 95% saves and 4% errors, a striker's 71% goals, a
+# centre-back's 46% last-ditch defending and 24% mistakes. Nobody is judged
+# on goals he was never going to score.
+#
+# Values are in goals. A shot on target goes in roughly three times in ten,
+# so a save is worth about 0.3 of a goal and a last-ditch block on a clear
+# chance rather more. A penalty is discounted because winning the spot-kick
+# and being trusted to take it are not the same act as making the chance.
+# Deliberately excluded, as noise diverted from a player's ordinary totals:
+# headers won, duels, take-ons, passes, recoveries, ordinary clearances and
+# ordinary tackles. Routine shot blocks are excluded too — 2,765 a season is
+# a defender standing in the way, not a decisive act; only the ones Opta tags
+# LastMan survive.
+DECISIVE = {
+    "goal": 1.0,
+    "penalty_goal": 0.6,
+    "assist": 0.7,
+    "bigchance_created": 0.4,
+    "save": 0.3,
+    "lastman": 0.5,
+    "penalty_won": 0.6,
+    "own_goal": -1.0,
+    "error": -0.5,
+    "penalty_conceded": -0.6,
+    "red_card": -1.0,
+}
 
 
 def _qnames(q) -> set:
@@ -205,13 +366,44 @@ def _in_box(x, y) -> bool:
 # duels simply because opponents hold the ball less — measured across the top
 # three clubs. So these are additionally expressed per OPPORTUNITY: scaled to
 # what the player would do in an even, 50/50 game.
-DEFENSIVE_KEYS = {"dribbled_past_90", "tackle_90", "interception_90", "clearance_90", "recovery_90",
+DEFENSIVE_KEYS = {"save_90", "conceded_90", "claim_90", "punch_90", "dribbled_past_90", "tackle_90", "interception_90", "clearance_90", "recovery_90",
                   "ground_duel_90", "aerial_def_90", "lastman_90"}
-ATTACKING_KEYS = {"giveaway_90", "giveaway_def_90", "miscontrol_90", "takeon_90", "keypass_90", "cross_90", "box_pass_90",
+ATTACKING_KEYS = {"shot_90", "goal_90", "assist_90", "decisive_90", "decisive_lev_90", "bigchance_shot_90", "bigchance_missed_90",
+                  "giveaway_90", "giveaway_def_90", "miscontrol_90", "takeon_90", "keypass_90", "cross_90", "box_pass_90",
                   "prog_pass_90", "final_third_90", "touch_box_90",
                   "carry_box_90", "pass_90", "dispossessed_90",
                   "bigchance_90", "throughball_90", "switch_90",
                   "aerial_att_90", "carry_box_90"}
+
+
+def decisive_value(event_type, qualifiers, outcome, card) -> float:
+    """What this one event was worth, in goals. 0.0 for the vast majority."""
+    q = _qnames(qualifiers)
+    if event_type == "Goal":
+        if "OwnGoal" in q:
+            return DECISIVE["own_goal"]
+        return DECISIVE["penalty_goal" if "Penalty" in q else "goal"]
+    if event_type == "Pass":
+        if "IntentionalGoalAssist" in q:
+            return DECISIVE["assist"]
+        if "BigChanceCreated" in q:
+            return DECISIVE["bigchance_created"]
+        return 0.0
+    if event_type == "Save":
+        if "OutfielderBlock" in q:
+            # only the last-ditch ones; the rest is standing in the way
+            return DECISIVE["lastman"] if "LastMan" in q else 0.0
+        return DECISIVE["save"]
+    if event_type in ("Tackle", "Interception"):
+        return DECISIVE["lastman"] if "LastMan" in q else 0.0
+    if event_type == "Foul" and "Penalty" in q:
+        return (DECISIVE["penalty_won"] if outcome == "Successful"
+                else DECISIVE["penalty_conceded"])
+    if event_type == "Error":
+        return DECISIVE["error"]
+    if event_type == "Card" and card in ("Red", "SecondYellow"):
+        return DECISIVE["red_card"]
+    return 0.0
 
 
 def accumulate(match: pd.DataFrame, acc: dict, minutes: dict | None = None) -> None:
@@ -231,16 +423,53 @@ def accumulate(match: pd.DataFrame, acc: dict, minutes: dict | None = None) -> N
             acc[player]["opp_poss_min"] += played * (1.0 - own)
 
     ev = match.dropna(subset=["player"])
+    has_lev = "w_lev" in ev.columns
     for row in ev.itertuples(index=False):
         a = acc[row.player]
         t, ok = row.type, row.outcome_type == "Successful"
         q = _qnames(row.qualifiers)
+
+        # Decisive acts, plain and weighted by how much the match hung on the
+        # moment. Kept apart on purpose: one says what he did, the other when
+        # he did it, and the gate gets to judge them separately.
+        dv = decisive_value(t, row.qualifiers, row.outcome_type, row.card_type)
+        if dv:
+            a["decisive"] += dv
+            a["decisive_lev"] += dv * (row.w_lev if has_lev else 1.0)
+            if dv < 0:
+                a["decisive_bad"] += -dv
+
+        if t in SHOT_TYPES:
+            # An own goal is the opponent's event on this player's name, and
+            # a penalty is a different skill — neither belongs in a shooting
+            # rate. Both are counted elsewhere.
+            if "OwnGoal" not in q:
+                pen = "Penalty" in q
+                if not pen:
+                    a["shot_att"] += 1
+                    a["shot_on"] += t in ("Goal", "SavedShot")
+                    if _in_box(row.x, row.y):
+                        a["shot_box"] += 1
+                    if row.x is not None and row.y is not None:
+                        a["shot_dist_sum"] += float(np.hypot(
+                            GOAL_X - row.x, (GOAL_Y - row.y) * 0.7))
+                        a["shot_dist_n"] += 1
+                    if t == "Goal":
+                        a["goal"] += 1
+                if "BigChance" in q:
+                    a["bigchance_shot"] += 1
+                    if t == "Goal":
+                        a["bigchance_scored"] += 1
+                    else:
+                        a["bigchance_missed"] += 1
 
         if t == "Pass":
             a["pass_att"] += 1
             a["pass_ok"] += ok
             if "KeyPass" in q:
                 a["keypass"] += 1
+            if "IntentionalGoalAssist" in q:
+                a["assist"] += 1
             if "BigChanceCreated" in q:
                 a["bigchance"] += 1
             if "Cross" in q:
@@ -312,6 +541,26 @@ def accumulate(match: pd.DataFrame, acc: dict, minutes: dict | None = None) -> N
             a["giveaway"] += 1
             if row.x is not None and row.x < DEF_THIRD:
                 a["giveaway_def"] += 1
+        elif t == "Save":
+            # An outfielder throwing himself in front of a shot is logged as
+            # a Save too. That is a block, not goalkeeping.
+            if "OutfielderBlock" not in q:
+                a["save"] += 1
+                if "Collected" in q:
+                    a["save_caught"] += 1
+                if "ParriedSafe" in q or "ParriedDanger" in q:
+                    a["save_parried"] += 1
+                    if "ParriedDanger" in q:
+                        a["parried_danger"] += 1
+        elif t == "Claim":
+            a["claim_att"] += 1
+            a["claim_ok"] += ok
+        elif t == "CrossNotClaimed":
+            a["claim_att"] += 1          # he came for it and did not get it
+        elif t == "Punch":
+            a["punch"] += 1
+        elif t == "KeeperSweeper":
+            a["sweeper"] += 1
 
         if t in ("Tackle", "Challenge"):
             a["ground_duel_att"] += 1
@@ -332,7 +581,10 @@ def finalise(acc: dict, minutes: dict, min_minutes: int) -> pd.DataFrame:
     rows = []
     for player, a in acc.items():
         mins = minutes.get(player, 0.0)
-        if mins < min_minutes:
+        # `<= 0` as well as the bar: the caller may pass a bar of zero
+        # when it is filtering on a share of the club's minutes instead,
+        # and a per-90 of nothing divides by nothing.
+        if mins <= 0 or mins < min_minutes:
             continue
         p90 = lambda k: a.get(k, 0) / mins * 90                     # noqa: E731
 
@@ -340,11 +592,44 @@ def finalise(acc: dict, minutes: dict, min_minutes: int) -> pd.DataFrame:
             n = a.get(att, 0)
             return (a.get(ok, 0) / n * 100) if n >= floor else np.nan
 
+        # Shots on target faced = the ones he saved plus the ones he did not.
+        # `conceded` is banked by the caller, because a goal is scored by the
+        # opponent and never appears on the keeper's own events.
+        #
+        # Every player carries a `conceded` count — goals let in while he was
+        # on the pitch — so without the save floor an outfielder would report
+        # a save percentage of 0% off a denominator of thirty rather than the
+        # blank he deserves.
+        a["shots_faced"] = ((a.get("save", 0) + a.get("conceded", 0))
+                            if a.get("save", 0) >= 10 else 0)
+
         rows.append({
             "player": player, "minutes": round(mins),
+            "decisive_90": p90("decisive"),
+            "decisive_lev_90": p90("decisive_lev"),
+            "decisive_bad_90": p90("decisive_bad"),
+            "availability_pct": np.nan,
+            "save_pct": pct("save", "shots_faced", 20),
+            "save_90": p90("save"), "conceded_90": p90("conceded"),
+            "catch_pct": pct("save_caught", "save", 15),
+            "parry_danger_pct": pct("parried_danger", "save_parried", 10),
+            "claim_90": p90("claim_att"),
+            "claim_pct": pct("claim_ok", "claim_att", 10),
+            "punch_90": p90("punch"), "sweeper_90": p90("sweeper"),
+            "shot_90": p90("shot_att"),
+            "shot_box_pct": pct("shot_box", "shot_att", 10),
+            "shot_dist": ((a["shot_dist_sum"] / a["shot_dist_n"])
+                          if a.get("shot_dist_n", 0) >= 10 else np.nan),
+            "shot_target_pct": pct("shot_on", "shot_att", 10),
+            "goal_90": p90("goal"),
+            "conversion_pct": pct("goal", "shot_att", 15),
+            "bigchance_shot_90": p90("bigchance_shot"),
+            "bigchance_conv_pct": pct("bigchance_scored", "bigchance_shot", 6),
+            "bigchance_missed_90": p90("bigchance_missed"),
             "takeon_90": p90("takeon_att"), "takeon_pct": pct("takeon_ok", "takeon_att"),
             "overrun_90": p90("overrun"), "dispossessed_90": p90("dispossessed"),
             "carry_box_90": p90("carry_box"),
+            "assist_90": p90("assist"),
             "keypass_90": p90("keypass"), "bigchance_90": p90("bigchance"),
             "box_pass_90": p90("box_pass"), "cross_90": p90("cross_att"),
             "cross_pct": pct("cross_ok", "cross_att"),
@@ -372,6 +657,10 @@ def finalise(acc: dict, minutes: dict, min_minutes: int) -> pd.DataFrame:
             "giveaway_def_90": p90("giveaway_def"),
             "dribbled_past_90": p90("dribbled_past"),
         })
+    if not rows:
+        # a part-played season can leave a bucket with nobody over the
+        # bar; an empty table is the right answer, not a crash
+        return pd.DataFrame(columns=["player"]).set_index("player")
     return pd.DataFrame(rows).set_index("player")
 
 

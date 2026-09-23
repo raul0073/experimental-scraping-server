@@ -67,6 +67,88 @@ def fair(p: float) -> float:
 
 
 ZONES_CFG = ROOT / "data" / "config" / "league_zones.json"
+FIXTURES = ROOT / "data" / "fixtures"
+HISTORY = ROOT / "data" / "history" / "predictions.jsonl"
+
+
+def graded_week(league: str, season: str, week: int) -> list:
+    """This round's fixtures that have ALREADY been played, with what we said
+    about them beforehand.
+
+    🐛 THE ROUND USED TO EMPTY ITSELF AS THE WEEKEND WENT ON. The season sim
+    holds only UNPLAYED fixtures, so on Sunday morning Saturday's matches had
+    simply gone — the page showed four fixtures of a ten-fixture round and no
+    trace of what had happened in the other six. A site whose whole claim is
+    "what it expects, what happened, and what it learned" cannot drop the
+    middle one the moment it becomes checkable.
+
+    The prediction was recorded when it was made, so it is read back out of
+    the history log rather than re-derived — which also means the page shows
+    what we ACTUALLY said at the time, not what the model would say now with
+    the result in hand.
+    """
+    if not HISTORY.exists():
+        return []
+    out = []
+    for line in HISTORY.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            r = json.loads(line)
+        except Exception:
+            continue
+        if (r.get("league") != league or str(r.get("season")) != season
+                or r.get("week") != week or r.get("status") != "graded"):
+            continue
+        p = r.get("probabilities") or {}
+        if not p:
+            continue
+        out.append({
+            "date": (r.get("kickoff") or "")[:10],
+            "home": r.get("home"), "away": r.get("away"),
+            "p": {k: round(100 * float(p.get(k, 0)), 1) for k in ("home", "draw", "away")},
+            "fair": {k: fair(float(p.get(k, 0))) for k in ("home", "draw", "away")},
+            "call": r.get("pred_outcome"),
+            "score": r.get("pred_score") or "",
+            "xg": [round(float(x), 2) for x in (r.get("pred_xg") or [0, 0])],
+            "played": r.get("score"),
+            "outcome": r.get("outcome"),
+        })
+    return out
+
+
+def results_for(league: str, season: str) -> dict:
+    """What actually happened, keyed by (date, home, away).
+
+    🐛 THE ROUND USED TO SHIP ONLY THE PREDICTED SCORELINE, in a column the
+    page headed "Score". On a Sunday, looking at Saturday's fixtures, that
+    reads as the result — so the site showed "1-1" for a match that finished
+    3-0 and quietly hid its own miss. A model that publishes what it expects
+    and never what happened is the exact thing this project says it is not.
+
+    The results are already on disk in the fixtures file the weekly refresh
+    writes; nothing needed scraping, only joining.
+    """
+    f = FIXTURES / league / f"{season}.json"
+    if not f.exists():
+        return {}
+    try:
+        rows = json.loads(f.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    if isinstance(rows, dict):
+        rows = rows.get("matches") or list(rows.values())
+    out = {}
+    for r in rows:
+        if not isinstance(r, dict):
+            continue
+        h, a = r.get("home_goals"), r.get("away_goals")
+        if h is None or a is None:
+            continue
+        key = (str(r.get("date") or ""), str(r.get("home_team") or ""),
+               str(r.get("away_team") or ""))
+        out[key] = (int(h), int(a))
+    return out
 
 
 def zone_probs(p_pos: list, zones: list) -> dict:
@@ -83,6 +165,17 @@ def zone_probs(p_pos: list, zones: list) -> dict:
     return out
 
 
+def result_fields(res) -> dict:
+    """The actual score and whether the call survived it. Absent entirely
+    when a match has not been played, so the client can tell "0-0" from
+    "not yet"."""
+    if not res:
+        return {}
+    h, a = res
+    return {"played": f"{h}-{a}",
+            "outcome": "home" if h > a else "away" if a > h else "draw"}
+
+
 def export_round() -> dict:
     sim = json.loads(SIM.read_text(encoding="utf-8"))
     crests = crest_index()
@@ -90,25 +183,46 @@ def export_round() -> dict:
     zones_by_league = cfg.get("leagues", {})
     out = {"generated": date.today().isoformat(), "season": sim.get("season"),
            "as_of": sim.get("as_of"), "crests": crests, "leagues": {}}
+    season = str(sim.get("season") or "")
     for league, blob in sim.get("leagues", {}).items():
+        played = results_for(league, season)
         fixtures = blob.get("fixtures") or []
         if not fixtures:
             continue
-        week = min(f["week"] for f in fixtures)
+        # 🐛 THE NEXT ROUND IS THE SOONEST ONE, NOT THE LOWEST-NUMBERED.
+        #
+        # This was min(week) over everything still unplayed, which breaks the
+        # moment a single fixture is postponed out of its matchweek. La Liga
+        # round 6 finished on 17 September except for Levante v Athletic
+        # Club, moved to 21 October — so `min` kept returning 6 and the
+        # predictor showed a round that was over, spanning "09-03 -> 10-21",
+        # while round 8 on 9 October was the one anybody actually wanted.
+        # Spanish reschedules make this routine, not exotic.
+        #
+        # Ordering by DATE picks the round that kicks off next and leaves the
+        # straggler inside whichever round it belongs to. The fixture list
+        # here is already only the unplayed ones, so the earliest date in it
+        # is by definition the next match to be played.
+        soonest = min(fixtures, key=lambda f: (f["date"] or "9999", f["week"]))
+        week = soonest["week"]
         rnd = [f for f in fixtures if f["week"] == week]
-        rnd.sort(key=lambda f: (f["date"] or "", f["home"]))
+        done = graded_week(league, season, week)
         out["leagues"][league] = {
             "week": week,
-            "start": min((f["date"] or "" for f in rnd), default=""),
-            "end": max((f["date"] or "" for f in rnd), default=""),
-            "fixtures": [{
-                "date": f["date"], "home": f["home"], "away": f["away"],
-                "p": {"home": f["p_home"], "draw": f["p_draw"], "away": f["p_away"]},
-                "fair": {"home": fair(f["p_home"] / 100), "draw": fair(f["p_draw"] / 100),
-                         "away": fair(f["p_away"] / 100)},
-                "call": f["call"], "score": f["score"],
-                "xg": [f["xg_h"], f["xg_a"]],
-            } for f in rnd],
+            "start": min((f["date"] or "" for f in rnd + done), default=""),
+            "end": max((f["date"] or "" for f in rnd + done), default=""),
+            "fixtures": sorted(
+                [{
+                    "date": f["date"], "home": f["home"], "away": f["away"],
+                    "p": {"home": f["p_home"], "draw": f["p_draw"], "away": f["p_away"]},
+                    "fair": {"home": fair(f["p_home"] / 100), "draw": fair(f["p_draw"] / 100),
+                             "away": fair(f["p_away"] / 100)},
+                    "call": f["call"], "score": f["score"],
+                    "xg": [f["xg_h"], f["xg_a"]],
+                    **result_fields(played.get((f["date"], f["home"], f["away"]))),
+                } for f in rnd] + graded_week(league, season, week),
+                key=lambda f: (f.get("date") or "", f.get("home") or ""),
+            ),
             "zones": zones_by_league.get(league, {}).get("zones", []),
             "projection": [
                 {"team": r["team"], "played_pts": r["pts_now"], "exp_pts": r["exp_pts"],

@@ -1,0 +1,1490 @@
+{
+ "league": "ENG-Premier League",
+ "min_matches": 10,
+ "results": [
+  {
+   "pair": "2324->2425",
+   "bucket": "GK",
+   "metric": "decisive_90",
+   "n": 19,
+   "rho": 0.054
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "GK",
+   "metric": "decisive_lev_90",
+   "n": 19,
+   "rho": 0.054
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "GK",
+   "metric": "save_90",
+   "n": 19,
+   "rho": 0.21
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "GK",
+   "metric": "claim_90",
+   "n": 19,
+   "rho": 0.289
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "GK",
+   "metric": "prog_pass_90",
+   "n": 19,
+   "rho": 0.696
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "GK",
+   "metric": "final_third_90",
+   "n": 19,
+   "rho": 0.656
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "GK",
+   "metric": "switch_90",
+   "n": 19,
+   "rho": 0.825
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "GK",
+   "metric": "pass_90",
+   "n": 19,
+   "rho": 0.613
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "GK",
+   "metric": "recovery_90",
+   "n": 19,
+   "rho": 0.558
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "takeon_90",
+   "n": 32,
+   "rho": 0.446
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "decisive_90",
+   "n": 32,
+   "rho": 0.039
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "decisive_lev_90",
+   "n": 32,
+   "rho": 0.039
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "box_pass_90",
+   "n": 32,
+   "rho": 0.547
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "cross_90",
+   "n": 32,
+   "rho": 0.694
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "prog_pass_90",
+   "n": 32,
+   "rho": 0.483
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "final_third_90",
+   "n": 32,
+   "rho": 0.453
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "switch_90",
+   "n": 32,
+   "rho": 0.718
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "pass_90",
+   "n": 32,
+   "rho": 0.766
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "touch_box_90",
+   "n": 32,
+   "rho": 0.632
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "ground_duel_90",
+   "n": 32,
+   "rho": 0.401
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "aerial_90",
+   "n": 32,
+   "rho": 0.455
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "aerial_def_90",
+   "n": 32,
+   "rho": 0.058
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "tackle_90",
+   "n": 32,
+   "rho": 0.105
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "interception_90",
+   "n": 32,
+   "rho": 0.326
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "clearance_90",
+   "n": 32,
+   "rho": 0.526
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "recovery_90",
+   "n": 32,
+   "rho": 0.454
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "foul_90",
+   "n": 32,
+   "rho": 0.572
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "miscontrol_90",
+   "n": 32,
+   "rho": 0.596
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "FB",
+   "metric": "giveaway_90",
+   "n": 32,
+   "rho": 0.486
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "decisive_90",
+   "n": 39,
+   "rho": 0.19
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "decisive_lev_90",
+   "n": 39,
+   "rho": 0.19
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "prog_pass_90",
+   "n": 39,
+   "rho": 0.772
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "final_third_90",
+   "n": 39,
+   "rho": 0.793
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "switch_90",
+   "n": 39,
+   "rho": 0.748
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "pass_90",
+   "n": 39,
+   "rho": 0.805
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "touch_box_90",
+   "n": 39,
+   "rho": 0.478
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "ground_duel_90",
+   "n": 39,
+   "rho": 0.311
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "aerial_90",
+   "n": 39,
+   "rho": 0.772
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "aerial_def_90",
+   "n": 39,
+   "rho": 0.569
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "aerial_att_90",
+   "n": 39,
+   "rho": 0.67
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "tackle_90",
+   "n": 39,
+   "rho": 0.148
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "interception_90",
+   "n": 39,
+   "rho": 0.343
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "clearance_90",
+   "n": 39,
+   "rho": 0.781
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CB",
+   "metric": "recovery_90",
+   "n": 39,
+   "rho": 0.456
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "takeon_90",
+   "n": 15,
+   "rho": 0.862
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "shot_90",
+   "n": 15,
+   "rho": 0.649
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "decisive_90",
+   "n": 15,
+   "rho": 0.275
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "decisive_lev_90",
+   "n": 15,
+   "rho": 0.275
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "box_pass_90",
+   "n": 15,
+   "rho": 0.449
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "prog_pass_90",
+   "n": 15,
+   "rho": 0.795
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "final_third_90",
+   "n": 15,
+   "rho": 0.618
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "switch_90",
+   "n": 15,
+   "rho": 0.55
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "pass_90",
+   "n": 15,
+   "rho": 0.656
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "touch_box_90",
+   "n": 15,
+   "rho": 0.707
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "ground_duel_90",
+   "n": 15,
+   "rho": 0.629
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "aerial_90",
+   "n": 15,
+   "rho": 0.71
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "tackle_90",
+   "n": 15,
+   "rho": 0.674
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "recovery_90",
+   "n": 15,
+   "rho": 0.384
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "foul_90",
+   "n": 15,
+   "rho": 0.434
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "miscontrol_90",
+   "n": 15,
+   "rho": 0.374
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "giveaway_90",
+   "n": 15,
+   "rho": 0.721
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "CM",
+   "metric": "fouled_90",
+   "n": 15,
+   "rho": 0.602
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "takeon_90",
+   "n": 40,
+   "rho": 0.57
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "dispossessed_90",
+   "n": 40,
+   "rho": 0.572
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "shot_90",
+   "n": 40,
+   "rho": 0.561
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "decisive_90",
+   "n": 40,
+   "rho": -0.077
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "decisive_lev_90",
+   "n": 40,
+   "rho": -0.077
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "keypass_90",
+   "n": 40,
+   "rho": 0.359
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "box_pass_90",
+   "n": 40,
+   "rho": 0.668
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "cross_90",
+   "n": 40,
+   "rho": 0.692
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "prog_pass_90",
+   "n": 40,
+   "rho": 0.614
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "final_third_90",
+   "n": 40,
+   "rho": 0.518
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "switch_90",
+   "n": 40,
+   "rho": 0.658
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "pass_90",
+   "n": 40,
+   "rho": 0.599
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "touch_box_90",
+   "n": 40,
+   "rho": 0.77
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "ground_duel_90",
+   "n": 40,
+   "rho": 0.533
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "aerial_90",
+   "n": 40,
+   "rho": 0.66
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "tackle_90",
+   "n": 40,
+   "rho": 0.458
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "recovery_90",
+   "n": 40,
+   "rho": 0.457
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "miscontrol_90",
+   "n": 40,
+   "rho": 0.48
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "giveaway_90",
+   "n": 40,
+   "rho": 0.68
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "WIDE",
+   "metric": "fouled_90",
+   "n": 40,
+   "rho": 0.658
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "takeon_90",
+   "n": 21,
+   "rho": 0.776
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "dispossessed_90",
+   "n": 21,
+   "rho": 0.579
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "shot_90",
+   "n": 21,
+   "rho": 0.459
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "decisive_90",
+   "n": 21,
+   "rho": 0.108
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "decisive_lev_90",
+   "n": 21,
+   "rho": 0.108
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "prog_pass_90",
+   "n": 21,
+   "rho": 0.779
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "pass_90",
+   "n": 21,
+   "rho": 0.701
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "touch_box_90",
+   "n": 21,
+   "rho": 0.539
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "ground_duel_90",
+   "n": 21,
+   "rho": 0.42
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "aerial_90",
+   "n": 21,
+   "rho": 0.828
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "aerial_att_90",
+   "n": 21,
+   "rho": 0.763
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "recovery_90",
+   "n": 21,
+   "rho": 0.242
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "foul_90",
+   "n": 21,
+   "rho": 0.396
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "miscontrol_90",
+   "n": 21,
+   "rho": 0.536
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "giveaway_90",
+   "n": 21,
+   "rho": 0.509
+  },
+  {
+   "pair": "2324->2425",
+   "bucket": "ST",
+   "metric": "fouled_90",
+   "n": 21,
+   "rho": 0.601
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "GK",
+   "metric": "decisive_90",
+   "n": 17,
+   "rho": 0.077
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "GK",
+   "metric": "decisive_lev_90",
+   "n": 17,
+   "rho": 0.077
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "GK",
+   "metric": "save_90",
+   "n": 17,
+   "rho": 0.236
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "GK",
+   "metric": "claim_90",
+   "n": 17,
+   "rho": 0.541
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "GK",
+   "metric": "prog_pass_90",
+   "n": 17,
+   "rho": 0.343
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "GK",
+   "metric": "final_third_90",
+   "n": 17,
+   "rho": 0.525
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "GK",
+   "metric": "switch_90",
+   "n": 17,
+   "rho": 0.412
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "GK",
+   "metric": "pass_90",
+   "n": 17,
+   "rho": 0.53
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "GK",
+   "metric": "recovery_90",
+   "n": 17,
+   "rho": 0.049
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "takeon_90",
+   "n": 34,
+   "rho": 0.599
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "decisive_90",
+   "n": 34,
+   "rho": 0.237
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "decisive_lev_90",
+   "n": 34,
+   "rho": 0.237
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "box_pass_90",
+   "n": 34,
+   "rho": 0.385
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "cross_90",
+   "n": 34,
+   "rho": 0.705
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "prog_pass_90",
+   "n": 34,
+   "rho": 0.539
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "final_third_90",
+   "n": 34,
+   "rho": 0.619
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "switch_90",
+   "n": 34,
+   "rho": 0.725
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "pass_90",
+   "n": 34,
+   "rho": 0.643
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "touch_box_90",
+   "n": 34,
+   "rho": 0.704
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "ground_duel_90",
+   "n": 34,
+   "rho": 0.381
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "aerial_90",
+   "n": 34,
+   "rho": 0.52
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "aerial_def_90",
+   "n": 34,
+   "rho": 0.34
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "tackle_90",
+   "n": 34,
+   "rho": 0.325
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "interception_90",
+   "n": 34,
+   "rho": 0.377
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "clearance_90",
+   "n": 34,
+   "rho": 0.54
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "recovery_90",
+   "n": 34,
+   "rho": 0.534
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "foul_90",
+   "n": 34,
+   "rho": 0.161
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "miscontrol_90",
+   "n": 34,
+   "rho": 0.349
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "FB",
+   "metric": "giveaway_90",
+   "n": 34,
+   "rho": 0.683
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "decisive_90",
+   "n": 42,
+   "rho": 0.003
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "decisive_lev_90",
+   "n": 42,
+   "rho": 0.003
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "prog_pass_90",
+   "n": 42,
+   "rho": 0.751
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "final_third_90",
+   "n": 42,
+   "rho": 0.785
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "switch_90",
+   "n": 42,
+   "rho": 0.612
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "pass_90",
+   "n": 42,
+   "rho": 0.607
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "touch_box_90",
+   "n": 42,
+   "rho": 0.592
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "ground_duel_90",
+   "n": 42,
+   "rho": 0.483
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "aerial_90",
+   "n": 42,
+   "rho": 0.695
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "aerial_def_90",
+   "n": 42,
+   "rho": 0.589
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "aerial_att_90",
+   "n": 42,
+   "rho": 0.698
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "tackle_90",
+   "n": 42,
+   "rho": 0.317
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "interception_90",
+   "n": 42,
+   "rho": 0.28
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "clearance_90",
+   "n": 42,
+   "rho": 0.669
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CB",
+   "metric": "recovery_90",
+   "n": 42,
+   "rho": 0.521
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "decisive_90",
+   "n": 22,
+   "rho": 0.333
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "decisive_lev_90",
+   "n": 22,
+   "rho": 0.333
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "prog_pass_90",
+   "n": 22,
+   "rho": 0.467
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "final_third_90",
+   "n": 22,
+   "rho": 0.463
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "switch_90",
+   "n": 22,
+   "rho": 0.613
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "pass_90",
+   "n": 22,
+   "rho": 0.757
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "ground_duel_90",
+   "n": 22,
+   "rho": 0.424
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "aerial_90",
+   "n": 22,
+   "rho": 0.548
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "tackle_90",
+   "n": 22,
+   "rho": 0.449
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "interception_90",
+   "n": 22,
+   "rho": 0.519
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "clearance_90",
+   "n": 22,
+   "rho": 0.446
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "recovery_90",
+   "n": 22,
+   "rho": 0.592
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "foul_90",
+   "n": 22,
+   "rho": 0.558
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "miscontrol_90",
+   "n": 22,
+   "rho": 0.602
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "giveaway_90",
+   "n": 22,
+   "rho": 0.733
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "DM",
+   "metric": "fouled_90",
+   "n": 22,
+   "rho": 0.515
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "takeon_90",
+   "n": 22,
+   "rho": 0.624
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "shot_90",
+   "n": 22,
+   "rho": 0.5
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "decisive_90",
+   "n": 22,
+   "rho": -0.078
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "decisive_lev_90",
+   "n": 22,
+   "rho": -0.078
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "box_pass_90",
+   "n": 22,
+   "rho": 0.71
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "prog_pass_90",
+   "n": 22,
+   "rho": 0.745
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "final_third_90",
+   "n": 22,
+   "rho": 0.518
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "switch_90",
+   "n": 22,
+   "rho": 0.697
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "pass_90",
+   "n": 22,
+   "rho": 0.733
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "touch_box_90",
+   "n": 22,
+   "rho": 0.614
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "ground_duel_90",
+   "n": 22,
+   "rho": 0.646
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "aerial_90",
+   "n": 22,
+   "rho": 0.908
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "tackle_90",
+   "n": 22,
+   "rho": 0.527
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "clearance_90",
+   "n": 22,
+   "rho": 0.429
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "recovery_90",
+   "n": 22,
+   "rho": 0.681
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "foul_90",
+   "n": 22,
+   "rho": 0.571
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "miscontrol_90",
+   "n": 22,
+   "rho": 0.191
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "giveaway_90",
+   "n": 22,
+   "rho": 0.602
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "CM",
+   "metric": "fouled_90",
+   "n": 22,
+   "rho": 0.014
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "takeon_90",
+   "n": 38,
+   "rho": 0.594
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "dispossessed_90",
+   "n": 38,
+   "rho": 0.312
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "shot_90",
+   "n": 38,
+   "rho": 0.511
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "decisive_90",
+   "n": 38,
+   "rho": 0.09
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "decisive_lev_90",
+   "n": 38,
+   "rho": 0.09
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "keypass_90",
+   "n": 38,
+   "rho": 0.105
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "box_pass_90",
+   "n": 38,
+   "rho": 0.255
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "cross_90",
+   "n": 38,
+   "rho": 0.548
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "prog_pass_90",
+   "n": 38,
+   "rho": 0.531
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "final_third_90",
+   "n": 38,
+   "rho": 0.674
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "switch_90",
+   "n": 38,
+   "rho": 0.614
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "pass_90",
+   "n": 38,
+   "rho": 0.567
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "touch_box_90",
+   "n": 38,
+   "rho": 0.619
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "ground_duel_90",
+   "n": 38,
+   "rho": 0.375
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "aerial_90",
+   "n": 38,
+   "rho": 0.721
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "tackle_90",
+   "n": 38,
+   "rho": 0.453
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "recovery_90",
+   "n": 38,
+   "rho": 0.408
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "miscontrol_90",
+   "n": 38,
+   "rho": 0.455
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "giveaway_90",
+   "n": 38,
+   "rho": 0.522
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "WIDE",
+   "metric": "fouled_90",
+   "n": 38,
+   "rho": 0.637
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "takeon_90",
+   "n": 17,
+   "rho": 0.348
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "dispossessed_90",
+   "n": 17,
+   "rho": 0.577
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "shot_90",
+   "n": 17,
+   "rho": 0.497
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "decisive_90",
+   "n": 17,
+   "rho": 0.167
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "decisive_lev_90",
+   "n": 17,
+   "rho": 0.167
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "prog_pass_90",
+   "n": 17,
+   "rho": 0.298
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "pass_90",
+   "n": 17,
+   "rho": 0.327
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "touch_box_90",
+   "n": 17,
+   "rho": 0.424
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "ground_duel_90",
+   "n": 17,
+   "rho": 0.374
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "aerial_90",
+   "n": 17,
+   "rho": 0.945
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "aerial_att_90",
+   "n": 17,
+   "rho": 0.847
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "recovery_90",
+   "n": 17,
+   "rho": 0.474
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "foul_90",
+   "n": 17,
+   "rho": 0.494
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "miscontrol_90",
+   "n": 17,
+   "rho": 0.754
+  },
+  {
+   "pair": "2425->2526",
+   "bucket": "ST",
+   "metric": "giveaway_90",
+   "n": 17,
+   "rho": 0.8
+  }
+ ]
+}

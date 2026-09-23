@@ -1,6 +1,7 @@
 from __future__ import annotations
 import json
 import logging
+import math
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -21,6 +22,42 @@ from services.zones.zones_engine import ZonesEngine
 log = logging.getLogger(__name__)
 
 PARAMS_PATH = Path("data/config/model_params.json")
+
+# ---- THE PUBLISHED TRIPLET IS A LAYER, NOT ONE MODEL (2026-09-20) --------
+#
+# Settled on 1,714 fixtures — every 25/26 match of all five leagues, the one
+# complete season the frozen draw classifier has never seen, so it is the
+# only leak-free test that exists for the shipped artifact.
+#
+# Two questions came back with different winners, which is why this is a
+# layer rather than a swap:
+#
+#   what PRICES a match   the blend of the shipped model and the Elo arm
+#                         (log-loss 0.9924 against ship's 0.9937)
+#   what RANKS a draw     the Elo's lambdas through the shipped classifier
+#                         (top-200 draw picks 32.5% against ship's 29.5%,
+#                          binomial p=0.0175 against a 25.6% base)
+#
+# So: average the two triplets for the home:away ratio, then hand P(draw) to
+# the arm that ranks draws best. `unified_probs` already does exactly this —
+# it is how the shipped model itself is built, Poisson for the ratio and a
+# classifier for the draw — so the layer is one extra call, not a new model.
+#
+# HONEST LIMITS. Blend beats ship on the triplet by 0.0013 nats at
+# P(better)=0.74 — directional, not proven. Layer and blend are within two
+# picks of each other on 200. What IS solid is that both beat ship at
+# ranking draws, and the product ranks draws.
+#
+# Naive layerings were tried and failed: ship's ratio with the Elo's RAW
+# draw, and the Elo's ratio with ship's draw, both land between their
+# parents and beat neither (mix_se 0.9957, mix_es 0.9982).
+ELO_PARAMS_PATH = Path("data/config/elo_params.json")
+ELO_TABLE_DIR = Path("data/web/team")
+
+
+def _elo_slug(league: str) -> str:
+    return league.lower().replace(" ", "-")
+
 
 SEASON = "2627"
 HISTORY_SEASONS = ["2526", "2627"]
@@ -67,6 +104,30 @@ class PredictionService:
                 if not m["played"] and isinstance(m["week"], int) and m["date"]]
 
     # ------------------------------------------------ zones (the "why")
+
+    def _elo_for(self, league: str):
+        """(params, {team: {attack, defence}}) for the Elo arm, or None.
+
+        A league with no fitted Elo simply falls back to the shipped
+        triplet — the layer is an improvement, not a dependency, and a
+        missing artifact must never stop the round being priced."""
+        if not hasattr(self, "_elo_cache"):
+            self._elo_cache: Dict[str, Any] = {}
+        if league in self._elo_cache:
+            return self._elo_cache[league]
+        got = None
+        try:
+            params = json.loads(
+                ELO_PARAMS_PATH.read_text(encoding="utf-8"))[league]
+            table = json.loads(
+                (ELO_TABLE_DIR / _elo_slug(league) / "elo.json")
+                .read_text(encoding="utf-8"))["table"]
+            ratings = {r["team"]: r for r in table if r.get("current")}
+            got = (params, ratings) if ratings else None
+        except Exception as e:                       # noqa: BLE001
+            log.warning("Elo arm unavailable for %s: %s", league, e)
+        self._elo_cache[league] = got
+        return got
 
     def _zones_for(self, league: str) -> Optional[Dict]:
         if league not in self._zone_cache:
@@ -117,7 +178,9 @@ class PredictionService:
                         lam_h *= b[0]
                         lam_a *= b[1]
                 elif zones and self.zone_blend.get("gamma"):
-                    import math
+                    # (math is imported at module level — a local `import
+                    # math` here made the name function-local and shadowed
+                    # it for every other branch)
                     from services.zones.zones_engine import zone_advantage
                     adv = zone_advantage(zones, m["home_team"], m["away_team"])
                     if adv:
@@ -130,6 +193,7 @@ class PredictionService:
 
             p_draw_clf = None
             draw_drivers = None
+            roll = ctx = None
             if self.draw_model:
                 roll = DrawModel.rolling_stats(fm.matches, date)
                 if m["home_team"] in roll and m["away_team"] in roll:
@@ -142,8 +206,40 @@ class PredictionService:
                         roll[m["home_team"]], roll[m["away_team"]], ctx)
                     p_draw_clf = round(self.draw_model.predict(feats), 4)
                     draw_drivers = self.draw_model.explain(feats)
+                else:
+                    roll = None
 
-            probs_unified = unified_probs(probs, p_draw_clf)
+            probs_ship = unified_probs(probs, p_draw_clf)
+
+            # ---- the Elo arm, and the layer it makes (see the note by
+            # ELO_PARAMS_PATH for what was measured and on how many rows)
+            probs_elo = None
+            elo = self._elo_for(league)
+            if elo and roll is not None and ctx is not None and not low_conf:
+                ep, ratings = elo
+                rh = ratings.get(m["home_team"])
+                ra = ratings.get(m["away_team"])
+                if rh and ra:
+                    elh = math.exp(rh["attack"] - ra["defence"]
+                                   + ep["home_adv"]) * ep["conv"]
+                    ela = math.exp(ra["attack"] - rh["defence"]) * ep["conv"]
+                    p_draw_elo = round(self.draw_model.predict(
+                        DrawModel.fixture_features(
+                            elh, ela, ep["rho"],
+                            roll[m["home_team"]], roll[m["away_team"]], ctx)), 4)
+                    probs_elo = unified_probs(
+                        outcome_probs(elh, ela, ep["rho"]), p_draw_elo)
+
+            if probs_elo:
+                # average the triplets for the home:away ratio…
+                mix = {k: (probs_ship[k] + probs_elo[k]) / 2
+                       for k in ("home", "draw", "away")}
+                tot = sum(mix.values()) or 1.0
+                mix = {k: v / tot for k, v in mix.items()}
+                # …then give P(draw) to the arm that ranks draws best
+                probs_unified = unified_probs(mix, probs_elo["draw"])
+            else:
+                probs_unified = probs_ship
             p_max = max(probs_unified.values())
             tier = "gold" if p_max >= 0.55 else "silver" if p_max >= 0.45 else "flip"
             out.append({
@@ -155,8 +251,12 @@ class PredictionService:
                 "home": m["home_team"],
                 "away": m["away_team"],
                 "xg": {m["home_team"]: round(lam_h, 2), m["away_team"]: round(lam_a, 2)},
-                # official triplet: classifier-calibrated draw, Poisson H:A ratio
+                # official triplet: blended H:A ratio, Elo-arm classifier draw
                 "probabilities": probs_unified,
+                # both arms kept so a fixture can be audited after the fact —
+                # "why did it say that" needs the inputs, not just the output
+                "probabilities_ship": probs_ship,
+                "probabilities_elo": probs_elo,
                 # the model's stated call: draw once P(draw) hits the ceiling
                 # zone (DRAW_CALL_MIN), else argmax — football has ~26% draws
                 "call": call_outcome(probs_unified),

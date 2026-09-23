@@ -1,0 +1,210 @@
+{
+  "league": "ENG-Premier League",
+  "params": {
+    "k": 0.16,
+    "home_adv": 0.15,
+    "decay": 1.0,
+    "conv": 0.16953006642267682,
+    "rho": -0.05
+  },
+  "fit_seasons": [
+    "2324",
+    "2425"
+  ],
+  "test_season": "2526",
+  "n_test": 380,
+  "base_log_loss": 1.0852,
+  "log_loss": 1.0372,
+  "accuracy": 0.4526,
+  "table": [
+    {
+      "team": "Arsenal",
+      "attack": 1.4052,
+      "defence": -0.7931,
+      "rating": 0.6121,
+      "current": true
+    },
+    {
+      "team": "Man Utd",
+      "attack": 1.5555,
+      "defence": -0.9456,
+      "rating": 0.6099,
+      "current": true
+    },
+    {
+      "team": "Bournemouth",
+      "attack": 1.29,
+      "defence": -0.7669,
+      "rating": 0.5231,
+      "current": true
+    },
+    {
+      "team": "Man City",
+      "attack": 1.3125,
+      "defence": -0.8101,
+      "rating": 0.5024,
+      "current": true
+    },
+    {
+      "team": "Brighton",
+      "attack": 1.4547,
+      "defence": -0.9859,
+      "rating": 0.4687,
+      "current": true
+    },
+    {
+      "team": "Nottingham Forest",
+      "attack": 1.206,
+      "defence": -0.8979,
+      "rating": 0.3081,
+      "current": true
+    },
+    {
+      "team": "Liverpool",
+      "attack": 1.3176,
+      "defence": -1.0121,
+      "rating": 0.3055,
+      "current": true
+    },
+    {
+      "team": "Chelsea",
+      "attack": 1.3525,
+      "defence": -1.1111,
+      "rating": 0.2415,
+      "current": true
+    },
+    {
+      "team": "Fulham",
+      "attack": 1.2685,
+      "defence": -1.081,
+      "rating": 0.1875,
+      "current": true
+    },
+    {
+      "team": "Everton",
+      "attack": 1.2319,
+      "defence": -1.0621,
+      "rating": 0.1698,
+      "current": true
+    },
+    {
+      "team": "Tottenham",
+      "attack": 1.0606,
+      "defence": -0.9848,
+      "rating": 0.0758,
+      "current": true
+    },
+    {
+      "team": "Coventry",
+      "attack": 0.6019,
+      "defence": -0.529,
+      "rating": 0.0729,
+      "current": true
+    },
+    {
+      "team": "Sunderland",
+      "attack": 1.006,
+      "defence": -0.9396,
+      "rating": 0.0664,
+      "current": true
+    },
+    {
+      "team": "Brentford",
+      "attack": 1.1084,
+      "defence": -1.1093,
+      "rating": -0.001,
+      "current": true
+    },
+    {
+      "team": "Aston Villa",
+      "attack": 1.134,
+      "defence": -1.1895,
+      "rating": -0.0555,
+      "current": true
+    },
+    {
+      "team": "Ipswich",
+      "attack": 1.0614,
+      "defence": -1.144,
+      "rating": -0.0826,
+      "current": true
+    },
+    {
+      "team": "Hull",
+      "attack": 0.448,
+      "defence": -0.5335,
+      "rating": -0.0855,
+      "current": true
+    },
+    {
+      "team": "Crystal Palace",
+      "attack": 1.033,
+      "defence": -1.1351,
+      "rating": -0.102,
+      "current": true
+    },
+    {
+      "team": "Leeds",
+      "attack": 0.9756,
+      "defence": -1.0788,
+      "rating": -0.1032,
+      "current": true
+    },
+    {
+      "team": "West Ham",
+      "attack": 1.0239,
+      "defence": -1.1458,
+      "rating": -0.1219,
+      "current": false
+    },
+    {
+      "team": "Newcastle",
+      "attack": 1.0279,
+      "defence": -1.15,
+      "rating": -0.1222,
+      "current": true
+    },
+    {
+      "team": "Wolves",
+      "attack": 0.9233,
+      "defence": -1.1636,
+      "rating": -0.2403,
+      "current": false
+    },
+    {
+      "team": "Burnley",
+      "attack": 1.0199,
+      "defence": -1.2758,
+      "rating": -0.2559,
+      "current": false
+    },
+    {
+      "team": "Sheff Utd",
+      "attack": 0.8847,
+      "defence": -1.4263,
+      "rating": -0.5417,
+      "current": false
+    },
+    {
+      "team": "Luton",
+      "attack": 0.6417,
+      "defence": -1.4078,
+      "rating": -0.7661,
+      "current": false
+    },
+    {
+      "team": "Leicester",
+      "attack": 0.5782,
+      "defence": -1.3891,
+      "rating": -0.8109,
+      "current": false
+    },
+    {
+      "team": "Southampton",
+      "attack": 0.6016,
+      "defence": -1.4567,
+      "rating": -0.8552,
+      "current": false
+    }
+  ]
+}

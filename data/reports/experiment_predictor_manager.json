@@ -1,0 +1,55 @@
+{
+  "league": "ENG-Premier League",
+  "train_season": "2324",
+  "test_seasons": [
+    "2425",
+    "2526"
+  ],
+  "new_within": 10,
+  "n_test": 700,
+  "n_new": 206,
+  "arms": {
+    "naive": {
+      "log_loss": 1.076,
+      "log_loss_new": 1.0486,
+      "accuracy": 0.4743
+    },
+    "seed": {
+      "log_loss": 1.0733,
+      "log_loss_new": 1.0396,
+      "accuracy": 0.48
+    },
+    "spell": {
+      "log_loss": 1.0892,
+      "log_loss_new": 1.0769,
+      "accuracy": 0.4729
+    },
+    "feature": {
+      "log_loss": 1.1098,
+      "log_loss_new": 1.1189,
+      "accuracy": 0.46
+    }
+  },
+  "seed_vs_naive": {
+    "all": {
+      "n": 700,
+      "mean_gain": 0.0026,
+      "p_better": 0.8354,
+      "ci95": [
+        -0.0023,
+        0.0085
+      ]
+    },
+    "new_manager_only": {
+      "n": 206,
+      "mean_gain": 0.009,
+      "p_better": 0.8404,
+      "ci95": [
+        -0.0078,
+        0.0287
+      ]
+    }
+  },
+  "gain_overall": 0.0027,
+  "gain_on_new": 0.009
+}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getRecord, getRound, leagueShort, slugify } from "@/lib/data";
 import { Crest } from "../../components/Crest";
+import { Crumbs } from "../../components/Crumbs";
 
 export default function HistoryPage() {
   const record = getRecord();
@@ -14,6 +15,12 @@ export default function HistoryPage() {
 
   return (
     <div>
+      <Crumbs
+        trail={[
+          { href: "/predictor", label: "Predictor" },
+          { label: "History" },
+        ]}
+      />
       <p className="max-w-3xl text-[13.5px] text-ink-2">
         Every prediction is written down before kickoff and graded afterwards.
         The first prediction stands — nothing is revised once a result is known.

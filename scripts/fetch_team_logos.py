@@ -40,6 +40,10 @@ SLEEP_S = 2.5  # free key is ~30 req/min; 1.2s tripped 429s
 # fbref canonical name -> TheSportsDB search term
 ALIASES = {
     "Manchester Utd": "Manchester United", "Newcastle Utd": "Newcastle United",
+    # 🐛 The bare word matched NEWCASTLE JETS, an Australian club, and the
+    # badge shipped for weeks. There was an alias for "Newcastle Utd" but
+    # the name this pipeline actually uses is "Newcastle".
+    "Newcastle": "Newcastle United",
     "Nott'ham Forest": "Nottingham Forest", "Nottingham": "Nottingham Forest",
     "Tottenham": "Tottenham Hotspur",
     "West Ham": "West Ham United", "Wolves": "Wolverhampton Wanderers",

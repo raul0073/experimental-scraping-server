@@ -1,0 +1,73 @@
+{
+  "league": "ENG-Premier League",
+  "test_season": "2526",
+  "w_missing": -4.5,
+  "w_stale": 0.0,
+  "cuts": {
+    "all": {
+      "n": 372,
+      "shipped": {
+        "n": 372,
+        "log_loss": 1.0326,
+        "hit_rate": 0.4892
+      },
+      "layered": {
+        "n": 372,
+        "log_loss": 1.0303,
+        "hit_rate": 0.4866
+      },
+      "gain": 0.0023
+    },
+    "most changed": {
+      "n": 116,
+      "shipped": {
+        "n": 116,
+        "log_loss": 0.9965,
+        "hit_rate": 0.4914
+      },
+      "layered": {
+        "n": 116,
+        "log_loss": 0.994,
+        "hit_rate": 0.5
+      },
+      "gain": 0.0025
+    },
+    "some change": {
+      "n": 116,
+      "shipped": {
+        "n": 116,
+        "log_loss": 1.0424,
+        "hit_rate": 0.4828
+      },
+      "layered": {
+        "n": 116,
+        "log_loss": 1.0372,
+        "hit_rate": 0.4655
+      },
+      "gain": 0.0052
+    },
+    "unchanged": {
+      "n": 140,
+      "shipped": {
+        "n": 140,
+        "log_loss": 1.0545,
+        "hit_rate": 0.4929
+      },
+      "layered": {
+        "n": 140,
+        "log_loss": 1.0545,
+        "hit_rate": 0.4929
+      },
+      "gain": 0.0
+    }
+  },
+  "bootstrap_on_touched": {
+    "n_touched": 232,
+    "mean_gain": 0.0038,
+    "p_better": 0.6328,
+    "ci95": [
+      -0.0201,
+      0.0271
+    ]
+  }
+}

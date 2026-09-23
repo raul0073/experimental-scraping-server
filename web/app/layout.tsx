@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Genos, Montserrat, Prosto_One } from "next/font/google";
 import Link from "next/link";
+import { Nav } from "./components/Nav";
 import "./globals.css";
 
 // Self-hosted at build time by next/font: no external request at runtime and
@@ -32,13 +33,6 @@ export const metadata: Metadata = {
     "A football model that publishes what it expects, what happened, and what it learned.",
 };
 
-const NAV = [
-  { href: "/predictor", label: "Predictor" },
-  { href: "/mental", label: "Mental" },
-  { href: "/viz", label: "Visualiser" },
-  { href: "/how-it-works", label: "How it works" },
-];
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -56,17 +50,7 @@ export default function RootLayout({
             >
               Predictorous
             </Link>
-            <nav className="flex gap-5 text-[13.5px]">
-              {NAV.map((n) => (
-                <Link
-                  key={n.href}
-                  href={n.href}
-                  className="text-ink-2 transition-colors hover:text-ink"
-                >
-                  {n.label}
-                </Link>
-              ))}
-            </nav>
+            <Nav />
           </div>
         </header>
         <main className="mx-auto max-w-[1440px] px-6 py-8">{children}</main>

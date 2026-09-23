@@ -1,0 +1,31 @@
+{
+  "_comment": "Hand corrections to the crest-derived kit colours. A BADGE IS NOT A KIT: Spurs play in white behind a navy crest, Leeds in white behind a yellow one, City in sky blue behind a navy one. These are stable for years, so one line each fixes them for good. Give only what is wrong - anything omitted keeps the crest's answer. Re-run scripts/build_kits.py after editing.",
+
+  "ENG-Premier League": {
+    "Tottenham":         { "shirt": "#ffffff", "shorts": "#131c3a" },
+    "Leeds United":      { "shirt": "#ffffff", "shorts": "#1d428a" },
+    "Manchester City":   { "shirt": "#6cabdd", "shorts": "#ffffff" },
+    "Newcastle":         { "shirt": "#241f20", "shorts": "#ffffff" },
+    "Aston Villa":       { "shirt": "#95bfe5", "shorts": "#670e36" },
+    "Coventry City":     { "shirt": "#6cb2e4", "shorts": "#ffffff" },
+    "Fulham":            { "shirt": "#ffffff", "shorts": "#1b1b1b" },
+    "Arsenal":           { "shorts": "#ffffff" },
+    "Liverpool":         { "shorts": "#e71b24" },
+    "Manchester Utd":    { "shorts": "#ffffff" },
+    "Chelsea":           { "shorts": "#051195" },
+    "Everton":           { "shorts": "#ffffff" },
+    "Brighton":          { "shorts": "#ffffff" },
+    "Crystal Palace":    { "shorts": "#0052a3" },
+    "Brentford":         { "shorts": "#ffffff" },
+    "Bournemouth":       { "shorts": "#000000" },
+    "Sunderland":        { "shorts": "#000000" },
+    "Ipswich Town":      { "shorts": "#ffffff" },
+    "Hull City":         { "shorts": "#000000" },
+    "Burnley":           { "shirt": "#6c1d45", "shorts": "#99d6ea" },
+    "Nottingham Forest": { "shirt": "#dd0000", "shorts": "#ffffff" },
+    "Wolves":            { "shirt": "#fdb913", "shorts": "#231f20" },
+    "West Ham":          { "shirt": "#7a263a", "shorts": "#1bb1e7" },
+    "Leicester":         { "shirt": "#003090", "shorts": "#ffffff" },
+    "Southampton":       { "shirt": "#d71920", "shorts": "#ffffff" }
+  }
+}

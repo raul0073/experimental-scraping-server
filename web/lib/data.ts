@@ -16,8 +16,13 @@ export type Fixture = {
   /** What each outcome is worth. Above this price it is value, below it is not. */
   fair: Record<Outcome, number>;
   call: Outcome;
+  /** the modal scoreline the model expected — NOT the result */
   score: string;
   xg: [number, number];
+  /** what actually happened, once it has. Absent while unplayed, so the
+   *  client can tell a 0-0 from a match that has not kicked off. */
+  played?: string;
+  outcome?: Outcome;
 };
 
 export type ZoneKey =
@@ -176,10 +181,9 @@ export const getRound = () => read<RoundData>("round.json");
 export const getRecord = () => read<RecordData>("record.json");
 export const getHistory = () => read<HistoryData>("history.json");
 
-export const slugify = (league: string) =>
-  league.toLowerCase().replace(/[ _]/g, "-");
-
-export const leagueShort = (league: string) => league.split("-")[1] ?? league;
+// Re-exported from lib/league.ts, which has no node:fs, so client components
+// can import them without pulling this module into the browser bundle.
+export { leagueShort, slugify } from "./league";
 
 export const outcomeLabel: Record<Outcome, string> = {
   home: "1",

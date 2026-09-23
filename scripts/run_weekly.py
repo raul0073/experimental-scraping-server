@@ -79,10 +79,30 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--start", type=str, default=None, help="window start date YYYY-MM-DD")
     ap.add_argument("--no-refresh", action="store_true", help="skip scraping, use data on disk")
+    ap.add_argument("--sources-only", action="store_true",
+                    help="refresh the sources and stop, without grading, "
+                         "predicting or simulating — lets the caller rebuild "
+                         "the ratings the predictor depends on IN BETWEEN")
+    # 🐛 WITHOUT THIS, --league MEANT NOTHING TO THE SOURCE REFRESH.
+    # run_daily --league "ENG-Premier League" filtered only its OWN loops and
+    # then shelled out to this script, which looped LEAGUE_NAME_MAP and
+    # rebuilt fixtures, the Understat name map, Understat, players, shots,
+    # rosters, fbref players and injuries for ALL FIVE LEAGUES — 40 source
+    # builds, several of them with refresh=True, to collect the handful of
+    # English matches played yesterday. That is why an "England only" daily
+    # sat in its first step for over ten minutes.
+    ap.add_argument("--league", action="append", dest="leagues",
+                    help="restrict the source refresh to these leagues "
+                         "(repeatable); default is all of them")
     ap.add_argument("--if-stale-hours", type=float, default=None,
                     help="exit immediately if the last successful run is younger than this "
                          "(used by the desktop launcher; the daily task runs unconditionally)")
     args = ap.parse_args()
+
+    # One list, used by every source loop below. LEAGUE_NAME_MAP stays the
+    # default so nothing that called this without --league changes behaviour.
+    refresh_leagues = [lg for lg in LEAGUE_NAME_MAP
+                       if not args.leagues or lg in args.leagues]
 
     if args.if_stale_hours is not None and STAMP.exists():
         try:
@@ -99,7 +119,7 @@ def main() -> int:
         from services.understat.rosters_service import RostersService
         from services.understat.shot_events_service import ShotEventsService
         from services.understat.understat_service import UnderstatService
-        for league in LEAGUE_NAME_MAP:
+        for league in refresh_leagues:
             step(f"fixtures {league}", lambda lg=league: FixturesService(lg, SEASON, refresh=True).build())
             step(f"understat map {league}", lambda lg=league: UnderstatService(lg, SEASON, refresh=True).learn_name_map())
             step(f"understat {league}", lambda lg=league: UnderstatService(lg, SEASON).build())
@@ -107,9 +127,30 @@ def main() -> int:
             step(f"shots {league}", lambda lg=league: ShotEventsService(lg, SEASON, refresh=True).build())
             step(f"rosters {league}", lambda lg=league: RostersService(lg, SEASON).build())
         from services.fbref.player_stats_service import FbrefPlayerStatsService
-        for league in LEAGUE_NAME_MAP:
+        for league in refresh_leagues:
             step(f"fbref players {league}",
                  lambda lg=league: FbrefPlayerStatsService(lg, SEASON).build())
+        # Absentees for the fixtures about to be played. One preview page per
+        # upcoming match — about fifty across the five leagues — and it is
+        # genuinely pre-match information, published before kickoff rather
+        # than read off a team sheet afterwards. Safe to run daily; each run
+        # refreshes only the fixtures still ahead.
+        from scripts.scrape_injuries import run as scrape_injuries
+        for league in refresh_leagues:
+            step(f"injuries {league}",
+                 lambda lg=league: scrape_injuries(lg, SEASON, 7))
+
+    # SPLIT POINT. Everything above reads the outside world; everything below
+    # depends on the RATINGS derived from it. The daily run stops here, fits
+    # the Elo and the form/team layers on what was just fetched, and calls
+    # this script again with --no-refresh so the predictions are made from
+    # today's ratings rather than yesterday's. Without the split the layered
+    # triplet is priced from an Elo table that has not seen last night's
+    # results, which is a whole day of lag hidden inside a job whose entire
+    # purpose is not being a day behind.
+    if args.sources_only:
+        print("\nsources refreshed — stopping before grading (--sources-only)")
+        return 0
 
     from services.predictions.history_service import HistoryService
     from services.predictions.ledger_service import LedgerService

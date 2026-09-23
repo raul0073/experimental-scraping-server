@@ -8,6 +8,7 @@ import {
   type HistoryRow,
 } from "@/lib/data";
 import { Crest } from "../../../components/Crest";
+import { Crumbs } from "../../../components/Crumbs";
 
 // output: "export" needs every dynamic path known at build time.
 export function generateStaticParams() {
@@ -102,12 +103,13 @@ export default async function LeagueHistoryPage({
 
   return (
     <div>
-      <Link
-        href="/predictor/history"
-        className="text-[12.5px] text-ink-2 hover:text-ink"
-      >
-        ← all competitions
-      </Link>
+      <Crumbs
+        trail={[
+          { href: "/predictor", label: "Predictor" },
+          { href: "/predictor/history", label: "History" },
+          { label: leagueShort(league.name) },
+        ]}
+      />
 
       <div className="mt-3 flex flex-wrap items-center gap-4">
         <Crest src={league.crest} alt="" size={32} />

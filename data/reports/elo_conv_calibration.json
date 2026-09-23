@@ -1,0 +1,102 @@
+{
+  "ENG-Premier League": {
+    "train_scores_by_lookback": {
+      "1": 0.04154,
+      "2": 0.03435,
+      "3": 0.03367,
+      "4": 0.03749,
+      "6": 0.04187,
+      "8": 0.04522,
+      "all": 0.0454
+    },
+    "chosen_lookback": 3,
+    "conv_old": 0.79273,
+    "conv_new": 0.77825,
+    "holdout_ratio_old": 1.0929,
+    "holdout_ratio_new": 1.073,
+    "holdout_log_loss_old": 1.0326,
+    "holdout_log_loss_new": 1.0321,
+    "holdout_acc_old": 0.4921,
+    "holdout_acc_new": 0.4921
+  },
+  "ITA-Serie A": {
+    "train_scores_by_lookback": {
+      "1": 0.03774,
+      "2": 0.04837,
+      "3": 0.04649,
+      "4": 0.05066,
+      "6": 0.04845,
+      "8": 0.05598,
+      "all": 0.06001
+    },
+    "chosen_lookback": 1,
+    "conv_old": 0.79575,
+    "conv_new": 0.72841,
+    "holdout_ratio_old": 1.1516,
+    "holdout_ratio_new": 1.0542,
+    "holdout_log_loss_old": 1.0115,
+    "holdout_log_loss_new": 1.0137,
+    "holdout_acc_old": 0.5132,
+    "holdout_acc_new": 0.5105
+  },
+  "ESP-La Liga": {
+    "train_scores_by_lookback": {
+      "1": 0.02723,
+      "2": 0.03811,
+      "3": 0.04235,
+      "4": 0.04831,
+      "6": 0.06957,
+      "8": 0.08646,
+      "all": 0.09293
+    },
+    "chosen_lookback": 1,
+    "conv_old": 0.77716,
+    "conv_new": 0.73123,
+    "holdout_ratio_old": 1.077,
+    "holdout_ratio_new": 1.0133,
+    "holdout_log_loss_old": 0.9868,
+    "holdout_log_loss_new": 0.9888,
+    "holdout_acc_old": 0.5237,
+    "holdout_acc_new": 0.5211
+  },
+  "GER-Bundesliga": {
+    "train_scores_by_lookback": {
+      "1": 0.03223,
+      "2": 0.02184,
+      "3": 0.02675,
+      "4": 0.01893,
+      "6": 0.01999,
+      "8": 0.02013,
+      "all": 0.0231
+    },
+    "chosen_lookback": 4,
+    "conv_old": 0.8254,
+    "conv_new": 0.81611,
+    "holdout_ratio_old": 1.0312,
+    "holdout_ratio_new": 1.0196,
+    "holdout_log_loss_old": 0.9752,
+    "holdout_log_loss_new": 0.9752,
+    "holdout_acc_old": 0.5458,
+    "holdout_acc_new": 0.5458
+  },
+  "FRA-Ligue 1": {
+    "train_scores_by_lookback": {
+      "1": 0.03548,
+      "2": 0.0425,
+      "3": 0.04519,
+      "4": 0.04677,
+      "6": 0.04726,
+      "8": 0.04877,
+      "all": 0.05286
+    },
+    "chosen_lookback": 1,
+    "conv_old": 0.79324,
+    "conv_new": 0.74765,
+    "holdout_ratio_old": 1.053,
+    "holdout_ratio_new": 0.9925,
+    "holdout_log_loss_old": 0.9869,
+    "holdout_log_loss_new": 0.9878,
+    "holdout_acc_old": 0.5294,
+    "holdout_acc_new": 0.5294
+  }
+}

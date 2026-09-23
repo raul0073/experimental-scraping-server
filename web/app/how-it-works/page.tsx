@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { getRecord } from "@/lib/data";
+
 function Node({
   x,
   y,
@@ -160,16 +162,51 @@ function Tag({ children, tone }: { children: React.ReactNode; tone: "now" | "nex
 }
 
 export default function HowItWorksPage() {
+  /** THE RECEIPT, NOT A CLAIM ABOUT ONE. A methodology page that describes a
+   *  gate without showing what got through it is a brochure. These numbers
+   *  are read from the same payload the record page draws, so they cannot
+   *  drift from it: if the model has a bad month, this page says so by
+   *  itself. */
+  const record = getRecord();
+
   return (
     <div>
       <h1 className="font-display text-[26px] tracking-[0.01em]">
         How this works
       </h1>
       <p className="mt-2 max-w-3xl text-[13.5px] text-ink-2">
-        Two halves: what runs today, and what it is being rebuilt into. The
-        difference is marked throughout, because a model that blurs the two is
-        selling something.
+        Two halves: the model that prices fixtures, and the event layer
+        underneath it. Both are built and published. Only the first is
+        allowed to move a prediction, and the difference is marked
+        throughout — a model that blurs the two is selling something.
       </p>
+
+      {record?.graded ? (
+        <div className="num mt-4 flex flex-wrap items-baseline gap-x-6 gap-y-1 rounded-xl border border-line bg-card px-5 py-3 text-[13px]">
+          <span>
+            <b className="text-[16px] font-semibold">{record.graded}</b>{" "}
+            <span className="text-ink-3">calls graded</span>
+          </span>
+          {record.said_avg !== null && (
+            <span>
+              <b className="text-[16px] font-semibold">{record.said_avg}%</b>{" "}
+              <span className="text-ink-3">said, on average</span>
+            </span>
+          )}
+          {record.hit_rate !== null && (
+            <span>
+              <b className="text-[16px] font-semibold">{record.hit_rate}%</b>{" "}
+              <span className="text-ink-3">landed</span>
+            </span>
+          )}
+          <Link
+            href="/predictor/history"
+            className="ml-auto text-[12.5px] text-home underline underline-offset-2"
+          >
+            every call, graded &rarr;
+          </Link>
+        </div>
+      ) : null}
 
       {/* ---------------------------------------------------------- today */}
       <div className="mt-9 flex items-center gap-3">
@@ -202,8 +239,15 @@ export default function HowItWorksPage() {
         <Stage n={4} title="Price the fixture">
           Ratings become expected goals for this specific match, then a grid of
           scorelines, then three probabilities. The zone matchup nudges those
-          expected goals through four fitted channels, and the draw probability
-          is owned by a classifier trained on 17,134 matches.
+          expected goals through four fitted channels. The published triplet is
+          then a{" "}
+          <strong className="font-semibold text-ink">layer</strong>: the
+          home:away ratio is the average of two independently fitted models —
+          the chance-quality one above and a{" "}
+          <strong className="font-semibold text-ink">process Elo</strong> built
+          from thirteen seasons of expected goals — while the draw is handed
+          whole to a classifier trained on 17,134 matches. Two questions with
+          two different winners, measured on 1,714 matches neither had seen.
         </Stage>
         <Stage n={5} title="Commit it before kickoff">
           The prediction is written down and never revised, then graded against
@@ -279,7 +323,7 @@ export default function HowItWorksPage() {
           <li>
             <strong className="font-semibold text-ink">Player ratings do not feed predictions.</strong>{" "}
             They are a separate, unvalidated experiment — see{" "}
-            <Link href="/mental" className="text-home underline underline-offset-2">
+            <Link href="/ratings" className="text-home underline underline-offset-2">
               Mental
             </Link>
             .
@@ -287,17 +331,31 @@ export default function HowItWorksPage() {
         </ul>
       </section>
 
-      {/* ---------------------------------------------------------- next */}
+      {/* ------------------------------------------------- the event layer */}
       <div className="mt-10 flex items-center gap-3">
-        <Tag tone="next">Being built</Tag>
+        <Tag tone="next">Built, not yet trusted</Tag>
         <h2 className="text-[18px] font-semibold">Zones as the unit</h2>
       </div>
 
       <p className="mt-3 max-w-3xl text-[13.5px] leading-relaxed text-ink-2">
         Everything above runs on 25 shots a match — about 1.8% of what happens.
-        The next version runs on every event, roughly 1,431 per match, each with
-        the player, the position, the outcome and the minute. The organising
-        idea:{" "}
+        This layer runs on every event, roughly 1,431 per match, each with the
+        player, the position, the outcome and the minute. It is{" "}
+        <strong className="font-semibold text-ink">built and published</strong>
+        : the shot and pass maps, the zone heat, the capability profiles and
+        the manager spells all read it.
+      </p>
+
+      <p className="mt-3 max-w-3xl text-[13.5px] leading-relaxed text-ink-2">
+        What it has <em>not</em> done is earn a place in the predictor. Zones
+        built from player events were measured against the shipping model and{" "}
+        <strong className="font-semibold text-ink">did not beat it</strong>, so
+        they do not move a single published probability. That is the gate
+        working, not the layer failing —{" "}
+        <Link href="/rejected" className="text-home underline underline-offset-2">
+          the measurement is on the record
+        </Link>
+        . The organising idea it is being built toward:{" "}
         <strong className="font-semibold text-ink">
           a team is as strong as the way it occupies space
         </strong>
@@ -365,10 +423,12 @@ export default function HowItWorksPage() {
       </div>
 
       <p className="mt-5 max-w-3xl text-[13px] leading-relaxed text-ink-2">
-        None of it is published as fact until it passes the same gate as
-        everything else — and the prediction baseline stays deliberately blind
-        to all of it, because a metric cannot be validated against a model that
-        already contains it.
+        None of it moves a prediction until it passes the same gate as
+        everything else, and the baseline stays deliberately blind to all of
+        it — a metric cannot be validated against a model that already
+        contains it. Published as analysis, withheld from the forecast: those
+        are two different standards of proof, and conflating them is how a
+        dashboard starts calling itself a model.
       </p>
     </div>
   );

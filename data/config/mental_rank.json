@@ -9,7 +9,7 @@
    },
    {
     "key": "discipline",
-    "weight": 14,
+    "weight": 9,
     "enabled": true
    },
    {
@@ -24,7 +24,7 @@
    },
    {
     "key": "aerial90",
-    "weight": 10,
+    "weight": 20,
     "enabled": true
    },
    {
@@ -34,7 +34,7 @@
    },
    {
     "key": "buildup90",
-    "weight": 8,
+    "weight": 13,
     "enabled": true
    },
    {
@@ -45,7 +45,7 @@
    {
     "key": "fld90",
     "weight": 5,
-    "enabled": true
+    "enabled": false
    },
    {
     "key": "shot_stop",
@@ -85,7 +85,7 @@
    {
     "key": "floor_xgxa",
     "weight": 5,
-    "enabled": false
+    "enabled": true
    },
    {
     "key": "delivery",
@@ -299,7 +299,7 @@
    {
     "key": "shot_selection",
     "weight": 6,
-    "enabled": false
+    "enabled": true
    },
    {
     "key": "floor_chain",
@@ -401,7 +401,7 @@
    {
     "key": "travels",
     "weight": 8,
-    "enabled": false
+    "enabled": true
    },
    {
     "key": "cons_chain",

@@ -71,3 +71,8 @@ data/backups/
 
 # cached experiment samples, regenerable
 data/reports/_player_zone_samples_*.json
+
+# Derived row caches — regenerable by their experiment scripts, and large
+# enough that keeping them in history costs more than re-running.
+data/reports/_*.csv
+data/reports/*.log

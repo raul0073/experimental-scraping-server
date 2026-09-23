@@ -1,7 +1,7 @@
 {
- "generated": "2026-09-16",
+ "generated": "2026-09-23",
  "season": "2627",
- "as_of": "2026-09-16",
+ "as_of": "2026-09-23",
  "crests": {
   "teams": {
    "ENG-Premier League": {
@@ -128,218 +128,218 @@
  },
  "leagues": {
   "ENG-Premier League": {
-   "week": 5,
-   "start": "2026-09-18",
-   "end": "2026-09-20",
+   "week": 6,
+   "start": "2026-10-10",
+   "end": "2026-10-12",
    "fixtures": [
     {
-     "date": "2026-09-18",
-     "home": "Brentford",
-     "away": "Chelsea",
+     "date": "2026-10-10",
+     "home": "Arsenal",
+     "away": "Leeds United",
      "p": {
-      "home": 35.2,
-      "draw": 32.0,
-      "away": 32.8
+      "home": 60.7,
+      "draw": 23.4,
+      "away": 15.9
      },
      "fair": {
-      "home": 2.84,
-      "draw": 3.12,
-      "away": 3.05
+      "home": 1.65,
+      "draw": 4.27,
+      "away": 6.29
+     },
+     "call": "home",
+     "score": "1-0",
+     "xg": [
+      1.81,
+      0.71
+     ]
+    },
+    {
+     "date": "2026-10-10",
+     "home": "Aston Villa",
+     "away": "Brentford",
+     "p": {
+      "home": 35.8,
+      "draw": 31.0,
+      "away": 33.2
+     },
+     "fair": {
+      "home": 2.79,
+      "draw": 3.23,
+      "away": 3.01
+     },
+     "call": "home",
+     "score": "1-0",
+     "xg": [
+      1.41,
+      1.33
+     ]
+    },
+    {
+     "date": "2026-10-10",
+     "home": "Chelsea",
+     "away": "Bournemouth",
+     "p": {
+      "home": 37.6,
+      "draw": 31.0,
+      "away": 31.3
+     },
+     "fair": {
+      "home": 2.66,
+      "draw": 3.23,
+      "away": 3.19
      },
      "call": "draw",
      "score": "1-1",
      "xg": [
-      1.51,
-      1.44
+      1.75,
+      1.38
      ]
     },
     {
-     "date": "2026-09-19",
-     "home": "Brighton",
-     "away": "Arsenal",
+     "date": "2026-10-10",
+     "home": "Ipswich Town",
+     "away": "Fulham",
      "p": {
-      "home": 23.1,
-      "draw": 25.5,
-      "away": 51.4
+      "home": 30.8,
+      "draw": 30.7,
+      "away": 38.5
      },
      "fair": {
-      "home": 4.33,
-      "draw": 3.92,
-      "away": 1.95
+      "home": 3.25,
+      "draw": 3.26,
+      "away": 2.6
+     },
+     "call": "away",
+     "score": "1-2",
+     "xg": [
+      1.26,
+      1.59
+     ]
+    },
+    {
+     "date": "2026-10-10",
+     "home": "Manchester Utd",
+     "away": "Tottenham",
+     "p": {
+      "home": 55.8,
+      "draw": 25.0,
+      "away": 19.2
+     },
+     "fair": {
+      "home": 1.79,
+      "draw": 4.0,
+      "away": 5.21
+     },
+     "call": "home",
+     "score": "1-0",
+     "xg": [
+      1.71,
+      0.78
+     ]
+    },
+    {
+     "date": "2026-10-10",
+     "home": "Sunderland",
+     "away": "Brighton",
+     "p": {
+      "home": 30.3,
+      "draw": 29.4,
+      "away": 40.3
+     },
+     "fair": {
+      "home": 3.3,
+      "draw": 3.4,
+      "away": 2.48
      },
      "call": "away",
      "score": "0-1",
      "xg": [
-      0.87,
-      1.44
+      1.05,
+      1.37
      ]
     },
     {
-     "date": "2026-09-19",
-     "home": "Everton",
-     "away": "Ipswich Town",
+     "date": "2026-10-11",
+     "home": "Crystal Palace",
+     "away": "Nottingham",
      "p": {
-      "home": 45.7,
-      "draw": 28.4,
-      "away": 26.0
+      "home": 37.5,
+      "draw": 33.2,
+      "away": 29.4
      },
      "fair": {
-      "home": 2.19,
-      "draw": 3.52,
-      "away": 3.85
-     },
-     "call": "home",
-     "score": "1-0",
-     "xg": [
-      1.53,
-      1.09
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Newcastle",
-     "away": "Hull City",
-     "p": {
-      "home": 52.0,
-      "draw": 24.6,
-      "away": 23.4
-     },
-     "fair": {
-      "home": 1.92,
-      "draw": 4.07,
-      "away": 4.27
-     },
-     "call": "home",
-     "score": "1-0",
-     "xg": [
-      1.64,
-      1.02
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Nottingham",
-     "away": "Coventry City",
-     "p": {
-      "home": 48.6,
-      "draw": 28.1,
-      "away": 23.3
-     },
-     "fair": {
-      "home": 2.06,
-      "draw": 3.56,
-      "away": 4.29
-     },
-     "call": "home",
-     "score": "1-0",
-     "xg": [
-      1.43,
-      0.9
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Tottenham",
-     "away": "Aston Villa",
-     "p": {
-      "home": 30.9,
-      "draw": 32.1,
-      "away": 37.0
-     },
-     "fair": {
-      "home": 3.24,
-      "draw": 3.12,
-      "away": 2.7
+      "home": 2.67,
+      "draw": 3.01,
+      "away": 3.4
      },
      "call": "draw",
      "score": "1-1",
      "xg": [
-      1.02,
-      1.14
+      1.42,
+      1.13
      ]
     },
     {
-     "date": "2026-09-20",
-     "home": "Bournemouth",
-     "away": "Liverpool",
+     "date": "2026-10-11",
+     "home": "Hull City",
+     "away": "Everton",
      "p": {
-      "home": 32.5,
-      "draw": 31.2,
-      "away": 36.2
+      "home": 32.4,
+      "draw": 28.0,
+      "away": 39.6
      },
      "fair": {
-      "home": 3.08,
-      "draw": 3.21,
-      "away": 2.76
+      "home": 3.09,
+      "draw": 3.57,
+      "away": 2.53
      },
      "call": "away",
      "score": "0-1",
      "xg": [
-      1.37,
-      1.45
+      1.1,
+      1.24
      ]
     },
     {
-     "date": "2026-09-20",
-     "home": "Fulham",
-     "away": "Manchester Utd",
+     "date": "2026-10-11",
+     "home": "Liverpool",
+     "away": "Manchester City",
      "p": {
-      "home": 28.8,
-      "draw": 29.3,
-      "away": 41.9
+      "home": 32.8,
+      "draw": 28.9,
+      "away": 38.3
      },
      "fair": {
-      "home": 3.47,
-      "draw": 3.41,
-      "away": 2.39
+      "home": 3.05,
+      "draw": 3.46,
+      "away": 2.61
+     },
+     "call": "away",
+     "score": "1-2",
+     "xg": [
+      1.36,
+      1.49
+     ]
+    },
+    {
+     "date": "2026-10-12",
+     "home": "Coventry City",
+     "away": "Newcastle",
+     "p": {
+      "home": 31.4,
+      "draw": 30.9,
+      "away": 37.7
+     },
+     "fair": {
+      "home": 3.18,
+      "draw": 3.24,
+      "away": 2.65
      },
      "call": "away",
      "score": "0-1",
      "xg": [
-      1.16,
-      1.46
-     ]
-    },
-    {
-     "date": "2026-09-20",
-     "home": "Leeds United",
-     "away": "Crystal Palace",
-     "p": {
-      "home": 41.6,
-      "draw": 29.3,
-      "away": 29.1
-     },
-     "fair": {
-      "home": 2.4,
-      "draw": 3.41,
-      "away": 3.44
-     },
-     "call": "home",
-     "score": "1-0",
-     "xg": [
-      1.38,
-      1.11
-     ]
-    },
-    {
-     "date": "2026-09-20",
-     "home": "Manchester City",
-     "away": "Sunderland",
-     "p": {
-      "home": 67.7,
-      "draw": 19.5,
-      "away": 12.8
-     },
-     "fair": {
-      "home": 1.48,
-      "draw": 5.13,
-      "away": 7.81
-     },
-     "call": "home",
-     "score": "2-0",
-     "xg": [
-      2.03,
-      0.75
+      0.95,
+      1.42
      ]
     }
    ],
@@ -373,414 +373,498 @@
     {
      "team": "Arsenal",
      "played_pts": 12,
-     "exp_pts": 82.4,
-     "title": 58.6,
-     "med_pos": 1,
+     "exp_pts": 77.0,
+     "title": 43.4,
+     "med_pos": 2,
      "zone": {
-      "ucl": 95.4,
-      "uel": 1.8,
-      "uecl": 1.0,
+      "ucl": 90.1,
+      "uel": 3.2,
+      "uecl": 2.4,
       "rel": 0.0,
-      "mid": 1.8
+      "mid": 4.2
      }
     },
     {
      "team": "Manchester City",
-     "played_pts": 12,
-     "exp_pts": 77.3,
-     "title": 31.4,
+     "played_pts": 15,
+     "exp_pts": 75.6,
+     "title": 38.0,
      "med_pos": 2,
      "zone": {
-      "ucl": 88.3,
-      "uel": 4.4,
-      "uecl": 2.6,
+      "ucl": 86.2,
+      "uel": 4.5,
+      "uecl": 3.0,
       "rel": 0.0,
-      "mid": 4.8
+      "mid": 6.3
      }
     },
     {
-     "team": "Manchester Utd",
-     "played_pts": 4,
-     "exp_pts": 60.5,
-     "title": 1.9,
-     "med_pos": 6,
+     "team": "Brighton",
+     "played_pts": 10,
+     "exp_pts": 63.3,
+     "title": 7.1,
+     "med_pos": 5,
      "zone": {
-      "ucl": 36.2,
-      "uel": 11.7,
-      "uecl": 9.9,
-      "rel": 1.1,
-      "mid": 41.0
+      "ucl": 48.8,
+      "uel": 10.7,
+      "uecl": 8.5,
+      "rel": 0.8,
+      "mid": 31.1
      }
     },
     {
      "team": "Liverpool",
-     "played_pts": 6,
-     "exp_pts": 59.8,
-     "title": 2.3,
+     "played_pts": 9,
+     "exp_pts": 59.5,
+     "title": 3.5,
      "med_pos": 6,
      "zone": {
-      "ucl": 34.0,
-      "uel": 11.2,
-      "uecl": 9.2,
-      "rel": 1.4,
-      "mid": 44.4
+      "ucl": 33.3,
+      "uel": 10.8,
+      "uecl": 9.0,
+      "rel": 1.3,
+      "mid": 45.6
+     }
+    },
+    {
+     "team": "Manchester Utd",
+     "played_pts": 5,
+     "exp_pts": 57.7,
+     "title": 2.1,
+     "med_pos": 7,
+     "zone": {
+      "ucl": 27.2,
+      "uel": 10.3,
+      "uecl": 9.6,
+      "rel": 2.2,
+      "mid": 50.8
+     }
+    },
+    {
+     "team": "Brentford",
+     "played_pts": 9,
+     "exp_pts": 55.6,
+     "title": 1.6,
+     "med_pos": 8,
+     "zone": {
+      "ucl": 22.0,
+      "uel": 8.4,
+      "uecl": 8.3,
+      "rel": 3.2,
+      "mid": 58.0
+     }
+    },
+    {
+     "team": "Leeds United",
+     "played_pts": 9,
+     "exp_pts": 54.6,
+     "title": 1.1,
+     "med_pos": 8,
+     "zone": {
+      "ucl": 18.6,
+      "uel": 8.5,
+      "uecl": 8.3,
+      "rel": 4.1,
+      "mid": 60.5
      }
     },
     {
      "team": "Chelsea",
      "played_pts": 7,
-     "exp_pts": 59.2,
-     "title": 1.6,
-     "med_pos": 6,
-     "zone": {
-      "ucl": 30.9,
-      "uel": 10.7,
-      "uecl": 9.6,
-      "rel": 1.8,
-      "mid": 47.0
-     }
-    },
-    {
-     "team": "Brighton",
-     "played_pts": 7,
-     "exp_pts": 58.2,
-     "title": 1.6,
-     "med_pos": 7,
-     "zone": {
-      "ucl": 29.1,
-      "uel": 10.3,
-      "uecl": 9.7,
-      "rel": 2.0,
-      "mid": 48.9
-     }
-    },
-    {
-     "team": "Leeds United",
-     "played_pts": 8,
-     "exp_pts": 55.0,
+     "exp_pts": 53.6,
      "title": 0.9,
-     "med_pos": 8,
-     "zone": {
-      "ucl": 19.2,
-      "uel": 8.7,
-      "uecl": 8.6,
-      "rel": 3.4,
-      "mid": 60.2
-     }
-    },
-    {
-     "team": "Brentford",
-     "played_pts": 6,
-     "exp_pts": 53.3,
-     "title": 0.6,
      "med_pos": 9,
      "zone": {
-      "ucl": 15.6,
-      "uel": 7.6,
-      "uecl": 7.4,
-      "rel": 4.8,
-      "mid": 64.6
+      "ucl": 16.1,
+      "uel": 7.2,
+      "uecl": 7.8,
+      "rel": 5.5,
+      "mid": 63.4
      }
     },
     {
      "team": "Bournemouth",
      "played_pts": 3,
-     "exp_pts": 51.1,
-     "title": 0.4,
+     "exp_pts": 51.8,
+     "title": 0.7,
      "med_pos": 10,
      "zone": {
-      "ucl": 11.2,
-      "uel": 6.0,
-      "uecl": 6.7,
-      "rel": 7.4,
-      "mid": 68.8
+      "ucl": 12.4,
+      "uel": 6.9,
+      "uecl": 7.3,
+      "rel": 7.3,
+      "mid": 66.1
      }
     },
     {
-     "team": "Aston Villa",
-     "played_pts": 1,
-     "exp_pts": 48.6,
-     "title": 0.1,
+     "team": "Everton",
+     "played_pts": 9,
+     "exp_pts": 50.4,
+     "title": 0.6,
      "med_pos": 11,
      "zone": {
-      "ucl": 7.4,
-      "uel": 4.7,
-      "uecl": 5.6,
-      "rel": 11.8,
-      "mid": 70.6
-     }
-    },
-    {
-     "team": "Crystal Palace",
-     "played_pts": 3,
-     "exp_pts": 47.6,
-     "title": 0.1,
-     "med_pos": 12,
-     "zone": {
-      "ucl": 6.2,
-      "uel": 4.2,
-      "uecl": 4.8,
-      "rel": 13.2,
-      "mid": 71.7
-     }
-    },
-    {
-     "team": "Newcastle",
-     "played_pts": 5,
-     "exp_pts": 47.6,
-     "title": 0.1,
-     "med_pos": 12,
-     "zone": {
-      "ucl": 6.0,
-      "uel": 4.0,
-      "uecl": 4.8,
-      "rel": 12.7,
-      "mid": 72.5
+      "ucl": 9.6,
+      "uel": 5.1,
+      "uecl": 6.1,
+      "rel": 8.6,
+      "mid": 70.7
      }
     },
     {
      "team": "Nottingham",
      "played_pts": 5,
-     "exp_pts": 46.0,
-     "title": 0.1,
-     "med_pos": 13,
+     "exp_pts": 47.3,
+     "title": 0.3,
+     "med_pos": 12,
      "zone": {
-      "ucl": 4.7,
-      "uel": 3.0,
-      "uecl": 4.0,
-      "rel": 15.9,
-      "mid": 72.5
+      "ucl": 6.2,
+      "uel": 3.7,
+      "uecl": 4.7,
+      "rel": 14.2,
+      "mid": 71.2
      }
     },
     {
-     "team": "Fulham",
-     "played_pts": 1,
-     "exp_pts": 45.9,
-     "title": 0.1,
+     "team": "Aston Villa",
+     "played_pts": 4,
+     "exp_pts": 46.9,
+     "title": 0.2,
      "med_pos": 13,
      "zone": {
-      "ucl": 4.7,
-      "uel": 2.9,
-      "uecl": 4.6,
+      "ucl": 5.4,
+      "uel": 3.6,
+      "uecl": 4.4,
       "rel": 16.2,
-      "mid": 71.7
+      "mid": 70.4
      }
     },
     {
-     "team": "Everton",
-     "played_pts": 6,
-     "exp_pts": 44.3,
-     "title": 0.0,
-     "med_pos": 14,
+     "team": "Newcastle",
+     "played_pts": 8,
+     "exp_pts": 46.9,
+     "title": 0.2,
+     "med_pos": 13,
      "zone": {
-      "ucl": 3.1,
-      "uel": 2.6,
-      "uecl": 3.5,
-      "rel": 20.1,
-      "mid": 70.7
+      "ucl": 5.6,
+      "uel": 3.5,
+      "uecl": 4.2,
+      "rel": 15.5,
+      "mid": 71.2
      }
     },
     {
      "team": "Sunderland",
      "played_pts": 4,
-     "exp_pts": 42.4,
-     "title": 0.1,
-     "med_pos": 15,
+     "exp_pts": 46.4,
+     "title": 0.2,
+     "med_pos": 13,
      "zone": {
-      "ucl": 2.5,
-      "uel": 2.1,
-      "uecl": 2.5,
-      "rel": 26.4,
-      "mid": 66.6
+      "ucl": 5.3,
+      "uel": 3.7,
+      "uecl": 4.2,
+      "rel": 17.1,
+      "mid": 69.6
+     }
+    },
+    {
+     "team": "Crystal Palace",
+     "played_pts": 4,
+     "exp_pts": 45.7,
+     "title": 0.1,
+     "med_pos": 13,
+     "zone": {
+      "ucl": 4.7,
+      "uel": 2.9,
+      "uecl": 3.6,
+      "rel": 19.1,
+      "mid": 69.7
+     }
+    },
+    {
+     "team": "Fulham",
+     "played_pts": 2,
+     "exp_pts": 44.1,
+     "title": 0.1,
+     "med_pos": 14,
+     "zone": {
+      "ucl": 3.6,
+      "uel": 2.5,
+      "uecl": 3.0,
+      "rel": 22.8,
+      "mid": 68.2
      }
     },
     {
      "team": "Hull City",
      "played_pts": 8,
-     "exp_pts": 41.6,
-     "title": 0.0,
-     "med_pos": 15,
+     "exp_pts": 40.6,
+     "title": 0.1,
+     "med_pos": 16,
      "zone": {
-      "ucl": 2.3,
-      "uel": 1.7,
-      "uecl": 2.3,
-      "rel": 28.8,
-      "mid": 64.9
+      "ucl": 1.8,
+      "uel": 1.5,
+      "uecl": 1.7,
+      "rel": 34.6,
+      "mid": 60.4
      }
     },
     {
      "team": "Tottenham",
      "played_pts": 2,
-     "exp_pts": 40.9,
+     "exp_pts": 40.5,
      "title": 0.0,
-     "med_pos": 15,
+     "med_pos": 16,
      "zone": {
-      "ucl": 1.9,
-      "uel": 1.3,
+      "ucl": 1.4,
+      "uel": 1.5,
       "uecl": 1.7,
-      "rel": 30.4,
-      "mid": 64.7
+      "rel": 35.0,
+      "mid": 60.4
      }
     },
     {
      "team": "Ipswich Town",
      "played_pts": 6,
-     "exp_pts": 38.9,
+     "exp_pts": 39.6,
      "title": 0.0,
      "med_pos": 16,
      "zone": {
       "ucl": 1.2,
-      "uel": 0.8,
-      "uecl": 1.4,
-      "rel": 40.0,
-      "mid": 56.6
+      "uel": 1.0,
+      "uecl": 1.5,
+      "rel": 39.2,
+      "mid": 57.1
      }
     },
     {
      "team": "Coventry City",
-     "played_pts": 0,
-     "exp_pts": 32.8,
+     "played_pts": 3,
+     "exp_pts": 36.1,
      "title": 0.0,
-     "med_pos": 19,
+     "med_pos": 18,
      "zone": {
-      "ucl": 0.2,
-      "uel": 0.3,
-      "uecl": 0.5,
-      "rel": 62.8,
-      "mid": 36.2
+      "ucl": 0.6,
+      "uel": 0.5,
+      "uecl": 0.7,
+      "rel": 53.3,
+      "mid": 45.0
      }
     }
    ]
   },
   "ESP-La Liga": {
-   "week": 6,
-   "start": "2026-09-16",
-   "end": "2026-09-17",
+   "week": 8,
+   "start": "2026-10-09",
+   "end": "2026-10-12",
    "fixtures": [
     {
-     "date": "2026-09-16",
-     "home": "Atlético Madrid",
-     "away": "Osasuna",
+     "date": "2026-10-09",
+     "home": "Málaga",
+     "away": "Espanyol",
      "p": {
-      "home": 51.5,
-      "draw": 25.9,
-      "away": 22.6
+      "home": 29.4,
+      "draw": 32.0,
+      "away": 38.7
      },
      "fair": {
-      "home": 1.94,
-      "draw": 3.86,
-      "away": 4.42
+      "home": 3.4,
+      "draw": 3.12,
+      "away": 2.58
+     },
+     "call": "draw",
+     "score": "1-1",
+     "xg": [
+      0.8,
+      1.3
+     ]
+    },
+    {
+     "date": "2026-10-10",
+     "home": "Alavés",
+     "away": "Atlético Madrid",
+     "p": {
+      "home": 36.3,
+      "draw": 30.3,
+      "away": 33.4
+     },
+     "fair": {
+      "home": 2.75,
+      "draw": 3.3,
+      "away": 2.99
      },
      "call": "home",
      "score": "1-0",
      "xg": [
-      1.66,
-      1.01
+      1.34,
+      1.29
      ]
     },
     {
-     "date": "2026-09-16",
+     "date": "2026-10-10",
      "home": "Barcelona",
-     "away": "Racing Sant",
+     "away": "Getafe",
      "p": {
-      "home": 72.4,
-      "draw": 15.1,
-      "away": 12.5
+      "home": 79.6,
+      "draw": 13.9,
+      "away": 6.5
      },
      "fair": {
-      "home": 1.38,
-      "draw": 6.62,
-      "away": 8.0
+      "home": 1.26,
+      "draw": 7.19,
+      "away": 15.38
+     },
+     "call": "home",
+     "score": "2-0",
+     "xg": [
+      2.68,
+      0.55
+     ]
+    },
+    {
+     "date": "2026-10-10",
+     "home": "Rayo Vallecano",
+     "away": "Athletic Club",
+     "p": {
+      "home": 35.6,
+      "draw": 31.7,
+      "away": 32.7
+     },
+     "fair": {
+      "home": 2.81,
+      "draw": 3.15,
+      "away": 3.06
+     },
+     "call": "draw",
+     "score": "1-1",
+     "xg": [
+      1.23,
+      1.21
+     ]
+    },
+    {
+     "date": "2026-10-10",
+     "home": "Real Madrid",
+     "away": "Villarreal",
+     "p": {
+      "home": 55.9,
+      "draw": 23.6,
+      "away": 20.5
+     },
+     "fair": {
+      "home": 1.79,
+      "draw": 4.24,
+      "away": 4.88
      },
      "call": "home",
      "score": "2-1",
      "xg": [
-      2.7,
-      1.06
+      2.34,
+      1.2
      ]
     },
     {
-     "date": "2026-09-16",
-     "home": "Dep. A Coruña",
-     "away": "Sevilla",
+     "date": "2026-10-11",
+     "home": "Elche",
+     "away": "Celta Vigo",
      "p": {
-      "home": 42.9,
-      "draw": 30.1,
-      "away": 27.1
+      "home": 36.5,
+      "draw": 29.8,
+      "away": 33.7
      },
      "fair": {
-      "home": 2.33,
-      "draw": 3.32,
-      "away": 3.69
+      "home": 2.74,
+      "draw": 3.36,
+      "away": 2.97
      },
      "call": "home",
      "score": "1-0",
      "xg": [
       1.25,
-      0.93
+      1.37
      ]
     },
     {
-     "date": "2026-09-16",
-     "home": "Levante",
-     "away": "Athletic Club",
+     "date": "2026-10-11",
+     "home": "Racing Sant",
+     "away": "Valencia",
      "p": {
-      "home": 35.7,
-      "draw": 32.0,
-      "away": 32.3
+      "home": 39.8,
+      "draw": 28.3,
+      "away": 31.9
      },
      "fair": {
-      "home": 2.8,
-      "draw": 3.12,
-      "away": 3.1
+      "home": 2.51,
+      "draw": 3.53,
+      "away": 3.13
      },
-     "call": "draw",
-     "score": "1-1",
+     "call": "home",
+     "score": "2-1",
      "xg": [
-      1.41,
-      1.33
+      1.53,
+      1.51
      ]
     },
     {
-     "date": "2026-09-17",
-     "home": "Málaga",
-     "away": "Villarreal",
-     "p": {
-      "home": 20.0,
-      "draw": 26.9,
-      "away": 53.1
-     },
-     "fair": {
-      "home": 5.0,
-      "draw": 3.72,
-      "away": 1.88
-     },
-     "call": "away",
-     "score": "0-1",
-     "xg": [
-      0.91,
-      1.66
-     ]
-    },
-    {
-     "date": "2026-09-17",
+     "date": "2026-10-11",
      "home": "Real Betis",
-     "away": "Getafe",
+     "away": "Osasuna",
      "p": {
-      "home": 59.2,
-      "draw": 24.4,
-      "away": 16.4
+      "home": 51.8,
+      "draw": 26.2,
+      "away": 22.0
      },
      "fair": {
-      "home": 1.69,
-      "draw": 4.1,
-      "away": 6.1
+      "home": 1.93,
+      "draw": 3.82,
+      "away": 4.55
      },
      "call": "home",
      "score": "1-0",
      "xg": [
-      1.5,
-      0.65
+      1.73,
+      0.93
+     ]
+    },
+    {
+     "date": "2026-10-11",
+     "home": "Real Sociedad",
+     "away": "Dep. A Coruña",
+     "p": {
+      "home": 44.9,
+      "draw": 30.8,
+      "away": 24.3
+     },
+     "fair": {
+      "home": 2.23,
+      "draw": 3.25,
+      "away": 4.12
+     },
+     "call": "home",
+     "score": "1-0",
+     "xg": [
+      1.61,
+      0.99
+     ]
+    },
+    {
+     "date": "2026-10-12",
+     "home": "Levante",
+     "away": "Sevilla",
+     "p": {
+      "home": 48.2,
+      "draw": 26.6,
+      "away": 25.2
+     },
+     "fair": {
+      "home": 2.07,
+      "draw": 3.76,
+      "away": 3.97
+     },
+     "call": "home",
+     "score": "1-0",
+     "xg": [
+      1.45,
+      0.95
      ]
     }
    ],
@@ -813,498 +897,498 @@
    "projection": [
     {
      "team": "Barcelona",
-     "played_pts": 15,
-     "exp_pts": 86.2,
-     "title": 67.7,
+     "played_pts": 21,
+     "exp_pts": 88.1,
+     "title": 83.3,
      "med_pos": 1,
      "zone": {
-      "ucl": 98.7,
-      "uel": 1.1,
+      "ucl": 99.2,
+      "uel": 0.7,
       "uecl": 0.1,
       "rel": 0.0,
-      "mid": 0.2
+      "mid": 0.1
      }
     },
     {
      "team": "Real Madrid",
      "played_pts": 15,
-     "exp_pts": 79.1,
-     "title": 27.2,
+     "exp_pts": 73.3,
+     "title": 10.5,
      "med_pos": 2,
      "zone": {
-      "ucl": 93.8,
-      "uel": 4.1,
-      "uecl": 0.8,
+      "ucl": 83.7,
+      "uel": 9.9,
+      "uecl": 2.3,
       "rel": 0.0,
-      "mid": 1.3
-     }
-    },
-    {
-     "team": "Real Betis",
-     "played_pts": 12,
-     "exp_pts": 62.8,
-     "title": 1.6,
-     "med_pos": 5,
-     "zone": {
-      "ucl": 43.2,
-      "uel": 21.6,
-      "uecl": 8.0,
-      "rel": 0.6,
-      "mid": 26.6
+      "mid": 4.1
      }
     },
     {
      "team": "Atlético Madrid",
-     "played_pts": 10,
-     "exp_pts": 62.3,
-     "title": 1.7,
+     "played_pts": 16,
+     "exp_pts": 66.8,
+     "title": 3.4,
+     "med_pos": 4,
+     "zone": {
+      "ucl": 61.1,
+      "uel": 19.2,
+      "uecl": 5.6,
+      "rel": 0.1,
+      "mid": 14.1
+     }
+    },
+    {
+     "team": "Real Betis",
+     "played_pts": 16,
+     "exp_pts": 63.2,
+     "title": 1.5,
      "med_pos": 5,
      "zone": {
-      "ucl": 42.8,
-      "uel": 21.2,
+      "ucl": 44.0,
+      "uel": 23.5,
       "uecl": 8.0,
       "rel": 0.5,
-      "mid": 27.5
-     }
-    },
-    {
-     "team": "Athletic Club",
-     "played_pts": 7,
-     "exp_pts": 57.0,
-     "title": 0.4,
-     "med_pos": 7,
-     "zone": {
-      "ucl": 24.2,
-      "uel": 19.9,
-      "uecl": 8.6,
-      "rel": 2.3,
-      "mid": 45.0
-     }
-    },
-    {
-     "team": "Racing Sant",
-     "played_pts": 7,
-     "exp_pts": 55.7,
-     "title": 0.4,
-     "med_pos": 8,
-     "zone": {
-      "ucl": 20.1,
-      "uel": 18.9,
-      "uecl": 8.7,
-      "rel": 2.9,
-      "mid": 49.4
-     }
-    },
-    {
-     "team": "Alavés",
-     "played_pts": 10,
-     "exp_pts": 54.5,
-     "title": 0.3,
-     "med_pos": 8,
-     "zone": {
-      "ucl": 16.9,
-      "uel": 18.1,
-      "uecl": 8.5,
-      "rel": 3.2,
-      "mid": 53.3
+      "mid": 24.0
      }
     },
     {
      "team": "Villarreal",
-     "played_pts": 2,
-     "exp_pts": 53.0,
-     "title": 0.2,
-     "med_pos": 9,
+     "played_pts": 8,
+     "exp_pts": 58.4,
+     "title": 0.4,
+     "med_pos": 6,
      "zone": {
-      "ucl": 13.7,
-      "uel": 16.1,
-      "uecl": 8.4,
-      "rel": 4.9,
-      "mid": 56.9
+      "ucl": 27.3,
+      "uel": 23.6,
+      "uecl": 9.5,
+      "rel": 1.3,
+      "mid": 38.3
      }
     },
     {
-     "team": "Osasuna",
-     "played_pts": 7,
-     "exp_pts": 51.9,
-     "title": 0.2,
-     "med_pos": 10,
+     "team": "Athletic Club",
+     "played_pts": 8,
+     "exp_pts": 57.3,
+     "title": 0.4,
+     "med_pos": 7,
      "zone": {
-      "ucl": 11.3,
-      "uel": 14.2,
-      "uecl": 7.3,
-      "rel": 5.8,
-      "mid": 61.5
+      "ucl": 24.3,
+      "uel": 21.1,
+      "uecl": 9.2,
+      "rel": 2.1,
+      "mid": 43.3
+     }
+    },
+    {
+     "team": "Alavés",
+     "played_pts": 11,
+     "exp_pts": 54.1,
+     "title": 0.3,
+     "med_pos": 8,
+     "zone": {
+      "ucl": 15.4,
+      "uel": 17.9,
+      "uecl": 9.6,
+      "rel": 3.4,
+      "mid": 53.7
      }
     },
     {
      "team": "Rayo Vallecano",
-     "played_pts": 7,
-     "exp_pts": 50.1,
+     "played_pts": 8,
+     "exp_pts": 50.5,
+     "title": 0.1,
+     "med_pos": 10,
+     "zone": {
+      "ucl": 8.0,
+      "uel": 13.0,
+      "uecl": 7.2,
+      "rel": 7.9,
+      "mid": 64.0
+     }
+    },
+    {
+     "team": "Real Sociedad",
+     "played_pts": 10,
+     "exp_pts": 49.9,
+     "title": 0.0,
+     "med_pos": 11,
+     "zone": {
+      "ucl": 6.9,
+      "uel": 11.5,
+      "uecl": 6.9,
+      "rel": 8.4,
+      "mid": 66.4
+     }
+    },
+    {
+     "team": "Sevilla",
+     "played_pts": 13,
+     "exp_pts": 49.9,
      "title": 0.1,
      "med_pos": 11,
      "zone": {
-      "ucl": 7.8,
-      "uel": 12.2,
+      "ucl": 6.7,
+      "uel": 11.6,
       "uecl": 6.6,
-      "rel": 8.6,
-      "mid": 64.7
+      "rel": 7.5,
+      "mid": 67.6
+     }
+    },
+    {
+     "team": "Osasuna",
+     "played_pts": 8,
+     "exp_pts": 47.6,
+     "title": 0.0,
+     "med_pos": 12,
+     "zone": {
+      "ucl": 4.5,
+      "uel": 8.3,
+      "uecl": 5.5,
+      "rel": 12.0,
+      "mid": 69.6
      }
     },
     {
      "team": "Levante",
      "played_pts": 5,
-     "exp_pts": 48.2,
-     "title": 0.1,
+     "exp_pts": 46.9,
+     "title": 0.0,
      "med_pos": 12,
      "zone": {
-      "ucl": 6.4,
-      "uel": 9.9,
-      "uecl": 6.0,
-      "rel": 11.5,
-      "mid": 66.1
-     }
-    },
-    {
-     "team": "Real Sociedad",
-     "played_pts": 7,
-     "exp_pts": 46.6,
-     "title": 0.0,
-     "med_pos": 13,
-     "zone": {
-      "ucl": 3.7,
-      "uel": 7.6,
-      "uecl": 4.6,
-      "rel": 14.4,
-      "mid": 69.7
-     }
-    },
-    {
-     "team": "Sevilla",
-     "played_pts": 10,
-     "exp_pts": 46.1,
-     "title": 0.1,
-     "med_pos": 13,
-     "zone": {
-      "ucl": 3.9,
-      "uel": 7.2,
-      "uecl": 4.5,
-      "rel": 15.0,
-      "mid": 69.5
+      "ucl": 4.3,
+      "uel": 8.4,
+      "uecl": 5.8,
+      "rel": 13.9,
+      "mid": 67.6
      }
     },
     {
      "team": "Celta Vigo",
-     "played_pts": 4,
-     "exp_pts": 45.2,
+     "played_pts": 7,
+     "exp_pts": 46.5,
+     "title": 0.0,
+     "med_pos": 12,
+     "zone": {
+      "ucl": 4.2,
+      "uel": 7.2,
+      "uecl": 5.2,
+      "rel": 13.1,
+      "mid": 70.4
+     }
+    },
+    {
+     "team": "Dep. A Coruña",
+     "played_pts": 10,
+     "exp_pts": 45.5,
      "title": 0.0,
      "med_pos": 13,
      "zone": {
-      "ucl": 3.3,
-      "uel": 6.7,
-      "uecl": 4.5,
-      "rel": 17.9,
-      "mid": 67.7
+      "ucl": 3.0,
+      "uel": 6.4,
+      "uecl": 4.3,
+      "rel": 15.1,
+      "mid": 71.2
      }
     },
     {
      "team": "Espanyol",
      "played_pts": 7,
-     "exp_pts": 44.7,
+     "exp_pts": 44.2,
      "title": 0.0,
      "med_pos": 14,
      "zone": {
-      "ucl": 3.2,
-      "uel": 5.9,
-      "uecl": 4.2,
-      "rel": 18.2,
-      "mid": 68.6
-     }
-    },
-    {
-     "team": "Dep. A Coruña",
-     "played_pts": 9,
-     "exp_pts": 44.5,
-     "title": 0.0,
-     "med_pos": 14,
-     "zone": {
-      "ucl": 3.1,
-      "uel": 5.6,
+      "ucl": 2.2,
+      "uel": 5.7,
       "uecl": 3.9,
-      "rel": 19.3,
-      "mid": 68.0
+      "rel": 19.2,
+      "mid": 69.0
      }
     },
     {
      "team": "Valencia",
      "played_pts": 4,
-     "exp_pts": 44.0,
+     "exp_pts": 42.1,
      "title": 0.0,
-     "med_pos": 14,
+     "med_pos": 15,
      "zone": {
-      "ucl": 2.4,
-      "uel": 5.0,
-      "uecl": 3.7,
-      "rel": 21.4,
-      "mid": 67.5
+      "ucl": 1.7,
+      "uel": 3.5,
+      "uecl": 3.1,
+      "rel": 27.8,
+      "mid": 64.0
      }
     },
     {
-     "team": "Getafe",
-     "played_pts": 5,
-     "exp_pts": 39.1,
+     "team": "Racing Sant",
+     "played_pts": 7,
+     "exp_pts": 41.8,
      "title": 0.0,
-     "med_pos": 16,
+     "med_pos": 15,
      "zone": {
-      "ucl": 0.8,
-      "uel": 2.3,
-      "uecl": 1.8,
-      "rel": 38.4,
-      "mid": 56.7
+      "ucl": 1.4,
+      "uel": 3.2,
+      "uecl": 2.4,
+      "rel": 29.6,
+      "mid": 63.3
      }
     },
     {
      "team": "Elche",
-     "played_pts": 2,
-     "exp_pts": 38.9,
+     "played_pts": 5,
+     "exp_pts": 40.8,
      "title": 0.0,
      "med_pos": 16,
      "zone": {
-      "ucl": 0.7,
-      "uel": 2.3,
-      "uecl": 1.6,
-      "rel": 39.3,
-      "mid": 56.1
+      "ucl": 1.1,
+      "uel": 2.8,
+      "uecl": 2.4,
+      "rel": 31.8,
+      "mid": 62.0
+     }
+    },
+    {
+     "team": "Getafe",
+     "played_pts": 8,
+     "exp_pts": 40.3,
+     "title": 0.0,
+     "med_pos": 16,
+     "zone": {
+      "ucl": 1.0,
+      "uel": 2.2,
+      "uecl": 2.3,
+      "rel": 33.3,
+      "mid": 61.2
      }
     },
     {
      "team": "Málaga",
      "played_pts": 3,
-     "exp_pts": 30.1,
+     "exp_pts": 31.0,
      "title": 0.0,
      "med_pos": 19,
      "zone": {
       "ucl": 0.1,
       "uel": 0.3,
       "uecl": 0.3,
-      "rel": 75.8,
-      "mid": 23.6
+      "rel": 73.1,
+      "mid": 26.3
      }
     }
    ]
   },
   "ITA-Serie A": {
-   "week": 5,
-   "start": "2026-09-18",
-   "end": "2026-09-20",
+   "week": 6,
+   "start": "2026-10-10",
+   "end": "2026-10-12",
    "fixtures": [
     {
-     "date": "2026-09-18",
-     "home": "Monza",
-     "away": "Sassuolo",
+     "date": "2026-10-10",
+     "home": "Genoa",
+     "away": "Fiorentina",
      "p": {
-      "home": 45.4,
-      "draw": 26.8,
-      "away": 27.9
+      "home": 34.7,
+      "draw": 31.4,
+      "away": 33.8
      },
      "fair": {
-      "home": 2.2,
-      "draw": 3.73,
-      "away": 3.58
-     },
-     "call": "home",
-     "score": "1-0",
-     "xg": [
-      1.63,
-      1.22
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Bologna",
-     "away": "Torino",
-     "p": {
-      "home": 47.1,
-      "draw": 28.3,
-      "away": 24.6
-     },
-     "fair": {
-      "home": 2.12,
-      "draw": 3.53,
-      "away": 4.07
-     },
-     "call": "home",
-     "score": "1-0",
-     "xg": [
-      1.47,
-      0.98
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Roma",
-     "away": "Inter",
-     "p": {
-      "home": 30.5,
-      "draw": 30.0,
-      "away": 39.5
-     },
-     "fair": {
-      "home": 3.28,
-      "draw": 3.33,
-      "away": 2.53
-     },
-     "call": "away",
-     "score": "0-1",
-     "xg": [
-      1.29,
-      1.51
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Udinese",
-     "away": "Cagliari",
-     "p": {
-      "home": 44.2,
-      "draw": 29.2,
-      "away": 26.7
-     },
-     "fair": {
-      "home": 2.26,
-      "draw": 3.42,
-      "away": 3.75
-     },
-     "call": "home",
-     "score": "1-0",
-     "xg": [
-      1.34,
-      0.97
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Venezia",
-     "away": "Lazio",
-     "p": {
-      "home": 27.3,
-      "draw": 24.6,
-      "away": 48.1
-     },
-     "fair": {
-      "home": 3.66,
-      "draw": 4.07,
-      "away": 2.08
-     },
-     "call": "away",
-     "score": "0-1",
-     "xg": [
-      1.17,
-      1.64
-     ]
-    },
-    {
-     "date": "2026-09-20",
-     "home": "Fiorentina",
-     "away": "Napoli",
-     "p": {
-      "home": 28.1,
-      "draw": 30.7,
-      "away": 41.3
-     },
-     "fair": {
-      "home": 3.56,
-      "draw": 3.26,
-      "away": 2.42
-     },
-     "call": "away",
-     "score": "0-1",
-     "xg": [
-      1.04,
-      1.32
-     ]
-    },
-    {
-     "date": "2026-09-20",
-     "home": "Frosinone",
-     "away": "Como",
-     "p": {
-      "home": 14.7,
-      "draw": 20.5,
-      "away": 64.8
-     },
-     "fair": {
-      "home": 6.8,
-      "draw": 4.88,
-      "away": 1.54
-     },
-     "call": "away",
-     "score": "0-2",
-     "xg": [
-      0.91,
-      2.14
-     ]
-    },
-    {
-     "date": "2026-09-20",
-     "home": "Juventus",
-     "away": "Atalanta",
-     "p": {
-      "home": 63.8,
-      "draw": 22.4,
-      "away": 13.8
-     },
-     "fair": {
-      "home": 1.57,
-      "draw": 4.46,
-      "away": 7.25
-     },
-     "call": "home",
-     "score": "2-0",
-     "xg": [
-      2.14,
-      0.88
-     ]
-    },
-    {
-     "date": "2026-09-20",
-     "home": "Milan",
-     "away": "Lecce",
-     "p": {
-      "home": 65.6,
-      "draw": 21.9,
-      "away": 12.5
-     },
-     "fair": {
-      "home": 1.52,
-      "draw": 4.57,
-      "away": 8.0
-     },
-     "call": "home",
-     "score": "2-0",
-     "xg": [
-      2.13,
-      0.81
-     ]
-    },
-    {
-     "date": "2026-09-20",
-     "home": "Parma",
-     "away": "Genoa",
-     "p": {
-      "home": 27.8,
-      "draw": 32.6,
-      "away": 39.6
-     },
-     "fair": {
-      "home": 3.6,
-      "draw": 3.07,
-      "away": 2.53
+      "home": 2.88,
+      "draw": 3.18,
+      "away": 2.96
      },
      "call": "draw",
      "score": "1-1",
      "xg": [
-      0.98,
+      1.15,
+      1.28
+     ]
+    },
+    {
+     "date": "2026-10-10",
+     "home": "Inter",
+     "away": "Parma",
+     "p": {
+      "home": 78.9,
+      "draw": 15.1,
+      "away": 6.0
+     },
+     "fair": {
+      "home": 1.27,
+      "draw": 6.62,
+      "away": 16.67
+     },
+     "call": "home",
+     "score": "2-0",
+     "xg": [
+      2.87,
+      0.54
+     ]
+    },
+    {
+     "date": "2026-10-10",
+     "home": "Napoli",
+     "away": "Frosinone",
+     "p": {
+      "home": 61.6,
+      "draw": 22.9,
+      "away": 15.6
+     },
+     "fair": {
+      "home": 1.62,
+      "draw": 4.37,
+      "away": 6.41
+     },
+     "call": "home",
+     "score": "2-1",
+     "xg": [
+      2.38,
+      1.02
+     ]
+    },
+    {
+     "date": "2026-10-11",
+     "home": "Cagliari",
+     "away": "Juventus",
+     "p": {
+      "home": 15.0,
+      "draw": 26.8,
+      "away": 58.2
+     },
+     "fair": {
+      "home": 6.67,
+      "draw": 3.73,
+      "away": 1.72
+     },
+     "call": "away",
+     "score": "0-1",
+     "xg": [
+      0.63,
+      1.86
+     ]
+    },
+    {
+     "date": "2026-10-11",
+     "home": "Como",
+     "away": "Roma",
+     "p": {
+      "home": 36.4,
+      "draw": 29.9,
+      "away": 33.7
+     },
+     "fair": {
+      "home": 2.75,
+      "draw": 3.34,
+      "away": 2.97
+     },
+     "call": "home",
+     "score": "1-0",
+     "xg": [
+      1.46,
+      1.24
+     ]
+    },
+    {
+     "date": "2026-10-11",
+     "home": "Lazio",
+     "away": "Monza",
+     "p": {
+      "home": 42.5,
+      "draw": 25.1,
+      "away": 32.4
+     },
+     "fair": {
+      "home": 2.35,
+      "draw": 3.98,
+      "away": 3.09
+     },
+     "call": "home",
+     "score": "1-0",
+     "xg": [
+      1.27,
+      1.42
+     ]
+    },
+    {
+     "date": "2026-10-11",
+     "home": "Lecce",
+     "away": "Bologna",
+     "p": {
+      "home": 24.7,
+      "draw": 29.2,
+      "away": 46.2
+     },
+     "fair": {
+      "home": 4.05,
+      "draw": 3.42,
+      "away": 2.16
+     },
+     "call": "away",
+     "score": "0-1",
+     "xg": [
+      0.87,
+      1.43
+     ]
+    },
+    {
+     "date": "2026-10-11",
+     "home": "Sassuolo",
+     "away": "Milan",
+     "p": {
+      "home": 31.1,
+      "draw": 31.9,
+      "away": 37.0
+     },
+     "fair": {
+      "home": 3.22,
+      "draw": 3.13,
+      "away": 2.7
+     },
+     "call": "draw",
+     "score": "1-1",
+     "xg": [
+      1.23,
+      1.65
+     ]
+    },
+    {
+     "date": "2026-10-12",
+     "home": "Atalanta",
+     "away": "Venezia",
+     "p": {
+      "home": 57.3,
+      "draw": 23.4,
+      "away": 19.3
+     },
+     "fair": {
+      "home": 1.75,
+      "draw": 4.27,
+      "away": 5.18
+     },
+     "call": "home",
+     "score": "2-1",
+     "xg": [
+      2.86,
+      1.45
+     ]
+    },
+    {
+     "date": "2026-10-12",
+     "home": "Torino",
+     "away": "Udinese",
+     "p": {
+      "home": 38.4,
+      "draw": 31.1,
+      "away": 30.5
+     },
+     "fair": {
+      "home": 2.6,
+      "draw": 3.22,
+      "away": 3.28
+     },
+     "call": "draw",
+     "score": "1-1",
+     "xg": [
+      1.3,
       1.22
      ]
     }
@@ -1338,478 +1422,478 @@
    "projection": [
     {
      "team": "Inter",
-     "played_pts": 12,
-     "exp_pts": 86.1,
-     "title": 56.1,
-     "med_pos": 1,
+     "played_pts": 13,
+     "exp_pts": 80.5,
+     "title": 41.6,
+     "med_pos": 2,
      "zone": {
-      "ucl": 95.8,
-      "uel": 3.5,
-      "uecl": 0.4,
+      "ucl": 90.5,
+      "uel": 6.9,
+      "uecl": 1.2,
       "rel": 0.0,
-      "mid": 0.3
-     }
-    },
-    {
-     "team": "Juventus",
-     "played_pts": 7,
-     "exp_pts": 76.9,
-     "title": 14.4,
-     "med_pos": 3,
-     "zone": {
-      "ucl": 80.1,
-      "uel": 14.2,
-      "uecl": 2.5,
-      "rel": 0.0,
-      "mid": 3.2
+      "mid": 1.5
      }
     },
     {
      "team": "Roma",
-     "played_pts": 12,
-     "exp_pts": 76.8,
-     "title": 17.0,
+     "played_pts": 13,
+     "exp_pts": 76.4,
+     "title": 25.3,
      "med_pos": 3,
      "zone": {
-      "ucl": 77.9,
-      "uel": 15.5,
-      "uecl": 3.0,
+      "ucl": 81.6,
+      "uel": 11.8,
+      "uecl": 2.7,
       "rel": 0.0,
-      "mid": 3.7
+      "mid": 3.9
+     }
+    },
+    {
+     "team": "Juventus",
+     "played_pts": 10,
+     "exp_pts": 75.3,
+     "title": 20.0,
+     "med_pos": 3,
+     "zone": {
+      "ucl": 79.0,
+      "uel": 14.1,
+      "uecl": 3.1,
+      "rel": 0.0,
+      "mid": 3.9
      }
     },
     {
      "team": "Como",
      "played_pts": 10,
-     "exp_pts": 73.9,
-     "title": 9.8,
+     "exp_pts": 68.9,
+     "title": 7.5,
      "med_pos": 4,
      "zone": {
-      "ucl": 68.6,
-      "uel": 20.5,
-      "uecl": 4.5,
-      "rel": 0.0,
-      "mid": 6.3
+      "ucl": 54.7,
+      "uel": 23.5,
+      "uecl": 7.3,
+      "rel": 0.1,
+      "mid": 14.5
      }
     },
     {
      "team": "Napoli",
-     "played_pts": 6,
-     "exp_pts": 63.3,
-     "title": 1.1,
+     "played_pts": 7,
+     "exp_pts": 63.1,
+     "title": 2.4,
      "med_pos": 6,
      "zone": {
-      "ucl": 26.3,
-      "uel": 31.8,
-      "uecl": 11.6,
-      "rel": 0.3,
-      "mid": 30.0
+      "ucl": 30.3,
+      "uel": 28.9,
+      "uecl": 10.9,
+      "rel": 0.4,
+      "mid": 29.5
      }
     },
     {
      "team": "Milan",
-     "played_pts": 8,
-     "exp_pts": 62.0,
-     "title": 1.1,
+     "played_pts": 11,
+     "exp_pts": 61.6,
+     "title": 2.1,
      "med_pos": 6,
      "zone": {
-      "ucl": 22.4,
-      "uel": 30.4,
-      "uecl": 12.2,
-      "rel": 0.3,
-      "mid": 34.7
+      "ucl": 26.7,
+      "uel": 26.7,
+      "uecl": 11.0,
+      "rel": 0.4,
+      "mid": 35.2
      }
     },
     {
      "team": "Lazio",
-     "played_pts": 10,
-     "exp_pts": 55.3,
-     "title": 0.2,
-     "med_pos": 9,
+     "played_pts": 13,
+     "exp_pts": 56.3,
+     "title": 0.6,
+     "med_pos": 8,
      "zone": {
-      "ucl": 8.9,
-      "uel": 18.0,
-      "uecl": 11.5,
-      "rel": 1.6,
-      "mid": 60.1
+      "ucl": 12.4,
+      "uel": 19.0,
+      "uecl": 11.4,
+      "rel": 1.4,
+      "mid": 55.7
      }
     },
     {
      "team": "Atalanta",
      "played_pts": 6,
-     "exp_pts": 55.1,
-     "title": 0.2,
-     "med_pos": 9,
+     "exp_pts": 51.1,
+     "title": 0.1,
+     "med_pos": 10,
      "zone": {
-      "ucl": 8.0,
-      "uel": 18.1,
-      "uecl": 11.5,
-      "rel": 1.9,
-      "mid": 60.5
+      "ucl": 5.3,
+      "uel": 11.8,
+      "uecl": 7.9,
+      "rel": 5.2,
+      "mid": 69.8
      }
     },
     {
      "team": "Sassuolo",
      "played_pts": 7,
-     "exp_pts": 49.1,
-     "title": 0.0,
-     "med_pos": 11,
+     "exp_pts": 50.5,
+     "title": 0.2,
+     "med_pos": 10,
      "zone": {
-      "ucl": 2.6,
-      "uel": 8.8,
-      "uecl": 7.4,
-      "rel": 5.6,
-      "mid": 75.5
+      "ucl": 4.6,
+      "uel": 11.5,
+      "uecl": 7.7,
+      "rel": 5.5,
+      "mid": 70.8
      }
     },
     {
-     "team": "Bologna",
-     "played_pts": 1,
+     "team": "Cagliari",
+     "played_pts": 12,
      "exp_pts": 48.2,
-     "title": 0.0,
-     "med_pos": 11,
-     "zone": {
-      "ucl": 2.2,
-      "uel": 8.2,
-      "uecl": 6.9,
-      "rel": 7.0,
-      "mid": 75.7
-     }
-    },
-    {
-     "team": "Fiorentina",
-     "played_pts": 3,
-     "exp_pts": 47.6,
-     "title": 0.0,
+     "title": 0.1,
      "med_pos": 12,
      "zone": {
-      "ucl": 1.9,
-      "uel": 7.3,
-      "uecl": 6.1,
-      "rel": 8.4,
-      "mid": 76.3
+      "ucl": 3.0,
+      "uel": 7.9,
+      "uecl": 5.2,
+      "rel": 7.0,
+      "mid": 76.9
      }
     },
     {
      "team": "Monza",
-     "played_pts": 1,
+     "played_pts": 4,
+     "exp_pts": 47.7,
+     "title": 0.1,
+     "med_pos": 12,
+     "zone": {
+      "ucl": 2.9,
+      "uel": 7.6,
+      "uecl": 6.2,
+      "rel": 9.6,
+      "mid": 73.6
+     }
+    },
+    {
+     "team": "Frosinone",
+     "played_pts": 10,
+     "exp_pts": 47.2,
+     "title": 0.0,
+     "med_pos": 12,
+     "zone": {
+      "ucl": 2.3,
+      "uel": 7.2,
+      "uecl": 5.3,
+      "rel": 8.6,
+      "mid": 76.6
+     }
+    },
+    {
+     "team": "Bologna",
+     "played_pts": 2,
      "exp_pts": 46.3,
      "title": 0.0,
      "med_pos": 12,
      "zone": {
-      "ucl": 1.8,
-      "uel": 6.4,
-      "uecl": 5.2,
-      "rel": 10.3,
-      "mid": 76.2
+      "ucl": 2.2,
+      "uel": 6.6,
+      "uecl": 5.0,
+      "rel": 11.7,
+      "mid": 74.5
+     }
+    },
+    {
+     "team": "Fiorentina",
+     "played_pts": 4,
+     "exp_pts": 44.9,
+     "title": 0.0,
+     "med_pos": 13,
+     "zone": {
+      "ucl": 1.6,
+      "uel": 5.0,
+      "uecl": 4.4,
+      "rel": 14.7,
+      "mid": 74.3
      }
     },
     {
      "team": "Udinese",
      "played_pts": 4,
-     "exp_pts": 45.6,
+     "exp_pts": 44.7,
      "title": 0.0,
      "med_pos": 13,
      "zone": {
-      "ucl": 1.1,
-      "uel": 5.5,
-      "uecl": 4.8,
-      "rel": 10.8,
-      "mid": 77.8
-     }
-    },
-    {
-     "team": "Cagliari",
-     "played_pts": 9,
-     "exp_pts": 44.5,
-     "title": 0.0,
-     "med_pos": 13,
-     "zone": {
-      "ucl": 1.0,
-      "uel": 4.0,
-      "uecl": 4.0,
-      "rel": 11.6,
-      "mid": 79.4
+      "ucl": 1.3,
+      "uel": 4.9,
+      "uecl": 4.1,
+      "rel": 14.0,
+      "mid": 75.7
      }
     },
     {
      "team": "Torino",
-     "played_pts": 3,
-     "exp_pts": 42.9,
+     "played_pts": 4,
+     "exp_pts": 44.0,
      "title": 0.0,
      "med_pos": 14,
      "zone": {
-      "ucl": 0.6,
-      "uel": 3.3,
-      "uecl": 3.5,
-      "rel": 15.8,
-      "mid": 76.8
-     }
-    },
-    {
-     "team": "Frosinone",
-     "played_pts": 7,
-     "exp_pts": 40.4,
-     "title": 0.0,
-     "med_pos": 15,
-     "zone": {
-      "ucl": 0.4,
-      "uel": 2.2,
-      "uecl": 2.1,
-      "rel": 21.7,
-      "mid": 73.6
+      "ucl": 1.2,
+      "uel": 4.2,
+      "uecl": 3.9,
+      "rel": 16.1,
+      "mid": 74.6
      }
     },
     {
      "team": "Genoa",
      "played_pts": 1,
-     "exp_pts": 38.3,
+     "exp_pts": 37.8,
      "title": 0.0,
      "med_pos": 16,
      "zone": {
       "ucl": 0.3,
-      "uel": 1.4,
-      "uecl": 1.6,
-      "rel": 30.1,
-      "mid": 66.7
+      "uel": 1.3,
+      "uecl": 1.4,
+      "rel": 35.9,
+      "mid": 61.1
      }
     },
     {
      "team": "Lecce",
      "played_pts": 6,
-     "exp_pts": 35.8,
+     "exp_pts": 34.9,
      "title": 0.0,
      "med_pos": 17,
      "zone": {
       "ucl": 0.1,
       "uel": 0.6,
-      "uecl": 0.8,
-      "rel": 40.1,
-      "mid": 58.3
+      "uecl": 0.5,
+      "rel": 48.8,
+      "mid": 50.0
+     }
+    },
+    {
+     "team": "Parma",
+     "played_pts": 4,
+     "exp_pts": 32.7,
+     "title": 0.0,
+     "med_pos": 18,
+     "zone": {
+      "ucl": 0.1,
+      "uel": 0.3,
+      "uecl": 0.4,
+      "rel": 58.2,
+      "mid": 41.0
      }
     },
     {
      "team": "Venezia",
      "played_pts": 0,
-     "exp_pts": 29.5,
+     "exp_pts": 31.5,
      "title": 0.0,
-     "med_pos": 19,
+     "med_pos": 18,
      "zone": {
       "ucl": 0.0,
-      "uel": 0.2,
-      "uecl": 0.2,
-      "rel": 66.2,
-      "mid": 33.4
-     }
-    },
-    {
-     "team": "Parma",
-     "played_pts": 1,
-     "exp_pts": 28.9,
-     "title": 0.0,
-     "med_pos": 19,
-     "zone": {
-      "ucl": 0.0,
-      "uel": 0.2,
-      "uecl": 0.2,
-      "rel": 68.2,
-      "mid": 31.4
+      "uel": 0.3,
+      "uecl": 0.4,
+      "rel": 62.3,
+      "mid": 37.0
      }
     }
    ]
   },
   "GER-Bundesliga": {
-   "week": 4,
-   "start": "2026-09-18",
-   "end": "2026-09-20",
+   "week": 5,
+   "start": "2026-10-09",
+   "end": "2026-10-11",
    "fixtures": [
     {
-     "date": "2026-09-18",
-     "home": "Bayern Munich",
-     "away": "Union Berlin",
+     "date": "2026-10-09",
+     "home": "Dortmund",
+     "away": "Werder Bremen",
      "p": {
-      "home": 75.4,
-      "draw": 15.3,
-      "away": 9.3
+      "home": 66.2,
+      "draw": 18.9,
+      "away": 14.9
      },
      "fair": {
-      "home": 1.33,
-      "draw": 6.54,
-      "away": 10.75
-     },
-     "call": "home",
-     "score": "2-0",
-     "xg": [
-      2.48,
-      0.75
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Frankfurt",
-     "away": "Freiburg",
-     "p": {
-      "home": 39.8,
-      "draw": 28.5,
-      "away": 31.7
-     },
-     "fair": {
-      "home": 2.51,
-      "draw": 3.51,
-      "away": 3.15
+      "home": 1.51,
+      "draw": 5.29,
+      "away": 6.71
      },
      "call": "home",
      "score": "1-0",
      "xg": [
-      1.13,
-      0.97
+      1.61,
+      0.69
      ]
     },
     {
-     "date": "2026-09-19",
-     "home": "Gladbach",
-     "away": "Mainz 05",
+     "date": "2026-10-10",
+     "home": "Augsburg",
+     "away": "Bayern Munich",
      "p": {
-      "home": 27.6,
-      "draw": 28.6,
-      "away": 43.8
+      "home": 14.9,
+      "draw": 19.3,
+      "away": 65.8
      },
      "fair": {
-      "home": 3.62,
-      "draw": 3.5,
-      "away": 2.28
+      "home": 6.71,
+      "draw": 5.18,
+      "away": 1.52
      },
      "call": "away",
-     "score": "0-1",
+     "score": "0-2",
      "xg": [
-      1.1,
-      1.45
+      0.89,
+      2.59
      ]
     },
     {
-     "date": "2026-09-19",
-     "home": "Hamburger SV",
-     "away": "Köln",
+     "date": "2026-10-10",
+     "home": "Hoffenheim",
+     "away": "Hamburger SV",
      "p": {
-      "home": 26.5,
-      "draw": 28.5,
-      "away": 45.1
+      "home": 63.2,
+      "draw": 20.5,
+      "away": 16.3
      },
      "fair": {
-      "home": 3.77,
-      "draw": 3.51,
-      "away": 2.22
-     },
-     "call": "away",
-     "score": "0-1",
-     "xg": [
-      1.0,
-      1.39
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Stuttgart",
-     "away": "Dortmund",
-     "p": {
-      "home": 30.4,
-      "draw": 26.5,
-      "away": 43.1
-     },
-     "fair": {
-      "home": 3.29,
-      "draw": 3.77,
-      "away": 2.32
-     },
-     "call": "away",
-     "score": "0-1",
-     "xg": [
-      1.2,
-      1.48
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Werder Bremen",
-     "away": "Augsburg",
-     "p": {
-      "home": 33.2,
-      "draw": 32.6,
-      "away": 34.1
-     },
-     "fair": {
-      "home": 3.01,
-      "draw": 3.07,
-      "away": 2.93
-     },
-     "call": "draw",
-     "score": "1-1",
-     "xg": [
-      1.2,
-      1.22
-     ]
-    },
-    {
-     "date": "2026-09-20",
-     "home": "Leverkusen",
-     "away": "RB Leipzig",
-     "p": {
-      "home": 36.1,
-      "draw": 30.7,
-      "away": 33.2
-     },
-     "fair": {
-      "home": 2.77,
-      "draw": 3.26,
-      "away": 3.01
+      "home": 1.58,
+      "draw": 4.88,
+      "away": 6.13
      },
      "call": "home",
-     "score": "2-1",
+     "score": "1-0",
      "xg": [
-      1.53,
-      1.45
+      1.75,
+      0.78
      ]
     },
     {
-     "date": "2026-09-20",
-     "home": "Paderborn 07",
-     "away": "Hoffenheim",
+     "date": "2026-10-10",
+     "home": "Mainz 05",
+     "away": "Leverkusen",
      "p": {
-      "home": 18.8,
-      "draw": 26.6,
-      "away": 54.6
+      "home": 32.8,
+      "draw": 30.3,
+      "away": 36.9
      },
      "fair": {
-      "home": 5.32,
-      "draw": 3.76,
-      "away": 1.83
+      "home": 3.05,
+      "draw": 3.3,
+      "away": 2.71
      },
      "call": "away",
-     "score": "0-1",
+     "score": "1-2",
      "xg": [
-      0.69,
-      1.39
+      1.26,
+      1.59
      ]
     },
     {
-     "date": "2026-09-20",
-     "home": "Schalke 04",
-     "away": "Elversberg",
+     "date": "2026-10-10",
+     "home": "Paderborn 07",
+     "away": "Stuttgart",
      "p": {
-      "home": 37.1,
-      "draw": 32.1,
-      "away": 30.8
+      "home": 21.4,
+      "draw": 31.9,
+      "away": 46.7
      },
      "fair": {
-      "home": 2.7,
-      "draw": 3.12,
-      "away": 3.25
+      "home": 4.67,
+      "draw": 3.13,
+      "away": 2.14
      },
      "call": "draw",
      "score": "1-1",
      "xg": [
-      1.58,
-      1.42
+      0.79,
+      1.81
+     ]
+    },
+    {
+     "date": "2026-10-10",
+     "home": "RB Leipzig",
+     "away": "Frankfurt",
+     "p": {
+      "home": 56.0,
+      "draw": 21.8,
+      "away": 22.2
+     },
+     "fair": {
+      "home": 1.79,
+      "draw": 4.59,
+      "away": 4.5
+     },
+     "call": "home",
+     "score": "1-0",
+     "xg": [
+      1.63,
+      1.04
+     ]
+    },
+    {
+     "date": "2026-10-10",
+     "home": "Union Berlin",
+     "away": "Elversberg",
+     "p": {
+      "home": 41.6,
+      "draw": 28.6,
+      "away": 29.9
+     },
+     "fair": {
+      "home": 2.4,
+      "draw": 3.5,
+      "away": 3.34
+     },
+     "call": "home",
+     "score": "1-0",
+     "xg": [
+      1.36,
+      1.09
+     ]
+    },
+    {
+     "date": "2026-10-11",
+     "home": "Freiburg",
+     "away": "Schalke 04",
+     "p": {
+      "home": 54.0,
+      "draw": 24.6,
+      "away": 21.4
+     },
+     "fair": {
+      "home": 1.85,
+      "draw": 4.07,
+      "away": 4.67
+     },
+     "call": "home",
+     "score": "1-0",
+     "xg": [
+      1.52,
+      0.92
+     ]
+    },
+    {
+     "date": "2026-10-11",
+     "home": "Köln",
+     "away": "Gladbach",
+     "p": {
+      "home": 48.8,
+      "draw": 23.8,
+      "away": 27.3
+     },
+     "fair": {
+      "home": 2.05,
+      "draw": 4.2,
+      "away": 3.66
+     },
+     "call": "home",
+     "score": "1-0",
+     "xg": [
+      1.36,
+      1.11
      ]
     }
    ],
@@ -1848,468 +1932,468 @@
    "projection": [
     {
      "team": "Bayern Munich",
-     "played_pts": 7,
-     "exp_pts": 75.3,
+     "played_pts": 10,
+     "exp_pts": 75.1,
      "title": 64.5,
      "med_pos": 1,
      "zone": {
-      "ucl": 95.9,
-      "uel": 3.0,
-      "uecl": 0.6,
+      "ucl": 96.4,
+      "uel": 2.7,
+      "uecl": 0.5,
       "playoff": 0.0,
       "rel": 0.0,
-      "mid": 0.6
+      "mid": 0.4
      }
     },
     {
      "team": "Dortmund",
-     "played_pts": 9,
-     "exp_pts": 65.1,
-     "title": 16.4,
-     "med_pos": 3,
+     "played_pts": 12,
+     "exp_pts": 66.5,
+     "title": 19.8,
+     "med_pos": 2,
      "zone": {
-      "ucl": 73.6,
-      "uel": 14.6,
-      "uecl": 4.2,
-      "playoff": 0.0,
+      "ucl": 79.6,
+      "uel": 12.0,
+      "uecl": 3.0,
+      "playoff": 0.1,
       "rel": 0.0,
-      "mid": 7.5
+      "mid": 5.4
+     }
+    },
+    {
+     "team": "Leverkusen",
+     "played_pts": 7,
+     "exp_pts": 60.8,
+     "title": 7.6,
+     "med_pos": 4,
+     "zone": {
+      "ucl": 61.5,
+      "uel": 19.1,
+      "uecl": 5.8,
+      "playoff": 0.2,
+      "rel": 0.1,
+      "mid": 13.4
      }
     },
     {
      "team": "RB Leipzig",
      "played_pts": 6,
-     "exp_pts": 60.9,
-     "title": 8.3,
-     "med_pos": 4,
-     "zone": {
-      "ucl": 59.2,
-      "uel": 20.6,
-      "uecl": 6.0,
-      "playoff": 0.1,
-      "rel": 0.0,
-      "mid": 14.1
-     }
-    },
-    {
-     "team": "Leverkusen",
-     "played_pts": 4,
-     "exp_pts": 58.0,
-     "title": 4.6,
+     "exp_pts": 56.5,
+     "title": 3.0,
      "med_pos": 5,
      "zone": {
-      "ucl": 46.5,
-      "uel": 23.3,
-      "uecl": 8.2,
+      "ucl": 43.2,
+      "uel": 23.5,
+      "uecl": 8.8,
       "playoff": 0.3,
-      "rel": 0.1,
-      "mid": 21.5
+      "rel": 0.3,
+      "mid": 24.0
      }
     },
     {
-     "team": "Hoffenheim",
-     "played_pts": 3,
-     "exp_pts": 53.7,
-     "title": 1.9,
+     "team": "Mainz 05",
+     "played_pts": 7,
+     "exp_pts": 53.1,
+     "title": 1.8,
      "med_pos": 6,
      "zone": {
-      "ucl": 28.9,
-      "uel": 23.7,
-      "uecl": 10.8,
-      "playoff": 0.7,
-      "rel": 0.8,
-      "mid": 35.2
+      "ucl": 30.2,
+      "uel": 22.4,
+      "uecl": 9.9,
+      "playoff": 0.9,
+      "rel": 0.9,
+      "mid": 35.8
+     }
+    },
+    {
+     "team": "Freiburg",
+     "played_pts": 10,
+     "exp_pts": 50.2,
+     "title": 1.2,
+     "med_pos": 7,
+     "zone": {
+      "ucl": 20.9,
+      "uel": 20.1,
+      "uecl": 9.6,
+      "playoff": 1.7,
+      "rel": 1.2,
+      "mid": 46.4
      }
     },
     {
      "team": "Stuttgart",
      "played_pts": 3,
-     "exp_pts": 53.3,
-     "title": 1.7,
-     "med_pos": 6,
+     "exp_pts": 50.2,
+     "title": 0.7,
+     "med_pos": 7,
      "zone": {
-      "ucl": 27.7,
-      "uel": 23.1,
-      "uecl": 10.3,
-      "playoff": 0.8,
-      "rel": 0.7,
-      "mid": 37.4
+      "ucl": 20.3,
+      "uel": 20.4,
+      "uecl": 9.6,
+      "playoff": 1.7,
+      "rel": 1.9,
+      "mid": 46.0
      }
     },
     {
-     "team": "Mainz 05",
-     "played_pts": 4,
-     "exp_pts": 49.8,
-     "title": 0.8,
-     "med_pos": 8,
-     "zone": {
-      "ucl": 18.4,
-      "uel": 19.6,
-      "uecl": 10.2,
-      "playoff": 1.6,
-      "rel": 1.2,
-      "mid": 48.8
-     }
-    },
-    {
-     "team": "Freiburg",
-     "played_pts": 9,
+     "team": "Hoffenheim",
+     "played_pts": 3,
      "exp_pts": 49.7,
-     "title": 1.1,
+     "title": 0.7,
      "med_pos": 8,
      "zone": {
-      "ucl": 18.2,
-      "uel": 18.6,
-      "uecl": 10.3,
-      "playoff": 1.5,
-      "rel": 1.4,
-      "mid": 50.0
+      "ucl": 18.1,
+      "uel": 20.5,
+      "uecl": 10.2,
+      "playoff": 1.9,
+      "rel": 1.9,
+      "mid": 47.4
      }
     },
     {
      "team": "Frankfurt",
-     "played_pts": 4,
-     "exp_pts": 46.9,
-     "title": 0.4,
-     "med_pos": 9,
-     "zone": {
-      "ucl": 11.3,
-      "uel": 15.4,
-      "uecl": 8.8,
-      "playoff": 2.8,
-      "rel": 2.4,
-      "mid": 59.3
-     }
-    },
-    {
-     "team": "Köln",
-     "played_pts": 4,
-     "exp_pts": 44.3,
-     "title": 0.2,
+     "played_pts": 5,
+     "exp_pts": 44.9,
+     "title": 0.3,
      "med_pos": 10,
      "zone": {
-      "ucl": 6.6,
-      "uel": 11.0,
-      "uecl": 7.3,
-      "playoff": 4.2,
-      "rel": 4.4,
-      "mid": 66.5
+      "ucl": 8.5,
+      "uel": 13.1,
+      "uecl": 8.3,
+      "playoff": 4.6,
+      "rel": 4.8,
+      "mid": 60.6
      }
     },
     {
      "team": "Augsburg",
      "played_pts": 7,
-     "exp_pts": 43.3,
+     "exp_pts": 42.6,
      "title": 0.2,
      "med_pos": 11,
      "zone": {
-      "ucl": 6.7,
-      "uel": 9.3,
-      "uecl": 7.3,
-      "playoff": 4.5,
-      "rel": 5.0,
-      "mid": 67.1
+      "ucl": 5.9,
+      "uel": 10.1,
+      "uecl": 6.7,
+      "playoff": 5.9,
+      "rel": 7.0,
+      "mid": 64.3
+     }
+    },
+    {
+     "team": "Köln",
+     "played_pts": 4,
+     "exp_pts": 42.4,
+     "title": 0.1,
+     "med_pos": 11,
+     "zone": {
+      "ucl": 5.2,
+      "uel": 10.0,
+      "uecl": 6.6,
+      "playoff": 6.1,
+      "rel": 8.4,
+      "mid": 63.6
      }
     },
     {
      "team": "Werder Bremen",
-     "played_pts": 4,
-     "exp_pts": 38.5,
-     "title": 0.0,
-     "med_pos": 13,
+     "played_pts": 7,
+     "exp_pts": 40.9,
+     "title": 0.1,
+     "med_pos": 12,
      "zone": {
-      "ucl": 2.0,
-      "uel": 5.0,
-      "uecl": 4.1,
-      "playoff": 8.7,
-      "rel": 12.6,
-      "mid": 67.7
+      "ucl": 3.8,
+      "uel": 7.9,
+      "uecl": 5.7,
+      "playoff": 7.2,
+      "rel": 10.5,
+      "mid": 65.0
      }
     },
     {
-     "team": "Union Berlin",
-     "played_pts": 1,
-     "exp_pts": 36.7,
+     "team": "Elversberg",
+     "played_pts": 7,
+     "exp_pts": 39.4,
      "title": 0.0,
-     "med_pos": 13,
+     "med_pos": 12,
      "zone": {
-      "ucl": 1.6,
-      "uel": 3.7,
-      "uecl": 3.1,
-      "playoff": 10.3,
-      "rel": 17.7,
-      "mid": 63.5
+      "ucl": 2.6,
+      "uel": 6.5,
+      "uecl": 4.7,
+      "playoff": 8.5,
+      "rel": 12.8,
+      "mid": 64.9
+     }
+    },
+    {
+     "team": "Schalke 04",
+     "played_pts": 5,
+     "exp_pts": 35.2,
+     "title": 0.0,
+     "med_pos": 14,
+     "zone": {
+      "ucl": 1.0,
+      "uel": 2.6,
+      "uecl": 2.5,
+      "playoff": 12.3,
+      "rel": 23.7,
+      "mid": 57.8
      }
     },
     {
      "team": "Gladbach",
      "played_pts": 0,
-     "exp_pts": 36.5,
-     "title": 0.0,
-     "med_pos": 14,
-     "zone": {
-      "ucl": 1.6,
-      "uel": 3.6,
-      "uecl": 3.0,
-      "playoff": 10.3,
-      "rel": 19.3,
-      "mid": 62.2
-     }
-    },
-    {
-     "team": "Elversberg",
-     "played_pts": 6,
-     "exp_pts": 33.6,
+     "exp_pts": 34.4,
      "title": 0.0,
      "med_pos": 15,
      "zone": {
       "ucl": 0.8,
-      "uel": 2.1,
-      "uecl": 1.9,
-      "playoff": 13.1,
-      "rel": 27.1,
-      "mid": 55.0
+      "uel": 2.6,
+      "uecl": 2.1,
+      "playoff": 11.3,
+      "rel": 29.2,
+      "mid": 54.0
      }
     },
     {
-     "team": "Schalke 04",
-     "played_pts": 4,
-     "exp_pts": 31.9,
+     "team": "Union Berlin",
+     "played_pts": 1,
+     "exp_pts": 34.2,
      "title": 0.0,
      "med_pos": 15,
      "zone": {
-      "ucl": 0.5,
-      "uel": 1.2,
-      "uecl": 1.3,
-      "playoff": 14.6,
-      "rel": 32.6,
-      "mid": 49.9
+      "ucl": 0.9,
+      "uel": 2.7,
+      "uecl": 2.4,
+      "playoff": 11.8,
+      "rel": 31.4,
+      "mid": 50.9
      }
     },
     {
      "team": "Paderborn 07",
-     "played_pts": 1,
-     "exp_pts": 31.8,
+     "played_pts": 4,
+     "exp_pts": 33.4,
      "title": 0.0,
      "med_pos": 15,
      "zone": {
-      "ucl": 0.3,
-      "uel": 1.2,
-      "uecl": 1.4,
-      "playoff": 13.5,
-      "rel": 33.9,
-      "mid": 49.6
+      "ucl": 0.6,
+      "uel": 1.7,
+      "uecl": 1.8,
+      "playoff": 12.8,
+      "rel": 31.0,
+      "mid": 52.1
      }
     },
     {
      "team": "Hamburger SV",
-     "played_pts": 0,
-     "exp_pts": 30.7,
+     "played_pts": 3,
+     "exp_pts": 33.2,
      "title": 0.0,
-     "med_pos": 16,
+     "med_pos": 15,
      "zone": {
-      "ucl": 0.3,
-      "uel": 1.1,
-      "uecl": 1.0,
+      "ucl": 0.6,
+      "uel": 2.1,
+      "uecl": 1.7,
       "playoff": 12.8,
-      "rel": 40.7,
-      "mid": 44.0
+      "rel": 34.8,
+      "mid": 48.1
      }
     }
    ]
   },
   "FRA-Ligue 1": {
-   "week": 5,
-   "start": "2026-09-18",
-   "end": "2026-09-20",
+   "week": 6,
+   "start": "2026-10-09",
+   "end": "2026-10-11",
    "fixtures": [
     {
-     "date": "2026-09-18",
-     "home": "Monaco",
-     "away": "Lens",
+     "date": "2026-10-09",
+     "home": "Lens",
+     "away": "Lyon",
      "p": {
-      "home": 29.4,
-      "draw": 25.7,
-      "away": 44.9
+      "home": 55.2,
+      "draw": 22.9,
+      "away": 21.9
      },
      "fair": {
-      "home": 3.4,
-      "draw": 3.89,
-      "away": 2.23
-     },
-     "call": "away",
-     "score": "1-2",
-     "xg": [
-      1.48,
-      1.87
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Angers",
-     "away": "Troyes",
-     "p": {
-      "home": 36.0,
-      "draw": 34.1,
-      "away": 29.9
-     },
-     "fair": {
-      "home": 2.78,
-      "draw": 2.93,
-      "away": 3.34
-     },
-     "call": "draw",
-     "score": "1-1",
-     "xg": [
-      1.36,
-      1.21
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Le Mans",
-     "away": "Lorient",
-     "p": {
-      "home": 32.4,
-      "draw": 33.6,
-      "away": 34.0
-     },
-     "fair": {
-      "home": 3.09,
-      "draw": 2.98,
-      "away": 2.94
-     },
-     "call": "draw",
-     "score": "1-1",
-     "xg": [
-      1.29,
-      1.33
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Lyon",
-     "away": "Rennes",
-     "p": {
-      "home": 50.7,
-      "draw": 25.6,
-      "away": 23.7
-     },
-     "fair": {
-      "home": 1.97,
-      "draw": 3.91,
-      "away": 4.22
-     },
-     "call": "home",
-     "score": "1-0",
-     "xg": [
-      1.75,
-      1.12
-     ]
-    },
-    {
-     "date": "2026-09-19",
-     "home": "Paris FC",
-     "away": "Strasbourg",
-     "p": {
-      "home": 39.9,
-      "draw": 30.7,
-      "away": 29.4
-     },
-     "fair": {
-      "home": 2.51,
-      "draw": 3.26,
-      "away": 3.4
+      "home": 1.81,
+      "draw": 4.37,
+      "away": 4.57
      },
      "call": "home",
      "score": "2-1",
      "xg": [
-      1.55,
-      1.3
+      1.93,
+      1.12
      ]
     },
     {
-     "date": "2026-09-19",
-     "home": "Toulouse",
-     "away": "Le Havre",
+     "date": "2026-10-10",
+     "home": "Brest",
+     "away": "Angers",
      "p": {
-      "home": 57.4,
-      "draw": 25.9,
-      "away": 16.7
+      "home": 54.2,
+      "draw": 26.0,
+      "away": 19.8
      },
      "fair": {
-      "home": 1.74,
-      "draw": 3.86,
-      "away": 5.99
+      "home": 1.85,
+      "draw": 3.85,
+      "away": 5.05
      },
      "call": "home",
      "score": "1-0",
      "xg": [
-      1.69,
-      0.78
+      1.64,
+      0.87
      ]
     },
     {
-     "date": "2026-09-20",
-     "home": "Auxerre",
-     "away": "Brest",
+     "date": "2026-10-10",
+     "home": "Lille",
+     "away": "Le Havre",
      "p": {
-      "home": 37.1,
-      "draw": 32.1,
-      "away": 30.8
+      "home": 61.8,
+      "draw": 23.5,
+      "away": 14.7
      },
      "fair": {
-      "home": 2.7,
-      "draw": 3.12,
-      "away": 3.25
+      "home": 1.62,
+      "draw": 4.26,
+      "away": 6.8
+     },
+     "call": "home",
+     "score": "2-0",
+     "xg": [
+      2.04,
+      0.68
+     ]
+    },
+    {
+     "date": "2026-10-10",
+     "home": "Lorient",
+     "away": "Paris FC",
+     "p": {
+      "home": 36.1,
+      "draw": 32.7,
+      "away": 31.2
+     },
+     "fair": {
+      "home": 2.77,
+      "draw": 3.06,
+      "away": 3.21
      },
      "call": "draw",
      "score": "1-1",
      "xg": [
-      1.29,
-      1.15
+      1.39,
+      1.13
      ]
     },
     {
-     "date": "2026-09-20",
-     "home": "Marseille",
-     "away": "PSG",
+     "date": "2026-10-10",
+     "home": "Monaco",
+     "away": "Toulouse",
      "p": {
-      "home": 27.7,
-      "draw": 27.3,
-      "away": 45.1
+      "home": 43.6,
+      "draw": 26.7,
+      "away": 29.8
      },
      "fair": {
-      "home": 3.61,
-      "draw": 3.66,
-      "away": 2.22
+      "home": 2.29,
+      "draw": 3.75,
+      "away": 3.36
+     },
+     "call": "home",
+     "score": "2-1",
+     "xg": [
+      1.57,
+      1.31
+     ]
+    },
+    {
+     "date": "2026-10-10",
+     "home": "PSG",
+     "away": "Le Mans",
+     "p": {
+      "home": 68.1,
+      "draw": 22.3,
+      "away": 9.6
+     },
+     "fair": {
+      "home": 1.47,
+      "draw": 4.48,
+      "away": 10.42
+     },
+     "call": "home",
+     "score": "2-0",
+     "xg": [
+      2.68,
+      0.71
+     ]
+    },
+    {
+     "date": "2026-10-11",
+     "home": "Nice",
+     "away": "Strasbourg",
+     "p": {
+      "home": 34.2,
+      "draw": 32.2,
+      "away": 33.7
+     },
+     "fair": {
+      "home": 2.92,
+      "draw": 3.11,
+      "away": 2.97
+     },
+     "call": "draw",
+     "score": "1-1",
+     "xg": [
+      1.39,
+      1.46
+     ]
+    },
+    {
+     "date": "2026-10-11",
+     "home": "Rennes",
+     "away": "Auxerre",
+     "p": {
+      "home": 53.5,
+      "draw": 24.1,
+      "away": 22.4
+     },
+     "fair": {
+      "home": 1.87,
+      "draw": 4.15,
+      "away": 4.46
+     },
+     "call": "home",
+     "score": "1-0",
+     "xg": [
+      1.72,
+      1.02
+     ]
+    },
+    {
+     "date": "2026-10-11",
+     "home": "Troyes",
+     "away": "Marseille",
+     "p": {
+      "home": 22.4,
+      "draw": 23.1,
+      "away": 54.6
+     },
+     "fair": {
+      "home": 4.46,
+      "draw": 4.33,
+      "away": 1.83
      },
      "call": "away",
      "score": "1-2",
      "xg": [
-      1.27,
-      1.69
-     ]
-    },
-    {
-     "date": "2026-09-20",
-     "home": "Nice",
-     "away": "Lille",
-     "p": {
-      "home": 24.0,
-      "draw": 25.6,
-      "away": 50.4
-     },
-     "fair": {
-      "home": 4.17,
-      "draw": 3.91,
-      "away": 1.98
-     },
-     "call": "away",
-     "score": "0-1",
-     "xg": [
-      1.01,
-      1.58
+      1.44,
+      2.11
      ]
     }
    ],
@@ -2354,290 +2438,290 @@
    "projection": [
     {
      "team": "PSG",
-     "played_pts": 5,
-     "exp_pts": 68.6,
-     "title": 46.8,
+     "played_pts": 8,
+     "exp_pts": 66.7,
+     "title": 46.1,
      "med_pos": 2,
      "zone": {
-      "ucl": 81.6,
-      "uclq": 7.7,
-      "uel": 4.0,
-      "uecl": 2.5,
+      "ucl": 79.1,
+      "uclq": 7.5,
+      "uel": 4.9,
+      "uecl": 3.1,
       "playoff": 0.0,
       "rel": 0.0,
-      "mid": 4.2
+      "mid": 5.4
      }
     },
     {
      "team": "Lille",
      "played_pts": 10,
-     "exp_pts": 62.1,
-     "title": 18.5,
-     "med_pos": 3,
+     "exp_pts": 56.9,
+     "title": 10.6,
+     "med_pos": 5,
      "zone": {
-      "ucl": 55.5,
-      "uclq": 11.4,
-      "uel": 9.0,
-      "uecl": 6.9,
-      "playoff": 0.1,
-      "rel": 0.1,
-      "mid": 17.1
+      "ucl": 37.9,
+      "uclq": 11.3,
+      "uel": 10.4,
+      "uecl": 8.4,
+      "playoff": 0.5,
+      "rel": 0.2,
+      "mid": 31.2
+     }
+    },
+    {
+     "team": "Monaco",
+     "played_pts": 13,
+     "exp_pts": 56.9,
+     "title": 10.7,
+     "med_pos": 5,
+     "zone": {
+      "ucl": 36.7,
+      "uclq": 11.2,
+      "uel": 10.1,
+      "uecl": 9.0,
+      "playoff": 0.5,
+      "rel": 0.2,
+      "mid": 32.2
      }
     },
     {
      "team": "Lens",
      "played_pts": 4,
-     "exp_pts": 60.6,
-     "title": 14.3,
-     "med_pos": 4,
+     "exp_pts": 56.5,
+     "title": 9.4,
+     "med_pos": 5,
      "zone": {
-      "ucl": 49.0,
-      "uclq": 13.8,
-      "uel": 10.1,
-      "uecl": 8.0,
-      "playoff": 0.1,
+      "ucl": 36.1,
+      "uclq": 12.6,
+      "uel": 10.5,
+      "uecl": 9.2,
+      "playoff": 0.4,
       "rel": 0.1,
-      "mid": 18.9
+      "mid": 31.0
      }
     },
     {
      "team": "Lyon",
-     "played_pts": 8,
-     "exp_pts": 54.5,
-     "title": 5.2,
-     "med_pos": 6,
+     "played_pts": 11,
+     "exp_pts": 55.4,
+     "title": 8.9,
+     "med_pos": 5,
      "zone": {
-      "ucl": 23.9,
-      "uclq": 11.4,
-      "uel": 11.2,
-      "uecl": 10.2,
-      "playoff": 0.5,
-      "rel": 0.3,
-      "mid": 42.4
-     }
-    },
-    {
-     "team": "Monaco",
-     "played_pts": 10,
-     "exp_pts": 54.2,
-     "title": 4.8,
-     "med_pos": 6,
-     "zone": {
-      "ucl": 22.4,
-      "uclq": 10.6,
-      "uel": 11.3,
-      "uecl": 10.4,
+      "ucl": 31.5,
+      "uclq": 11.5,
+      "uel": 10.4,
+      "uecl": 9.6,
       "playoff": 0.6,
-      "rel": 0.5,
-      "mid": 44.2
+      "rel": 0.3,
+      "mid": 36.1
      }
     },
     {
-     "team": "Marseille",
-     "played_pts": 3,
-     "exp_pts": 52.4,
-     "title": 3.1,
+     "team": "Paris FC",
+     "played_pts": 11,
+     "exp_pts": 52.5,
+     "title": 4.8,
      "med_pos": 7,
      "zone": {
-      "ucl": 16.8,
-      "uclq": 10.0,
-      "uel": 11.4,
-      "uecl": 10.3,
-      "playoff": 1.0,
+      "ucl": 21.6,
+      "uclq": 9.2,
+      "uel": 10.1,
+      "uecl": 8.9,
+      "playoff": 1.1,
       "rel": 0.7,
-      "mid": 49.8
+      "mid": 48.5
      }
     },
     {
      "team": "Rennes",
      "played_pts": 10,
-     "exp_pts": 51.9,
-     "title": 2.9,
-     "med_pos": 7,
+     "exp_pts": 50.7,
+     "title": 3.2,
+     "med_pos": 8,
      "zone": {
-      "ucl": 16.5,
-      "uclq": 8.6,
-      "uel": 9.4,
-      "uecl": 9.9,
-      "playoff": 1.1,
-      "rel": 0.8,
-      "mid": 53.7
+      "ucl": 16.1,
+      "uclq": 7.9,
+      "uel": 8.5,
+      "uecl": 8.7,
+      "playoff": 1.8,
+      "rel": 1.7,
+      "mid": 55.3
+     }
+    },
+    {
+     "team": "Toulouse",
+     "played_pts": 5,
+     "exp_pts": 48.1,
+     "title": 1.8,
+     "med_pos": 9,
+     "zone": {
+      "ucl": 10.2,
+      "uclq": 6.2,
+      "uel": 7.2,
+      "uecl": 8.2,
+      "playoff": 2.4,
+      "rel": 2.5,
+      "mid": 63.4
+     }
+    },
+    {
+     "team": "Marseille",
+     "played_pts": 3,
+     "exp_pts": 47.7,
+     "title": 1.7,
+     "med_pos": 9,
+     "zone": {
+      "ucl": 9.8,
+      "uclq": 6.6,
+      "uel": 7.0,
+      "uecl": 7.9,
+      "playoff": 2.8,
+      "rel": 3.1,
+      "mid": 62.8
      }
     },
     {
      "team": "Strasbourg",
      "played_pts": 7,
-     "exp_pts": 50.1,
-     "title": 1.7,
-     "med_pos": 8,
-     "zone": {
-      "ucl": 11.6,
-      "uclq": 7.8,
-      "uel": 9.1,
-      "uecl": 9.8,
-      "playoff": 1.7,
-      "rel": 1.4,
-      "mid": 58.5
-     }
-    },
-    {
-     "team": "Paris FC",
-     "played_pts": 8,
-     "exp_pts": 48.0,
-     "title": 1.5,
-     "med_pos": 9,
-     "zone": {
-      "ucl": 8.9,
-      "uclq": 6.3,
-      "uel": 6.9,
-      "uecl": 8.4,
-      "playoff": 2.2,
-      "rel": 1.8,
-      "mid": 65.4
-     }
-    },
-    {
-     "team": "Toulouse",
-     "played_pts": 2,
-     "exp_pts": 45.0,
-     "title": 0.6,
+     "exp_pts": 46.1,
+     "title": 1.0,
      "med_pos": 10,
      "zone": {
-      "ucl": 5.0,
-      "uclq": 4.1,
-      "uel": 5.2,
+      "ucl": 7.2,
+      "uclq": 5.2,
+      "uel": 5.8,
       "uecl": 6.8,
-      "playoff": 3.8,
-      "rel": 4.2,
-      "mid": 70.8
-     }
-    },
-    {
-     "team": "Lorient",
-     "played_pts": 5,
-     "exp_pts": 43.9,
-     "title": 0.4,
-     "med_pos": 10,
-     "zone": {
-      "ucl": 3.8,
-      "uclq": 3.6,
-      "uel": 4.4,
-      "uecl": 6.2,
-      "playoff": 4.6,
-      "rel": 4.7,
-      "mid": 72.7
+      "playoff": 4.1,
+      "rel": 4.1,
+      "mid": 66.8
      }
     },
     {
      "team": "Brest",
      "played_pts": 5,
-     "exp_pts": 42.0,
-     "title": 0.2,
+     "exp_pts": 43.2,
+     "title": 0.6,
      "med_pos": 11,
      "zone": {
-      "ucl": 3.0,
-      "uclq": 2.4,
-      "uel": 3.5,
-      "uecl": 4.1,
-      "playoff": 5.5,
-      "rel": 7.2,
-      "mid": 74.3
+      "ucl": 4.3,
+      "uclq": 3.1,
+      "uel": 4.5,
+      "uecl": 4.9,
+      "playoff": 5.8,
+      "rel": 6.9,
+      "mid": 70.5
      }
     },
     {
-     "team": "Auxerre",
-     "played_pts": 3,
-     "exp_pts": 35.8,
-     "title": 0.0,
-     "med_pos": 14,
+     "team": "Lorient",
+     "played_pts": 5,
+     "exp_pts": 42.3,
+     "title": 0.5,
+     "med_pos": 11,
      "zone": {
-      "ucl": 0.5,
-      "uclq": 0.6,
-      "uel": 1.3,
-      "uecl": 1.6,
-      "playoff": 11.9,
-      "rel": 21.8,
-      "mid": 62.2
-     }
-    },
-    {
-     "team": "Troyes",
-     "played_pts": 4,
-     "exp_pts": 34.6,
-     "title": 0.0,
-     "med_pos": 15,
-     "zone": {
-      "ucl": 0.4,
-      "uclq": 0.5,
-      "uel": 0.8,
-      "uecl": 1.2,
-      "playoff": 12.3,
-      "rel": 25.6,
-      "mid": 59.1
+      "ucl": 3.9,
+      "uclq": 2.9,
+      "uel": 3.7,
+      "uecl": 5.0,
+      "playoff": 6.6,
+      "rel": 8.6,
+      "mid": 69.3
      }
     },
     {
      "team": "Le Mans",
-     "played_pts": 3,
-     "exp_pts": 34.0,
-     "title": 0.0,
-     "med_pos": 15,
+     "played_pts": 6,
+     "exp_pts": 39.5,
+     "title": 0.3,
+     "med_pos": 13,
      "zone": {
-      "ucl": 0.4,
-      "uclq": 0.4,
-      "uel": 0.8,
-      "uecl": 1.3,
-      "playoff": 12.8,
-      "rel": 26.2,
-      "mid": 58.1
+      "ucl": 1.9,
+      "uclq": 1.7,
+      "uel": 2.0,
+      "uecl": 3.3,
+      "playoff": 9.7,
+      "rel": 13.4,
+      "mid": 68.0
+     }
+    },
+    {
+     "team": "Auxerre",
+     "played_pts": 6,
+     "exp_pts": 39.2,
+     "title": 0.1,
+     "med_pos": 13,
+     "zone": {
+      "ucl": 1.8,
+      "uclq": 1.2,
+      "uel": 1.9,
+      "uecl": 2.8,
+      "playoff": 10.1,
+      "rel": 15.1,
+      "mid": 67.1
      }
     },
     {
      "team": "Nice",
-     "played_pts": 2,
-     "exp_pts": 33.9,
-     "title": 0.0,
-     "med_pos": 15,
+     "played_pts": 5,
+     "exp_pts": 36.7,
+     "title": 0.1,
+     "med_pos": 14,
      "zone": {
-      "ucl": 0.4,
-      "uclq": 0.4,
-      "uel": 0.8,
-      "uecl": 1.1,
-      "playoff": 12.9,
-      "rel": 27.1,
-      "mid": 57.4
+      "ucl": 0.9,
+      "uclq": 0.8,
+      "uel": 1.2,
+      "uecl": 1.8,
+      "playoff": 12.7,
+      "rel": 20.9,
+      "mid": 61.7
      }
     },
     {
      "team": "Angers",
-     "played_pts": 4,
-     "exp_pts": 31.1,
-     "title": 0.0,
-     "med_pos": 16,
+     "played_pts": 7,
+     "exp_pts": 35.3,
+     "title": 0.1,
+     "med_pos": 15,
      "zone": {
-      "ucl": 0.1,
-      "uclq": 0.1,
-      "uel": 0.3,
-      "uecl": 0.7,
-      "playoff": 14.5,
-      "rel": 38.3,
-      "mid": 45.9
+      "ucl": 0.7,
+      "uclq": 0.5,
+      "uel": 1.0,
+      "uecl": 1.3,
+      "playoff": 14.3,
+      "rel": 24.7,
+      "mid": 57.5
      }
     },
     {
      "team": "Le Havre",
      "played_pts": 2,
-     "exp_pts": 30.9,
+     "exp_pts": 32.4,
      "title": 0.0,
      "med_pos": 16,
      "zone": {
-      "ucl": 0.2,
-      "uclq": 0.2,
-      "uel": 0.4,
-      "uecl": 0.6,
-      "playoff": 14.3,
-      "rel": 39.2,
-      "mid": 45.1
+      "ucl": 0.3,
+      "uclq": 0.4,
+      "uel": 0.7,
+      "uecl": 0.9,
+      "playoff": 14.6,
+      "rel": 37.4,
+      "mid": 45.7
+     }
+    },
+    {
+     "team": "Troyes",
+     "played_pts": 4,
+     "exp_pts": 28.3,
+     "title": 0.0,
+     "med_pos": 17,
+     "zone": {
+      "ucl": 0.0,
+      "uclq": 0.1,
+      "uel": 0.2,
+      "uecl": 0.3,
+      "playoff": 11.7,
+      "rel": 60.2,
+      "mid": 27.5
      }
     }
    ]

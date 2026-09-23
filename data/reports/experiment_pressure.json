@@ -1,0 +1,542 @@
+{
+ "league": "ENG-Premier League",
+ "seasons": [
+  "2425",
+  "2526"
+ ],
+ "min_events": 600,
+ "results": [
+  {
+   "pair": "2425 odd->even",
+   "bucket": "GK",
+   "index": "lev_involve",
+   "n": 21,
+   "rho": 0.044
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "GK",
+   "index": "adv_involve",
+   "n": 21,
+   "rho": -0.099
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "GK",
+   "index": "lev_pass_pct",
+   "n": 21,
+   "rho": 0.122
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "GK",
+   "index": "adv_pass_pct",
+   "n": 21,
+   "rho": 0.388
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "FB",
+   "index": "lev_involve",
+   "n": 49,
+   "rho": 0.235
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "FB",
+   "index": "adv_involve",
+   "n": 49,
+   "rho": -0.025
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "FB",
+   "index": "lev_pass_pct",
+   "n": 49,
+   "rho": -0.083
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "FB",
+   "index": "adv_pass_pct",
+   "n": 49,
+   "rho": 0.106
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "FB",
+   "index": "lev_duel_pct",
+   "n": 19,
+   "rho": 0.286
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "FB",
+   "index": "adv_duel_pct",
+   "n": 19,
+   "rho": -0.096
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "CB",
+   "index": "lev_involve",
+   "n": 62,
+   "rho": 0.101
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "CB",
+   "index": "adv_involve",
+   "n": 62,
+   "rho": 0.353
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "CB",
+   "index": "lev_pass_pct",
+   "n": 62,
+   "rho": 0.062
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "CB",
+   "index": "adv_pass_pct",
+   "n": 62,
+   "rho": 0.293
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "CB",
+   "index": "lev_duel_pct",
+   "n": 40,
+   "rho": -0.19
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "CB",
+   "index": "adv_duel_pct",
+   "n": 40,
+   "rho": -0.333
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "DM",
+   "index": "lev_involve",
+   "n": 28,
+   "rho": -0.037
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "DM",
+   "index": "adv_involve",
+   "n": 28,
+   "rho": 0.269
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "DM",
+   "index": "lev_pass_pct",
+   "n": 28,
+   "rho": 0.144
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "DM",
+   "index": "adv_pass_pct",
+   "n": 28,
+   "rho": 0.106
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "DM",
+   "index": "lev_duel_pct",
+   "n": 17,
+   "rho": -0.039
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "DM",
+   "index": "adv_duel_pct",
+   "n": 17,
+   "rho": -0.061
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "CM",
+   "index": "lev_involve",
+   "n": 28,
+   "rho": 0.248
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "CM",
+   "index": "adv_involve",
+   "n": 28,
+   "rho": 0.157
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "CM",
+   "index": "lev_pass_pct",
+   "n": 28,
+   "rho": 0.317
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "CM",
+   "index": "adv_pass_pct",
+   "n": 28,
+   "rho": 0.16
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "AM",
+   "index": "lev_involve",
+   "n": 15,
+   "rho": 0.157
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "AM",
+   "index": "adv_involve",
+   "n": 15,
+   "rho": 0.029
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "AM",
+   "index": "lev_pass_pct",
+   "n": 15,
+   "rho": 0.396
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "AM",
+   "index": "adv_pass_pct",
+   "n": 15,
+   "rho": 0.346
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "WIDE",
+   "index": "lev_involve",
+   "n": 34,
+   "rho": 0.095
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "WIDE",
+   "index": "adv_involve",
+   "n": 34,
+   "rho": -0.142
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "WIDE",
+   "index": "lev_pass_pct",
+   "n": 34,
+   "rho": -0.124
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "WIDE",
+   "index": "adv_pass_pct",
+   "n": 34,
+   "rho": -0.044
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "ST",
+   "index": "lev_involve",
+   "n": 18,
+   "rho": -0.146
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "ST",
+   "index": "adv_involve",
+   "n": 18,
+   "rho": 0.393
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "ST",
+   "index": "lev_pass_pct",
+   "n": 18,
+   "rho": 0.018
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "ST",
+   "index": "adv_pass_pct",
+   "n": 18,
+   "rho": -0.005
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "ST",
+   "index": "lev_duel_pct",
+   "n": 15,
+   "rho": -0.082
+  },
+  {
+   "pair": "2425 odd->even",
+   "bucket": "ST",
+   "index": "adv_duel_pct",
+   "n": 15,
+   "rho": -0.05
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "GK",
+   "index": "lev_involve",
+   "n": 22,
+   "rho": 0.421
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "GK",
+   "index": "adv_involve",
+   "n": 22,
+   "rho": -0.001
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "GK",
+   "index": "lev_pass_pct",
+   "n": 22,
+   "rho": 0.483
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "GK",
+   "index": "adv_pass_pct",
+   "n": 22,
+   "rho": 0.196
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "FB",
+   "index": "lev_involve",
+   "n": 50,
+   "rho": -0.251
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "FB",
+   "index": "adv_involve",
+   "n": 50,
+   "rho": -0.037
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "FB",
+   "index": "lev_pass_pct",
+   "n": 50,
+   "rho": -0.052
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "FB",
+   "index": "adv_pass_pct",
+   "n": 50,
+   "rho": 0.269
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "FB",
+   "index": "lev_duel_pct",
+   "n": 26,
+   "rho": 0.191
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "FB",
+   "index": "adv_duel_pct",
+   "n": 26,
+   "rho": -0.021
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "CB",
+   "index": "lev_involve",
+   "n": 64,
+   "rho": 0.125
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "CB",
+   "index": "adv_involve",
+   "n": 64,
+   "rho": 0.227
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "CB",
+   "index": "lev_pass_pct",
+   "n": 64,
+   "rho": 0.14
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "CB",
+   "index": "adv_pass_pct",
+   "n": 64,
+   "rho": 0.091
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "CB",
+   "index": "lev_duel_pct",
+   "n": 44,
+   "rho": 0.166
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "CB",
+   "index": "adv_duel_pct",
+   "n": 44,
+   "rho": 0.037
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "DM",
+   "index": "lev_involve",
+   "n": 37,
+   "rho": -0.106
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "DM",
+   "index": "adv_involve",
+   "n": 37,
+   "rho": -0.02
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "DM",
+   "index": "lev_pass_pct",
+   "n": 37,
+   "rho": 0.39
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "DM",
+   "index": "adv_pass_pct",
+   "n": 37,
+   "rho": -0.006
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "DM",
+   "index": "lev_duel_pct",
+   "n": 16,
+   "rho": -0.132
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "DM",
+   "index": "adv_duel_pct",
+   "n": 16,
+   "rho": -0.006
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "CM",
+   "index": "lev_involve",
+   "n": 30,
+   "rho": 0.42
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "CM",
+   "index": "adv_involve",
+   "n": 30,
+   "rho": 0.009
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "CM",
+   "index": "lev_pass_pct",
+   "n": 30,
+   "rho": 0.125
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "CM",
+   "index": "adv_pass_pct",
+   "n": 30,
+   "rho": 0.29
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "WIDE",
+   "index": "lev_involve",
+   "n": 36,
+   "rho": -0.244
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "WIDE",
+   "index": "adv_involve",
+   "n": 36,
+   "rho": 0.089
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "WIDE",
+   "index": "lev_pass_pct",
+   "n": 36,
+   "rho": 0.086
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "WIDE",
+   "index": "adv_pass_pct",
+   "n": 36,
+   "rho": 0.084
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "ST",
+   "index": "lev_involve",
+   "n": 19,
+   "rho": 0.244
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "ST",
+   "index": "adv_involve",
+   "n": 19,
+   "rho": 0.056
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "ST",
+   "index": "lev_pass_pct",
+   "n": 19,
+   "rho": -0.314
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "ST",
+   "index": "adv_pass_pct",
+   "n": 19,
+   "rho": 0.337
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "ST",
+   "index": "lev_duel_pct",
+   "n": 16,
+   "rho": -0.521
+  },
+  {
+   "pair": "2526 odd->even",
+   "bucket": "ST",
+   "index": "adv_duel_pct",
+   "n": 16,
+   "rho": -0.624
+  }
+ ]
+}

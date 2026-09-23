@@ -1,0 +1,749 @@
+{
+  "test_season": "2526",
+  "n": 1714,
+  "actual_draw_rate": 0.2561,
+  "base_log_loss": 1.0729,
+  "triplet": {
+    "ship": {
+      "log_loss": 0.9937,
+      "accuracy": 0.5187
+    },
+    "elo": {
+      "log_loss": 1.0002,
+      "accuracy": 0.5228
+    },
+    "elo_clf": {
+      "log_loss": 0.9975,
+      "accuracy": 0.5222
+    },
+    "blend": {
+      "log_loss": 0.9924,
+      "accuracy": 0.5216
+    },
+    "mix_se": {
+      "log_loss": 0.9957,
+      "accuracy": 0.5193
+    },
+    "mix_es": {
+      "log_loss": 0.9982,
+      "accuracy": 0.5222
+    },
+    "layer": {
+      "log_loss": 0.9925,
+      "accuracy": 0.521
+    }
+  },
+  "head_to_head_vs_ship": {
+    "elo_vs_ship": {
+      "mean_gain": -0.00654,
+      "p_better": 0.0528
+    },
+    "elo_clf_vs_ship": {
+      "mean_gain": -0.00388,
+      "p_better": 0.1586
+    },
+    "blend_vs_ship": {
+      "mean_gain": 0.00126,
+      "p_better": 0.7404
+    },
+    "mix_se_vs_ship": {
+      "mean_gain": -0.00204,
+      "p_better": 0.1554
+    },
+    "mix_es_vs_ship": {
+      "mean_gain": -0.0045,
+      "p_better": 0.0962
+    },
+    "layer_vs_ship": {
+      "mean_gain": 0.00115,
+      "p_better": 0.6836
+    }
+  },
+  "pooled_top_picks": {
+    "ship": {
+      "mean_p": 0.2552,
+      "actual_rate": 0.2561,
+      "calibration_gap": -0.0009,
+      "binary_log_loss": 0.5634,
+      "picks": 200,
+      "hits": 59,
+      "hit_rate": 0.295,
+      "said": 0.3218,
+      "base_rate": 0.2561,
+      "lift": 0.0389,
+      "p_better": 0.1202,
+      "p_worse": 0.9084
+    },
+    "elo": {
+      "mean_p": 0.2463,
+      "actual_rate": 0.2561,
+      "calibration_gap": -0.0098,
+      "binary_log_loss": 0.5655,
+      "picks": 200,
+      "hits": 55,
+      "hit_rate": 0.275,
+      "said": 0.2965,
+      "base_rate": 0.2561,
+      "lift": 0.0189,
+      "p_better": 0.2947,
+      "p_worse": 0.7578
+    },
+    "elo_clf": {
+      "mean_p": 0.2586,
+      "actual_rate": 0.2561,
+      "calibration_gap": 0.0025,
+      "binary_log_loss": 0.5628,
+      "picks": 200,
+      "hits": 65,
+      "hit_rate": 0.325,
+      "said": 0.3205,
+      "base_rate": 0.2561,
+      "lift": 0.0689,
+      "p_better": 0.0175,
+      "p_worse": 0.9882
+    },
+    "blend": {
+      "mean_p": 0.2569,
+      "actual_rate": 0.2561,
+      "calibration_gap": 0.0008,
+      "binary_log_loss": 0.5627,
+      "picks": 200,
+      "hits": 63,
+      "hit_rate": 0.315,
+      "said": 0.3181,
+      "base_rate": 0.2561,
+      "lift": 0.0589,
+      "p_better": 0.036,
+      "p_worse": 0.9747
+    },
+    "mix_se": {
+      "mean_p": 0.2463,
+      "actual_rate": 0.2561,
+      "calibration_gap": -0.0098,
+      "binary_log_loss": 0.5655,
+      "picks": 200,
+      "hits": 55,
+      "hit_rate": 0.275,
+      "said": 0.2965,
+      "base_rate": 0.2561,
+      "lift": 0.0189,
+      "p_better": 0.2947,
+      "p_worse": 0.7578
+    },
+    "mix_es": {
+      "mean_p": 0.2552,
+      "actual_rate": 0.2561,
+      "calibration_gap": -0.0009,
+      "binary_log_loss": 0.5634,
+      "picks": 200,
+      "hits": 59,
+      "hit_rate": 0.295,
+      "said": 0.3218,
+      "base_rate": 0.2561,
+      "lift": 0.0389,
+      "p_better": 0.1202,
+      "p_worse": 0.9084
+    },
+    "layer": {
+      "mean_p": 0.2586,
+      "actual_rate": 0.2561,
+      "calibration_gap": 0.0025,
+      "binary_log_loss": 0.5628,
+      "picks": 200,
+      "hits": 65,
+      "hit_rate": 0.325,
+      "said": 0.3205,
+      "base_rate": 0.2561,
+      "lift": 0.0689,
+      "p_better": 0.0175,
+      "p_worse": 0.9882
+    }
+  },
+  "per_league_top40_summed": {
+    "ship": {
+      "picks": 200,
+      "hits": 59,
+      "hit_rate": 0.295,
+      "base_rate": 0.2555,
+      "lift": 0.0395,
+      "p_better": 0.1159,
+      "p_worse": 0.912
+    },
+    "elo": {
+      "picks": 200,
+      "hits": 62,
+      "hit_rate": 0.31,
+      "base_rate": 0.2555,
+      "lift": 0.0545,
+      "p_better": 0.0479,
+      "p_worse": 0.9657
+    },
+    "elo_clf": {
+      "picks": 200,
+      "hits": 63,
+      "hit_rate": 0.315,
+      "base_rate": 0.2555,
+      "lift": 0.0595,
+      "p_better": 0.0343,
+      "p_worse": 0.976
+    },
+    "blend": {
+      "picks": 200,
+      "hits": 63,
+      "hit_rate": 0.315,
+      "base_rate": 0.2555,
+      "lift": 0.0595,
+      "p_better": 0.0343,
+      "p_worse": 0.976
+    },
+    "mix_se": {
+      "picks": 200,
+      "hits": 62,
+      "hit_rate": 0.31,
+      "base_rate": 0.2555,
+      "lift": 0.0545,
+      "p_better": 0.0479,
+      "p_worse": 0.9657
+    },
+    "mix_es": {
+      "picks": 200,
+      "hits": 59,
+      "hit_rate": 0.295,
+      "base_rate": 0.2555,
+      "lift": 0.0395,
+      "p_better": 0.1159,
+      "p_worse": 0.912
+    },
+    "layer": {
+      "picks": 200,
+      "hits": 63,
+      "hit_rate": 0.315,
+      "base_rate": 0.2555,
+      "lift": 0.0595,
+      "p_better": 0.0343,
+      "p_worse": 0.976
+    }
+  },
+  "per_league": {
+    "ENG-Premier League": {
+      "n": 372,
+      "actual_draw_rate": 0.2769,
+      "arms": {
+        "ship": {
+          "mean_p": 0.2572,
+          "actual_rate": 0.2769,
+          "calibration_gap": -0.0197,
+          "binary_log_loss": 0.5974,
+          "picks": 40,
+          "hits": 6,
+          "hit_rate": 0.15,
+          "said": 0.3201,
+          "base_rate": 0.2769,
+          "lift": -0.1269,
+          "p_better": 0.9812,
+          "p_worse": 0.0471
+        },
+        "elo": {
+          "mean_p": 0.2332,
+          "actual_rate": 0.2769,
+          "calibration_gap": -0.0437,
+          "binary_log_loss": 0.5967,
+          "picks": 40,
+          "hits": 12,
+          "hit_rate": 0.3,
+          "said": 0.2664,
+          "base_rate": 0.2769,
+          "lift": 0.0231,
+          "p_better": 0.4303,
+          "p_worse": 0.6993
+        },
+        "elo_clf": {
+          "mean_p": 0.2573,
+          "actual_rate": 0.2769,
+          "calibration_gap": -0.0196,
+          "binary_log_loss": 0.596,
+          "picks": 40,
+          "hits": 8,
+          "hit_rate": 0.2,
+          "said": 0.3199,
+          "base_rate": 0.2769,
+          "lift": -0.0769,
+          "p_better": 0.9004,
+          "p_worse": 0.1826
+        },
+        "blend": {
+          "mean_p": 0.2572,
+          "actual_rate": 0.2769,
+          "calibration_gap": -0.0196,
+          "binary_log_loss": 0.5963,
+          "picks": 40,
+          "hits": 7,
+          "hit_rate": 0.175,
+          "said": 0.3172,
+          "base_rate": 0.2769,
+          "lift": -0.1019,
+          "p_better": 0.9529,
+          "p_worse": 0.0996
+        },
+        "mix_se": {
+          "mean_p": 0.2332,
+          "actual_rate": 0.2769,
+          "calibration_gap": -0.0437,
+          "binary_log_loss": 0.5967,
+          "picks": 40,
+          "hits": 12,
+          "hit_rate": 0.3,
+          "said": 0.2664,
+          "base_rate": 0.2769,
+          "lift": 0.0231,
+          "p_better": 0.4303,
+          "p_worse": 0.6993
+        },
+        "mix_es": {
+          "mean_p": 0.2572,
+          "actual_rate": 0.2769,
+          "calibration_gap": -0.0197,
+          "binary_log_loss": 0.5974,
+          "picks": 40,
+          "hits": 6,
+          "hit_rate": 0.15,
+          "said": 0.3201,
+          "base_rate": 0.2769,
+          "lift": -0.1269,
+          "p_better": 0.9812,
+          "p_worse": 0.0471
+        },
+        "layer": {
+          "mean_p": 0.2573,
+          "actual_rate": 0.2769,
+          "calibration_gap": -0.0196,
+          "binary_log_loss": 0.596,
+          "picks": 40,
+          "hits": 8,
+          "hit_rate": 0.2,
+          "said": 0.3199,
+          "base_rate": 0.2769,
+          "lift": -0.0769,
+          "p_better": 0.9004,
+          "p_worse": 0.1826
+        }
+      }
+    },
+    "ESP-La Liga": {
+      "n": 372,
+      "actual_draw_rate": 0.2446,
+      "arms": {
+        "ship": {
+          "mean_p": 0.2534,
+          "actual_rate": 0.2446,
+          "calibration_gap": 0.0088,
+          "binary_log_loss": 0.5353,
+          "picks": 40,
+          "hits": 15,
+          "hit_rate": 0.375,
+          "said": 0.3224,
+          "base_rate": 0.2446,
+          "lift": 0.1304,
+          "p_better": 0.0459,
+          "p_worse": 0.9784
+        },
+        "elo": {
+          "mean_p": 0.2584,
+          "actual_rate": 0.2446,
+          "calibration_gap": 0.0138,
+          "binary_log_loss": 0.5471,
+          "picks": 40,
+          "hits": 12,
+          "hit_rate": 0.3,
+          "said": 0.3104,
+          "base_rate": 0.2446,
+          "lift": 0.0554,
+          "p_better": 0.2581,
+          "p_worse": 0.8414
+        },
+        "elo_clf": {
+          "mean_p": 0.2629,
+          "actual_rate": 0.2446,
+          "calibration_gap": 0.0182,
+          "binary_log_loss": 0.5384,
+          "picks": 40,
+          "hits": 15,
+          "hit_rate": 0.375,
+          "said": 0.3223,
+          "base_rate": 0.2446,
+          "lift": 0.1304,
+          "p_better": 0.0459,
+          "p_worse": 0.9784
+        },
+        "blend": {
+          "mean_p": 0.2581,
+          "actual_rate": 0.2446,
+          "calibration_gap": 0.0135,
+          "binary_log_loss": 0.5366,
+          "picks": 40,
+          "hits": 14,
+          "hit_rate": 0.35,
+          "said": 0.3198,
+          "base_rate": 0.2446,
+          "lift": 0.1054,
+          "p_better": 0.0892,
+          "p_worse": 0.9541
+        },
+        "mix_se": {
+          "mean_p": 0.2584,
+          "actual_rate": 0.2446,
+          "calibration_gap": 0.0138,
+          "binary_log_loss": 0.5471,
+          "picks": 40,
+          "hits": 12,
+          "hit_rate": 0.3,
+          "said": 0.3104,
+          "base_rate": 0.2446,
+          "lift": 0.0554,
+          "p_better": 0.2581,
+          "p_worse": 0.8414
+        },
+        "mix_es": {
+          "mean_p": 0.2534,
+          "actual_rate": 0.2446,
+          "calibration_gap": 0.0088,
+          "binary_log_loss": 0.5353,
+          "picks": 40,
+          "hits": 15,
+          "hit_rate": 0.375,
+          "said": 0.3224,
+          "base_rate": 0.2446,
+          "lift": 0.1304,
+          "p_better": 0.0459,
+          "p_worse": 0.9784
+        },
+        "layer": {
+          "mean_p": 0.2629,
+          "actual_rate": 0.2446,
+          "calibration_gap": 0.0182,
+          "binary_log_loss": 0.5384,
+          "picks": 40,
+          "hits": 15,
+          "hit_rate": 0.375,
+          "said": 0.3223,
+          "base_rate": 0.2446,
+          "lift": 0.1304,
+          "p_better": 0.0459,
+          "p_worse": 0.9784
+        }
+      }
+    },
+    "ITA-Serie A": {
+      "n": 372,
+      "actual_draw_rate": 0.2608,
+      "arms": {
+        "ship": {
+          "mean_p": 0.2583,
+          "actual_rate": 0.2608,
+          "calibration_gap": -0.0024,
+          "binary_log_loss": 0.5687,
+          "picks": 40,
+          "hits": 15,
+          "hit_rate": 0.375,
+          "said": 0.3237,
+          "base_rate": 0.2608,
+          "lift": 0.1142,
+          "p_better": 0.0749,
+          "p_worse": 0.962
+        },
+        "elo": {
+          "mean_p": 0.2631,
+          "actual_rate": 0.2608,
+          "calibration_gap": 0.0023,
+          "binary_log_loss": 0.5715,
+          "picks": 40,
+          "hits": 13,
+          "hit_rate": 0.325,
+          "said": 0.3058,
+          "base_rate": 0.2608,
+          "lift": 0.0642,
+          "p_better": 0.2242,
+          "p_worse": 0.8646
+        },
+        "elo_clf": {
+          "mean_p": 0.2659,
+          "actual_rate": 0.2608,
+          "calibration_gap": 0.0051,
+          "binary_log_loss": 0.5682,
+          "picks": 40,
+          "hits": 17,
+          "hit_rate": 0.425,
+          "said": 0.325,
+          "base_rate": 0.2608,
+          "lift": 0.1642,
+          "p_better": 0.0176,
+          "p_worse": 0.9925
+        },
+        "blend": {
+          "mean_p": 0.2621,
+          "actual_rate": 0.2608,
+          "calibration_gap": 0.0013,
+          "binary_log_loss": 0.5681,
+          "picks": 40,
+          "hits": 19,
+          "hit_rate": 0.475,
+          "said": 0.3207,
+          "base_rate": 0.2608,
+          "lift": 0.2142,
+          "p_better": 0.0029,
+          "p_worse": 0.999
+        },
+        "mix_se": {
+          "mean_p": 0.2631,
+          "actual_rate": 0.2608,
+          "calibration_gap": 0.0023,
+          "binary_log_loss": 0.5715,
+          "picks": 40,
+          "hits": 13,
+          "hit_rate": 0.325,
+          "said": 0.3059,
+          "base_rate": 0.2608,
+          "lift": 0.0642,
+          "p_better": 0.2242,
+          "p_worse": 0.8646
+        },
+        "mix_es": {
+          "mean_p": 0.2583,
+          "actual_rate": 0.2608,
+          "calibration_gap": -0.0024,
+          "binary_log_loss": 0.5687,
+          "picks": 40,
+          "hits": 15,
+          "hit_rate": 0.375,
+          "said": 0.3237,
+          "base_rate": 0.2608,
+          "lift": 0.1142,
+          "p_better": 0.0749,
+          "p_worse": 0.962
+        },
+        "layer": {
+          "mean_p": 0.2659,
+          "actual_rate": 0.2608,
+          "calibration_gap": 0.0051,
+          "binary_log_loss": 0.5682,
+          "picks": 40,
+          "hits": 17,
+          "hit_rate": 0.425,
+          "said": 0.325,
+          "base_rate": 0.2608,
+          "lift": 0.1642,
+          "p_better": 0.0176,
+          "p_worse": 0.9925
+        }
+      }
+    },
+    "GER-Bundesliga": {
+      "n": 300,
+      "actual_draw_rate": 0.2433,
+      "arms": {
+        "ship": {
+          "mean_p": 0.2626,
+          "actual_rate": 0.2433,
+          "calibration_gap": 0.0193,
+          "binary_log_loss": 0.5558,
+          "picks": 40,
+          "hits": 8,
+          "hit_rate": 0.2,
+          "said": 0.3252,
+          "base_rate": 0.2433,
+          "lift": -0.0433,
+          "p_better": 0.7917,
+          "p_worse": 0.3344
+        },
+        "elo": {
+          "mean_p": 0.2347,
+          "actual_rate": 0.2433,
+          "calibration_gap": -0.0086,
+          "binary_log_loss": 0.5503,
+          "picks": 40,
+          "hits": 12,
+          "hit_rate": 0.3,
+          "said": 0.2756,
+          "base_rate": 0.2433,
+          "lift": 0.0567,
+          "p_better": 0.2518,
+          "p_worse": 0.8461
+        },
+        "elo_clf": {
+          "mean_p": 0.2463,
+          "actual_rate": 0.2433,
+          "calibration_gap": 0.0029,
+          "binary_log_loss": 0.5501,
+          "picks": 40,
+          "hits": 11,
+          "hit_rate": 0.275,
+          "said": 0.3141,
+          "base_rate": 0.2433,
+          "lift": 0.0317,
+          "p_better": 0.3778,
+          "p_worse": 0.7482
+        },
+        "blend": {
+          "mean_p": 0.2545,
+          "actual_rate": 0.2433,
+          "calibration_gap": 0.0111,
+          "binary_log_loss": 0.5522,
+          "picks": 40,
+          "hits": 10,
+          "hit_rate": 0.25,
+          "said": 0.3158,
+          "base_rate": 0.2433,
+          "lift": 0.0067,
+          "p_better": 0.5215,
+          "p_worse": 0.6222
+        },
+        "mix_se": {
+          "mean_p": 0.2347,
+          "actual_rate": 0.2433,
+          "calibration_gap": -0.0086,
+          "binary_log_loss": 0.5503,
+          "picks": 40,
+          "hits": 12,
+          "hit_rate": 0.3,
+          "said": 0.2756,
+          "base_rate": 0.2433,
+          "lift": 0.0567,
+          "p_better": 0.2518,
+          "p_worse": 0.8461
+        },
+        "mix_es": {
+          "mean_p": 0.2626,
+          "actual_rate": 0.2433,
+          "calibration_gap": 0.0193,
+          "binary_log_loss": 0.5558,
+          "picks": 40,
+          "hits": 8,
+          "hit_rate": 0.2,
+          "said": 0.3252,
+          "base_rate": 0.2433,
+          "lift": -0.0433,
+          "p_better": 0.7917,
+          "p_worse": 0.3344
+        },
+        "layer": {
+          "mean_p": 0.2463,
+          "actual_rate": 0.2433,
+          "calibration_gap": 0.0029,
+          "binary_log_loss": 0.5501,
+          "picks": 40,
+          "hits": 11,
+          "hit_rate": 0.275,
+          "said": 0.3141,
+          "base_rate": 0.2433,
+          "lift": 0.0317,
+          "p_better": 0.3778,
+          "p_worse": 0.7482
+        }
+      }
+    },
+    "FRA-Ligue 1": {
+      "n": 298,
+      "actual_draw_rate": 0.2517,
+      "arms": {
+        "ship": {
+          "mean_p": 0.2436,
+          "actual_rate": 0.2517,
+          "calibration_gap": -0.0081,
+          "binary_log_loss": 0.5573,
+          "picks": 40,
+          "hits": 15,
+          "hit_rate": 0.375,
+          "said": 0.3144,
+          "base_rate": 0.2517,
+          "lift": 0.1233,
+          "p_better": 0.0573,
+          "p_worse": 0.9721
+        },
+        "elo": {
+          "mean_p": 0.2383,
+          "actual_rate": 0.2517,
+          "calibration_gap": -0.0134,
+          "binary_log_loss": 0.5572,
+          "picks": 40,
+          "hits": 13,
+          "hit_rate": 0.325,
+          "said": 0.2788,
+          "base_rate": 0.2517,
+          "lift": 0.0733,
+          "p_better": 0.1858,
+          "p_worse": 0.8921
+        },
+        "elo_clf": {
+          "mean_p": 0.2581,
+          "actual_rate": 0.2517,
+          "calibration_gap": 0.0065,
+          "binary_log_loss": 0.558,
+          "picks": 40,
+          "hits": 12,
+          "hit_rate": 0.3,
+          "said": 0.3163,
+          "base_rate": 0.2517,
+          "lift": 0.0483,
+          "p_better": 0.2934,
+          "p_worse": 0.8142
+        },
+        "blend": {
+          "mean_p": 0.2509,
+          "actual_rate": 0.2517,
+          "calibration_gap": -0.0008,
+          "binary_log_loss": 0.5572,
+          "picks": 40,
+          "hits": 13,
+          "hit_rate": 0.325,
+          "said": 0.3131,
+          "base_rate": 0.2517,
+          "lift": 0.0733,
+          "p_better": 0.1858,
+          "p_worse": 0.8921
+        },
+        "mix_se": {
+          "mean_p": 0.2383,
+          "actual_rate": 0.2517,
+          "calibration_gap": -0.0134,
+          "binary_log_loss": 0.5572,
+          "picks": 40,
+          "hits": 13,
+          "hit_rate": 0.325,
+          "said": 0.2788,
+          "base_rate": 0.2517,
+          "lift": 0.0733,
+          "p_better": 0.1858,
+          "p_worse": 0.8921
+        },
+        "mix_es": {
+          "mean_p": 0.2436,
+          "actual_rate": 0.2517,
+          "calibration_gap": -0.0081,
+          "binary_log_loss": 0.5573,
+          "picks": 40,
+          "hits": 15,
+          "hit_rate": 0.375,
+          "said": 0.3144,
+          "base_rate": 0.2517,
+          "lift": 0.1233,
+          "p_better": 0.0573,
+          "p_worse": 0.9721
+        },
+        "layer": {
+          "mean_p": 0.2581,
+          "actual_rate": 0.2517,
+          "calibration_gap": 0.0065,
+          "binary_log_loss": 0.558,
+          "picks": 40,
+          "hits": 12,
+          "hit_rate": 0.3,
+          "said": 0.3163,
+          "base_rate": 0.2517,
+          "lift": 0.0483,
+          "p_better": 0.2934,
+          "p_worse": 0.8142
+        }
+      }
+    }
+  }
+}

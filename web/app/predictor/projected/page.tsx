@@ -1,5 +1,6 @@
 import { getRound, leagueShort, type ZoneKey } from "@/lib/data";
 import { Crest, LeagueHeading } from "../../components/Crest";
+import { Crumbs } from "../../components/Crumbs";
 import { Fighting, ZoneBar, ZoneLegend } from "../../components/ZoneBar";
 
 const EUROPE: ZoneKey[] = ["ucl", "uclq", "uel", "uecl"];
@@ -15,6 +16,12 @@ export default function ProjectedPage() {
 
   return (
     <div>
+      <Crumbs
+        trail={[
+          { href: "/predictor", label: "Predictor" },
+          { label: "Projected" },
+        ]}
+      />
       <p className="max-w-3xl text-[13.5px] text-ink-2">
         Every remaining fixture priced by the model, then the season replayed
         ten thousand times. Points already banked are kept; the rest is

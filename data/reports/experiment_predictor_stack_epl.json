@@ -1,0 +1,34 @@
+{
+  "league": "ENG-Premier League",
+  "train_season": "2425",
+  "test_season": "2526",
+  "n_train": 350,
+  "n_test": 350,
+  "shipped_as_served": {
+    "log_loss": 1.0337,
+    "accuracy": 0.4857
+  },
+  "shipped_recalibrated": {
+    "log_loss": 1.0318,
+    "accuracy": 0.4829
+  },
+  "process_only": {
+    "log_loss": 1.042,
+    "accuracy": 0.4771
+  },
+  "stacked": {
+    "log_loss": 1.0482,
+    "accuracy": 0.4543
+  },
+  "stacked_one_feature": {
+    "log_loss": 1.0381,
+    "accuracy": 0.4714
+  },
+  "stacked_regularised": {
+    "log_loss": 1.0317,
+    "accuracy": 0.5029
+  },
+  "gain": -0.0164,
+  "gain_best": 0.0001,
+  "verdict": "NOT SHIPPED. The best the team layer manages against the live model is +0.0001 log-loss, which is nothing, and it only gets there at C=0.05 \u2014 regularised so hard the process features are almost switched off. Left free they make it WORSE (1.0482 against 1.0318): seven parameters on 350 training matches is not a stack, it is a memoriser. The likely reason is that the layer and Understat xG measure the same thing \u2014 box entries, shots and big chances ARE chance creation \u2014 so it reproduces the input rather than adding to it. The accuracy reading (50.3% against 48.3%) is two points on 350 matches, inside its own standard error of about 2.7, so it is not evidence either. RETEST ON FIVE LEAGUES: ~1,750 test matches is where an edge this small would become visible or would finally disappear."
+}

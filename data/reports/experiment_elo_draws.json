@@ -1,0 +1,48 @@
+{
+  "league": "ENG-Premier League",
+  "test_season": "2526",
+  "n": 372,
+  "actual_draw_rate": 0.2769,
+  "arms": [
+    {
+      "arm": "ship",
+      "mean_p": 0.2592,
+      "actual_rate": 0.2769,
+      "calibration_gap": -0.0177,
+      "binary_log_loss": 0.5964,
+      "top_picks": 40,
+      "top_hit_rate": 0.15,
+      "top_mean_p": 0.3203
+    },
+    {
+      "arm": "elo",
+      "mean_p": 0.2434,
+      "actual_rate": 0.2769,
+      "calibration_gap": -0.0335,
+      "binary_log_loss": 0.5931,
+      "top_picks": 40,
+      "top_hit_rate": 0.325,
+      "top_mean_p": 0.2936
+    },
+    {
+      "arm": "elo_clf",
+      "mean_p": 0.257,
+      "actual_rate": 0.2769,
+      "calibration_gap": -0.0199,
+      "binary_log_loss": 0.5929,
+      "top_picks": 40,
+      "top_hit_rate": 0.225,
+      "top_mean_p": 0.3205
+    },
+    {
+      "arm": "blend",
+      "mean_p": 0.2581,
+      "actual_rate": 0.2769,
+      "calibration_gap": -0.0188,
+      "binary_log_loss": 0.5943,
+      "top_picks": 40,
+      "top_hit_rate": 0.2,
+      "top_mean_p": 0.3174
+    }
+  ]
+}

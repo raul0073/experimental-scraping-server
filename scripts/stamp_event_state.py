@@ -118,7 +118,7 @@ def verify(stamped: pd.DataFrame, league: str, season: str) -> dict:
     checked = matched = 0
     misses = []
     for gid, g in stamped.groupby("game_id"):
-        path = cache / f"{gid}.json"
+        path = cache / f"{int(gid)}.json"
         if not path.exists():
             continue
         try:

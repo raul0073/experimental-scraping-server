@@ -14,6 +14,6 @@ echo ============================================ >> data\reports\event_pilot.lo
 echo run started %DATE% %TIME% >> data\reports\event_pilot.log
 
 .venv\Scripts\python.exe scripts\build_whoscored_events.py ^
-  --league "ENG-Premier League" --seasons 2425 2526 >> data\reports\event_pilot.log 2>&1
+  --league "ENG-Premier League" --seasons 2324 2627 >> data\reports\event_pilot.log 2>&1
 
 echo run finished %DATE% %TIME% >> data\reports\event_pilot.log

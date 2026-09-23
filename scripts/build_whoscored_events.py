@@ -1,8 +1,9 @@
 """Fetch WhoScored (Opta) event streams and store them per league-season.
 
 Each match is ~1,431 events with player, position, outcome and minute — the
-substrate the mental benchmark and player-built zones need. At ~29s a match
-this is an overnight job, so it is built to be interrupted and resumed:
+substrate the mental benchmark and player-built zones need. At a MEASURED
+~10.9s a match a full league-season is about seventy minutes and four
+leagues is an overnight job, so it is built to be interrupted and resumed:
 
   * already-stored matches are skipped, so re-running costs nothing
   * events are written after EVERY batch, never only at the end
@@ -30,14 +31,127 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import pandas as pd
 import soccerdata as sd
 
+from services.scrape_log import banner, scrape
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "data" / "whoscored"
+CURRENT_SEASON = "2627"
 BATCH = 10           # matches per write — small so an interruption loses little
-PAUSE_S = 3.0        # between batches, on top of the ~29s/match the fetch takes
+PAUSE_S = 3.0        # between batches, on top of the ~10.9s/match the fetch
+                     # takes — 0.3s/match amortised, so plan from the 10.9
+
+
+SCHED_DIR = OUT_DIR / "_schedules"
 
 
 def out_path(league: str, season: str) -> Path:
     return OUT_DIR / league.replace("/", "-") / f"{season}.parquet"
+
+
+def schedule_for(ws, league: str, season: str) -> pd.DataFrame:
+    """The fixture list, fetched at most once per league-season per day.
+
+    🐛 THIS WAS THE DOMINANT COST OF A DAILY RUN. read_schedule() fetches
+    roughly ten month pages before a single match is requested, and the
+    measured England run spent 251s to collect TEN matches — 25s each
+    against a 10.9s baseline — because that fixed cost is paid up front
+    every time. Across five leagues it is ten minutes a morning re-reading
+    fixture lists that change a handful of times a season.
+
+    A day is the right granularity: postponements and TV moves happen, so
+    caching forever would eventually fetch a match that is no longer
+    scheduled or miss one that now is, but they never happen twice in the
+    same morning. Only the two columns played_ids needs are stored, so a
+    stale or corrupt cache costs one refetch and nothing else.
+    """
+    day = datetime.now().strftime("%Y%m%d")
+    path = SCHED_DIR / f"{league.replace('/', '-')}_{season}_{day}.parquet"
+    if path.exists():
+        try:
+            df = pd.read_parquet(path)
+            scrape("schedule from cache", league=league, season=season,
+                   fixtures=len(df), cached=day)
+            return df
+        except Exception:
+            pass                       # unreadable cache is not a failure
+
+    scrape("reading schedule", league=league, season=season,
+           note="~10 month pages, once per day")
+    sched = ws.read_schedule().reset_index()
+    keep = [c for c in ("game_id", "date") if c in sched.columns]
+    out = sched[keep] if keep else sched
+    try:
+        SCHED_DIR.mkdir(parents=True, exist_ok=True)
+        out.to_parquet(path, index=False)
+        # yesterday's copies are dead weight the moment today's is written
+        for old in SCHED_DIR.glob(f"{league.replace('/', '-')}_{season}_*.parquet"):
+            if old != path:
+                old.unlink(missing_ok=True)
+    except Exception:
+        pass
+    return out
+
+
+def played_ids(schedule: pd.DataFrame, until: str | None = None) -> list:
+    """Game ids for matches that have actually been played.
+
+    🐛 THIS USED TO BE EVERY ID THE SCHEDULE RETURNED. For a finished season
+    that is the same thing — all 380 happened — but for a season in progress
+    it means asking WhoScored for every fixture still to come. On 26/27 in
+    September that is ~380 requests a league to collect the ~50 matches that
+    exist, and a daily run across five leagues would spend its morning
+    fetching nothing, every morning.
+
+    Kickoff plus three hours is the test, rather than a score column, because
+    the schedule's shape varies by competition but `date` is always there.
+    If it somehow is not, fall back to the old behaviour rather than fetching
+    nothing at all — too much is a waste, none is a silent outage."""
+    if "date" not in schedule.columns:
+        return [int(g) for g in schedule["game_id"].dropna().unique()]
+    when = pd.to_datetime(schedule["date"], errors="coerce", utc=True)
+    cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(hours=3)
+    # `until` lets a caller fetch a season in controlled chunks — "bring
+    # La Liga up to the end of October" — instead of committing to the whole
+    # thing in one unattended run.
+    if until:
+        asked = pd.Timestamp(until, tz="UTC") + pd.Timedelta(days=1)
+        cutoff = min(cutoff, asked)
+    done = schedule[when.notna() & (when <= cutoff)]
+    return [int(g) for g in done["game_id"].dropna().unique()]
+
+
+def write_events(df: pd.DataFrame, path: Path) -> None:
+    """Write the frame, surviving columns WhoScored types inconsistently.
+
+    🐛 THIS KILLED TWO SEASONS EVERY NIGHT FOR DAYS. Some events have no
+    player — a team-level action, or simply a gap in the feed — and pandas
+    reads that cell as NaN, a float, in a column otherwise full of strings.
+    Arrow cannot type a mixed str/float column and raises:
+
+        ArrowTypeError: Expected bytes, got a 'float' object
+        Conversion failed for column player with type object
+
+    The write happens after every batch, so the season kept exactly the
+    matches fetched before the first offending batch and then aborted:
+    Serie A 24/25 stopped dead on 100 of 380, Ligue 1 25/26 on 220 of 306,
+    and re-running produced the identical crash at the identical point. It
+    read as throttling because the counts never moved.
+
+    Coercing every object column to a nullable string makes the NaN an
+    explicit missing value instead of a float. Done only on the retry so the
+    common path stays untouched and cheap.
+    """
+    try:
+        df.to_parquet(path, index=False)
+        return
+    except Exception as e:                                   # noqa: BLE001
+        bad = [c for c in df.columns if df[c].dtype == object]
+        print(f"WARN parquet write failed ({type(e).__name__}); coercing "
+              f"{len(bad)} object column(s) to string and retrying", flush=True)
+        fixed = df.copy()
+        for c in bad:
+            fixed[c] = fixed[c].astype("string")
+        fixed.to_parquet(path, index=False)
 
 
 def load_existing(path: Path) -> pd.DataFrame | None:
@@ -50,19 +164,19 @@ def load_existing(path: Path) -> pd.DataFrame | None:
         return None
 
 
-def build(league: str, season: str) -> dict:
+def build(league: str, season: str, until: str | None = None) -> dict:
     path = out_path(league, season)
     path.parent.mkdir(parents=True, exist_ok=True)
 
     ws = sd.WhoScored(leagues=league, seasons=season)
-    schedule = ws.read_schedule()
-    all_ids = [int(g) for g in schedule["game_id"].dropna().unique()]
+    schedule = schedule_for(ws, league, season)
+    all_ids = played_ids(schedule, until)
 
     done = load_existing(path)
     have = set(done["game_id"].unique().tolist()) if done is not None else set()
     todo = [g for g in all_ids if g not in have]
 
-    print(f"\n=== {league} {season}: {len(all_ids)} matches, "
+    print(f"\n=== {league} {season}: {len(all_ids)} played, "
           f"{len(have)} already stored, {len(todo)} to fetch", flush=True)
     if not todo:
         return {"league": league, "season": season, "fetched": 0,
@@ -74,6 +188,10 @@ def build(league: str, season: str) -> dict:
 
     for i in range(0, len(todo), BATCH):
         chunk = todo[i: i + BATCH]
+        scrape("fetching events", league=league, season=season,
+               batch=f"{i // BATCH + 1}/{(len(todo) + BATCH - 1) // BATCH}",
+               matches=len(chunk), ids=",".join(str(c) for c in chunk[:4])
+               + ("..." if len(chunk) > 4 else ""))
         try:
             ev = ws.read_events(match_id=chunk)
         except Exception as e:
@@ -85,7 +203,7 @@ def build(league: str, season: str) -> dict:
         frames.append(ev.reset_index())
         fetched += len(chunk)
         # write after every batch: an overnight job must never lose hours
-        pd.concat(frames, ignore_index=True).to_parquet(path, index=False)
+        write_events(pd.concat(frames, ignore_index=True), path)
 
         elapsed = time.time() - t0
         rate = elapsed / max(fetched, 1)
@@ -103,14 +221,23 @@ def build(league: str, season: str) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--league", default="ENG-Premier League")
-    ap.add_argument("--seasons", nargs="+", default=["2425", "2526"])
+    # 🐛 THE DEFAULT USED TO BE ["2425", "2526"], WHICH MADE THE DAILY RUN A
+    # BACKFILL. run_daily calls this with --league only, so for any league
+    # whose history is not on disk the "daily update" quietly began a
+    # 2,744-match job. The default is now the season we are actually in;
+    # fetching history is a deliberate act with an explicit --seasons.
+    ap.add_argument("--seasons", nargs="+", default=[CURRENT_SEASON])
+    ap.add_argument("--until", default=None,
+                    help="only fetch matches played on or before "
+                         "this date (YYYY-MM-DD), for controlled chunks")
     args = ap.parse_args()
 
-    print(f"started {datetime.now():%Y-%m-%d %H:%M}", flush=True)
+    banner(f"events · {args.league} · seasons {' '.join(args.seasons)}"
+           + (f" · until {args.until}" if args.until else ""))
     results = []
     for season in args.seasons:
         try:
-            results.append(build(args.league, season))
+            results.append(build(args.league, season, args.until))
         except Exception as e:
             print(f"FAIL {args.league} {season}: {type(e).__name__}: {e}", flush=True)
 

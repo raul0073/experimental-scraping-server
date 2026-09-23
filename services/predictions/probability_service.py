@@ -67,12 +67,31 @@ def unified_probs(poisson: Dict[str, float], p_draw_clf: float | None) -> Dict[s
 
 # A pure argmax essentially never says draw (draws cap at ~32-35% while a
 # win side spreads to 36%+), which misrepresents football — ~26% of matches
-# draw. Rule (user decision 2026-09-15, threshold picked by sweep on the 194
-# graded live rows): once the calibrated draw probability reaches the
-# validated draw CEILING zone, the call is a draw. At 0.32 the flip costs
-# 0.0pp realized accuracy (51.0% -> 51.0%) and those draw calls hit 34.9%
-# vs the 26.8% base rate; 0.30 would cost 6pp.
-DRAW_CALL_MIN = 0.32
+# draw. Rule (user decision 2026-09-15): once the calibrated draw probability
+# reaches the draw CEILING zone, the call is a draw.
+#
+# RE-SWEPT 2026-09-20 on 1,714 walk-forward fixtures — every 25/26 match of
+# all five leagues — priced by the model that now ships. See
+# scripts/sweep_draw_call.py and data/reports/sweep_draw_call.json.
+#
+# 🐛 The old 0.32 was swept on 194 graded live rows and came with a note that
+# 0.30 "would cost 6pp" of accuracy. There is no such cliff: across the full
+# grid accuracy moves smoothly, 52.2% at 0.33 down to 50.9% at 0.30. A
+# six-point step between adjacent thresholds was the sample being too small
+# to answer the question, not a decision boundary.
+#
+# WHAT MOVED THE CHOICE WAS SUPPLY, NOT PURITY. Over ~38 rounds:
+#
+#   0.32   96 draw calls  = 2.5 a week   hit 34.4%  (+8.8 over base)
+#   0.31  187 draw calls  = 4.9 a week   hit 32.6%  (+7.0 over base)
+#
+# The product commits to FOUR draw picks a week. At 0.32 the model makes two
+# and a half calls a week, so the ticket cannot be filled from its own stated
+# calls — a threshold with a better hit rate that cannot supply the product
+# is worse than one that can. 0.31 costs 0.2pp of overall accuracy (52.0% vs
+# a grid best of 52.2%) and its draw calls still beat the 25.6% base rate at
+# p=0.019.
+DRAW_CALL_MIN = 0.31
 
 
 def call_outcome(probs: Dict[str, float]) -> str:

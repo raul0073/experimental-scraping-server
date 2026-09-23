@@ -9,8 +9,8 @@ import routes.fbref.players.players as playerRoute
 import routes.fbref.mental as mentalRoute
 import routes.fbref.fixtures.fixtures as fixturesRoute
 import routes.predictions.predictions as predictionsRoute
-import routes.dashboard.dashboard as dashboardRoute
 import routes.plotting.plot as plotRoute
+import routes.admin.admin as adminRoute
 from fastapi.staticfiles import StaticFiles
 
 
@@ -27,7 +27,9 @@ app.include_router(mentalRoute.router, prefix="/api/v2")
 app.include_router(fixturesRoute.router, prefix="/api/v2")
 app.include_router(predictionsRoute.router, prefix="/api/v2")
 app.include_router(plotRoute.router, prefix="/api/v2")
-app.include_router(dashboardRoute.router)  # HTML pages, no /api prefix
+# carries its own full /api/v2 paths, and refuses anything that is not
+# localhost — it starts a subprocess, so it must not be a network endpoint
+app.include_router(adminRoute.router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 # root
 @app.get("/", tags=["Root"])
