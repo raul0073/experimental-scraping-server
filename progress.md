@@ -29,6 +29,24 @@ directories are gitignored and 200 MB of JSON has no business in the repo:
 npx wrangler pages deploy out --project-name predictorous
 ```
 
+**LIVE as of 2026-09-23.** `predictorous.com`, `predictorous.pages.dev` and
+the per-deploy alias all serve 200 — HTML, `_next` chunks, `/data/*.json`
+and deep routes (`/team/man-city`) alike, with a real 404 on an unknown
+path. Only `www.predictorous.com` is dead: no DNS record. Add `www` as a
+second custom domain on the Pages project, or CNAME it to the apex.
+
+**Share card done.** `scripts/build_og_image.py` renders
+`web/public/og.png` (1200×630, 81 KB) in the site's own fonts, wired into
+`layout.tsx` for both Open Graph and Twitter with alt text. It deliberately
+carries **no live figures**: social platforms cache the image on their own
+schedule, so a baked-in "50.8%" would keep being shown long after the record
+moved. The calibration bars are the real bucket shape but unlabelled — the
+claim "this model is measured" without a number that expires. Fonts are
+fetched once into `data/cache/fonts/` (gitignored), not committed.
+
+Still to do for share previews: per-page metadata for the six pages that
+inherit the root title verbatim.
+
 ⚠️ **I wrongly called this "a betting tool" when weighing Vercel's
 non-commercial Hobby terms.** It is not. The site publishes probabilities
 and fair prices and says plainly that it never sees anyone's book. That
@@ -43,6 +61,127 @@ without it is a licence breach, not an oversight.
 team-season. They are fetched per team on demand, so this is a hosting cost
 and not page weight; quantising the coordinates would cut it hard without
 changing what the picture shows. Do nothing until it matters.
+
+## 🐛 I CORRUPTED TWO EVENT SEASONS FIXING A DIFFERENT BUG (2026-09-23)
+
+`write_events`' retry path existed for a real Arrow failure — a missing
+`player` reads as a float NaN in a column of strings. The fix coerced EVERY
+object column to string, which is far more than the broken one:
+
+- `is_goal` / `is_shot`: `True`/`None` -> the STRING `'True'` and `pd.NA`.
+  `bool(pd.NA)` RAISES, which killed `stamp_event_state.py:82` and is why
+  Serie A and Ligue 1 could not become ready with complete data on disk.
+- `qualifiers`: an array of dicts -> a string repr of one. `qualifier_names`
+  does structured access inside a bare `except`, so it silently returned an
+  empty set — **own goals stopped being detected** and were credited to the
+  scoring team. Every future qualifier metric would have read empty too.
+
+Blast radius was exactly the two seasons re-fetched through that path
+(ITA 24/25, FRA 25/26). Fixed three ways: `write_events` now coerces only
+columns whose non-null values are actually strings; `stamp_event_state`
+normalises flags on read (parsing text, not `astype(bool)`, which maps
+`'False'` to True); and `scripts/repair_event_parquet.py` detects the damage
+by VALUE TYPE, not dtype — the first version tested `dtype != bool` and
+condemned all twenty files, since `object` holding True/None is the native
+and correct shape.
+
+⚠️ **The in-place repair was not good enough and the files were rebuilt from
+the soccerdata JSON cache instead.** `literal_eval` silently dropped cells:
+clean seasons carry qualifiers on 100% of events, the repaired ones came back
+at 76% (ITA) and 37% (FRA). The repair script overwrote without keeping a
+backup, so the evidence was gone — **that is the lesson worth keeping: a
+repair that destroys its input cannot be audited.** The cache held all 380
+and 306 matches, so the rebuild cost nothing but CPU.
+
+## DAILY: THE INTERNATIONAL-BREAK GATE (2026-09-23)
+
+A blank daily used to run in full — five schedule fetches at ~10 month pages
+each, a fetch loop that asked for nothing, and a complete rebuild of ratings,
+Elo and every payload, to reproduce yesterday's numbers exactly.
+
+`idle_check()` is **derived from the fixture calendar, never a list of break
+dates**: a hardcoded calendar covers one case, goes stale every season and
+needs a human to remember it. The fixture list already knows, for every
+league, and it is on disk. It therefore also covers midweek gaps, winter
+breaks and the close season for free.
+
+Idle does NOT mean do nothing. Injuries move on international duty and
+kickoff times get shifted, so fixtures, injuries, grading, predictions and
+export still run; events, stamping, ratings, Elo, mental, shots and passes —
+everything that can only change when a match is played — are skipped.
+
+Two safeguards, both of which are the whole point:
+- **The marker is written only on a clean run.** An idle gate that inherits
+  a failed run turns one bad morning into a permanent silent outage.
+- **The marker records the READY LEAGUE SET.** The backfill stamp runs before
+  the gate by design, so a league whose events finally land becomes ready
+  without anyone noticing — but that is not "football happened", so the naive
+  gate skipped every build that would have put it on the site. Serie A and
+  Ligue 1 would have sat at ready-but-invisible through the whole break. A
+  change in the ready set is work.
+
+Verified: last match 2026-09-20, next 2026-10-09 (16 days).
+
+## WALK-FORWARD VERDICT — the layer is out (2026-09-23)
+
+11,311 fixtures · 8 eval seasons · 4 leagues (Ligue 1 excluded, data short).
+Per eval season S: boosts/rho refit on S−1, classifier trained only on
+seasons before S, Elo fitted only on seasons before S. Report:
+`data/reports/experiment_walk_forward.json`, rows in `_walk_forward_rows.csv`.
+
+⚠️ **THE FIRST RUN'S ANSWER WAS WRONG AND WAS REVERSED HERE.** That run said
+blend beat ship by +0.0012 at P=0.96. It was produced while
+`DrawModel.train(out_path=None)` was silently overwriting the PRODUCTION
+classifier on every fold — `path = out_path or PARAMS_PATH`. Fixed to a
+scratch path; the rerun prints the production classifier's season count
+before and after as a guard (11 seasons / n=17,134, unchanged).
+
+**Triplet log loss, pooled:**
+
+```
+arm       log-loss  accuracy  gain vs ship  P(better)
+ship        0.9842     52.4%             —          —
+blend       0.9843     52.7%      -0.00016      0.418
+layer       0.9850     52.7%      -0.00077      0.183   <- was shipped
+elo_clf     0.9901     52.3%      -0.00588      0.000
+```
+
+**Draw RANKING — the metric that actually matters**, since the use is four
+picks a gameweek and only the order matters. `analyse_draw_ranking.py`
+scores precision at the top k% of each league-season (four from a
+five-league weekend ≈ top 9%), CIs bootstrapped over league-seasons:
+
+```
+arm      top 5%   top 10%   top 20%   P(>ship @10%)
+ship      33.5%     30.9%     30.3%              —
+blend     33.0%     31.6%     30.1%           0.718
+layer     31.9%     30.1%     29.7%           0.248
+elo_clf   31.9%     30.1%     29.7%           0.248
+```
+
+Base draw rate 25.4%, so every arm ranks draws well above chance — the old
+"worse than chance" scare was a single-league small-sample fluke, now dead.
+
+**Why the layer fails, precisely.** `layer = unified_probs(blend,
+elo_clf["draw"])` — it keeps blend's home:away ratio and substitutes the
+classifier's P(draw). So the layer's draw ORDERING *is* the classifier's,
+which is why their draw rows are identical to four decimals. The layer was
+added on the belief the classifier ranks draws better than the shipped
+model. It does not — it ranks them worse. The layer imports a downgrade.
+
+**Decision: drop the layer.** It loses to ship on the triplet (P=0.183) and
+on draw ranking (P=0.248), and it is strictly dominated by blend on both.
+Ship vs blend is a genuine coin flip — no difference here is significant —
+so the tiebreak is the use case: blend is the best of the four at the
+trixy-like cutoff. **Switch the predictor to plain blend.**
+
+Per league at top 10%, blend wins or ties ENG/GER/ITA; ship wins ESP
+(36.1% vs 33.8%). Per-league arm selection is tempting and NOT justified —
+that is choosing on the test set with four leagues.
+
+TODO: the rows carry no date, so a true gameweek could not be simulated.
+Add `date` to the walk-forward rows and re-score "top four this weekend"
+directly rather than via a percentage proxy.
 
 ## 🐛 PARKED — the Elo conv_lookback will not stay put
 

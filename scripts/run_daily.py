@@ -33,6 +33,7 @@ ones missed rather than the run dying at the first 502.
 from __future__ import annotations
 
 import argparse
+import json
 import subprocess
 import sys
 import time
@@ -57,6 +58,88 @@ SEASON = "2627"
 # to be remembered and undone by hand on the day La Liga became usable.
 # services/data_ready.py holds the single definition of "ready".
 from services.data_ready import ALL_LEAGUES, readiness, ready_leagues  # noqa: E402
+
+# The daily's own marker. run_weekly has one (last_weekly_run.txt) but writes
+# it at the END of a full run, which --sources-only returns before reaching —
+# so the daily has never had a record of when it last ran.
+DAILY_STAMP = ROOT / "data" / "reports" / "last_daily_run.txt"
+
+
+def football_window(leagues: list) -> tuple:
+    """(most recent kickoff, next kickoff) across `leagues`.
+
+    Read from the CACHED fixture lists, never the network — the entire point
+    is to decide whether a network round trip is worth making, so paying for
+    one to find out would defeat it.
+
+    Dates are ISO, so plain string comparison orders them correctly and no
+    parsing is needed for a question that only cares about the day.
+    """
+    from services.fbref.fixtures.fixtures_service import FixturesService
+
+    today = datetime.now().strftime("%Y-%m-%d")
+    past, future = [], []
+    for lg in leagues:
+        fx = FixturesService.load(lg, SEASON)
+        if not fx:
+            continue
+        for m in fx.get("matches", []):
+            d = (m.get("date") or "")[:10]
+            if d:
+                (past if d <= today else future).append(d)
+    return (max(past) if past else None, min(future) if future else None)
+
+
+def idle_check(leagues: list) -> tuple:
+    """(idle, why). Idle = no fixture has kicked off since the last run.
+
+    WHY THIS IS DERIVED AND NOT A CALENDAR. International breaks are the
+    obvious case, but they are not the only one: midweek gaps, winter breaks,
+    the end of a season and the weeks before the next one all leave the job
+    fetching nothing and rebuilding ratings that cannot have moved. A list of
+    break dates would cover one of those, go stale every season, and need a
+    human to remember it. The fixture list already knows, for every league,
+    and it is on disk.
+
+    THE COMPARISON IS DELIBERATELY CONSERVATIVE — day granularity, and it
+    skips only when the newest fixture is STRICTLY older than the day we last
+    ran. A run this morning with matches tonight shares a date, so that case
+    falls through and the job runs. The cost of being wrong that way is one
+    wasted pass; the cost of being wrong the other way is a site a day stale
+    with nothing in the log to say why.
+    """
+    last_kick, next_kick = football_window(leagues)
+    if not last_kick or not DAILY_STAMP.exists():
+        return False, ""
+    try:
+        mark = json.loads(DAILY_STAMP.read_text(encoding="utf-8"))
+        last_run = str(mark.get("at", ""))[:10]
+        was_ready = set(mark.get("leagues") or [])
+    except (OSError, ValueError):
+        return False, ""                       # unreadable marker: just run
+    if not last_run or last_kick >= last_run:
+        return False, ""
+
+    # 🐛 THE GATE WOULD HAVE STRANDED A LEAGUE IT HAD JUST ADMITTED.
+    # The backfill stamp runs BEFORE this check, by design — that is what
+    # lets a league whose events finally landed become ready without a human
+    # noticing. But a league becoming ready is not "football happened", so
+    # the idle test passed and every build that would have put it on the site
+    # was skipped. Serie A and Ligue 1 would have sat at ready, forever, one
+    # step from being visible, through an international break nobody was
+    # watching. A change in the ready set IS work, whether or not a ball was
+    # kicked.
+    if set(leagues) != was_ready:
+        return False, ""
+    ahead = ""
+    if next_kick:
+        try:
+            gap = (datetime.fromisoformat(next_kick).date()
+                   - datetime.now().date()).days
+            ahead = f", next kickoff {next_kick} ({gap}d away)"
+        except ValueError:
+            ahead = f", next kickoff {next_kick}"
+    return True, (f"last match {last_kick}, last run {last_run}{ahead}")
 
 done: list[tuple[str, str, float]] = []
 
@@ -147,6 +230,9 @@ def main() -> int:
     ap.add_argument("--league", action="append", dest="leagues", default=None,
                     help="restrict to these leagues (repeatable); "
                          "default is every league with enough event history")
+    ap.add_argument("--force", action="store_true",
+                    help="run the full job even if no football has been "
+                         "played since the last run")
     args = ap.parse_args()
 
     # 🐛 READINESS COULD NEVER RESOLVE ITSELF.
@@ -179,6 +265,25 @@ def main() -> int:
             why = "" if d["ready"] else f" (needs {', '.join(d['missing'])})"
             print(f"{mark} {lg}{why}")
         print(f"  -> {len(leagues)} of {len(ALL_LEAGUES)} leagues\n")
+
+    # ---- 0. IS THERE ANYTHING TO DO? -------------------------------------
+    # In an international break the job used to run in full: five schedule
+    # fetches (~10 month pages each), a fetch loop that asked for nothing,
+    # and a complete rebuild of ratings, Elo and every payload — all to
+    # reproduce yesterday's numbers exactly, because no match had been played.
+    #
+    # Idle does NOT mean do nothing. Two things genuinely move while the
+    # football is stopped, and both feed what the site shows: players get
+    # injured on international duty, and kickoff times get moved. So the
+    # cheap half still runs and the expensive half — everything that can
+    # only change when a match is played — is skipped.
+    idle, why = (False, "") if args.force else idle_check(leagues)
+    if idle:
+        print(f"IDLE — no football since the last run.\n  {why}")
+        print("  skip: events, stamping, ratings, Elo, mental, shots, "
+              "passes, managers")
+        print("  run:  fixtures, injuries, grading, predictions, export\n")
+
     started = datetime.now()
     print(f"daily update  {started:%Y-%m-%d %H:%M}")
 
@@ -207,7 +312,10 @@ def main() -> int:
         for lg in leagues:
             league_args += ["--league", lg]
         run("sources", script("run_weekly.py") + ["--sources-only"] + league_args)
-        for lg in leagues:
+        # Skipped when idle: the scraper would ask each league for matches it
+        # already has and be told there are none — after paying for the
+        # schedule pages that establish it.
+        for lg in ([] if idle else leagues):
             # INCREMENTAL BY DESIGN: the event scraper reads the parquet it
             # already has and asks only for matches missing from it, so a
             # daily run fetches a handful and a skipped week fetches that
@@ -230,16 +338,22 @@ def main() -> int:
     # and the Bundesliga sat with every season they needed on disk and stayed
     # invisible. This second pass is the cheap one: only the current season
     # has moved, and stale_seasons() skips everything else by mtime.
-    stamp_pass("today", leagues)
+    if not idle:
+        stamp_pass("today", leagues)
 
     # ---- 2. RATINGS, rebuilt on what was just fetched ---------------------
     # Everything the predictor reads must be refitted before it runs: the
     # form/team layer, the injuries it deducts, and the Elo arm that now
     # owns P(draw) in the published triplet.
     for lg in leagues:
-        run(f"team web {lg}", script("build_team_web.py") + ["--league", lg])
-        run(f"team plots {lg}", script("build_team_plots.py") + ["--league", lg])
-        run(f"form {lg}", script("build_team_form.py") + ["--league", lg])
+        # The injury payload is the ONE thing here that moves without a match
+        # being played — an international-duty injury is exactly the case —
+        # so it is rebuilt even when idle. The other three are functions of
+        # match events and cannot have changed.
+        if not idle:
+            run(f"team web {lg}", script("build_team_web.py") + ["--league", lg])
+            run(f"team plots {lg}", script("build_team_plots.py") + ["--league", lg])
+            run(f"form {lg}", script("build_team_form.py") + ["--league", lg])
         run(f"injuries web {lg}", script("build_injury_web.py") + ["--league", lg])
 
     # 🐛 THIS WAS build_process_elo.py PER LEAGUE, AND IT ONLY EVER WORKED
@@ -254,13 +368,13 @@ def main() -> int:
     # instead of 380. One call covers every league, which is also why it
     # sits outside the loop — its report and params file are written whole,
     # and calling it per league would have each run overwrite the last.
-    run("elo (all leagues)", script("build_elo_all.py"))
-
-    run("reliability", script("build_reliability.py"))
+    if not idle:
+        run("elo (all leagues)", script("build_elo_all.py"))
+        run("reliability", script("build_reliability.py"))
     # PER LEAGUE. build_mental_web takes one league at a time and defaults to
     # England, so calling it bare built only England however many leagues
     # were ready — the players board had no way to show anything else.
-    for lg in leagues:
+    for lg in ([] if idle else leagues):
         run(f"mental web {lg}",
             script("build_mental_web.py") + ["--league", lg],
             optional=True)
@@ -278,10 +392,31 @@ def main() -> int:
         script("run_weekly.py") + ["--no-refresh"])
 
     # ---- 4. payloads the static site reads -------------------------------
-    for lg in leagues:
+    # Shot maps, pass maps and kits are all derived from match events, so an
+    # idle day cannot change any of them. export_web below still runs: the
+    # predictions and the injury payload above have moved, and it is the step
+    # that puts them where the site reads from.
+    for lg in ([] if idle else leagues):
         run(f"shots web {lg}", script("build_shot_web.py") + ["--league", lg])
         run(f"passes {lg}", script("build_pass_web.py") + ["--league", lg])
-    run("kits", script("build_kits.py"))
+        # MANAGERS: a payload, not a rating. Nothing downstream reads it —
+        # the predictor never sees a manager score — so it belongs here with
+        # the other things the site reads and NOT in step 2, where being
+        # early would only mean being early. Its inputs are the stamped
+        # events (step 1b) and Understat shots (step 1), both already done.
+        #
+        # PER LEAGUE, and skipped when idle, for the same reason shots and
+        # passes are: a spell is built out of match events, so with no match
+        # played every metric in the table is arithmetically identical to
+        # yesterday's. The only field that would move is `generated`, a
+        # date stamp carrying no information, and rebuilding five leagues of
+        # spells to change five date strings is exactly the work the gate
+        # exists to stop.
+        run(f"managers {lg}",
+            script("build_manager_web.py") + ["--league", lg],
+            optional=True)
+    if not idle:
+        run("kits", script("build_kits.py"))
 
     # LAST, because it reads the season sim and the graded history that the
     # steps above have just refreshed. Exporting first was how round.json
@@ -302,6 +437,20 @@ def main() -> int:
                  f"{len(done) - len(bad)}/{len(done)} ok"
                  + ("" if not bad else "  failed: " + ", ".join(b[0] for b in bad))
                  + "\n")
+
+    # THE MARKER IS WRITTEN ONLY ON A CLEAN RUN, and that is the whole safety
+    # of the idle gate. If a step failed, the next run must not be able to
+    # conclude "nothing has happened since last time" and skip the very work
+    # that just broke — an idle gate that inherits a failed run turns one bad
+    # morning into a permanent, silent outage.
+    if not bad:
+        DAILY_STAMP.parent.mkdir(parents=True, exist_ok=True)
+        DAILY_STAMP.write_text(json.dumps({
+            "at": datetime.now().isoformat(timespec="seconds"),
+            # Recorded so the next run can tell "nothing happened" from
+            # "a league joined" — see idle_check.
+            "leagues": sorted(leagues),
+        }, indent=2), encoding="utf-8")
 
     # A failed step is news, not a crash: the site still has yesterday's
     # answer for whatever missed, and the exit code says somebody should look.

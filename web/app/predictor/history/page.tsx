@@ -3,6 +3,12 @@ import { getRecord, getRound, leagueShort, slugify } from "@/lib/data";
 import { Crest } from "../../components/Crest";
 import { Crumbs } from "../../components/Crumbs";
 
+export const metadata = {
+  title: "Track record",
+  description:
+    "Every call this model made before kickoff, graded afterwards. The misses are here too, because a record with the losses removed is not a record.",
+};
+
 export default function HistoryPage() {
   const record = getRecord();
   const round = getRound();

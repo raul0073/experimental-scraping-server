@@ -163,6 +163,31 @@ def run(league: str, season: str) -> dict:
     if not src.exists():
         return {"league": league, "season": season, "error": "no raw parquet"}
     df = pd.read_parquet(src)
+
+    # 🐛 A FLAG THAT WAS NOT A BOOLEAN BLOCKED TWO LEAGUES FROM THE SITE.
+    # build_whoscored_events.write_events once coerced every object column to
+    # string on its retry path, which turned is_goal/is_shot from True/None
+    # into the STRING 'True' and pd.NA. NA is neither true nor false, so
+    # `if row.is_goal:` did not evaluate to False — it raised
+    # `TypeError: boolean value of NA is ambiguous`.
+    #
+    # The failure was misread twice, so it is worth being precise. Seasons
+    # are stamped in one command, newest last, and 23/24 stamped FINE before
+    # the crash — so the traceback appeared under a heading announcing a
+    # successful season and looked like a problem with that one. The season
+    # that actually died was the next in the list, and it died because it was
+    # the one re-fetched through the retry path. A complete 380-match scrape
+    # therefore still could not make its league READY, and Serie A and Ligue 1
+    # stayed invisible with all their data sitting on disk.
+    #
+    # write_events no longer does this, but files written while it did are
+    # still on disk, so normalise on read. Parsed as text rather than with
+    # astype(bool), which maps the string 'False' to True.
+    for c in ("is_goal", "is_shot", "is_touch"):
+        if c in df.columns and df[c].dtype != bool:
+            df[c] = (df[c].astype("string").str.lower().eq("true")
+                     .fillna(False).to_numpy(dtype=bool))
+
     out = pd.concat(
         [stamp_match(g) for _, g in df.groupby("game_id", sort=False)],
         ignore_index=True)

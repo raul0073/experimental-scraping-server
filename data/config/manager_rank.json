@@ -1,0 +1,288 @@
+{
+ "v": 1,
+ "_notes": [
+  "Manager ranking recipe. Editable: `weight` and `enabled`. Everything else is documentation copied from services/managers/ranking.py, which stays authoritative — changing `invert` or `directional` here does nothing, because those are facts about the metric rather than preferences.",
+  "Only metrics with directional=true are scored. The rest are fingerprints: they are percentiled and drawn on the page as a profile, with no good or bad end, so their weight is ignored and left at 0.",
+  "score = sum(weight_i / sum(weights) * percentile_i) over the enabled directional metrics, percentiled WITHIN THE LEAGUE, then shrunk toward 50 by matches/(matches+8).",
+  "A metric that is null for a spell scores a neutral 50 and is never punished for being missing.",
+  "`enabled` means PUBLISHED: an enabled metric is written to the payload with its raw value and its league percentile, and — if it is directional and carries a weight — counted in the score. Turning one off removes it from the page as well as from the total."
+ ],
+ "shrinkage_k": 8.0,
+ "metrics": [
+  {
+   "key": "set_piece_balance",
+   "label": "Set-piece balance",
+   "unit": "xG/match",
+   "dimension": "set_pieces",
+   "directional": true,
+   "invert": false,
+   "enabled": true,
+   "weight": 16,
+   "help": "Set-piece xG created minus set-piece xG conceded, per match — the dead-ball edge at both ends, which is the part of a match a coach most directly drills."
+  },
+  {
+   "key": "sendings_off",
+   "label": "Sendings off",
+   "unit": "/match",
+   "dimension": "discipline",
+   "directional": true,
+   "invert": true,
+   "enabled": true,
+   "weight": 9,
+   "help": "Reds and second yellows per match, inverted. Real cost, but rare — roughly one per seven matches league-wide — so a single one is thin evidence rather than a verdict."
+  },
+  {
+   "key": "lead_protection",
+   "label": "Protects a lead",
+   "unit": "opp xG/min",
+   "dimension": "game_state",
+   "directional": true,
+   "invert": true,
+   "enabled": true,
+   "weight": 15,
+   "help": "Opponent xG per minute spent ahead, inverted — how much he lets the other side have once his own are in front."
+  },
+  {
+   "key": "deficit_response",
+   "label": "Chases a game",
+   "unit": "xG/min",
+   "dimension": "game_state",
+   "directional": true,
+   "invert": false,
+   "enabled": true,
+   "weight": 13,
+   "help": "His side's own xG per minute spent behind — whether going a goal down produces chances or only urgency."
+  },
+  {
+   "key": "half_time_correction",
+   "label": "Half-time correction",
+   "unit": "xG",
+   "dimension": "game_state",
+   "directional": true,
+   "invert": false,
+   "enabled": true,
+   "weight": 11,
+   "help": "Second-half xG difference minus first-half xG difference — what changes once he has had fifteen minutes with them."
+  },
+  {
+   "key": "sub_impact",
+   "label": "Substitution impact",
+   "unit": "xG/min",
+   "dimension": "substitutions",
+   "directional": true,
+   "invert": false,
+   "enabled": true,
+   "weight": 10,
+   "help": "xG difference per minute in the fifteen minutes after his first change minus the fifteen before it, with the scoreline held constant so a chasing side is not credited for chasing."
+  },
+  {
+   "key": "self_inflicted",
+   "label": "Self-inflicted",
+   "unit": "/match",
+   "dimension": "mistakes",
+   "directional": true,
+   "invert": true,
+   "enabled": true,
+   "weight": 8,
+   "help": "Errors leading to a shot or a goal, per match, inverted. Opta flags about one a match across both sides, so this is a low-volume number that moves a lot between seasons — weighted lightly on purpose."
+  },
+  {
+   "key": "card_rate",
+   "label": "Card rate",
+   "unit": "/100 opp passes",
+   "dimension": "discipline",
+   "directional": true,
+   "invert": true,
+   "enabled": true,
+   "weight": 18,
+   "help": "Cards per 100 opponent passes, inverted — fouling expressed per chance to foul, so a side that presses and therefore sees less of the ball is not punished for it."
+  },
+  {
+   "key": "press_height",
+   "label": "Press height",
+   "unit": "x (0-100)",
+   "dimension": "pressing",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "How far upfield his side's tackles, interceptions, challenges, recoveries and fouls happen. It is where actions occurred, not where the team stood."
+  },
+  {
+   "key": "ppda",
+   "label": "PPDA",
+   "unit": "passes/action",
+   "dimension": "pressing",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "Opponent passes allowed per defensive action in the opponent's 60% of the pitch. Lower is a tighter press — but a press is a choice, not a virtue, so it is not scored."
+  },
+  {
+   "key": "regain_time",
+   "label": "Time to win it back",
+   "unit": "sec",
+   "dimension": "pressing",
+   "directional": true,
+   "invert": true,
+   "enabled": true,
+   "weight": 0,
+   "help": "Mean seconds between losing the ball and having it again. Measured from possession runs — a run is consecutive events by one side — so it is the real out-of-possession spell, not a proxy like PPDA. Spells longer than 60s are dropped: past that it is a stoppage, a restart or a goal celebration rather than football. NOT SCORED, and deliberately so — a fast regain is a high press, a slow one is a low block OR a side being outplayed, and this number cannot tell those last two apart."
+  },
+  {
+   "key": "regain_5s",
+   "label": "Won back within 5s",
+   "unit": "%",
+   "dimension": "pressing",
+   "directional": true,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "Share of losses won back inside five seconds — the counterpress. Cleaner than the mean above, because five seconds is short enough that it can only be a deliberate immediate press and not the slow decay of a low block. Read the two together: a side can be quick here and still slow on average, which is a press that either works at once or drops off."
+  },
+  {
+   "key": "pass_length",
+   "label": "Pass length",
+   "unit": "units",
+   "dimension": "possession",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "The median length of his side's passes, in pitch units — the everyday distance they play at, not the long ones."
+  },
+  {
+   "key": "directness",
+   "label": "Directness",
+   "unit": "%",
+   "dimension": "possession",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "Share of passes that move the ball more than 15 units upfield. High is vertical football, low is patient — neither is better."
+  },
+  {
+   "key": "territory",
+   "label": "Territory",
+   "unit": "%",
+   "dimension": "territory",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "Share of his side's touches taken in the final third — where the team lives when it has the ball."
+  },
+  {
+   "key": "fast_break",
+   "label": "Fast breaks",
+   "unit": "%",
+   "dimension": "transition",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "Share of his side's shots that arrive on the counter rather than from settled possession."
+  },
+  {
+   "key": "minutes_concentration",
+   "label": "Minutes concentration",
+   "unit": "HHI",
+   "dimension": "squad",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "How tightly minutes are held by a few players. High is a settled eleven, low is a rotated squad."
+  },
+  {
+   "key": "squad_used",
+   "label": "Players used",
+   "unit": "players",
+   "dimension": "squad-use",
+   "directional": true,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "How many players took at least 25% of the minutes available across the spell — the size of the group he actually trusts, not the number who got on the pitch. Minutes concentration says the same thing as an index; this says it as a number of men, which is the version anyone can read."
+  },
+  {
+   "key": "xi_churn",
+   "label": "XI churn",
+   "unit": "changes/match",
+   "dimension": "squad",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "Average number of changes to the starting eleven from one match to the next. Injuries and congestion move this as much as preference does."
+  },
+  {
+   "key": "first_sub_minute",
+   "label": "First substitution",
+   "unit": "minute",
+   "dimension": "substitutions",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "The minute he typically makes his first change — an early hook and a patient bench are both real methods."
+  },
+  {
+   "key": "sub_intent",
+   "label": "Substitution intent",
+   "unit": "%",
+   "dimension": "substitutions",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "Share of changes that bring on a different position from the man going off: changing the shape rather than swapping like for like."
+  },
+  {
+   "key": "shape_repertoire",
+   "label": "Shape repertoire",
+   "unit": "shapes",
+   "dimension": "shape",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "How many different starting formations he has picked. A longer spell has had more chances to vary, so read it beside the match count."
+  },
+  {
+   "key": "shape_changes",
+   "label": "Shape changes",
+   "unit": "/match",
+   "dimension": "shape",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "Formation changes made inside a match, per match — how often he re-draws the side while it is playing."
+  },
+  {
+   "key": "corner_profile",
+   "label": "Short corners",
+   "unit": "%",
+   "dimension": "set_pieces",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "Share of corners played short instead of delivered into the box — a dead-ball preference, not a dead-ball skill."
+  },
+  {
+   "key": "tactical_foul_x",
+   "label": "Foul height",
+   "unit": "x (0-100)",
+   "dimension": "discipline",
+   "directional": false,
+   "invert": false,
+   "enabled": true,
+   "weight": 0,
+   "help": "How far upfield his side's defensive fouls are committed. It tracks press height almost mechanically, so read the two together."
+  }
+ ]
+}

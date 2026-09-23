@@ -75,7 +75,8 @@ type Scored = Row & {
 };
 
 import {
-  BUDGET, MARGINAL, RELIABLE, SPREAD_TEAM, ScoreRing,
+  ActiveFilters, BUDGET, FILTER_BAR, Field, MARGINAL, RELIABLE, SELECT,
+  SPREAD_TEAM, ScoreRing,
 } from "./scoreUi";
 
 const DATA = "/data/team";
@@ -371,6 +372,13 @@ export function TeamBoard() {
   const [season, setSeason] = useState("");
   const [picked, setPicked] = useState<string | null>(null);
   const [sort, setSort] = useState<Sort>({ key: "score", dir: -1 });
+  /** Clubs to show. Empty means all of them.
+   *
+   *  A SET RATHER THAN ONE CHOICE, because filtering a table OF clubs down to
+   *  a single club leaves one row and answers nothing. The question worth
+   *  asking is "how do these three compare", so the select ADDS to a
+   *  comparison and the chips below take clubs back out. */
+  const [picks, setPicks] = useState<string[]>([]);
   const [layer, setLayer] = useState<"z" | "zs" | "zc">("z");
 
   /** The players view matching the season on show: "all" is the pooled one. */
@@ -622,6 +630,31 @@ export function TeamBoard() {
       });
   }, [meta, cuts, season, weights, blockUnreliable, styles, mental, sort]);
 
+  /** The club list, and the rows actually rendered.
+   *
+   *  FILTERED HERE, NOT INSIDE THE MEMO ABOVE, and that is the whole point.
+   *  Every score in this table is a PERCENTILE across the rows in the memo,
+   *  so filtering before the scoring would re-rank the chosen clubs against
+   *  each other — three mid-table sides would come out 100, 50 and 0, and the
+   *  table would say something that is not true. Filtering after leaves each
+   *  club with its standing in the whole league, which is the only comparison
+   *  worth making. It also keeps the select's list complete, instead of
+   *  shrinking it to whatever is already picked with no way back. */
+  const clubs = useMemo(
+    () => [...new Set(rows.map((r) => String(r.team)))].sort((a, b) =>
+      a.localeCompare(b),
+    ),
+    [rows],
+  );
+  const shown = picks.length
+    ? rows.filter((r) => picks.includes(String(r.team)))
+    : rows;
+  /** Rank in the FULL table, not position in the filtered list. The row
+   *  number was the loop index, so comparing three clubs numbered them 1, 2,
+   *  3 — a side lying fourteenth would be shown as second. Same trap as
+   *  percentiling after a filter, one line further down the page. */
+  const rankOf = new Map(rows.map((r, i) => [r, i + 1]));
+
   if (!meta) return <p className="text-[13.5px] text-ink-2">Loading the teams…</p>;
 
   const detail = picked ? (cuts.spell ?? []).filter((r) => r.team === picked) : [];
@@ -644,40 +677,41 @@ export function TeamBoard() {
 
   return (
     <div>
-      <div className="flex flex-wrap items-center gap-3">
-        <span className="text-[12.5px] text-ink-2">
-          {season === "all"
-            ? (league === ALL_LEAGUES
-                ? "Every league pooled. Quality is opponent-adjusted WITHIN a league, so this ranks who stands out most against the sides they actually play — not a claim that a 70 in one league beats a 68 in another."
-                : "The clubs in the league now, over every season we have — and only those that were here for most of it. A club up for one of the four is judged on that season instead.")
-            : `Whoever was in the league in ${meta.season_labels[season]}.`}
-        </span>
+      {/* ---------------------------------------------------- filter bar
+          The same control language as the players board, from the same
+          definitions in scoreUi — both had grown their own copy of "label in
+          12.5px ink beside a px-2 py-1 select", which read as a sentence
+          rather than as controls and gave a pointer nothing much to hit.
+          There are no positions to group here, so the rail above it is simply
+          absent; everything else is shared. */}
+      <div className={FILTER_BAR}>
         {index.length > 1 && (
-          <span className="ml-auto flex items-center gap-2 text-[12.5px] text-ink-2">
-            league
+          <Field
+            label="league"
+            title="Quality is opponent-adjusted within a league, so a score compares a club to its own league and not across them"
+          >
             <select
               value={league}
               onChange={(e) => setLeague(e.target.value)}
-              className="rounded-md border border-line bg-card px-2 py-1"
-              title="Quality is opponent-adjusted within a league, so a score compares a club to its own league and not across them"
+              className={SELECT}
             >
               {index.map((l) => (
                 <option key={l.key} value={l.key}>
                   {l.label.split("-").slice(1).join("-") || l.label}
                 </option>
               ))}
-              {index.length > 1 && (
-                <option value={ALL_LEAGUES}>All leagues</option>
-              )}
+              <option value={ALL_LEAGUES}>All leagues</option>
             </select>
-          </span>
+          </Field>
         )}
-        <span className={(index.length > 1 ? "" : "ml-auto ") + "flex items-center gap-2 text-[12.5px] text-ink-2"}>
-          season
+        <Field
+          label="season"
+          title="All seasons pools every season we hold, rather than averaging season ranks."
+        >
           <select
             value={season}
             onChange={(e) => setSeason(e.target.value)}
-            className="rounded-md border border-line bg-card px-2 py-1"
+            className={SELECT}
           >
             <option value="all">All seasons</option>
             {meta.seasons.map((s) => (
@@ -686,9 +720,70 @@ export function TeamBoard() {
               </option>
             ))}
           </select>
+        </Field>
+        {/* Adds to the comparison rather than replacing it. The value snaps
+            back to the placeholder so the same control can be used again
+            immediately, and the chips below are where the picks live. */}
+        <Field
+          label="compare clubs"
+          title="Add clubs to compare. Scores stay percentiles across the whole league, so each club keeps its real standing instead of being re-ranked against the others you picked."
+        >
+          <select
+            value=""
+            onChange={(e) => {
+              const v = e.target.value;
+              if (v && !picks.includes(v)) setPicks([...picks, v]);
+            }}
+            className={SELECT}
+          >
+            <option value="">add a club…</option>
+            {clubs
+              .filter((c) => !picks.includes(c))
+              .map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+          </select>
+        </Field>
+        <span className="num ml-auto self-center whitespace-nowrap text-[12.5px] text-ink-3">
+          {shown.length}
+          {picks.length ? ` of ${rows.length}` : ""} clubs
         </span>
-        <span className="num text-[12px] text-ink-3">{rows.length} clubs</span>
       </div>
+
+      <ActiveFilters
+        active={[
+          ...(season === "all"
+            ? []
+            : [
+                {
+                  // Falls back to the season key itself. The label map does
+                  // not carry an entry for every value `season` can hold, and
+                  // an undefined label renders an empty chip the reader
+                  // cannot identify — as well as being the undefined key
+                  // React was warning about.
+                  label: meta.season_labels[season] ?? season,
+                  clear: () => setSeason("all"),
+                },
+              ]),
+          ...picks.map((c) => ({
+            label: c,
+            clear: () => setPicks(picks.filter((x) => x !== c)),
+          })),
+        ]}
+      />
+
+      {/* The caveat belongs UNDER the controls, not inside them. Inline it
+          competed with the selects for the same row and pushed them around as
+          its text changed with the selection. */}
+      <p className="mt-2 text-[12px] leading-relaxed text-ink-2">
+        {season === "all"
+          ? (league === ALL_LEAGUES
+              ? "Every league pooled. Quality is opponent-adjusted WITHIN a league, so this ranks who stands out most against the sides they actually play — not a claim that a 70 in one league beats a 68 in another."
+              : "The clubs in the league now, over every season we have — and only those that were here for most of it. A club up for one of the four is judged on that season instead.")
+          : `Whoever was in the league in ${meta.season_labels[season]}.`}
+      </p>
 
       {/* ============================================= the config */}
       <section className="mt-4 rounded-xl border border-line bg-card">
@@ -821,12 +916,12 @@ export function TeamBoard() {
             </tr>
           </thead>
           <tbody>
-            {rows.map((r, i) => (
+            {shown.map((r, i) => (
               <tr
                 key={`${r.team}-${r.spell ?? r.season ?? "all"}`}
                 className="border-t border-line hover:bg-[#fafbfc]"
               >
-                <td className="num py-2 pl-4 pr-2 text-ink-3">{i + 1}</td>
+                <td className="num py-2 pl-4 pr-2 text-ink-3">{rankOf.get(r) ?? i + 1}</td>
                 <td className="whitespace-nowrap py-2 pr-3 font-medium">
                   <Link
                     href={`/team/${slugify(String(r.team))}`}

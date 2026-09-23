@@ -76,3 +76,6 @@ data/reports/_player_zone_samples_*.json
 # enough that keeping them in history costs more than re-running.
 data/reports/_*.csv
 data/reports/*.log
+
+# fetched build assets (fonts for the OG card) — not source
+data/cache/

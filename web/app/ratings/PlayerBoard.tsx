@@ -14,8 +14,8 @@ import {
   useRatings,
 } from "./RatingsData";
 import {
-  BUDGET, MARGINAL, RELIABLE, SPREAD_PLAYER, ScoreRing, THIN_N, scoreColor,
-  tint,
+  ActiveFilters, BUDGET, CHECK_BOX, FILTER_BAR, Field, MARGINAL,
+  RELIABLE, SELECT, SPREAD_PLAYER, ScoreRing, THIN_N, scoreColor, tint,
 } from "./scoreUi";
 
 /** The combined table: every player, each scored on the config for his own
@@ -34,6 +34,26 @@ const ALL = "ALL";
  *  current season and 30% for the pooled view without anyone choosing it. */
 const SHARE_RUNGS = [15, 30, 50, 70, 85];
 const USABLE = 0.25;   // a rung must keep this share of the view's rows
+
+/** The position rail, grouped the way a team sheet is — back to front.
+ *
+ *  Nine pills in one undifferentiated row is a list you have to READ. Four
+ *  zones is a shape you RECOGNISE, and every reader already knows the shape,
+ *  so the grouping costs nothing to learn. It also makes the neighbouring
+ *  choice obvious: someone looking at centre-backs is far more likely to want
+ *  full-backs next than strikers, and now those sit together.
+ *
+ *  Tints run cool at the back to warm at the front. They are deliberately
+ *  faint — this is a grouping cue, not a colour code, and anything stronger
+ *  would compete with the score colours in the table below, which DO carry
+ *  meaning. */
+const ZONES: { label: string; keys: string[]; tint: string }[] = [
+  { label: "Goal", keys: ["GK"], tint: "bg-[#f3f5f7]" },
+  { label: "Defence", keys: ["CB", "FB", "WB"], tint: "bg-[#eef3f8]" },
+  { label: "Midfield", keys: ["DM", "CM", "AM"], tint: "bg-[#eff4f1]" },
+  { label: "Attack", keys: ["WIDE", "ST"], tint: "bg-[#f9f2ed]" },
+];
+
 
 
 function Th({
@@ -165,6 +185,16 @@ export function PlayerBoard() {
   const [minShare, setMinShare] = useState(SHARE_RUNGS[1]);
   /** Off by default: a league ranking is about the league as it is now. */
   const [includeGone, setIncludeGone] = useState(false);
+  const [team, setTeam] = useState(ALL);
+  /** Positions shown ALONGSIDE `pos`. Kept separate rather than making `pos`
+   *  an array because `pos` does a second job — it is the position whose
+   *  weights the config panel edits, and that is necessarily one at a time.
+   *  Scoring is unaffected either way: scoreOf() already reads
+   *  allWeights[p.p], so every player is scored on his own position's config
+   *  and percentiled within his own position no matter what is selected.
+   *  Comparing central and attacking midfielders is therefore a pure display
+   *  filter, and each man keeps the ranking that belongs to his own job. */
+  const [extra, setExtra] = useState<string[]>([]);
   const [shareTouched, setShareTouched] = useState(false);
   const [padj, setPadj] = useState(true);
   /** How much of the ranking is his FLOOR rather than his pooled level. The
@@ -294,6 +324,32 @@ export function PlayerBoard() {
     return used ? sum / used : 0;
   };
 
+  /** Clubs present in the view being shown, so the list never offers one that
+   *  would empty the table. Built from the UNFILTERED rows for this view —
+   *  taking it from `rows` would shrink the list to the club already chosen,
+   *  leaving no way back to another.
+   *
+   *  ABOVE THE LOADING GUARD, and it has to be: a hook after a conditional
+   *  return typechecks perfectly and then throws "Rendered more hooks than
+   *  during the previous render" the moment the payload lands. */
+  const clubs = useMemo(() => {
+    const src = players[view] ?? [];
+    return [...new Set(src.map((p) => p.t).filter(Boolean))].sort((a, b) =>
+      a.localeCompare(b),
+    );
+  }, [players, view]);
+
+  /** A club chosen in one league does not exist in the next, and one absent
+   *  from the list would filter the table to nothing with no visible cause.
+   *
+   *  DERIVED RATHER THAN RESET IN AN EFFECT. Clearing the state from a
+   *  useEffect works, but it renders once with the dead club, then sets
+   *  state, then renders again — a cascading render for something that is
+   *  simply a function of what is on screen. Falling back here means there is
+   *  never a frame in which the table is empty for a reason the reader cannot
+   *  see, and the select reads the same value, so the two cannot disagree. */
+  const activeTeam = team !== ALL && clubs.includes(team) ? team : ALL;
+
   const rows = useMemo(() => {
     if (!data || !view) return [];
     const all = players[view] ?? [];
@@ -362,7 +418,10 @@ export function PlayerBoard() {
 
     const d = durability / 100;
     const scored = all
-      .filter((p) => (isAll || p.p === pos) && p.rs >= minShare)
+      .filter(
+        (p) =>
+          (isAll || p.p === pos || extra.includes(p.p)) && p.rs >= minShare,
+      )
       .filter((p) => side === "any" || p.s.includes(side))
       // DEPARTED PLAYERS ARE OUT BY DEFAULT. The pooled view spans four
       // seasons, so without this the "best in the Premier League" table is
@@ -371,6 +430,11 @@ export function PlayerBoard() {
       // actually appeared this season; the toggle keeps the old behaviour
       // for anyone comparing across eras.
       .filter((p) => includeGone || !p.gone)
+      // CLUB. Matched on the club the ROW is about, not the one he is at now,
+      // because that is the club whose shirt the row's numbers were produced
+      // in — a 23/24 row for a player since transferred describes what he did
+      // THERE, and listing it under his new club would credit the wrong side.
+      .filter((p) => activeTeam === ALL || p.t === activeTeam)
       .map((p) => {
         const pooled = pctOf(p.p, raw.get(p) ?? 0);
         const car = careerOf(p);
@@ -406,7 +470,7 @@ export function PlayerBoard() {
       return (x - y) * sort.dir;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, players, view, pos, isAll, side, allWeights, blockUnreliable, minShare, padj, sort, durability, includeGone]);
+  }, [data, players, view, pos, isAll, side, allWeights, blockUnreliable, minShare, padj, sort, durability, includeGone, activeTeam, extra]);
 
   if (!data) {
     return <p className="text-[13.5px] text-ink-2">Loading the board…</p>;
@@ -425,114 +489,244 @@ export function PlayerBoard() {
   const bucket = data.buckets.find((b) => b.key === pos);
   const isTotal = view === "total";
 
+  const byBucket = Object.fromEntries(data.buckets.map((b) => [b.key, b]));
+  const zonedKeys = new Set(ZONES.flatMap((z) => z.keys));
+  // Anything the zone map does not know about still gets a home, so adding a
+  // bucket to the payload can never make it silently vanish from the rail.
+  const unzoned = data.buckets.filter((b) => !zonedKeys.has(b.key));
+
+  const pickPos = (key: string) => {
+    // Weights are NOT reset here. Each bucket keeps its own set, so switching
+    // position to check something no longer throws away what you had tuned.
+    // "reset to preset" undoes it deliberately.
+    setPos(key);
+    setExtra([]);
+    setSide("any");
+    setOpenGroups({});
+  };
+
+  /** EVERY PILL IS A PLAIN TOGGLE. This first shipped as a modifier-click —
+   *  plain click replaces, ⌘/Ctrl-click adds — which preserved the old
+   *  single-select feel and was reported straight back as "I can't do multi
+   *  select, it keeps toggling". That is the correct reaction: a control
+   *  whose second behaviour is invisible has only one behaviour, and a hint
+   *  line does not fix it. It also cannot work on a touch screen at all.
+   *
+   *  Click adds, click again removes, "All positions" clears. Selecting a
+   *  second position now costs one extra click on the first — a real cost,
+   *  and worth it for a control that does what it looks like it does. */
+  const onPill = (key: string) => {
+    if (key === ALL) {
+      setPos(ALL);
+      setExtra([]);
+      return;
+    }
+    if (pos === key) {
+      // Dropping the primary promotes the first companion, so the config
+      // panel always has a position to edit and never blanks out.
+      setPos(extra.length ? extra[0] : ALL);
+      setExtra(extra.slice(1));
+      return;
+    }
+    if (extra.includes(key)) {
+      setExtra(extra.filter((k) => k !== key));
+      return;
+    }
+    // Adding to nothing is the first pick, and only THAT resets side and the
+    // open sections — adding a second position must not silently undo a
+    // filter the reader set for the first.
+    if (pos === ALL) pickPos(key);
+    else setExtra([...extra, key]);
+  };
+
+  const posPill = (key: string, label: string, title?: string) => {
+    const on = key === ALL ? isAll : pos === key || extra.includes(key);
+    return (
+      <button
+        key={key}
+        title={title}
+        onClick={() => onPill(key)}
+        className={`rounded-full border px-3 py-1 text-[12.5px] font-medium transition-colors ${
+          on
+            ? "border-home bg-[#e9f1f8] text-[#1c5b8a] shadow-[0_1px_2px_rgba(28,91,138,0.12)]"
+            : "border-transparent bg-card/70 text-ink-2 hover:border-ink-3 hover:bg-card"
+        }`}
+      >
+        {label}
+      </button>
+    );
+  };
+
+  const SIDE_LABEL: Record<string, string> = {
+    R: "right side",
+    L: "left side",
+    C: "central",
+  };
+  const active: { label: string; clear: () => void }[] = [];
+  if (!isAll && bucket) {
+    active.push({
+      label: bucket.label,
+      clear: () => {
+        setPos(extra.length ? extra[0] : ALL);
+        setExtra(extra.slice(1));
+      },
+    });
+  }
+  for (const k of extra) {
+    const b = byBucket[k];
+    if (b) {
+      active.push({
+        label: b.label,
+        clear: () => setExtra(extra.filter((x) => x !== k)),
+      });
+    }
+  }
+  if (activeTeam !== ALL) {
+    active.push({ label: activeTeam, clear: () => setTeam(ALL) });
+  }
+  if (side !== "any") {
+    active.push({ label: SIDE_LABEL[side] ?? side, clear: () => setSide("any") });
+  }
+  if (includeGone) {
+    active.push({
+      label: "including players who left",
+      clear: () => setIncludeGone(false),
+    });
+  }
+  // Only when the reader MOVED it. Untouched, the bar is chosen for them by
+  // the effect above, and showing that as a filter they set would be a lie —
+  // clearing it hands the choice back rather than jumping to a fixed rung.
+  if (shareTouched) {
+    active.push({
+      label: `played at least ${minShare}%`,
+      clear: () => setShareTouched(false),
+    });
+  }
 
   return (
     <div>
-      {/* ---------------------------------------------------- controls */}
-      <div className="flex flex-wrap items-center gap-2">
-        <button
-          title="Every player in one table. Each is scored on the config for his own position, and a score is a percentile within that position — so 85 means top 15% at the job he does, whoever he is."
-          onClick={() => setPos(ALL)}
-          className={`rounded-full border px-3.5 py-1 text-[12.5px] font-medium transition-colors ${
-            isAll
-              ? "border-home bg-[#e9f1f8] text-[#1c5b8a]"
-              : "border-line bg-card text-ink-2 hover:border-ink-3"
-          }`}
-        >
-          All positions
-        </button>
-        {data.buckets.map((b) => (
-          <button
-            key={b.key}
-            title={b.desc}
-            onClick={() => {
-              // Weights are NOT reset here. Each bucket keeps its own set, so
-              // switching position to check something no longer throws away
-              // what you had tuned. "reset to preset" undoes it deliberately.
-              setPos(b.key);
-              setSide("any");
-              setOpenGroups({});
-            }}
-            className={`rounded-full border px-3.5 py-1 text-[12.5px] font-medium transition-colors ${
-              pos === b.key
-                ? "border-home bg-[#e9f1f8] text-[#1c5b8a]"
-                : "border-line bg-card text-ink-2 hover:border-ink-3"
-            }`}
-          >
-            {b.label}
-          </button>
-        ))}
-        {/* LEAGUE. Percentiles are computed WITHIN a league, so this is not
-            a filter over one table — it swaps the whole dataset, and the
-            cached views are cleared with it. Hidden when only one league
-            has been built, so it does not imply a choice that is not there. */}
+      {/* ------------------------------------------------ position rail
+          The zone label sits ABOVE its pills rather than beside them. Inline,
+          four labels cost about 240px of the rail's width and pushed Attack
+          onto a second line; stacked they cost nothing, because each label is
+          narrower than the pills beneath it. All nine positions then fit on
+          one row, which is the whole point of grouping them. */}
+      <div className="flex flex-wrap items-end gap-2">
+        <span className="mb-1.5">
+          {posPill(
+            ALL,
+            "All positions",
+            "Every player in one table. Each is scored on the config for his own position, and a score is a percentile within that position — so 85 means top 15% at the job he does, whoever he is.",
+          )}
+        </span>
+        {ZONES.map((zone) => {
+          const inZone = zone.keys
+            .map((k) => byBucket[k])
+            .filter(Boolean) as typeof data.buckets;
+          if (!inZone.length) return null;
+          return (
+            <div
+              key={zone.label}
+              className={`flex flex-col gap-1 rounded-xl border border-line ${zone.tint} px-2 py-1.5`}
+            >
+              <span className="px-1 text-[9.5px] font-semibold uppercase tracking-[0.08em] text-ink-3">
+                {zone.label}
+              </span>
+              <div className="flex items-center gap-1.5">
+                {inZone.map((b) => posPill(b.key, b.label, b.desc))}
+              </div>
+            </div>
+          );
+        })}
+        {unzoned.length > 0 && (
+          <div className="flex flex-col gap-1 rounded-xl border border-line bg-[#f5f5f5] px-2 py-1.5">
+            <span className="px-1 text-[9.5px] font-semibold uppercase tracking-[0.08em] text-ink-3">
+              Other
+            </span>
+            <div className="flex items-center gap-1.5">
+              {unzoned.map((b) => posPill(b.key, b.label, b.desc))}
+            </div>
+          </div>
+        )}
+        <span className="mb-2 self-end text-[11px] text-ink-3">
+          {extra.length > 0
+            ? `${1 + extra.length} positions — each still scored and ranked within his own`
+            : "click positions to add or remove them"}
+        </span>
+      </div>
+
+      {/* ---------------------------------------------------- filter bar */}
+      <div className={"mt-3 " + FILTER_BAR}>
+        {/* LEAGUE. Percentiles are computed WITHIN a league, so this is not a
+            filter over one table — it swaps the whole dataset, and the cached
+            views are cleared with it. Hidden when only one league has been
+            built, so it does not imply a choice that is not there. */}
         {index.length > 1 && (
-          <span className="ml-auto flex items-center gap-2 text-[12.5px] text-ink-2">
-            league
+          <Field
+            label="league"
+            title="Scores are percentiles within this league — a 90 here means top 10% of this league, not of Europe"
+          >
             <select
               value={league}
               onChange={(e) => setLeague(e.target.value)}
-              className="rounded-md border border-line bg-card px-2 py-1"
-              title="Scores are percentiles within this league — a 90 here means top 10% of this league, not of Europe"
+              className={SELECT}
             >
               {index.map((l) => (
                 <option key={l.key} value={l.key}>
                   {l.label.split("-").slice(1).join("-") || l.label}
                 </option>
               ))}
-              {index.length > 1 && (
-                <option value={ALL_LEAGUES}>All leagues</option>
-              )}
+              <option value={ALL_LEAGUES}>All leagues</option>
             </select>
-          </span>
+          </Field>
         )}
-        {league === ALL_LEAGUES && (
-          <span className="w-full text-[11.5px] leading-relaxed text-[#6b5606]">
-            Every score is a percentile <em>within its own league</em>, and the
-            opponent adjustment behind it cannot cross one either. So this
-            ranks who is most outstanding <b>for the league he plays in</b> —
-            it is not a claim that a 90 in one league beats an 88 in another.
-          </span>
-        )}
-        <span className={(index.length > 1 ? "" : "ml-auto ") + "flex items-center gap-2 text-[12.5px] text-ink-2"}>
-          side
+        {/* CLUB. Unlike league, this is a plain filter over one table — the
+            percentiles behind every score stay the league's, so a club view
+            shows where its players stand IN THE LEAGUE, not against each
+            other. That is the useful question and the only honest one. */}
+        <Field
+          label="club"
+          title="Filters the table to one club. Scores stay percentiles within the whole league, so this shows where a club's players stand in it — not against each other."
+        >
+          <select
+            value={activeTeam}
+            onChange={(e) => setTeam(e.target.value)}
+            className={SELECT}
+          >
+            <option value={ALL}>All clubs</option>
+            {clubs.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </Field>
+        <Field
+          label="side"
+          title="A left winger and a right winger are ranked together, because they are asked for the same things. This only filters the list."
+        >
           <select
             value={side}
             onChange={(e) => setSide(e.target.value)}
-            className="rounded-md border border-line bg-card px-2 py-1"
-            title="A left winger and a right winger are ranked together, because they are asked for the same things. This only filters the list."
+            className={SELECT}
           >
             <option value="any">both</option>
             <option value="R">right</option>
             <option value="L">left</option>
             <option value="C">central</option>
           </select>
-        </span>
-        {/* The pooled view spans four seasons, so it lists everyone who has
-            ever cleared the bar — including players who have left. A league
-            ranking is about the league as it is now, so they are out by
-            default and this brings them back for cross-era comparisons. */}
-        <label
-          className="flex cursor-pointer items-center gap-1.5 text-[12.5px] text-ink-2"
-          title="Players with no appearance in the season in progress are hidden by default"
+        </Field>
+        <Field
+          label="played at least"
+          title="His minutes IN THIS ROLE as a share of everything his club played in the period on show. A share rather than a minute count, so the same bar means the same thing five rounds into a season and across three of them."
         >
-          <input
-            type="checkbox"
-            checked={includeGone}
-            onChange={(e) => setIncludeGone(e.target.checked)}
-          />
-          include players who left
-        </label>
-        <span className="flex items-center gap-2 text-[12.5px] text-ink-2">
-          played at least
           <select
             value={minShare}
             onChange={(e) => {
               setMinShare(Number(e.target.value));
               setShareTouched(true);
             }}
-            className="rounded-md border border-line bg-card px-2 py-1"
-            title="His minutes IN THIS ROLE as a share of everything his club played in the period on show. A share rather than a minute count, so the same bar means the same thing five rounds into a season and across three of them."
+            className={SELECT}
           >
             {SHARE_RUNGS.map((v) => (
               <option key={v} value={v}>
@@ -543,14 +737,15 @@ export function PlayerBoard() {
               </option>
             ))}
           </select>
-        </span>
-        <span className="flex items-center gap-2 text-[12.5px] text-ink-2">
-          season
+        </Field>
+        <Field
+          label="season"
+          title="All seasons pools the raw events of every season, rather than averaging season ranks."
+        >
           <select
             value={view}
             onChange={(e) => setView(e.target.value)}
-            className="rounded-md border border-line bg-card px-2 py-1"
-            title="All seasons pools the raw events of every season, rather than averaging season ranks."
+            className={SELECT}
           >
             {data.views.map((v) => (
               <option key={v.key} value={v.key}>
@@ -558,11 +753,38 @@ export function PlayerBoard() {
               </option>
             ))}
           </select>
-        </span>
-        <span className="num text-[12px] text-ink-3">
+        </Field>
+        {/* The pooled view spans four seasons, so it lists everyone who has
+            ever cleared the bar — including players who have left. A league
+            ranking is about the league as it is now, so they are out by
+            default and this brings them back for cross-era comparisons. */}
+        <label
+          className={CHECK_BOX}
+          title="Players with no appearance in the season in progress are hidden by default"
+        >
+          <input
+            type="checkbox"
+            checked={includeGone}
+            onChange={(e) => setIncludeGone(e.target.checked)}
+            className="accent-home"
+          />
+          include players who left
+        </label>
+        <span className="num ml-auto self-center whitespace-nowrap text-[12.5px] text-ink-3">
           {loadingView ? "loading…" : `${rows.length} players`}
         </span>
       </div>
+
+      <ActiveFilters active={active} />
+
+      {league === ALL_LEAGUES && (
+        <p className="mt-2 text-[11.5px] leading-relaxed text-[#6b5606]">
+          Every score is a percentile <em>within its own league</em>, and the
+          opponent adjustment behind it cannot cross one either. So this ranks
+          who is most outstanding <b>for the league he plays in</b> — it is not
+          a claim that a 90 in one league beats an 88 in another.
+        </p>
+      )}
 
       {bucket && (
         <p className="mt-2 text-[12px] leading-relaxed text-ink-2">

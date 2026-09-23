@@ -137,20 +137,58 @@ def write_events(df: pd.DataFrame, path: Path) -> None:
     and re-running produced the identical crash at the identical point. It
     read as throttling because the counts never moved.
 
-    Coercing every object column to a nullable string makes the NaN an
+    Coercing the offending column to a nullable string makes the NaN an
     explicit missing value instead of a float. Done only on the retry so the
     common path stays untouched and cheap.
+
+    🐛 THE FIRST VERSION OF THIS FIX CORRUPTED TWO SEASONS. It coerced EVERY
+    object column, which is far more than the broken one. `is_goal` and
+    `is_shot` hold booleans, so they became the strings 'True' and pd.NA —
+    and `bool(pd.NA)` raises, which killed the stamping step and left Serie A
+    and Ligue 1 unable to become READY with complete data on disk. Worse,
+    `qualifiers` holds an ARRAY OF DICTS and became a string repr of one, so
+    every structured read of it (own goals, set pieces, pass length) was
+    silently reduced to substring matching.
+
+    Only genuine TEXT columns are coerced now. A column whose non-null values
+    are strings is the one that can hold a stray NaN; a column of flags or
+    arrays is not, and converting it destroys information that cannot be
+    recovered without re-reading the source.
     """
     try:
         df.to_parquet(path, index=False)
         return
     except Exception as e:                                   # noqa: BLE001
-        bad = [c for c in df.columns if df[c].dtype == object]
-        print(f"WARN parquet write failed ({type(e).__name__}); coercing "
-              f"{len(bad)} object column(s) to string and retrying", flush=True)
         fixed = df.copy()
-        for c in bad:
-            fixed[c] = fixed[c].astype("string")
+        touched = []
+        for c in df.columns:
+            if df[c].dtype != object:
+                continue
+            nn = df[c].dropna()
+            if nn.empty:
+                continue
+            # A 1,000-row sample, not the whole column: this is the retry path
+            # on a half-million-row frame, and a column that is text for its
+            # first thousand non-null values is text.
+            if all(isinstance(v, str) for v in nn.head(1000)):
+                # 🐛 THIS USED TO BE astype("string"), WHICH BROKE A THIRD
+                # SCRIPT. The nullable string dtype spells missing as pd.NA,
+                # and .tolist() then hands pd.NA to code written for object
+                # columns: services/mental/plots.py tests `a is None`, which
+                # is False for pd.NA, so it falls through to `a == b` and
+                # raises "boolean value of NA is ambiguous". Two leagues lost
+                # their pass networks to that.
+                #
+                # Mapping to None instead keeps the column as OBJECT holding
+                # str and None — byte-identical in shape to every season that
+                # never hit this path. Arrow writes it as string-with-nulls
+                # either way, so the fix costs nothing and no consumer
+                # anywhere has to learn about a second spelling of missing.
+                fixed[c] = df[c].map(lambda v: v if isinstance(v, str) else None)
+                touched.append(c)
+        print(f"WARN parquet write failed ({type(e).__name__}); coerced "
+              f"{len(touched)} TEXT column(s) to string and retried: "
+              f"{', '.join(touched) or 'none'}", flush=True)
         fixed.to_parquet(path, index=False)
 
 

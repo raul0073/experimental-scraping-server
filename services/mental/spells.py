@@ -156,10 +156,34 @@ def _absorb_short(names: List[str]) -> List[str]:
             names[i] = pick[0]
 
 
-def build(league: str, seasons: List[str]) -> List[Spell]:
+def build(league: str, seasons: List[str],
+          absorb_short: bool = True) -> List[Spell]:
+    """Stitched manager spells. `absorb_short=False` keeps interior short
+    reigns as spells of their own.
+
+    WHY THAT IS A CHOICE AND NOT A SETTING. Absorption is right when the unit
+    is A TEAM: a ranking of sides wants stable units, and eight matches under
+    a man who was sacked is not a side worth rating separately.
+
+    It is wrong when the unit is A MANAGER. _absorb_short relabels an interior
+    short run with its longer neighbour, so a manager sacked after eight games
+    does not merely go unranked — he DISAPPEARS, and his eight matches are
+    credited to whoever came before or after. For a manager ranking that is
+    not a missing row, it is a wrong one in someone else's name.
+
+    (Only interior runs are touched; the first and last are protected, so a
+    manager appointed weeks ago is never absorbed. _absorb_blips still runs
+    either way — a name that appears for two matches bracketed by the same
+    manager is a stand-in, not a reign, whatever the unit is.)
+
+    Small samples are then handled where they should be: by shrinking a short
+    spell's score toward neutral, which says "we do not know yet" instead of
+    "this did not happen"."""
     out: List[Spell] = []
     for team, rows in _match_managers(league, seasons).items():
-        names = _absorb_short(_absorb_blips([m for *_r, m in rows]))
+        names = _absorb_blips([m for *_r, m in rows])
+        if absorb_short:
+            names = _absorb_short(names)
         cur: Spell | None = None
         for (_kick, gid, season, _raw), nm in zip(rows, names):
             if cur is None or cur.manager != nm:

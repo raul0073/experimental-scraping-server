@@ -1,0 +1,96 @@
+{
+  "leagues_used": [
+    "ENG-Premier League",
+    "ESP-La Liga"
+  ],
+  "seasons": {
+    "2324": {
+      "n": 742,
+      "base_log_loss": 1.0679,
+      "arms": {
+        "ship": {
+          "log_loss": 0.96,
+          "accuracy": 0.5458
+        },
+        "elo_clf": {
+          "log_loss": 0.9675,
+          "accuracy": 0.5458
+        },
+        "blend": {
+          "log_loss": 0.9611,
+          "accuracy": 0.5445
+        },
+        "layer": {
+          "log_loss": 0.9612,
+          "accuracy": 0.5445
+        }
+      }
+    },
+    "2425": {
+      "n": 744,
+      "base_log_loss": 1.0749,
+      "arms": {
+        "ship": {
+          "log_loss": 0.9724,
+          "accuracy": 0.5417
+        },
+        "elo_clf": {
+          "log_loss": 0.9783,
+          "accuracy": 0.5497
+        },
+        "blend": {
+          "log_loss": 0.9725,
+          "accuracy": 0.543
+        },
+        "layer": {
+          "log_loss": 0.9734,
+          "accuracy": 0.543
+        }
+      }
+    },
+    "2526": {
+      "n": 744,
+      "base_log_loss": 1.0673,
+      "arms": {
+        "ship": {
+          "log_loss": 1.0045,
+          "accuracy": 0.5027
+        },
+        "elo_clf": {
+          "log_loss": 1.0061,
+          "accuracy": 0.5081
+        },
+        "blend": {
+          "log_loss": 1.0033,
+          "accuracy": 0.5013
+        },
+        "layer": {
+          "log_loss": 1.0041,
+          "accuracy": 0.5
+        }
+      }
+    }
+  },
+  "pooled": {
+    "n": 2230,
+    "base_log_loss": 1.0707,
+    "arms": {
+      "ship": {
+        "log_loss": 0.979,
+        "accuracy": 0.53
+      },
+      "elo_clf": {
+        "log_loss": 0.984,
+        "accuracy": 0.5345
+      },
+      "blend": {
+        "log_loss": 0.979,
+        "accuracy": 0.5296
+      },
+      "layer": {
+        "log_loss": 0.9796,
+        "accuracy": 0.5291
+      }
+    }
+  }
+}

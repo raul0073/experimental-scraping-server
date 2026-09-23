@@ -27,6 +27,8 @@ import { useEffect, useRef, useState } from "react";
 const MAIN = [
   { href: "/", label: "Predictor", owns: ["", "predictor", "versus"] },
   { href: "/ratings", label: "Ratings", owns: ["ratings", "team", "teams"] },
+  // A third product rather than a drawer item: the drawer is for things you
+  // read once, and a ranking is not one of them.
 ];
 
 const MORE = [

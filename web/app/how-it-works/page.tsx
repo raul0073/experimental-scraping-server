@@ -2,6 +2,12 @@ import Link from "next/link";
 
 import { getRecord } from "@/lib/data";
 
+export const metadata = {
+  title: "How the model works",
+  description:
+    "Dixon-Coles on expected goals, a territory adjustment and a draw classifier — what each part does, what it was tested against, and the experiments that were rejected.",
+};
+
 function Node({
   x,
   y,

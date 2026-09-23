@@ -3,6 +3,12 @@ import { Crest, LeagueHeading } from "../../components/Crest";
 import { Crumbs } from "../../components/Crumbs";
 import { Fighting, ZoneBar, ZoneLegend } from "../../components/ZoneBar";
 
+export const metadata = {
+  title: "Projected tables",
+  description:
+    "Where each league finishes if the rest of the season is played out at the model's own prices, simulated from today's ratings.",
+};
+
 const EUROPE: ZoneKey[] = ["ucl", "uclq", "uel", "uecl"];
 
 function Pct({ v, bold }: { v: number; bold?: boolean }) {

@@ -116,3 +116,111 @@ export const THIN_N = 25;
 /** Every config spends exactly this and no more, so a weighting is a set of
  *  TRADE-OFFS rather than a wish list. */
 export const BUDGET = 100;
+
+/* ------------------------------------------------------------------ filters
+ *
+ *  Both boards carry a row of selects above the table, and both had grown the
+ *  same shape by hand: bare labels in 12.5px ink-2 beside px-2 py-1 selects,
+ *  strung together with gap-2. It read as a sentence rather than as controls,
+ *  the hit targets were below what a pointer wants, and there was no way to
+ *  see at a glance which filters were ON — which matters, because every
+ *  active filter is a reason the table is shorter than the reader expects.
+ *
+ *  One definition here, imported by both, so they cannot drift again — which
+ *  is the same reason the score ramp above lives in this file. */
+
+/** One class for every select on a ratings board. */
+export const SELECT =
+  "h-9 cursor-pointer rounded-lg border border-line bg-card px-2.5 text-[13px] "
+  + "text-ink transition-colors hover:border-ink-3 focus:border-home "
+  + "focus:outline-none focus:ring-2 focus:ring-[#e9f1f8]";
+
+export const FIELD_LABEL =
+  "text-[10.5px] font-semibold uppercase tracking-[0.07em] text-ink-3";
+
+/** The bar the fields sit in. */
+export const FILTER_BAR =
+  "flex flex-wrap items-end gap-x-5 gap-y-3 rounded-xl border border-line "
+  + "bg-card px-4 py-3";
+
+/** A checkbox styled as a control rather than as stray text. */
+export const CHECK_BOX =
+  "flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-line "
+  + "px-3 text-[12.5px] text-ink-2 transition-colors hover:border-ink-3";
+
+export function Field({
+  label,
+  title,
+  children,
+}: {
+  label: string;
+  title?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <label className="flex flex-col gap-1" title={title}>
+      <span className={FIELD_LABEL}>{label}</span>
+      {children}
+    </label>
+  );
+}
+
+/** A filter that is ON, shown so it can be seen and undone in one click.
+ *  A filter you cannot see is a filter you forget you set. */
+export function ActiveChip({
+  label,
+  onClear,
+}: {
+  label: string;
+  onClear: () => void;
+}) {
+  return (
+    <button
+      onClick={onClear}
+      title="Remove this filter"
+      className="group inline-flex items-center gap-1.5 rounded-full border border-home
+                 bg-[#e9f1f8] py-1 pl-3 pr-2 text-[12px] font-medium text-[#1c5b8a]
+                 transition-colors hover:bg-[#dbe9f4]"
+    >
+      {label}
+      <span className="text-[13px] leading-none text-[#5b8cb5] group-hover:text-[#1c5b8a]">
+        ×
+      </span>
+    </button>
+  );
+}
+
+/** The row of active chips, with a clear-all once there is more than one. */
+export function ActiveFilters({
+  active,
+}: {
+  active: { label: string; clear: () => void }[];
+}) {
+  if (!active.length) return null;
+  return (
+    <div className="mt-2 flex flex-wrap items-center gap-2">
+      <span className={FIELD_LABEL}>filtering</span>
+      {/* KEYED ON THE INDEX AS WELL AS THE LABEL. `key={a.label}` alone looks
+          safe and is not: a caller that hands over an undefined label — a
+          season key with no entry in its label map, say — produces
+          key={undefined}, which React treats as NO key and warns about. The
+          index is always defined and the list is small and re-derived every
+          render, so there is nothing for a stable identity to preserve. */}
+      {active.map((a, i) => (
+        <ActiveChip
+          key={`${i}:${a.label ?? ""}`}
+          label={a.label}
+          onClear={a.clear}
+        />
+      ))}
+      {active.length > 1 && (
+        <button
+          onClick={() => active.forEach((a) => a.clear())}
+          className="text-[12px] text-ink-3 underline underline-offset-2 hover:text-ink"
+        >
+          clear all
+        </button>
+      )}
+    </div>
+  );
+}

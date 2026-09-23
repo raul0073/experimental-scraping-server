@@ -1,4 +1,10 @@
 {
+  "leagues_used": [
+    "ENG-Premier League",
+    "ESP-La Liga",
+    "ITA-Serie A",
+    "GER-Bundesliga"
+  ],
   "seasons": {
     "1819": {
       "n": 1413,
@@ -215,41 +221,259 @@
           "p_better": 0.5536
         }
       }
+    },
+    "2425": {
+      "n": 1415,
+      "base_log_loss": 1.082,
+      "arms": {
+        "ship": {
+          "log_loss": 0.9802,
+          "accuracy": 0.5286
+        },
+        "elo_clf": {
+          "log_loss": 0.9862,
+          "accuracy": 0.5322
+        },
+        "blend": {
+          "log_loss": 0.981,
+          "accuracy": 0.5322
+        },
+        "layer": {
+          "log_loss": 0.9812,
+          "accuracy": 0.5329
+        }
+      },
+      "vs_ship": {
+        "elo_clf": {
+          "mean_gain": -0.00608,
+          "p_better": 0.0402
+        },
+        "blend": {
+          "mean_gain": -0.00088,
+          "p_better": 0.3106
+        },
+        "layer": {
+          "mean_gain": -0.00107,
+          "p_better": 0.304
+        }
+      }
+    },
+    "2526": {
+      "n": 1416,
+      "base_log_loss": 1.0742,
+      "arms": {
+        "ship": {
+          "log_loss": 0.9969,
+          "accuracy": 0.5141
+        },
+        "elo_clf": {
+          "log_loss": 0.999,
+          "accuracy": 0.5226
+        },
+        "blend": {
+          "log_loss": 0.9953,
+          "accuracy": 0.5233
+        },
+        "layer": {
+          "log_loss": 0.9952,
+          "accuracy": 0.5226
+        }
+      },
+      "vs_ship": {
+        "elo_clf": {
+          "mean_gain": -0.00205,
+          "p_better": 0.3084
+        },
+        "blend": {
+          "mean_gain": 0.00163,
+          "p_better": 0.8002
+        },
+        "layer": {
+          "mean_gain": 0.00173,
+          "p_better": 0.7772
+        }
+      }
+    }
+  },
+  "by_league": {
+    "ENG-Premier League": {
+      "n": 2970,
+      "base_log_loss": 1.0661,
+      "arms": {
+        "ship": {
+          "log_loss": 0.9756,
+          "accuracy": 0.535
+        },
+        "elo_clf": {
+          "log_loss": 0.9795,
+          "accuracy": 0.5303
+        },
+        "blend": {
+          "log_loss": 0.9742,
+          "accuracy": 0.534
+        },
+        "layer": {
+          "log_loss": 0.9744,
+          "accuracy": 0.5343
+        }
+      },
+      "vs_ship": {
+        "elo_clf": {
+          "mean_gain": -0.00383,
+          "p_better": 0.0966
+        },
+        "blend": {
+          "mean_gain": 0.00145,
+          "p_better": 0.8232
+        },
+        "layer": {
+          "mean_gain": 0.00121,
+          "p_better": 0.7514
+        }
+      }
+    },
+    "ESP-La Liga": {
+      "n": 2973,
+      "base_log_loss": 1.0683,
+      "arms": {
+        "ship": {
+          "log_loss": 0.9892,
+          "accuracy": 0.5146
+        },
+        "elo_clf": {
+          "log_loss": 1.0003,
+          "accuracy": 0.5133
+        },
+        "blend": {
+          "log_loss": 0.9924,
+          "accuracy": 0.5173
+        },
+        "layer": {
+          "log_loss": 0.9935,
+          "accuracy": 0.518
+        }
+      },
+      "vs_ship": {
+        "elo_clf": {
+          "mean_gain": -0.01113,
+          "p_better": 0.0
+        },
+        "blend": {
+          "mean_gain": -0.00322,
+          "p_better": 0.005
+        },
+        "layer": {
+          "mean_gain": -0.00431,
+          "p_better": 0.0008
+        }
+      }
+    },
+    "ITA-Serie A": {
+      "n": 2971,
+      "base_log_loss": 1.0834,
+      "arms": {
+        "ship": {
+          "log_loss": 0.9832,
+          "accuracy": 0.5274
+        },
+        "elo_clf": {
+          "log_loss": 0.9911,
+          "accuracy": 0.5301
+        },
+        "blend": {
+          "log_loss": 0.9846,
+          "accuracy": 0.5321
+        },
+        "layer": {
+          "log_loss": 0.9854,
+          "accuracy": 0.5325
+        }
+      },
+      "vs_ship": {
+        "elo_clf": {
+          "mean_gain": -0.00783,
+          "p_better": 0.0008
+        },
+        "blend": {
+          "mean_gain": -0.00139,
+          "p_better": 0.139
+        },
+        "layer": {
+          "mean_gain": -0.00218,
+          "p_better": 0.0826
+        }
+      }
+    },
+    "GER-Bundesliga": {
+      "n": 2397,
+      "base_log_loss": 1.0715,
+      "arms": {
+        "ship": {
+          "log_loss": 0.9898,
+          "accuracy": 0.5173
+        },
+        "elo_clf": {
+          "log_loss": 0.9893,
+          "accuracy": 0.519
+        },
+        "blend": {
+          "log_loss": 0.9866,
+          "accuracy": 0.5219
+        },
+        "layer": {
+          "log_loss": 0.9869,
+          "accuracy": 0.5223
+        }
+      },
+      "vs_ship": {
+        "elo_clf": {
+          "mean_gain": 0.00052,
+          "p_better": 0.5654
+        },
+        "blend": {
+          "mean_gain": 0.00317,
+          "p_better": 0.9744
+        },
+        "layer": {
+          "mean_gain": 0.00291,
+          "p_better": 0.933
+        }
+      }
     }
   },
   "pooled": {
-    "n": 8480,
-    "base_log_loss": 1.0721,
+    "n": 11311,
+    "base_log_loss": 1.0738,
     "arms": {
       "ship": {
-        "log_loss": 0.9827,
-        "accuracy": 0.5248
+        "log_loss": 0.9842,
+        "accuracy": 0.5239
       },
       "elo_clf": {
-        "log_loss": 0.9892,
-        "accuracy": 0.5221
+        "log_loss": 0.9901,
+        "accuracy": 0.5234
       },
       "blend": {
-        "log_loss": 0.9831,
-        "accuracy": 0.5262
+        "log_loss": 0.9843,
+        "accuracy": 0.5266
       },
       "layer": {
-        "log_loss": 0.9839,
-        "accuracy": 0.5268
+        "log_loss": 0.985,
+        "accuracy": 0.527
       }
     },
     "vs_ship": {
       "elo_clf": {
-        "mean_gain": -0.00648,
+        "mean_gain": -0.00588,
         "p_better": 0.0
       },
       "blend": {
-        "mean_gain": -0.00034,
-        "p_better": 0.3424
+        "mean_gain": -0.00016,
+        "p_better": 0.4178
       },
       "layer": {
-        "mean_gain": -0.00114,
-        "p_better": 0.1268
+        "mean_gain": -0.00077,
+        "p_better": 0.1826
       }
     }
   }

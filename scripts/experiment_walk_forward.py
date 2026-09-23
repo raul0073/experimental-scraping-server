@@ -65,6 +65,8 @@ REPORT = ROOT / "data" / "reports" / "experiment_walk_forward.json"
 # season totals, so "how does it rate per league" could not be answered
 # without paying the eighty minutes again. Scoring is cheap; pricing is not.
 ROWS = ROOT / "data" / "reports" / "_walk_forward_rows.csv"
+# Somewhere to throw the per-season classifiers that is NOT production.
+SCRATCH_CLF = ROOT / "data" / "reports" / "_wf_scratch_clf.json"
 OUTCOMES = ["H", "D", "A"]
 ARMS = ["ship", "elo_clf", "blend", "layer"]
 LEAGUES_USED: list = []
@@ -105,8 +107,15 @@ def season_rows(eval_season: str) -> list:
           f"classifier on {len(train_seasons)} seasons", flush=True)
     params = fit_params(fit_season)
     rho_ship = params["rho"]
+    # 🐛 out_path=None WRITES TO THE PRODUCTION CLASSIFIER.
+    # DrawModel.train does `path = out_path or PARAMS_PATH`, so "None" does
+    # not mean "do not save" — it means "save over data/config/draw_model
+    # .json". This experiment trains eight classifiers per run, so it
+    # silently replaced the shipped model with one trained on FEWER seasons,
+    # eight times, and the live predictor ran on it for two days. Never pass
+    # None here: a scratch path is the only safe value.
     clf = DrawModel.train(list(LEAGUE_NAME_MAP), train_seasons, params,
-                          out_path=None)
+                          out_path=SCRATCH_CLF)
     print(f"    classifier n={clf.w['train_n']}", flush=True)
 
     out = []
