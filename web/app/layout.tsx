@@ -89,7 +89,10 @@ export default function RootLayout({
     >
       <body className="antialiased">
         <header className="border-b border-line">
-          <div className="mx-auto flex max-w-[1440px] items-baseline gap-8 px-6 py-4">
+          {/* flex-wrap, because at 375px the wordmark and three nav items do
+              not fit on one line and a header that does not wrap is a header
+              that scrolls the whole page sideways. */}
+          <div className="mx-auto flex max-w-[1440px] flex-wrap items-baseline gap-x-5 gap-y-2 px-4 py-4 sm:gap-x-8 sm:px-6">
             <Link
               href="/"
               className="font-display text-[19px] tracking-[0.02em]"
@@ -99,8 +102,11 @@ export default function RootLayout({
             <Nav />
           </div>
         </header>
-        <main className="mx-auto max-w-[1440px] px-6 py-8">{children}</main>
-        <footer className="mx-auto max-w-[1440px] px-6 pb-12 pt-6 text-[12.5px] text-ink-3">
+        {/* 16px gutter on a phone, 24 from `sm` up. */}
+        <main className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6 sm:py-8">
+          {children}
+        </main>
+        <footer className="mx-auto max-w-[1440px] px-4 pb-12 pt-6 text-[12.5px] text-ink-3 sm:px-6">
           Probabilities and fair prices only — never betting advice. Data:
           Understat and fbref, with limits stated on each metric.
         </footer>

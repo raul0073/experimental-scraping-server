@@ -30,21 +30,30 @@ const short = (name: string) => {
   return parts.length === 1 ? parts[0] : parts[parts.length - 1];
 };
 
+/** `width` is the width the team sheet WANTS. It draws that big where there
+ *  is room and shrinks to its column where there is not — the eleven, the
+ *  ratings and the names all scale with it, so nothing is dropped to fit a
+ *  phone. */
 export function BestXI({ xi, width = 320 }: { xi: XI; width?: number }) {
   const [hover, setHover] = useState<number | null>(null);
-  const px = width / W;
   const h = Math.round((width * H) / W);
 
   return (
-    <figure className="m-0">
-      <div className="relative" style={{ width }}>
+    <figure className="m-0 min-w-0">
+      <div className="relative w-full" style={{ maxWidth: width }}>
         <svg
           width={width}
           height={h}
           viewBox={`0 0 ${W} ${H}`}
           role="img"
           aria-label={`best eleven, ${xi.formation}`}
-          style={{ background: PITCH_GREEN, borderRadius: 8, display: "block" }}
+          style={{
+            background: PITCH_GREEN,
+            borderRadius: 8,
+            display: "block",
+            width: "100%",
+            height: "auto",
+          }}
         >
           <PitchLines />
           {xi.picked.map((e, i) => (
@@ -93,17 +102,18 @@ export function BestXI({ xi, width = 320 }: { xi: XI; width?: number }) {
 
         {hover !== null && xi.picked[hover] && (() => {
           const e = xi.picked[hover];
-          const cx = X(e.slot.y) * px;
-          const cy = Y(e.slot.x) * px;
-          const above = cy > h / 2;
+          // Per cent of the box, not pixels — the pitch scales to its column.
+          const cx = (X(e.slot.y) / W) * 100;
+          const cy = (Y(e.slot.x) / H) * 100;
+          const above = cy > 50;
           return (
             <span
               role="tooltip"
               className="pointer-events-none absolute z-30 w-52 rounded-lg border border-line bg-card p-2.5 text-left text-[11.5px] leading-relaxed text-ink-2 shadow-lg"
               style={{
-                left: Math.max(4, Math.min(width - 210, cx - 104)),
-                top: above ? undefined : cy + 14,
-                bottom: above ? h - cy + 14 : undefined,
+                left: `clamp(4px, calc(${cx}% - 104px), calc(100% - 212px))`,
+                top: above ? undefined : `calc(${cy}% + 14px)`,
+                bottom: above ? `calc(${100 - cy}% + 14px)` : undefined,
               }}
             >
               <b className="block text-ink">{e.player.n}</b>

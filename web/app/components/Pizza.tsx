@@ -82,6 +82,9 @@ export function Pizza({
   label,
 }: {
   slices: Slice[];
+  /** The size the chart wants. It draws this big where there is room and
+   *  shrinks to its column where there is not — a circle reads the same at
+   *  any diameter, and nothing is dropped on the way down. */
   size?: number;
   label?: string;
 }) {
@@ -117,14 +120,18 @@ export function Pizza({
   };
 
   return (
-    <figure className="m-0">
+    <figure className="m-0 min-w-0">
       <svg
         width={size}
         height={size}
         viewBox={`0 0 ${VB} ${VB}`}
         role="img"
         aria-label={label ?? "metric percentiles"}
-        style={{ display: "block", maxWidth: "100%" }}
+        // `height: auto` is the half that was missing: with a fixed height
+        // attribute and a capped width, a narrow column drew the chart small
+        // inside a box that stayed square-at-full-size, so a phone got a
+        // postage stamp floating in several hundred pixels of nothing.
+        style={{ display: "block", width: "100%", height: "auto", maxWidth: size }}
       >
         {/* the 25 / 50 / 75 rings, so a wedge reads without counting */}
         {[25, 50, 75, 100].map((t) => (

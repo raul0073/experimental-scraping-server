@@ -11,6 +11,15 @@ export const metadata = {
 
 const EUROPE: ZoneKey[] = ["ucl", "uclq", "uel", "uecl"];
 
+type Zones = Partial<Record<ZoneKey, number>>;
+
+/** Rounded to a tenth, the way the table has always printed them. Shared so
+ *  the card layout and the table cannot drift apart on what a number says. */
+const europeOf = (zone: Zones) =>
+  Math.round(EUROPE.reduce((a, k) => a + (zone[k] ?? 0), 0) * 10) / 10;
+const dangerOf = (zone: Zones) =>
+  Math.round(((zone.rel ?? 0) + (zone.playoff ?? 0)) * 10) / 10;
+
 function Pct({ v, bold }: { v: number; bold?: boolean }) {
   if (!v || v < 0.1) return <span className="text-ink-3">—</span>;
   return <span className={bold && v >= 20 ? "font-semibold" : ""}>{v}%</span>;
@@ -54,7 +63,56 @@ export default function ProjectedPage() {
           <div className="mt-2">
             <ZoneLegend zones={data.zones} />
           </div>
-          <div className="mt-2 overflow-x-auto rounded-xl border border-line bg-card">
+          {/* phone: one card per club. A nine-column table at 375px hides
+              the club name behind a sideways scroll, and the season-outlook
+              bar — the whole point of the page — sits in the column furthest
+              from the edge you start at. Here the bar gets the full width. */}
+          <ul className="mt-2 space-y-2 sm:hidden">
+            {data.projection.map((r, i) => (
+              <li
+                key={r.team}
+                className="rounded-xl border border-line bg-card p-3"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="num w-5 shrink-0 text-[12px] text-ink-3">
+                    {i + 1}
+                  </span>
+                  <Crest src={round.crests.teams[league]?.[r.team]} alt="" />
+                  <span className="min-w-0 flex-1 truncate text-[14px]">
+                    {r.team}
+                  </span>
+                  <span className="shrink-0 text-right">
+                    <span className="num block text-[15px] font-semibold">
+                      {r.exp_pts}
+                    </span>
+                    <span className="block text-[10px] uppercase tracking-wider text-ink-3">
+                      exp. pts
+                    </span>
+                  </span>
+                </div>
+
+                <div className="mt-2.5">
+                  <ZoneBar zone={r.zone} zones={data.zones} />
+                </div>
+
+                <div className="num mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11.5px] text-ink-3">
+                  <span>now {r.played_pts}</span>
+                  <span>
+                    title <Pct v={r.title} bold />
+                  </span>
+                  <span>
+                    Europe <Pct v={europeOf(r.zone)} />
+                  </span>
+                  <span>
+                    danger <Pct v={dangerOf(r.zone)} />
+                  </span>
+                  <Fighting zone={r.zone} zones={data.zones} />
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-2 hidden overflow-x-auto rounded-xl border border-line bg-card sm:block">
             <table className="w-full text-[13.5px]">
               <thead>
                 <tr className="bg-[#f7f8f9] text-[11px] uppercase tracking-wider text-ink-3">
@@ -77,11 +135,8 @@ export default function ProjectedPage() {
               </thead>
               <tbody>
                 {data.projection.map((r, i) => {
-                  const europe = EUROPE.reduce(
-                    (a, k) => a + (r.zone[k] ?? 0),
-                    0,
-                  );
-                  const danger = (r.zone.rel ?? 0) + (r.zone.playoff ?? 0);
+                  const europe = europeOf(r.zone);
+                  const danger = dangerOf(r.zone);
                   return (
                     <tr key={r.team} className="border-t border-line">
                       <td className="num py-2 pl-4 pr-2 text-ink-3">{i + 1}</td>
@@ -104,11 +159,11 @@ export default function ProjectedPage() {
                         <Pct v={r.title} bold />
                       </td>
                       <td className="num px-3 py-2 text-right">
-                        <Pct v={Math.round(europe * 10) / 10} />
+                        <Pct v={europe} />
                       </td>
                       <td className="num px-3 py-2 text-right">
                         <span className={danger >= 30 ? "font-semibold" : ""}>
-                          <Pct v={Math.round(danger * 10) / 10} />
+                          <Pct v={danger} />
                         </span>
                       </td>
                       <td className="px-4 py-2">

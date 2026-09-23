@@ -45,12 +45,14 @@ export function RatingsTabs() {
     <RatingsData>
     <div>
       <Crumbs trail={[{ label: "Ratings" }]} />
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         {TABS.map((t) => (
           <button
             key={t}
             onClick={() => pick(t)}
-            className={`rounded-full border px-4 py-1 text-[13px] font-medium capitalize transition-colors ${
+            // py-2 below `sm` so the pill clears 40px of tappable height; a
+            // 26px pill is a link you aim at rather than a control you press.
+            className={`rounded-full border px-4 py-2 text-[13px] font-medium capitalize transition-colors sm:py-1 ${
               tab === t
                 ? "border-home bg-[#e9f1f8] text-[#1c5b8a]"
                 : "border-line bg-card text-ink-2 hover:border-ink-3"

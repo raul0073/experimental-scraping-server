@@ -31,8 +31,14 @@ import { TurfMesh } from "./turf";
  *  helpers below are the only place that conversion should ever happen.
  */
 
-export const PITCH_L = 105;   // along the pitch, scene z
-export const PITCH_W = 68;    // across the pitch, scene x
+/** THE NUMBERS AND THE CONVERSION NOW LIVE IN `dims.ts`, three-free, and are
+ *  re-exported here so every existing import of them keeps working. They were
+ *  pure arithmetic sitting in a module that pulls in WebGL, so a flat SVG
+ *  fallback could not ask how wide a pitch is without downloading three. The
+ *  commentary below still describes them; it is the reason they are right. */
+export { PITCH_L, PITCH_W, toX, toZ } from "./dims";
+import { PITCH_L, PITCH_W } from "./dims";
+
 const LINE = 0.12;            // real line width
 const GOAL_W = 7.32;
 const GOAL_H = 2.44;
@@ -71,10 +77,11 @@ const CIRCLE = 9.15;
  *  `shotX` in ShotCloud was never wrong — Understat's low y is also the
  *  right, and (uy - 0.5) * PITCH_W already sent it to -x. That is exactly
  *  why the shot map looked fine while everything built on toX did not.
+ *
+ *  (`toX` and `toZ` now live in `dims.ts` so a flat fallback can use them
+ *  without pulling three in; they are re-exported at the top of this file,
+ *  so nothing that imports them from here has to change.)
  */
-export const toX = (optaY: number) => (optaY / 100) * PITCH_W - PITCH_W / 2;
-/** Opta x (0 = own goal line) -> scene z, attacking toward +z. */
-export const toZ = (optaX: number) => (optaX / 100) * PITCH_L - PITCH_L / 2;
 
 /** Pitched brighter than they look on the page, because the turf texture
  *  multiplies them and an 8-bit map can only ever darken — its mean is about

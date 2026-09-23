@@ -1,11 +1,21 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 
+import { FLAT_CAP, FlatPasses } from "./flat/FlatPasses";
 import { PitchScene, defaultCam, type ViewName } from "./PitchScene";
-import {
-  BIT, CLASSES, PassCloud, classOf, lengthOf, type Pass,
-} from "./PassCloud";
+/** The flags and the classes from the three-free module; the RIBBONS from
+ *  the scene, and only when there is a scene. Importing `PassCloud` here for
+ *  `BIT` alone put the whole WebGL stack in the versus page's first chunk. */
+import { BIT, CLASSES, classOf, lengthOf, type Pass } from "./passMath";
+
+const PassCloud = dynamic(
+  () => import("./PassCloud").then((m) => m.PassCloud),
+  // A DOM node would be invalid inside a Canvas; the scene's own placeholder
+  // is what the reader sees while this lands.
+  { ssr: false, loading: () => null },
+);
 
 /** A club's passes, filterable by player and by what became of them. */
 
@@ -186,13 +196,16 @@ export function PassView({
             {f.label}
           </button>
         ))}
+        {/* `min-w-0` and a cap on both, or a long name makes the control
+            wider than a phone and drags the whole page sideways with it —
+            a flex child's default min-width is its own content. */}
         <select
           value={who}
           onChange={(e) => {
             setWho(e.target.value);
             setTo("");
           }}
-          className="rounded-md border border-line bg-card px-2 py-0.5 text-[12px]"
+          className="min-w-0 max-w-[10.5rem] flex-1 truncate rounded-md border border-line bg-card px-2 py-0.5 text-[12px] sm:flex-none"
         >
           <option value="">from anyone</option>
           {passers.map(([n, c]) => (
@@ -202,14 +215,14 @@ export function PassView({
         <select
           value={to}
           onChange={(e) => setTo(e.target.value)}
-          className="rounded-md border border-line bg-card px-2 py-0.5 text-[12px]"
+          className="min-w-0 max-w-[10.5rem] flex-1 truncate rounded-md border border-line bg-card px-2 py-0.5 text-[12px] sm:flex-none"
         >
           <option value="">to anyone</option>
           {targets.map(([n, c]) => (
             <option key={n} value={n}>to {n} ({c})</option>
           ))}
         </select>
-        <span className="ml-auto num text-[12.5px] text-ink-2">
+        <span className="num text-[12.5px] text-ink-2 sm:ml-auto">
           {matching.length.toLocaleString()} passes ·{" "}
           {matching.length ? Math.round((100 * done) / matching.length) : 0}%
           completed · {avg.toFixed(0)} m average
@@ -224,6 +237,26 @@ export function PassView({
             onView={setView}
             tune={tune}
             scene={scene}
+            flat={
+              <FlatPasses
+                passes={passes}
+                selected={selected}
+                onSelect={select}
+              />
+            }
+            flatNote={
+              <>
+                Flat, a lofted pass is DASHED and a ground pass solid — the
+                same fact the scene carries as an arc over its own shadow,
+                encoded more weakly because a flat map has no up. The flat
+                map also draws the last{" "}
+                <span className="num">{FLAT_CAP.toLocaleString()}</span>{" "}
+                rather than{" "}
+                <span className="num">{CAP.toLocaleString()}</span>: twelve
+                hundred SVG lines is what a phone will draw smoothly, and
+                narrowing the filter is how to see the rest.
+              </>
+            }
             legend={
               <span className="flex items-center gap-3 text-[11.5px] text-ink-3">
                 {CLASSES.map((c) => (
@@ -267,8 +300,10 @@ export function PassView({
           </PitchScene>
         </div>
 
+        {/* Under the pitch on a phone, beside it above `sm` — a 260px column
+            in a 343px one is stranded rather than narrow. */}
         {!compact && (
-        <aside className="w-[260px] shrink-0 rounded-xl border border-line bg-card p-3.5 text-[12.5px] leading-relaxed text-ink-2">
+        <aside className="w-full shrink-0 rounded-xl border border-line bg-card p-3.5 text-[12.5px] leading-relaxed text-ink-2 sm:w-[260px]">
           {sel ? (
             <>
               <div className="text-[11px] uppercase tracking-wide text-ink-3">

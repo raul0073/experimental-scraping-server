@@ -1,6 +1,7 @@
 "use client";
 
 import { Html } from "@react-three/drei";
+import { useLabelScale } from "./labelScale";
 
 import { toX, toZ } from "./Pitch3D";
 
@@ -19,6 +20,7 @@ import { toX, toZ } from "./Pitch3D";
 export type Marker = { x: number; y: number; label: string; colour?: string };
 
 export function Markers({ points }: { points: Marker[] }) {
+  const ls = useLabelScale();
   return (
     <group>
       {points.map((p) => (
@@ -36,7 +38,7 @@ export function Markers({ points }: { points: Marker[] }) {
             <cylinderGeometry args={[0.07, 0.07, 1.6, 8]} />
             <meshStandardMaterial color="#ffffff" />
           </mesh>
-          <Html center position={[0, 3.6, 0]} distanceFactor={80}>
+          <Html center position={[0, 3.6, 0]} distanceFactor={80 * ls}>
             <span className="num whitespace-nowrap rounded bg-[#0d1520]/90 px-1.5 py-0.5 text-[10px] font-semibold text-white">
               {p.label}
             </span>

@@ -27,6 +27,7 @@ belongs to nobody.
 from __future__ import annotations
 
 import json
+import unicodedata
 from collections import defaultdict
 from dataclasses import dataclass, field
 from functools import lru_cache
@@ -119,6 +120,83 @@ def _absorb_blips(names: List[str]) -> List[str]:
             return names
 
 
+def _canonical_names(names: List[str]) -> List[str]:
+    """One man, one name — before anything decides he has been replaced.
+
+    🐛 WHOSCORED WRITES SOME MANAGERS TWO WAYS, AND THE DIFFERENCE READS AS A
+    SACKING. Spanish double surnames are where it bites: the same man appears
+    as "Marcelino García" and "Marcelino García Toral", "Luis García" and
+    "Luis García Plaza", "Álvaro Arbeloa" and "Álvaro Arbeloa Coca". Every
+    one of those became a change of manager, so Marcelino's 101 matches at
+    Villarreal shipped as a 66-match spell and a 35-match spell — each shrunk
+    toward 50 on partial evidence, and the man listed twice in one table.
+
+    It was found by a style experiment, not by this module, and the way it
+    was found is the point: a FAKE Flick-to-Flick "change" at Barcelona was
+    registering a significant style shift at p=0.010. That is the strongest
+    evidence a manager-change study could produce for a manager who never
+    left. Any analysis keyed on a change of name inherits this.
+
+    The test is a subset of NAME TOKENS within one club's own timeline. A
+    club fielding two different managers whose full names are a subset of one
+    another is not something that happens; the same man recorded with and
+    without his second surname is something that happens constantly. The
+    longest spelling wins, because it is the one that identifies him.
+    """
+    def toks(n: str) -> list:
+        flat = unicodedata.normalize("NFKD", n.lower().replace("-", " "))
+        flat = "".join(c for c in flat if not unicodedata.combining(c))
+        return flat.split()
+
+    # Runs, because the second rule below needs to know what followed what.
+    runs: List[str] = []
+    for n in names:
+        if not runs or runs[-1] != n:
+            runs.append(n)
+
+    canon = {n: n for n in dict.fromkeys(names)}
+
+    def link(a: str, b: str) -> None:
+        """Keep the longer spelling — it is the one that identifies him."""
+        full, part = (a, b) if len(toks(a)) >= len(toks(b)) else (b, a)
+        for k, v in canon.items():
+            if v == canon[part] or k == part:
+                canon[k] = canon[full]
+        canon[part] = canon[full]
+
+    for i, a in enumerate(runs):
+        for j in range(i + 1, len(runs)):
+            b = runs[j]
+            ta, tb = set(toks(a)), set(toks(b))
+            if not ta or not tb or canon[a] == canon[b]:
+                continue
+            # 0. IDENTICAL ONCE ACCENTS ARE FOLDED — "Eric Roy" and "Éric
+            #    Roy" at Brest, which the feed alternated between and which
+            #    split one 102-match tenure into 34 and 68. Two different men
+            #    at one club whose names differ only by a diacritic do not
+            #    exist. This was originally a `continue`, skipping the very
+            #    case with the least doubt in it.
+            if ta == tb:
+                link(a, b)
+                continue
+            # 1. One spelling contains the other: "Marcelino García" inside
+            #    "Marcelino García Toral". Safe anywhere in the timeline — a
+            #    club does not field two men whose names nest like that.
+            if ta <= tb or tb <= ta:
+                link(a, b)
+                continue
+            # 2. Same surname AND the two runs are ADJACENT: "Hans-Dieter
+            #    Flick" handing over to "Hansi Flick", "Miguel Ángel Sánchez"
+            #    to "Míchel Sánchez" (Míchel IS Miguel Ángel). Adjacency is
+            #    what makes this safe — two different managers sharing a
+            #    surname at one club is possible across four seasons, but one
+            #    succeeding the other immediately is not, it is a feed that
+            #    changed its mind about how to spell him.
+            if j == i + 1 and toks(a)[-1] == toks(b)[-1]:
+                link(a, b)
+    return [canon[n] for n in names]
+
+
 def _absorb_short(names: List[str]) -> List[str]:
     """Relabel any surviving run under MIN_SPELL with its longer neighbour.
 
@@ -181,7 +259,7 @@ def build(league: str, seasons: List[str],
     "this did not happen"."""
     out: List[Spell] = []
     for team, rows in _match_managers(league, seasons).items():
-        names = _absorb_blips([m for *_r, m in rows])
+        names = _absorb_blips(_canonical_names([m for *_r, m in rows]))
         if absorb_short:
             names = _absorb_short(names)
         cur: Spell | None = None

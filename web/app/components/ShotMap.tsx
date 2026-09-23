@@ -52,12 +52,14 @@ export function ShotMap({
   shots: Shot[];
   title?: string;
   subtitle?: string;
+  /** The width it wants, not the width it takes: the map draws this big
+   *  where there is room and shrinks to its column where there is not, so a
+   *  phone gets the whole picture rather than the page sliding sideways. */
   width?: number;
   /** a map of shots FACED: no shooter to name, and green is bad news */
   faced?: boolean;
 }) {
   const [hover, setHover] = useState<number | null>(null);
-  const px = width / W;
 
   /** A shot FACED arrives already mirrored into this side's own frame, so it
    *  sits at LOW x — close to their own goal line — while a shot taken sits
@@ -91,7 +93,7 @@ export function ShotMap({
   const h = Math.round((width * bot) / W);
 
   return (
-    <figure className="m-0">
+    <figure className="m-0 min-w-0">
       {title && (
         <figcaption className="mb-1.5 text-[13px] font-medium text-ink">
           {title}
@@ -100,14 +102,20 @@ export function ShotMap({
           )}
         </figcaption>
       )}
-      <div className="relative" style={{ width }}>
+      <div className="relative w-full" style={{ maxWidth: width }}>
         <svg
           width={width}
           height={h}
           viewBox={`0 ${top} ${W} ${bot}`}
           role="img"
           aria-label={title ?? "shot map"}
-          style={{ background: PITCH_GREEN, borderRadius: 8, display: "block" }}
+          style={{
+            background: PITCH_GREEN,
+            borderRadius: 8,
+            display: "block",
+            width: "100%",
+            height: "auto",
+          }}
         >
           <PitchLines from={BAND} />
           {/* misses underneath, goals last: the picture should read
@@ -142,9 +150,12 @@ export function ShotMap({
 
         {hover !== null && drawn[hover] && (() => {
           const s = drawn[hover];
-          const cx = X(s.y) * px;
-          const cy = toY(s.x) * px;
-          const above = cy > h / 2;
+          // Per cent of the box, not pixels: the map scales to its column, so
+          // a pixel offset computed from the width we ASKED for lands beside
+          // the dot on any screen that gave us less.
+          const cx = (X(s.y) / W) * 100;
+          const cy = ((toY(s.x) - top) / bot) * 100;
+          const above = cy > 50;
           const what = s.goal ? "Goal" : s.target ? "Saved" : "Off target";
           const how = [
             s.head ? "header" : null,
@@ -158,9 +169,9 @@ export function ShotMap({
               role="tooltip"
               className="pointer-events-none absolute z-30 w-44 rounded-lg border border-line bg-card p-2 text-left text-[11.5px] leading-relaxed text-ink-2 shadow-lg"
               style={{
-                left: Math.max(4, Math.min(width - 180, cx - 88)),
-                top: above ? undefined : cy + 12,
-                bottom: above ? h - cy + 12 : undefined,
+                left: `clamp(4px, calc(${cx}% - 88px), calc(100% - 180px))`,
+                top: above ? undefined : `calc(${cy}% + 12px)`,
+                bottom: above ? `calc(${100 - cy}% + 12px)` : undefined,
               }}
             >
               <b className="block text-ink">

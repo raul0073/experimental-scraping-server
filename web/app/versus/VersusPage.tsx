@@ -551,16 +551,23 @@ function Inner({ round }: { round: RoundData | null }) {
 
       {/* The two sides facing each other, the way a match graphic is read:
           home on the left, away on the right, everything between them. */}
-      <div className="mt-5 rounded-xl border border-line bg-card px-5 py-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      {/* STACKED ON A PHONE, FACING EACH OTHER ON A LAPTOP.
+          `flex-wrap` alone put Arsenal and the "v" on one line and Aston
+          Villa on the next — the divider ended up beside one club instead of
+          between the two, which is the one thing it is for. Below `sm` this
+          is three rows: home, the "v" as a real horizontal rule, away. */}
+      <div className="mt-5 rounded-xl border border-line bg-card px-4 py-4 sm:px-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
           <Pick label="Home" value={home} set={setHome} teams={teams} meta={meta} />
-          <div className="flex flex-col items-center">
+          <div className="flex items-center gap-3 sm:flex-col sm:gap-0">
+            <span className="h-px flex-1 bg-line sm:hidden" />
             <span className="font-display text-[15px] tracking-[0.08em] text-ink-3">
               v
             </span>
-            <span className="mt-0.5 text-[11px] text-ink-3">
+            <span className="text-[11px] text-ink-3 sm:mt-0.5">
               {meta.season_labels[season] ?? season}
             </span>
+            <span className="h-px flex-1 bg-line sm:hidden" />
           </div>
           <Pick
             label="Away"
@@ -976,7 +983,10 @@ function Half({
               zones
             </div>
           )}
-          <div className="mt-1.5 w-[min(520px,46vw)] min-w-[320px]">
+          {/* min-w-[320px] plus the card's own padding is wider than a 375px
+              screen, so the PAGE scrolled rather than the card. Full width
+              below `sm`; the sized column is a laptop concern. */}
+          <div className="mt-1.5 w-full sm:w-[min(520px,46vw)] sm:min-w-[320px]">
             <ZonePitch
               values={values}
               attacking={attack}
@@ -985,7 +995,7 @@ function Half({
             />
           </div>
         </div>
-        <div className="min-w-[170px] flex-1">
+        <div className="min-w-0 flex-1 sm:min-w-[170px]">
           <h3 className="text-[12px] uppercase tracking-wider text-ink-3">
             {attack}&apos;s best routes
           </h3>
@@ -1108,18 +1118,28 @@ function Pick({
 }) {
   return (
     <label
-      className={`flex items-center gap-3 ${right ? "flex-row-reverse text-right" : ""}`}
+      // THE MIRROR ONLY APPLIES SIDE BY SIDE. `flex-row-reverse` exists so the
+      // two clubs face each other across the "v"; stacked on a phone it just
+      // puts one badge on the left and one on the right of a vertical list,
+      // which reads as a mistake rather than as a fixture. Below `sm` both
+      // sides run the same way round.
+      className={`flex min-w-0 items-center gap-3 ${
+        right ? "sm:flex-row-reverse sm:text-right" : ""
+      }`}
     >
       <Crest src={meta.crests?.[value] ?? ""} alt={value} size={46} />
-      <span className="flex flex-col">
+      <span className="flex min-w-0 flex-col">
         <span className="text-[10.5px] uppercase tracking-[0.12em] text-ink-3">
           {label}
         </span>
         <select
           value={value}
           onChange={(e) => set(e.target.value)}
-          className={`-ml-1 max-w-[190px] cursor-pointer truncate rounded-md border border-transparent bg-transparent px-1 py-0.5 text-[17px] font-semibold hover:border-line ${
-            right ? "text-right" : ""
+          // A native select sizes itself to its WIDEST option, so a fixed
+          // max-width is what keeps "Borussia Mönchengladbach" from setting
+          // the width of this box and scrolling the page sideways.
+          className={`-ml-1 w-full min-w-0 max-w-[190px] cursor-pointer truncate rounded-md border border-transparent bg-transparent px-1 py-0.5 text-[17px] font-semibold hover:border-line ${
+            right ? "sm:text-right" : ""
           }`}
         >
           {teams.map((t) => (

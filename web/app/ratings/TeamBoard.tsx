@@ -76,7 +76,7 @@ type Scored = Row & {
 
 import {
   ActiveFilters, BUDGET, FILTER_BAR, Field, MARGINAL, RELIABLE, SELECT,
-  SPREAD_TEAM, ScoreRing,
+  SLIDER, SPREAD_TEAM, ScoreRing, SortControl,
 } from "./scoreUi";
 
 const DATA = "/data/team";
@@ -787,10 +787,10 @@ export function TeamBoard() {
 
       {/* ============================================= the config */}
       <section className="mt-4 rounded-xl border border-line bg-card">
-        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 border-b border-line px-4 py-3">
+        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 border-b border-line px-3 py-3 sm:px-4">
           <button
             onClick={() => setConfigOpen((o) => !o)}
-            className="flex items-baseline gap-1.5 text-[14px] font-semibold hover:text-home"
+            className="flex items-baseline gap-1.5 text-left text-[14px] font-semibold hover:text-home"
           >
             <span className="text-ink-3">{configOpen ? "▾" : "▸"}</span>
             What counts as a good side — and you decide
@@ -806,12 +806,13 @@ export function TeamBoard() {
               type="checkbox"
               checked={blockUnreliable}
               onChange={(e) => setBlockUnreliable(e.target.checked)}
+              className="h-4 w-4 accent-home"
             />
             ignore metrics that don&apos;t hold up
           </label>
         </div>
         {configOpen && (
-          <div className="p-4">
+          <div className="p-3 sm:p-4">
             <p className="mb-3 text-[12px] leading-relaxed text-ink-2">
               Only <strong>quality</strong> is weighted, and only things that
               do not depend on how a side chooses to play. &ldquo;Do their long
@@ -859,8 +860,9 @@ export function TeamBoard() {
                             min={0}
                             max={30}
                             value={w}
+                            aria-label={`${m.label} weight`}
                             onChange={(e) => setWeight(m.key, Number(e.target.value))}
-                            className="w-full accent-[#4a7ba6]"
+                            className={SLIDER}
                           />
                         </div>
                       );
@@ -872,8 +874,146 @@ export function TeamBoard() {
         )}
       </section>
 
-      {/* ============================================= the table */}
-      <div className="mt-6 overflow-x-auto rounded-xl border border-line bg-card">
+      {/* ============================================= the table
+          TWO RENDERINGS OF ONE LIST, copied from RankTable. Ten columns —
+          three of them score rings — is a laptop shape; on a phone the club
+          name alone would be down to four characters. Below `sm` the rows
+          come out as cards with an explicit sort control. Overall and Squad
+          keep their rings side by side, because the GAP between those two is
+          the whole argument of this table: what the collective produces
+          against the players it is made of. Everything else becomes a
+          labelled cell, and nothing is left out. */}
+      <div className="sm:hidden">
+        <SortControl
+          options={[
+            ["score", "Overall"],
+            ["team", "Club"],
+            ["squad", "Squad"],
+            ["weakest", "Weak spot"],
+            ["withBall", "With ball"],
+            ["against", "Against"],
+            ["result", "Results"],
+            ["gap", "Gap"],
+            ["matches", "Matches"],
+          ]}
+          value={sort.key}
+          dir={sort.dir}
+          onChange={(key, dir) =>
+            setSort({ key, dir: key === sort.key ? dir : key === "team" ? 1 : -1 })
+          }
+        />
+        <ul className="mt-3 space-y-2.5">
+          {shown.map((r, i) => {
+            const gap = r.score - r.result;
+            return (
+              <li
+                key={`${r.team}-${r.spell ?? r.season ?? "all"}`}
+                className="rounded-xl border border-line bg-card p-3"
+              >
+                <div className="flex items-start gap-2.5">
+                  <span className="num pt-0.5 text-[12px] text-ink-3">
+                    {rankOf.get(r) ?? i + 1}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <Link
+                      href={`/team/${slugify(String(r.team))}`}
+                      className="flex min-w-0 items-center gap-2 text-[14px] font-medium hover:text-home hover:underline"
+                    >
+                      <Crest src={meta.crests?.[String(r.team)]} alt="" size={18} />
+                      <span className="truncate">{String(r.team)}</span>
+                      {r.lg && (
+                        <span className="shrink-0 rounded border border-line px-1 py-px text-[10px] font-normal text-ink-3">
+                          {String(r.lg)}
+                        </span>
+                      )}
+                    </Link>
+                    <div className="num mt-0.5 text-[11.5px] text-ink-3">
+                      {r.matches} matches
+                      {typeof r.pts === "number"
+                        ? ` · ${r.pts.toFixed(2)} points a match`
+                        : ""}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-2 grid grid-cols-2 gap-2 border-t border-line pt-2">
+                  <div className="flex items-center gap-2">
+                    <span className="shrink-0 text-ink">
+                      <ScoreRing score={r.score} spread={SPREAD_TEAM} />
+                    </span>
+                    <span className="text-[11px] leading-tight text-ink-2">
+                      Overall
+                      <span className="block text-ink-3">what they produce</span>
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 rounded-lg bg-[#f7fafc] px-1.5 py-0.5">
+                    <span className="shrink-0 text-ink">
+                      <ScoreRing score={r.squad} spread={SPREAD_TEAM} />
+                    </span>
+                    <span className="text-[11px] leading-tight text-[#1c5b8a]">
+                      Squad
+                      <span className="block text-ink-3">the players they have</span>
+                    </span>
+                  </div>
+                </div>
+
+                <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1">
+                  <div className="flex items-baseline justify-between gap-2 rounded bg-[#f7fafc] px-1.5 py-0.5">
+                    <dt className="text-[11.5px] text-ink-2">Weak spot</dt>
+                    <dd className="num shrink-0 text-[12px]">
+                      {r.weakAt ? (
+                        <span title={`Their weakest fielded position is ${posLabel(r.weakAt).toLowerCase()}, at ${r.weakest.toFixed(0)} of 100.`}>
+                          {posShort(r.weakAt)}{" "}
+                          <span className="text-ink-3">
+                            {r.weakest.toFixed(0)}
+                          </span>
+                        </span>
+                      ) : (
+                        <span className="text-ink-3">—</span>
+                      )}
+                    </dd>
+                  </div>
+                  {([
+                    ["With ball", r.withBall],
+                    ["Against", r.against],
+                    ["Results", r.result],
+                  ] as const).map(([label, v]) => (
+                    <div
+                      key={label}
+                      className="flex items-baseline justify-between gap-2 rounded px-1.5 py-0.5"
+                    >
+                      <dt className="text-[11.5px] text-ink-2">{label}</dt>
+                      <dd className="num shrink-0 text-[12px]">{v.toFixed(0)}</dd>
+                    </div>
+                  ))}
+                  <div className="flex items-baseline justify-between gap-2 rounded px-1.5 py-0.5">
+                    <dt className="text-[11.5px] text-ink-2">Gap</dt>
+                    <dd
+                      className={`num shrink-0 text-[12px] font-medium ${
+                        Math.abs(gap) < 12
+                          ? "text-ink-3"
+                          : gap > 0
+                            ? "text-good"
+                            : "text-bad"
+                      }`}
+                      title={
+                        gap >= 0
+                          ? "The process rates them higher than their results do — the side has been getting less than it deserves, and the process is the better guide to what comes next (0.78 against 0.59)."
+                          : "Their results are ahead of the process — they have been getting more than the performances merit, and that is the side of the gap that tends to come back."
+                      }
+                    >
+                      {gap >= 0 ? "+" : ""}
+                      {gap.toFixed(0)}
+                    </dd>
+                  </div>
+                </dl>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      <div className="mt-6 hidden overflow-x-auto rounded-xl border border-line bg-card sm:block">
         <table className="w-full text-[13.5px]">
           <thead>
             <tr className="bg-[#f7f8f9] text-[11px] uppercase tracking-wider text-ink-3">

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 import { Crest } from "../components/Crest";
-import { Info } from "../components/Info";
+import { HintBox, HintIcon } from "./Hint";
 
 /** The process Elo, as a table.
  *
@@ -75,20 +75,34 @@ export function EloTable() {
 
   return (
     <section className="mt-8">
+      {/* THE POPOVER IS ANCHORED TO A BLOCK, NOT TO ITS ICON, which is what
+          `Hint` exists for. The shared `Info` is a fixed 288px box hung off a
+          14px circle: sitting after a heading it starts about 130px in, so on
+          a 375px screen it either runs off the right edge — which scrolls the
+          whole PAGE sideways — or, anchored right, off the left one, where
+          half the sentence cannot be read.
+          The anchor is this span rather than the row, because the row is the
+          full page width and `inset-x-0` on a 1392px row is a 1392px tooltip.
+          Full width on a phone, a readable column on anything wider. */}
       <div className="flex flex-wrap items-baseline gap-3">
-        <h2 className="text-[16px] font-semibold">Process Elo</h2>
-        <Info>
-          <b className="text-ink">The predictor&apos;s rating spine.</b> An
-          online rating updated after every match on what a side CREATED,
-          not on the result — a half-season of points predicts the next half
-          at 0.59, the process metrics at 0.78. It carries across seasons,
-          needs no seed, and is opponent-aware by construction, because the
-          update is a surprise against a specific opponent. Fitted K=
-          {elo.params.k}, home advantage {elo.params.home_adv}.
-        </Info>
+        <div className="group/hint relative w-full sm:w-auto sm:min-w-[24rem]">
+          <h2 className="inline-flex items-baseline text-[16px] font-semibold">
+            Process Elo
+            <HintIcon />
+          </h2>
+          <HintBox>
+            <b className="text-ink">The predictor&apos;s rating spine.</b> An
+            online rating updated after every match on what a side CREATED,
+            not on the result — a half-season of points predicts the next half
+            at 0.59, the process metrics at 0.78. It carries across seasons,
+            needs no seed, and is opponent-aware by construction, because the
+            update is a surprise against a specific opponent. Fitted K=
+            {elo.params.k}, home advantage {elo.params.home_adv}.
+          </HintBox>
+        </div>
         <button
           onClick={() => setAll((v) => !v)}
-          className="ml-auto rounded-full border border-line bg-card px-3 py-0.5 text-[12px] text-ink-2 hover:border-ink-3"
+          className="ml-auto rounded-full border border-line bg-card px-3 py-1 text-[12px] text-ink-2 hover:border-ink-3"
         >
           {all ? "current league only" : "include relegated clubs"}
         </button>

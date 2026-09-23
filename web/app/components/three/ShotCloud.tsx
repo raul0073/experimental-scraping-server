@@ -5,7 +5,23 @@ import { type ThreeEvent } from "@react-three/fiber";
 import { useMemo, useState } from "react";
 import * as THREE from "three";
 
+import { useLabelScale } from "./labelScale";
+
 import { PITCH_L, PITCH_W } from "./Pitch3D";
+/** THE SHOT ITSELF — the type, the colours and the geometry — now lives in
+ *  `shotMath.ts`, which imports no three, so the flat fallback can draw the
+ *  same shots in the same colours without the WebGL stack behind it.
+ *  Re-exported here so every existing import of them is unchanged. */
+export {
+  GOAL_W, GOAL_H, RESULT_COLOUR, RESULT_LABEL, corner, eyeOf, geometry,
+  goalEndOf, goalZOf, shotX, shotZ, xgRadius, type Shot,
+} from "./shotMath";
+import {
+  GOAL_W, GOAL_H, RESULT_COLOUR, RESULT_LABEL, eyeOf, geometry, goalEndOf,
+  goalZOf, shotX, shotZ, type Shot,
+} from "./shotMath";
+
+const POST = GOAL_W / 2;
 
 /** Shots on a pitch, and what the shooter could actually see.
  *
@@ -29,110 +45,6 @@ import { PITCH_L, PITCH_W } from "./Pitch3D";
  *  being attacked. Penalties sit at exactly (0.885, 0.500), which confirms
  *  both axes; which touchline y = 0 means is not settled by the data.
  */
-
-export const GOAL_W = 7.32;
-export const GOAL_H = 2.44;
-const POST = GOAL_W / 2;
-const GOAL_Z = PITCH_L / 2;
-
-export const shotX = (uy: number) => (uy - 0.5) * PITCH_W;
-export const shotZ = (ux: number) => (ux - 0.5) * PITCH_L;
-
-export type Shot = {
-  x: number; y: number; xg: number;
-  result: string; situation: string; foot: string;
-  minute: number; player: string; assist: string;
-  opponent: string; home: boolean;
-  /** where the ball crossed the line, in the goal's own frame: metres
-   *  across from the centre, and metres off the ground. Null for the one
-   *  shot in twenty the two feeds could not be matched on. */
-  gx: number | null; gz: number | null;
-};
-
-/** Which corner of the goal, in words — because "top left" is what anyone
- *  actually says, and a coordinate pair is not. */
-export function corner(gx: number, gz: number): string {
-  const side = gx < -0.9 ? "left" : gx > 0.9 ? "right" : "middle";
-  const tier = gz > 1.5 ? "top" : gz > 0.7 ? "mid" : "bottom";
-  if (side === "middle") return tier === "mid" ? "straight down the middle"
-    : `${tier}, down the middle`;
-  return `${tier} ${side}`;
-}
-
-export const RESULT_COLOUR: Record<string, string> = {
-  Goal: "#22c55e",
-  SavedShot: "#eab308",
-  ShotOnPost: "#f97316",
-  MissedShots: "#94a3b8",
-  BlockedShot: "#ef4444",
-  OwnGoal: "#a855f7",
-};
-
-export const RESULT_LABEL: Record<string, string> = {
-  Goal: "goal",
-  SavedShot: "saved",
-  ShotOnPost: "hit the post",
-  MissedShots: "off target",
-  BlockedShot: "blocked",
-  OwnGoal: "own goal",
-};
-
-/** WHICH GOAL THIS SHOT WAS GOING INTO.
- *
- *  Everything used to assume the far one, which is right for an attempt and
- *  wrong for the one case where the ball ended up in the other net. Understat
- *  files an own goal in the CONCEDING side's own shot list, at their own goal
- *  line — Piero Hincapié under Arsenal against Chelsea at x = 0.025 — so the
- *  wedge, the distance and the angle were all measured to a goal 100 metres
- *  from the one the ball crossed.
- *
- *  Making the target a property of the shot rather than a constant is also
- *  what a shots-faced panel beside a shots-taken one will need, since faced
- *  shots are attempts on the goal at the other end.
- */
-export const goalEndOf = (shot: Shot): 1 | -1 =>
-  shot.result === "OwnGoal" ? -1 : 1;
-export const goalZOf = (shot: Shot) => goalEndOf(shot) * GOAL_Z;
-
-/** The angle of goal available from a point, and the distance — the geometry
- *  an xG model is mostly built on, so the panel can state it. */
-export function geometry(sx: number, sz: number, gz: number = GOAL_Z) {
-  const a1 = Math.atan2(gz - sz, -POST - sx);
-  const a2 = Math.atan2(gz - sz, POST - sx);
-  let ang = Math.abs(a1 - a2);
-  if (ang > Math.PI) ang = Math.PI * 2 - ang;
-  return { deg: (ang * 180) / Math.PI, dist: Math.hypot(sx, gz - sz) };
-}
-
-/** Where to stand to see what he saw.
- *
- *  OVER HIS SHOULDER, NOT AT HIS EYE. Head height sounds right and is wrong:
- *  from 1.75m the ball itself — which is over a metre across for a big
- *  chance — sits directly between the camera and the goal and hides the
- *  whole route. The view has to clear it.
- *
- *  Both the drop back and the lift scale with how far out he was, because a
- *  tap-in and a thirty-yarder need very different framing: close in, a few
- *  metres back is plenty and the angle is wide; from distance you need to be
- *  much further back to get the goal and the ball in the same shot. */
-export function eyeOf(shot: Shot) {
-  const sx = shotX(shot.y);
-  const sz = shotZ(shot.x);
-  const gz = goalZOf(shot);
-  const dx = 0 - sx;
-  const dz = gz - sz;
-  const dist = Math.hypot(dx, dz) || 1;
-  const back = Math.max(9, dist * 0.55);
-  const lift = Math.max(4.5, dist * 0.30);
-  return {
-    pos: [sx - (dx / dist) * back, lift, sz - (dz / dist) * back] as
-      [number, number, number],
-    // aimed a little above the ground so the goal sits in the frame rather
-    // than at its very bottom edge
-    target: [sx * 0.25, GOAL_H * 0.6, gz - (dz / dist) * dist * 0.12] as
-      [number, number, number],
-  };
-}
 
 /** Geometry with a per-vertex RGBA, which is what lets the wedge FADE.
  *
@@ -165,6 +77,7 @@ const APEX = 0.04;    // at the ball, where every surface overlaps
 const MOUTH = 0.22;   // at the goal line, where it is a single sheet
 
 function Wedge({ shot }: { shot: Shot }) {
+  const ls = useLabelScale();
   const sx = shotX(shot.y);
   const sz = shotZ(shot.x);
   const gz = goalZOf(shot);
@@ -284,7 +197,7 @@ function Wedge({ shot }: { shot: Shot }) {
       <Html
         center
         position={[sx * 0.5 + perp[0] * 5, 1.3, sz + (gz - sz) * 0.5 + perp[1] * 5]}
-        distanceFactor={26}
+        distanceFactor={26 * ls}
         zIndexRange={[30, 0]}
       >
         <div className="num select-none whitespace-nowrap text-[15px] font-bold text-white"
@@ -298,7 +211,7 @@ function Wedge({ shot }: { shot: Shot }) {
       <Html
         center
         position={[0, GOAL_H + 2.4, gz]}
-        distanceFactor={42}
+        distanceFactor={42 * ls}
         zIndexRange={[30, 0]}
       >
         <span
@@ -318,6 +231,7 @@ function Wedge({ shot }: { shot: Shot }) {
  *  direction (dx, dz) is a local angle of atan2(-dz, dx) — the same sign
  *  flip that got the corner arcs wrong twice. */
 function AngleArc({ sx, sz, gz }: { sx: number; sz: number; gz: number }) {
+  const ls = useLabelScale();
   const { deg } = geometry(sx, sz, gz);
   const dz = gz - sz;
   const a1 = Math.atan2(-dz, -POST - sx);
@@ -341,7 +255,7 @@ function AngleArc({ sx, sz, gz }: { sx: number; sz: number; gz: number }) {
         center
         position={[sx + Math.cos(quarter) * (r + 1.3), 0.9,
                    sz - Math.sin(quarter) * (r + 1.3)]}
-        distanceFactor={19}
+        distanceFactor={19 * ls}
         zIndexRange={[30, 0]}
       >
         <div className="num select-none whitespace-nowrap text-[14px] font-bold text-white"
@@ -360,6 +274,7 @@ function Ball({
   onSelect: (i: number) => void;
 }) {
   const [hot, setHot] = useState(false);
+  const ls = useLabelScale();
   const sx = shotX(shot.y);
   const sz = shotZ(shot.x);
   // area, not radius: the cube root keeps a 0.40 chance about one and a half
@@ -405,7 +320,7 @@ function Ball({
           colour as its edge reads over anything, and the edge says which
           shot the label belongs to. */}
       {(hot || selected) && (
-        <Html center position={[0, r + 3.1, 0]} distanceFactor={16}
+        <Html center position={[0, r + 3.1, 0]} distanceFactor={16 * ls}
               zIndexRange={[30, 0]}>
           <div
             className="select-none whitespace-nowrap rounded-md px-2 py-1 text-center leading-tight"

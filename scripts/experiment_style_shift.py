@@ -414,6 +414,15 @@ def run_league(league: str, draws: int, rng: np.random.Generator) -> Dict[str, A
             new, old = opp_mean(i - SHORT_W, i), opp_mean(i - NEED, i - SHORT_W)
             r["opp_shift"] = (float(np.sqrt(np.mean(np.square(new - old))))
                               if new is not None and old is not None else None)
+
+            def behind(a: int, b: int):
+                num = sum(seq[j]["rec"]["min_state"]["behind"] for j in range(a, b))
+                den = sum(sum(seq[j]["rec"]["min_state"].values())
+                          for j in range(a, b))
+                return num / den if den else None
+
+            bn, bo = behind(i - SHORT_W, i), behind(i - NEED, i - SHORT_W)
+            r["state_shift"] = (bn - bo) if bn is not None and bo is not None else None
             rows.append(r)
 
     return {"league": league, "rows": rows, "changes": changes,
@@ -684,6 +693,26 @@ def main() -> None:
                           os_ > cuts[1])],
         }
 
+    # IS THE SHIFT JUST THE SCORELINE. A six-match window is also a results run,
+    # and a side that has been losing chases games: it passes longer, goes more
+    # direct, presses higher late. That is not a change of style, it is the same
+    # team in a worse position, and it would ride into any feature built on this.
+    # min_state comes stamped on the events, so the share of minutes spent behind
+    # is free — its shift is correlated against each metric's.
+    gs = np.array([[r["state_shift"]] for r in rows if r.get("state_shift") is not None])
+    if gs.size:
+        sel = [r for r in rows if r.get("state_shift") is not None]
+        g = np.array([r["state_shift"] for r in sel])
+        zs = np.array([r["z"] for r in sel])
+        out["game_state_confound"] = {
+            "behind_share_shift_sd": float(g.std()),
+            "corr_with_metric": {k: float(np.corrcoef(g, zs[:, KI[k]])[0, 1])
+                                 for k in STYLE_KEYS},
+            "corr_with_composite": float(np.corrcoef(
+                np.abs(g), [r["shift"] for r in sel])[0, 1]),
+            "n": len(sel),
+        }
+
     # the ten biggest, metric by metric, so an outlier can be read rather than
     # trusted — a single feed glitch would show as one metric carrying it all
     out["top_fixtures"] = [
@@ -737,6 +766,14 @@ def main() -> None:
             print(f"  opponents changed {['least', 'middling', 'most'][n]:<9s} "
                   f"(opp {t['opp_shift_median']:.3f})  team shift median "
                   f"{t['shift_median']:.3f}  p<=.05 {t['share_p_le_0.05']:.1%}")
+
+    gc = out.get("game_state_confound")
+    if gc:
+        print(f"\nIS IT JUST THE SCORELINE? shift in the share of minutes spent "
+              f"BEHIND: sd {gc['behind_share_shift_sd']:.3f}, "
+              f"|state shift| vs composite r={gc['corr_with_composite']:+.3f}")
+        print("  " + "  ".join(f"{k}={v:+.2f}" for k, v in
+                               gc["corr_with_metric"].items()))
 
     print("\nTHE TWELVE BIGGEST, METRIC BY METRIC")
     print(f"  {'team':<17s}{'date':<12s}{'shift':>6s}  "

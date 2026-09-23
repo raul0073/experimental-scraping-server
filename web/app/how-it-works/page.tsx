@@ -59,6 +59,107 @@ function Node({
   );
 }
 
+/** THE PIPELINE, ONCE, AS DATA.
+ *
+ *  Two renderings of one list, chosen by width — the same trick the ranking
+ *  table plays. The drawing is 720 units wide and a 375px phone scales that
+ *  to 0.47, which turns 13.5px labels into 6px: a diagram nobody can read is
+ *  not a diagram, it is a grey smudge that claims the page has a figure.
+ *  Below `sm` the same seven boxes stack as cards at full size, with the
+ *  fork drawn as a fork. Nothing is dropped, and the strings live in one
+ *  place so the two renderings cannot drift apart.
+ *
+ *  Geometry rides along with the copy because the boxes are individually
+ *  placed — they are not a grid, and splitting the two lists would only
+ *  invite one of them to fall out of step.
+ */
+const FLOW = [
+  {
+    x: 210, y: 12, w: 300, h: 50, fill: "#f3f4f6", stroke: "#d5d9dd",
+    title: "Every event", sub: "player · position · outcome · minute",
+  },
+  {
+    x: 170, y: 92, w: 380, h: 52, fill: "#f3f4f6", stroke: "#d5d9dd",
+    title: "Stamped with the state at that minute",
+    sub: "level · behind · ahead · a man down · late",
+  },
+  {
+    x: 190, y: 174, w: 340, h: 54, fill: "#e3eef7", stroke: "#b9d5e8",
+    title: "PLAYER RANKING", sub: "what he tried · won · controlled, by state",
+  },
+  {
+    x: 150, y: 258, w: 420, h: 58, fill: "#d8e8f4", stroke: "#4a7ba6",
+    title: "TEAM ZONES COMPUTE", sub: "a zone is the players who occupy it",
+    bold: true,
+  },
+  {
+    x: 78, y: 348, w: 272, h: 54, fill: "#faf0cd", stroke: "#e4d49a",
+    title: "Team v team stats", sub: "what they do, what they concede",
+    pair: true,
+  },
+  {
+    x: 370, y: 348, w: 272, h: 54, fill: "#e8f3ec", stroke: "#c2e0cd",
+    title: "Managerial edge", sub: "his own ranking, from his history",
+    pair: true,
+  },
+  {
+    x: 210, y: 438, w: 300, h: 52, fill: "#ffffff", stroke: "#d5d9dd",
+    title: "Predictor", sub: "only what passes the gate",
+  },
+];
+
+const FLOW_LABEL =
+  "Every event is stamped with the match state, becomes a player ranking, "
+  + "which computes the team's zones; that joins team counting stats and a "
+  + "managerial edge ranking to feed the predictor through a validation gate.";
+
+/** The phone rendering: the same seven boxes, stacked, at a size a thumb's
+ *  distance from the eye can actually read. The two that sit side by side in
+ *  the drawing sit side by side here too — they are a fork, and stacking
+ *  them into the chain would say the manager ranking feeds the team stats. */
+function FlowSteps() {
+  const card = (s: (typeof FLOW)[number]) => (
+    <div
+      key={s.title}
+      className="rounded-lg border p-3"
+      style={{ background: s.fill, borderColor: s.stroke }}
+    >
+      <div
+        className={`text-[13px] leading-snug ${s.bold ? "font-bold" : "font-semibold"}`}
+      >
+        {s.title}
+      </div>
+      <div className="mt-0.5 text-[11.5px] leading-snug text-ink-2">{s.sub}</div>
+    </div>
+  );
+  const down = (key: string) => (
+    <div key={key} aria-hidden className="py-1 text-center text-[13px] text-ink-3">
+      ↓
+    </div>
+  );
+  const pair = FLOW.filter((s) => s.pair);
+  const [a, b, c, d, , , last] = FLOW;
+
+  return (
+    // No `role="img"` here, unlike the drawing: this version is real text and
+    // a screen reader should read the steps themselves. Only one of the two
+    // is ever displayed, so nothing is announced twice.
+    <div className="sm:hidden">
+      {card(a)}
+      {down("1")}
+      {card(b)}
+      {down("2")}
+      {card(c)}
+      {down("3")}
+      {card(d)}
+      {down("4")}
+      <div className="grid grid-cols-2 gap-2">{pair.map(card)}</div>
+      {down("5")}
+      {card(last)}
+    </div>
+  );
+}
+
 /** The target pipeline: events locate every action, players own those
  *  actions, zones are the players who occupy them, and the team is what its
  *  zones add up to. */
@@ -72,9 +173,9 @@ function Flow() {
   return (
     <svg
       viewBox="0 0 720 512"
-      className="w-full"
+      className="hidden w-full sm:block"
       role="img"
-      aria-label="Every event is stamped with the match state, becomes a player ranking, which computes the team's zones; that joins team counting stats and a managerial edge ranking to feed the predictor through a validation gate."
+      aria-label={FLOW_LABEL}
     >
       <defs>
         <marker
@@ -97,22 +198,9 @@ function Flow() {
         </marker>
       </defs>
 
-      <Node x={210} y={12} w={300} h={50} fill="#f3f4f6" stroke="#d5d9dd"
-        title="Every event" sub="player · position · outcome · minute" />
-      <Node x={170} y={92} w={380} h={52} fill="#f3f4f6" stroke="#d5d9dd"
-        title="Stamped with the state at that minute"
-        sub="level · behind · ahead · a man down · late" />
-      <Node x={190} y={174} w={340} h={54} fill="#e3eef7" stroke="#b9d5e8"
-        title="PLAYER RANKING" sub="what he tried · won · controlled, by state" />
-      <Node x={150} y={258} w={420} h={58} fill="#d8e8f4" stroke="#4a7ba6"
-        title="TEAM ZONES COMPUTE"
-        sub="a zone is the players who occupy it" bold />
-      <Node x={78} y={348} w={272} h={54} fill="#faf0cd" stroke="#e4d49a"
-        title="Team v team stats" sub="what they do, what they concede" />
-      <Node x={370} y={348} w={272} h={54} fill="#e8f3ec" stroke="#c2e0cd"
-        title="Managerial edge" sub="his own ranking, from his history" />
-      <Node x={210} y={438} w={300} h={52} fill="#ffffff" stroke="#d5d9dd"
-        title="Predictor" sub="only what passes the gate" />
+      {FLOW.map((s) => (
+        <Node key={s.title} {...s} />
+      ))}
 
       <line x1={360} y1={62} x2={360} y2={88} {...arrow} />
       <line x1={360} y1={144} x2={360} y2={170} {...arrow} />
@@ -215,7 +303,7 @@ export default function HowItWorksPage() {
       ) : null}
 
       {/* ---------------------------------------------------------- today */}
-      <div className="mt-9 flex items-center gap-3">
+      <div className="mt-9 flex flex-wrap items-center gap-x-3 gap-y-2">
         <Tag tone="now">Running today</Tag>
         <h2 className="text-[18px] font-semibold">From shots to a published call</h2>
       </div>
@@ -338,7 +426,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* ------------------------------------------------- the event layer */}
-      <div className="mt-10 flex items-center gap-3">
+      <div className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2">
         <Tag tone="next">Built, not yet trusted</Tag>
         <h2 className="text-[18px] font-semibold">Zones as the unit</h2>
       </div>
@@ -370,8 +458,9 @@ export default function HowItWorksPage() {
         levels.
       </p>
 
-      <div className="mt-6 rounded-xl border border-line bg-card p-5">
+      <div className="mt-6 rounded-xl border border-line bg-card p-3 sm:p-5">
         <Flow />
+        <FlowSteps />
       </div>
 
       <div className="mt-5 grid gap-3 md:grid-cols-2">

@@ -1,14 +1,29 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 
 import { matchTeam } from "../../lib/teamName";
+import { FlatShots } from "./flat/FlatShots";
 import { PitchScene, defaultCam, type ViewName } from "./PitchScene";
+/** The maths and the colours come from the three-free module; the BALLS come
+ *  from the scene, and only when there is a scene. Importing `ShotCloud` here
+ *  for `RESULT_COLOUR` alone was enough to put the whole WebGL stack in the
+ *  versus page's first chunk — which is exactly the shape of bundle bug the
+ *  performance note warns about, since nothing looks wrong, it is just
+ *  600KB heavier than it needs to be. */
 import {
-  RESULT_COLOUR, RESULT_LABEL, ShotCloud, corner, eyeOf, geometry, goalEndOf,
+  RESULT_COLOUR, RESULT_LABEL, corner, eyeOf, geometry, goalEndOf,
   goalZOf, shotX, shotZ,
   type Shot,
-} from "./ShotCloud";
+} from "./shotMath";
+
+const ShotCloud = dynamic(
+  () => import("./ShotCloud").then((m) => m.ShotCloud),
+  // A DOM node would be invalid inside a Canvas, so the fallback is nothing
+  // and the scene's own placeholder covers the gap.
+  { ssr: false, loading: () => null },
+);
 
 /** A club's shots, on three quarters of a pitch, with the geometry on click. */
 
@@ -187,22 +202,28 @@ export function ShotView({
             {f.label}
           </button>
         ))}
+        {/* A NAME IS AS LONG AS IT IS. "Dominic Calvert-Lewin (34)" in a
+            select with no width limit makes the control wider than a phone
+            and takes the whole page with it, because a flex child's default
+            min-width is its content. `min-w-0` plus a cap is what stops the
+            page scrolling sideways; the select still shows the full name in
+            the native picker, which is where it is read. */}
         <select
           value={who}
           onChange={(e) => setWho(e.target.value)}
-          className="rounded-md border border-line bg-card px-2 py-0.5 text-[12px]"
+          className="min-w-0 max-w-[13rem] flex-1 truncate rounded-md border border-line bg-card px-2 py-0.5 text-[12px] sm:flex-none"
         >
           <option value="">every player</option>
           {takers.map(([n, c]) => (
             <option key={n} value={n}>{n} ({c})</option>
           ))}
         </select>
-        <label className="flex items-center gap-1.5 text-[12px] text-ink-2">
+        <label className="flex shrink-0 items-center gap-1.5 text-[12px] text-ink-2">
           <input type="checkbox" checked={eye}
                  onChange={(e) => setEye(e.target.checked)} />
           shooter&apos;s eye
         </label>
-        <span className="ml-auto num text-[12.5px] text-ink-2">
+        <span className="num text-[12.5px] text-ink-2 sm:ml-auto">
           {shots.length} shots · {goals} goals ·{" "}
           {xgSum.toFixed(1)} xG
         </span>
@@ -222,6 +243,27 @@ export function ShotView({
             focus={focus}
             tune={tune}
             scene="shots"
+            /* THE FLAT MAP IS THE SAME SHOTS, and on a phone it is the one
+               that opens. It is handed the same filtered list and the same
+               selection, so switching between the two never changes what is
+               being looked at — only how. */
+            flat={
+              <FlatShots
+                shots={shots}
+                selected={selected}
+                onSelect={(i) => select(i)}
+                portion={portion}
+              />
+            }
+            flatNote={
+              <>
+                Flat, every attempt is the same size at the same xG wherever
+                it sits — which foreshortening takes away — and the angle of
+                goal is the true planar angle rather than a wedge seen from
+                an arbitrary seat. What only 3D has is the shooter&apos;s eye:
+                standing where he stood and seeing the goal he actually had.
+              </>
+            }
             caption={
               sel ? (
                 <span>
@@ -296,7 +338,12 @@ export function ShotView({
         </div>
 
         {!compact && (
-        <div className="w-[260px] shrink-0 rounded-xl border border-line bg-card p-4">
+        /* THE PANEL SITS UNDER THE PITCH ON A PHONE, not beside it. At 260px
+           fixed it is three quarters of a 375px screen, so the flex row put
+           it on its own line anyway — but as a 260px block in a 343px column,
+           stranded left with dead space beside it. Full width below `sm` and
+           the old fixed column above it. */
+        <div className="w-full shrink-0 rounded-xl border border-line bg-card p-4 sm:w-[260px]">
           {sel && geo ? (
             <>
               <div className="text-[11px] uppercase tracking-wider text-ink-3">

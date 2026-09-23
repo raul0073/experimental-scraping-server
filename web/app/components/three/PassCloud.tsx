@@ -5,6 +5,8 @@ import { type ThreeEvent } from "@react-three/fiber";
 import { useEffect, useMemo } from "react";
 import * as THREE from "three";
 
+import { useLabelScale } from "./labelScale";
+
 import { PITCH_L, PITCH_W, toX, toZ } from "./Pitch3D";
 
 /** Passes as ribbons on and over the pitch.
@@ -37,79 +39,19 @@ import { PITCH_L, PITCH_W, toX, toZ } from "./Pitch3D";
 const SEGS = 6;                       // per pass, arcing or not
 const FACES = SEGS * 2;               // triangles per pass
 const VERTS = (SEGS + 1) * 2;         // ribbon cross-sections, two each
-const BASE_Y = 0.1;                   // clear of the painted markings
 const WIDTH = 0.36;                   // ribbon half-width at the far end
 
-/** How high a lofted pass climbs. Proportional to its length, because a
- *  clipped ball forward and a goalkeeper's punt downfield are not the same
- *  shape, and capped so a 70m clearance does not leave the picture. */
-const CLIMB = 0.17;
-const CLIMB_MAX = 8.5;
-
-export type Pass = {
-  sx: number; sz: number; ex: number; ez: number;
-  flags: number;
-  player: string;
-  /** Who received it — INFERRED from the next event in the stream, since the
-   *  feed records no receiver. Empty when the pass was not completed, or
-   *  when an opponent got between the two. */
-  to: string;
-  minute: number;
-  opponent: string;
-  home: boolean;
-};
-
-/** Bit meanings, as the build script writes them. */
-export const BIT = {
-  ok: 1, air: 2, cross: 4, through: 8, key: 16,
-  assist: 32, set: 64, long: 128, big: 256, head: 512,
-} as const;
-
-/** The classes a reader actually asks about, in the order that decides
- *  which colour wins when a pass is several of them at once — an assist
- *  that was also a cross is an assist. */
-export const CLASSES = [
-  { key: "assist", label: "assist", colour: "#22c55e",
-    hit: (f: number) => !!(f & BIT.assist) },
-  { key: "key", label: "led to a shot", colour: "#f59e0b",
-    hit: (f: number) => !!(f & BIT.key) },
-  { key: "lost", label: "lost", colour: "#ef4444",
-    hit: (f: number) => !(f & BIT.ok) },
-  { key: "ok", label: "completed", colour: "#38bdf8",
-    hit: () => true },
-] as const;
-
-export const classOf = (f: number) => CLASSES.find((c) => c.hit(f))!;
-
-export const lengthOf = (p: Pass) =>
-  Math.hypot(((p.ex - p.sx) / 100) * PITCH_W, ((p.ez - p.sz) / 100) * PITCH_L);
-
-/** Scene-space start and end. The Opta conversion lives in Pitch3D and is
- *  imported, never re-derived — two copies of that arithmetic is how a
- *  pitch ends up mirrored in one view and not the other. */
-export function ends(p: Pass) {
-  return {
-    x0: toX(p.sz), z0: toZ(p.sx),
-    x1: toX(p.ez), z1: toZ(p.ex),
-  };
-}
-
-export function arcOf(p: Pass) {
-  const { x0, z0, x1, z1 } = ends(p);
-  const L = Math.hypot(x1 - x0, z1 - z0);
-  const h = p.flags & BIT.air ? Math.min(CLIMB * L, CLIMB_MAX) : 0;
-  return { x0, z0, x1, z1, L, h };
-}
-
-/** Point on a pass at 0..1 along it. */
-export function at(p: Pass, t: number): [number, number, number] {
-  const { x0, z0, x1, z1, h } = arcOf(p);
-  return [
-    x0 + (x1 - x0) * t,
-    BASE_Y + h * 4 * t * (1 - t),
-    z0 + (z1 - z0) * t,
-  ];
-}
+/** THE PASS ITSELF — the type, the flag bits, the classes and the flight
+ *  geometry (including BASE_Y and the climb) — now lives in `passMath.ts`,
+ *  which imports no three, so the flat fallback can colour the same passes
+ *  without the WebGL stack behind it. Re-exported here so every existing
+ *  import of them is unchanged. */
+export {
+  BIT, CLASSES, arcOf, at, classOf, ends, lengthOf, type Pass,
+} from "./passMath";
+import {
+  BASE_Y, BIT, CLASSES, CLIMB_MAX, arcOf, at, classOf, lengthOf, type Pass,
+} from "./passMath";
 
 const SHADOW_Y = 0.07;      // just under the ribbons, clear of the markings
 
@@ -229,6 +171,7 @@ export function PassCloud({
   selected: number;
   onSelect: (i: number) => void;
 }) {
+  const ls = useLabelScale();
   const sel = passes[selected];
 
   // HIDE THE REST, do not fade them. Two thousand ribbons at low opacity are
@@ -298,7 +241,7 @@ export function PassCloud({
               at(sel, 0.5)[1] + 2.6,
               at(sel, 0.5)[2],
             ]}
-            distanceFactor={18}
+            distanceFactor={18 * ls}
             zIndexRange={[30, 0]}
           >
             <div

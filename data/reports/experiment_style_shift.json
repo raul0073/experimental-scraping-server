@@ -156,6 +156,56 @@
       "share_p_le_0.01": 0.031099195710455763
     }
   },
+  "signal_size": {
+    "press_height": {
+      "observed_rms_sd": 0.8358673978547194,
+      "noise_rms_sd": 0.8225191768551021,
+      "real_rms_sd": 0.148783434904646,
+      "share_of_variance_real": 0.031683590317677424
+    },
+    "ppda": {
+      "observed_rms_sd": 0.8185959243834025,
+      "noise_rms_sd": 0.7734168009789044,
+      "real_rms_sd": 0.26818974510721866,
+      "share_of_variance_real": 0.107335943689645
+    },
+    "directness": {
+      "observed_rms_sd": 0.5817558243332299,
+      "noise_rms_sd": 0.4970099265394666,
+      "real_rms_sd": 0.30235901188300957,
+      "share_of_variance_real": 0.2701247356033935
+    },
+    "territory": {
+      "observed_rms_sd": 0.8315812153978586,
+      "noise_rms_sd": 0.7983463894062027,
+      "real_rms_sd": 0.23274526917782726,
+      "share_of_variance_real": 0.07833437512894331
+    },
+    "fast_break": {
+      "observed_rms_sd": 1.068655551380477,
+      "noise_rms_sd": 0.990310280508592,
+      "real_rms_sd": 0.40163445546330423,
+      "share_of_variance_real": 0.14124934213895962
+    },
+    "regain_time": {
+      "observed_rms_sd": 0.9550575297140242,
+      "noise_rms_sd": 0.9015141698745756,
+      "real_rms_sd": 0.31528889383993414,
+      "share_of_variance_real": 0.10898287984226568
+    },
+    "regain_5s": {
+      "observed_rms_sd": 0.9967046690965766,
+      "noise_rms_sd": 0.9418390446781443,
+      "real_rms_sd": 0.32612790637827493,
+      "share_of_variance_real": 0.10706387045195875
+    },
+    "pass_length": {
+      "observed_rms_sd": 0.7608849167965483,
+      "noise_rms_sd": 0.5708396438688279,
+      "real_rms_sd": 0.5030784805536807,
+      "share_of_variance_real": 0.4371530683003916
+    }
+  },
   "league_common_component": {
     "share_of_variance": {
       "press_height": 0.025525628884175054,
@@ -1762,6 +1812,21 @@
         "share_p_le_0.05": 0.09515418502202644
       }
     ]
+  },
+  "game_state_confound": {
+    "behind_share_shift_sd": 0.13834452471619768,
+    "corr_with_metric": {
+      "press_height": 0.06847274839481461,
+      "ppda": -0.04521107511285885,
+      "directness": -0.18102110819349035,
+      "territory": 0.1465874688308273,
+      "fast_break": -0.2277311707243274,
+      "regain_time": -0.07507118814088229,
+      "regain_5s": 0.049908426002137095,
+      "pass_length": -0.039909255990353415
+    },
+    "corr_with_composite": 0.055000178754221335,
+    "n": 3407
   },
   "top_fixtures": [
     {

@@ -5,6 +5,8 @@ import { useFrame, type ThreeEvent } from "@react-three/fiber";
 import { useRef, useState } from "react";
 import * as THREE from "three";
 
+import { useLabelScale } from "./labelScale";
+
 import { toX, toZ } from "./Pitch3D";
 
 /** Territory as paired columns standing ON the pitch.
@@ -65,6 +67,7 @@ function Column({
 }) {
   const ref = useRef<THREE.Mesh>(null);
   const [hot, setHot] = useState(false);
+  const ls = useLabelScale();
   // EVERY HOOK BEFORE THE FIRST RETURN. `useFrame` used to sit below the
   // guard, so an unrecognised cell key changed the number of hooks this
   // component ran and React tore the tree down — the column view appearing
@@ -128,7 +131,7 @@ function Column({
           and vanished. This uses the page's own font and cannot fail.
           `distanceFactor` keeps it scaling like something in the scene
           instead of staying a fixed size on screen as the camera pulls out. */}
-      <Html center position={[0, h + 2.4, 0]} distanceFactor={90} zIndexRange={[10, 0]}>
+      <Html center position={[0, h + 2.4, 0]} distanceFactor={90 * ls} zIndexRange={[10, 0]}>
         <span
           className="num select-none whitespace-nowrap rounded px-1 text-[13px] font-bold"
           style={{

@@ -41,13 +41,28 @@ import type { Row } from "./RankTable";
 // of the web. Widening the canvas while KEEPING the plot radius is what buys
 // the room: the shape stays the same size and the labels get somewhere to go.
 const SIZE = 460;
-const C = SIZE / 2;
 const R = 118;
 const LABEL_R = R + 20;
 
-function polar(i: number, n: number, radius: number): [number, number] {
+/** THE SAME PLOT WITH THE LABEL RING CUT AWAY, for a phone.
+ *
+ *  The labelled canvas is 460 units wide carrying a 118-unit plot, so two
+ *  thirds of it is the room the rim labels need. Scaled into the ~300px a
+ *  375px screen has to offer, an 8.5-unit label renders at about five and a
+ *  half pixels — present, unreadable, and stealing the width the shape
+ *  itself needs. Sixteen of them around a 300px circle would not fit legibly
+ *  at any size.
+ *
+ *  So below `sm` the rim is dropped and the plot fills the box instead. The
+ *  radar was never where the values were read — it is the one thing on the
+ *  page that shows two managers as SHAPES, compact against lopsided, and
+ *  that survives at 300px. Every axis name and every number is in the strip
+ *  directly below it, which is where a phone reader gets them. */
+const SIZE_BARE = 2 * (R + 10);
+
+function polar(i: number, n: number, radius: number, c: number): [number, number] {
   const ang = (i / n) * 2 * Math.PI - Math.PI / 2;
-  return [C + radius * Math.cos(ang), C + radius * Math.sin(ang)];
+  return [c + radius * Math.cos(ang), c + radius * Math.sin(ang)];
 }
 
 function Radar({
@@ -55,27 +70,32 @@ function Radar({
   series,
   hover,
   setHover,
+  bare = false,
 }: {
   axes: Metric[];
   series: Array<{ slot: Slot; label: string; pct: number[] }>;
   /** index of the spoke under the pointer, or null */
   hover: number | null;
   setHover: (i: number | null) => void;
+  /** drop the rim labels and the hover arms — see SIZE_BARE */
+  bare?: boolean;
 }) {
   const n = axes.length;
   const rings = [25, 50, 75, 100];
+  const size = bare ? SIZE_BARE : SIZE;
+  const C = size / 2;
   return (
     <svg
-      viewBox={`0 0 ${SIZE} ${SIZE}`}
-      className="mx-auto block h-auto w-full max-w-[460px]"
+      viewBox={`0 0 ${size} ${size}`}
+      className={`mx-auto block h-auto w-full ${bare ? "max-w-[300px]" : "max-w-[460px]"}`}
       role="img"
-      aria-label={`Style profile across ${n} axes for ${series.map((s) => s.label).join(" and ")}. Each axis is a percentile within this league; no axis has a good end.`}
+      aria-label={`Style profile across ${n} axes for ${series.map((s) => s.label).join(" and ")}. Each axis is a percentile within this league; no axis has a good end.${bare ? " The axis names and values are listed below the chart." : ""}`}
     >
       {rings.map((v) => (
         <polygon
           key={v}
           points={axes
-            .map((_, i) => polar(i, n, (v / 100) * R).join(","))
+            .map((_, i) => polar(i, n, (v / 100) * R, C).join(","))
             .join(" ")}
           fill="none"
           stroke={v === 50 ? "#c9d0d6" : "#eef0f2"}
@@ -84,14 +104,16 @@ function Radar({
         />
       ))}
       {axes.map((_, i) => {
-        const [x, y] = polar(i, n, R);
+        const [x, y] = polar(i, n, R, C);
         return (
           <line key={i} x1={C} y1={C} x2={x} y2={y} stroke="#eef0f2" strokeWidth={1} />
         );
       })}
 
       {series.map((s) => {
-        const pts = s.pct.map((v, i) => polar(i, n, (Math.max(0, Math.min(100, v)) / 100) * R));
+        const pts = s.pct.map((v, i) =>
+          polar(i, n, (Math.max(0, Math.min(100, v)) / 100) * R, C),
+        );
         return (
           <g key={s.slot}>
             <polygon
@@ -111,20 +133,20 @@ function Radar({
 
       {/* The hovered spoke, drawn over the web so it reads as picked out
           rather than as another grid line. */}
-      {hover !== null && (
+      {hover !== null && !bare && (
         <line
           x1={C}
           y1={C}
-          x2={polar(hover, n, R)[0]}
-          y2={polar(hover, n, R)[1]}
+          x2={polar(hover, n, R, C)[0]}
+          y2={polar(hover, n, R, C)[1]}
           stroke="#1f2429"
           strokeWidth="1"
           opacity="0.35"
         />
       )}
 
-      {axes.map((m, i) => {
-        const [x, y] = polar(i, n, LABEL_R);
+      {!bare && axes.map((m, i) => {
+        const [x, y] = polar(i, n, LABEL_R, C);
         const dx = x - C;
         const anchor = Math.abs(dx) < 12 ? "middle" : dx > 0 ? "start" : "end";
         const on = hover === i;
@@ -141,8 +163,8 @@ function Radar({
             <line
               x1={C}
               y1={C}
-              x2={polar(i, n, LABEL_R + 14)[0]}
-              y2={polar(i, n, LABEL_R + 14)[1]}
+              x2={polar(i, n, LABEL_R + 14, C)[0]}
+              y2={polar(i, n, LABEL_R + 14, C)[1]}
               stroke="transparent"
               strokeWidth="22"
             />
@@ -203,7 +225,60 @@ function StripRow({
 
   return (
     <div className="group/hint relative border-t border-line py-2">
-      <div className="grid grid-cols-[minmax(0,9rem)_1fr] items-center gap-3 sm:grid-cols-[minmax(0,11rem)_1fr]">
+      {/* ================================== phone: one bar per manager, stacked
+          FOUR TRACKS DO NOT FIT ON A PHONE. The opposed layout below spends
+          about 100px on the two value columns and 144px on the label, which
+          on a 375px screen leaves the two bars roughly thirteen pixels each —
+          a graphic that no longer encodes anything. Stacked, each bar gets
+          the full width and still runs 0-100 from a fixed left edge, so a
+          long bar still means "extreme for this league".
+          What is lost is the mirror: the two managers are read one above the
+          other rather than out from a shared centre. Both values, both
+          percentiles and both colours survive, which is everything the row
+          was carrying. */}
+      <div className="sm:hidden">
+        <div className="flex items-baseline gap-1 text-[12.5px] text-ink-2">
+          <span className="truncate">{m.label}</span>
+          {m.unit && (
+            <span className="shrink-0 text-[10px] text-ink-3">{m.unit}</span>
+          )}
+          <HintIcon />
+        </div>
+        {([["a", a, pa], ["b", b, pb]] as const).map(([slot, e, p]) =>
+          e ? (
+            <div
+              key={slot}
+              className="mt-1.5 grid grid-cols-[1.1rem_1fr_3.2rem] items-center gap-2"
+              title={tip(e, p)}
+            >
+              <span
+                aria-hidden
+                className="inline-flex h-4 w-4 items-center justify-center rounded text-[9px] font-semibold text-white"
+                style={{ background: PICK_COLOR[slot] }}
+              >
+                {slot.toUpperCase()}
+              </span>
+              <span className="relative block h-3 overflow-hidden rounded-full bg-[#f0f2f4]">
+                {p !== null && (
+                  <span
+                    className="absolute left-0 top-0 h-full rounded-full"
+                    style={{ width: `${p}%`, background: PICK_COLOR[slot] }}
+                  />
+                )}
+              </span>
+              <span
+                className="num truncate text-right text-[12px] font-medium"
+                style={{ color: PICK_COLOR[slot] }}
+              >
+                {fmtRaw(e.raw, m.unit)}
+              </span>
+            </div>
+          ) : null,
+        )}
+      </div>
+
+      {/* ============================= laptop: opposed bars from one centre */}
+      <div className="hidden grid-cols-[minmax(0,11rem)_1fr] items-center gap-3 sm:grid">
         <div className="flex min-w-0 items-baseline gap-1 text-[12.5px] text-ink-2">
           <span className="truncate">{m.label}</span>
           <HintIcon />
@@ -261,7 +336,7 @@ function StripRow({
       </div>
 
       {m.unit && (
-        <div className="grid grid-cols-[minmax(0,9rem)_1fr] gap-3 sm:grid-cols-[minmax(0,11rem)_1fr]">
+        <div className="hidden grid-cols-[minmax(0,11rem)_1fr] gap-3 sm:grid">
           <span />
           <span className="block text-center text-[10px] leading-none text-ink-3">
             {m.unit}
@@ -308,7 +383,7 @@ function Picker({
         value={value ?? ""}
         aria-label={`manager ${slot.toUpperCase()}`}
         onChange={(e) => onPick(slot, e.target.value)}
-        className="min-w-0 flex-1 rounded-md border border-line bg-card px-2 py-1"
+        className="h-11 min-w-0 flex-1 rounded-md border border-line bg-card px-2 sm:h-8"
       >
         {allowNone && <option value="">— nobody —</option>}
         {rows.map((r) => {
@@ -407,7 +482,7 @@ export function Fingerprint({
         </button>
         {/* Collapsed, the header still has to say what is inside it, or the
             row is a mystery box the reader has no reason to open. */}
-        <span className="num truncate text-[12.5px] text-ink-3">
+        <span className="num min-w-0 flex-1 truncate text-[12.5px] text-ink-3">
           {names || "pick two managers"}
         </span>
       </div>
@@ -436,12 +511,28 @@ export function Fingerprint({
         <div className="mt-4 grid gap-4 rounded-xl border border-line bg-card p-3 sm:p-4 lg:grid-cols-[380px_1fr] lg:gap-6">
           <div>
             {radarAxes.length >= 3 ? (
-              <Radar
-                axes={radarAxes}
-                series={series}
-                hover={hover}
-                setHover={setHover}
-              />
+              <>
+                {/* Two canvases, one shape. The phone gets the plot without
+                    the rim — see SIZE_BARE — and nothing to hover, because
+                    a touch screen has no pointer to hover with. */}
+                <div className="sm:hidden">
+                  <Radar
+                    axes={radarAxes}
+                    series={series}
+                    hover={null}
+                    setHover={() => {}}
+                    bare
+                  />
+                </div>
+                <div className="hidden sm:block">
+                  <Radar
+                    axes={radarAxes}
+                    series={series}
+                    hover={hover}
+                    setHover={setHover}
+                  />
+                </div>
+              </>
             ) : (
               <p className="text-[12.5px] text-ink-2">
                 Too few shared axes to draw a shape — the strip beside it
@@ -449,8 +540,10 @@ export function Fingerprint({
               </p>
             )}
             {/* The readout. Fixed height, so hovering does not shove the
-                legend and the strip below it down the page. */}
-            <div className="mt-1 flex min-h-[2.4rem] items-center justify-center px-2 text-center">
+                legend and the strip below it down the page. Pointer-only:
+                a phone reads the same numbers off the strip below, which is
+                why the bare radar can afford to drop its labels. */}
+            <div className="mt-1 hidden min-h-[2.4rem] items-center justify-center px-2 text-center sm:flex">
               {hover !== null && radarAxes[hover] ? (
                 <span className="text-[12px] leading-tight">
                   <b className="text-ink">{radarAxes[hover].label}</b>
@@ -483,6 +576,13 @@ export function Fingerprint({
                 </span>
               )}
             </div>
+            {/* What the phone's radar says for itself, since it carries no
+                names on its rim and no hover to ask with. */}
+            <p className="mt-1.5 px-2 text-center text-[11.5px] leading-snug text-ink-3 sm:hidden">
+              Each spoke is a percentile in this league and the dashed ring is
+              the median. The shape is the comparison; every axis is named with
+              its numbers in the list below.
+            </p>
             <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-[12px]">
               {series.map((s) => (
                 <span key={s.slot} className="inline-flex items-center gap-1.5">

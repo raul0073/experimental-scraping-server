@@ -93,6 +93,12 @@ export function PitchZones({
   values: Record<string, number | undefined>;
   title?: string;
   subtitle?: string;
+  /** THE WIDTH IT WANTS, NOT THE WIDTH IT TAKES. The map draws at this many
+   *  pixels where there is room and shrinks to its column where there is
+   *  not — a hard 260 is thirteen pixels wider than a 375px phone has to
+   *  give, and a figure that overflows takes the whole page sideways with
+   *  it. Nothing is dropped on the way down: every cell still prints its
+   *  number, because the pitch is a viewBox and scales whole. */
   width?: number;
   lo?: number;
   hi?: number;
@@ -100,14 +106,13 @@ export function PitchZones({
 }) {
   const [hover, setHover] = useState<string | null>(null);
   const height = Math.round((width * H) / W);
-  const px = width / W;   // viewBox units to pixels
   // left wing on the left: Opta y descends across the image
   const X = (y: number) => ((100 - y) / 100) * W;
   // attacking upwards: own goal at the bottom of the image
   const Y = (x: number) => ((100 - x) / 100) * H;
 
   return (
-    <figure className="m-0">
+    <figure className="m-0 min-w-0">
       {title && (
         <figcaption className="mb-1.5 text-[13px] font-medium text-ink">
           {title}
@@ -116,14 +121,20 @@ export function PitchZones({
           )}
         </figcaption>
       )}
-      <div className="relative" style={{ width }}>
+      <div className="relative w-full" style={{ maxWidth: width }}>
       <svg
         width={width}
         height={height}
         viewBox={`0 0 ${W} ${H}`}
         role="img"
         aria-label={title ?? "zone map"}
-        style={{ background: PITCH, borderRadius: 8, display: "block" }}
+        style={{
+          background: PITCH,
+          borderRadius: 8,
+          display: "block",
+          width: "100%",
+          height: "auto",
+        }}
       >
         {THIRDS.map((t) =>
           CHANNELS.map((c) => {
@@ -209,18 +220,22 @@ export function PitchZones({
         const t = THIRDS.find((z) => hover.startsWith(z.key));
         const c = CHANNELS.find((z) => hover.slice(1) === z.key);
         if (!t || !c) return null;
-        const cx = ((100 - (c.lo + c.hi) / 2) / 100) * W * px;
-        const cy = ((100 - (t.lo + t.hi) / 2) / 100) * H * px;
-        const left = Math.max(4, Math.min(width - 224, cx - 110));
-        const above = cy > height / 2;
+        /** IN PER CENT OF THE BOX, NOT IN PIXELS. The pitch now scales to its
+         *  column, so a card placed at `width / W` pixels sits over the wrong
+         *  cell on any screen where the drawing came out smaller than asked.
+         *  The clamp keeps the card inside the figure and is CSS rather than
+         *  arithmetic for the same reason. */
+        const cx = (X((c.lo + c.hi) / 2) / W) * 100;
+        const cy = (Y((t.lo + t.hi) / 2) / H) * 100;
+        const above = cy > 50;
         return (
           <span
             role="tooltip"
             className="pointer-events-none absolute z-30 w-56 rounded-lg border border-line bg-card p-2.5 text-left text-[11.5px] font-normal leading-relaxed text-ink-2 shadow-lg"
             style={{
-              left,
-              top: above ? undefined : cy + 14,
-              bottom: above ? height - cy + 14 : undefined,
+              left: `clamp(4px, calc(${cx}% - 110px), calc(100% - 228px))`,
+              top: above ? undefined : `calc(${cy}% + 14px)`,
+              bottom: above ? `calc(${100 - cy}% + 14px)` : undefined,
             }}
           >
             <b className="block text-ink">

@@ -600,8 +600,8 @@ function Inner({ slug, team }: { slug: string; team: string }) {
         ]}
       />
 
-      <div className="mt-2 flex flex-wrap items-end justify-between gap-6 border-b border-line pb-5">
-        <div className="flex items-center gap-4">
+      <div className="mt-2 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 border-b border-line pb-5">
+        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
           <Crest src={meta.crests?.[team] ?? ""} alt={team} size={56} />
           <div>
             <h1 className="font-display text-[28px] leading-tight tracking-[0.01em]">
@@ -650,7 +650,10 @@ function Inner({ slug, team }: { slug: string; team: string }) {
             )}
           </div>
         </div>
-        <div className="flex items-end gap-6">
+        {/* The period selector and both rings: wrapping and a tighter gap on
+            a phone, where 265px of controls was the widest thing in the
+            header and pushed the page off its own right edge. */}
+        <div className="flex flex-wrap items-end gap-x-5 gap-y-3 sm:gap-x-6">
           <label className="flex items-center gap-2 text-[12.5px] text-ink-2">
             period
             <select
@@ -892,7 +895,7 @@ function Inner({ slug, team }: { slug: string; team: string }) {
             ? "How much of the ball they have in each part of the pitch, measured against what a typical side manages THERE. Your attacking centre is the opponent's defensive centre, where they have it while playing out, so a flat midpoint would call every side in the league weak in its own attacking third."
             : "Where the chances against them BEGIN — the cell the ball was played from, not where the shot was hit. Mapping where shots are taken makes every side in the league red in front of its own goalkeeper, which is true and tells you nothing; this says where they are actually got at. Opta links 72% of shots back to the pass or carry that made them."}
         </p>
-        <div className="mt-4 flex flex-wrap items-start gap-8">
+        <div className="mt-4 flex flex-wrap items-start gap-6 sm:gap-8">
           <PitchZones
             values={zoneVals(club)}
             title={periodLabel}
@@ -904,13 +907,20 @@ function Inner({ slug, team }: { slug: string; team: string }) {
             explain={explain}
           />
           {spells.length > 0 && (
-            <div>
-              <label className="mb-1.5 flex items-center gap-2 text-[12.5px] text-ink-2">
+            <div className="min-w-0 max-w-full">
+              {/* A native select sizes itself to its WIDEST option, and these
+                  options are full legal names — "Vítor Manuel de Oliveira
+                  Lopes Pereira (38)" is wider than a 375px phone. A flex item
+                  will not shrink below that on its own (`min-width: auto`), so
+                  the label wraps and the select is allowed to give way; the
+                  chosen name still shows in full because the box is as wide as
+                  the row, and the options are a native dropdown either way. */}
+              <label className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12.5px] text-ink-2">
                 compare with
                 <select
                   value={withMgr}
                   onChange={(e) => setWithMgr(e.target.value)}
-                  className="rounded-md border border-line bg-card px-2 py-1"
+                  className="min-w-0 max-w-full flex-1 truncate rounded-md border border-line bg-card px-2 py-1 sm:flex-none"
                 >
                   <option value="">nobody</option>
                   {spells.map((sp) => (
@@ -995,7 +1005,7 @@ function Inner({ slug, team }: { slug: string; team: string }) {
           flipped, so a long wedge there means they concede few. Nothing here
           is style: how a side plays is on the table, not in this picture.
         </p>
-        <div className="mt-3 flex flex-wrap items-start gap-10">
+        <div className="mt-3 flex flex-wrap items-start gap-6 xl:gap-10">
           <div className="min-w-0">
             <Pizza
               slices={slices}
@@ -1046,7 +1056,7 @@ function Inner({ slug, team }: { slug: string; team: string }) {
         {!plots ? (
           <p className="mt-3 text-[12.5px] text-ink-3">Loading the maps…</p>
         ) : (
-          <div className="mt-4 flex flex-wrap gap-8">
+          <div className="mt-4 flex flex-wrap gap-6 sm:gap-8">
             <ShotMap
               shots={shotsFor.taken}
               title="Shots taken"
@@ -1078,7 +1088,61 @@ function Inner({ slug, team }: { slug: string; team: string }) {
             league&apos;s own squad-to-points line says what a squad that good
             is worth; the surplus is the rest.
           </p>
-          <div className="mt-3 overflow-x-auto rounded-xl border border-line bg-card">
+          {/* phone: one card per spell. The surplus is the column the whole
+              section is about and it is the last of six, so on a narrow
+              screen it is the one a sideways scroll hides. Here it sits
+              beside the name and the four numbers it came from are under it,
+              each still labelled. */}
+          <ul className="mt-3 space-y-2 sm:hidden">
+            {managerRows.map((r) => (
+              <li
+                key={r.spell}
+                className="rounded-xl border border-line bg-card p-3"
+              >
+                <div className="flex items-baseline justify-between gap-2">
+                  {/* flex, not a bare span: `truncate` needs a block to
+                      measure against, and the badge has to survive the
+                      name being cut rather than be cut with it. */}
+                  <span className="flex min-w-0 items-baseline text-[14px] font-medium">
+                    <span className="truncate">{r.manager}</span>
+                    {r.short && (
+                      <span className="ml-1.5 shrink-0 whitespace-nowrap text-[10.5px] font-normal text-ink-3">
+                        short spell
+                      </span>
+                    )}
+                  </span>
+                  <span
+                    className={`num shrink-0 text-[15px] font-semibold ${
+                      r.surplus > 0.12
+                        ? "text-good"
+                        : r.surplus < -0.12
+                          ? "text-bad"
+                          : "text-ink-3"
+                    }`}
+                    title="Points a match above or below what the league's squad-to-points line expects."
+                  >
+                    {r.surplus > 0 ? "+" : ""}
+                    {r.surplus.toFixed(2)}
+                  </span>
+                </div>
+                <dl className="mt-2 grid grid-cols-4 gap-x-2 border-t border-line pt-2 text-[11.5px]">
+                  {[
+                    { k: "matches", v: String(r.matches) },
+                    { k: "squad", v: r.squad.toFixed(0) },
+                    { k: "expected", v: r.expected.toFixed(2) },
+                    { k: "actual", v: r.pts.toFixed(2) },
+                  ].map((c) => (
+                    <div key={c.k}>
+                      <dt className="text-ink-3">{c.k}</dt>
+                      <dd className="num mt-0.5 text-[13px]">{c.v}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-3 hidden overflow-x-auto rounded-xl border border-line bg-card sm:block">
             <table className="w-full text-[13px]">
               <thead>
                 <tr className="bg-[#f7f8f9] text-[11px] uppercase tracking-wider text-ink-3">
@@ -1152,7 +1216,56 @@ function Inner({ slug, team }: { slug: string; team: string }) {
             In the order they held the job. Every number opponent-adjusted, so
             a manager is not flattered by an easy run of fixtures.
           </p>
-          <div className="mt-3 overflow-x-auto rounded-xl border border-line bg-card">
+          {/* phone: one card per spell, the metrics as a two-column list.
+              This table is four columns plus EVERY quality metric — a dozen
+              of them — so it is the widest thing on the page by some way.
+              Nothing is dropped: every metric that has a column has a row
+              here, with the same opponent-adjusted number in it. */}
+          <ul className="mt-3 space-y-2 sm:hidden">
+            {spells.map((sp) => (
+              <li
+                key={String(sp.spell)}
+                className="rounded-xl border border-line bg-card p-3"
+              >
+                <div className="flex items-baseline justify-between gap-2">
+                  <span className="min-w-0 truncate text-[14px] font-medium">
+                    {String(sp.manager)}
+                  </span>
+                  <span className="num shrink-0 text-[11.5px] text-ink-3">
+                    from {String(sp.start ?? "").slice(0, 7)} ·{" "}
+                    {String(sp.matches)} mt
+                  </span>
+                </div>
+                <div className="num mt-1 text-[12.5px]">
+                  <span className="text-ink-3">pts a match </span>
+                  <span className="font-semibold">
+                    {typeof sp.pts === "number" ? sp.pts.toFixed(2) : "—"}
+                  </span>
+                </div>
+                <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 border-t border-line pt-2">
+                  {quality.map((m) => {
+                    const v = sp[`${m.key}_adj`] ?? sp[m.key];
+                    return (
+                      <div
+                        key={m.key}
+                        className="flex min-w-0 items-baseline justify-between gap-2"
+                        title={m.desc}
+                      >
+                        <dt className="min-w-0 truncate text-[11.5px] text-ink-2">
+                          {m.label}
+                        </dt>
+                        <dd className="num shrink-0 text-[12px]">
+                          {typeof v === "number" ? v.toFixed(2) : "—"}
+                        </dd>
+                      </div>
+                    );
+                  })}
+                </dl>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-3 hidden overflow-x-auto rounded-xl border border-line bg-card sm:block">
             <table className="w-full text-[13px]">
               <thead>
                 <tr className="bg-[#f7f8f9] text-[11px] uppercase tracking-wider text-ink-3">

@@ -14,7 +14,7 @@
  *  late one and a slider would assert that it is.
  */
 
-import { BUDGET } from "./scoreUi";
+import { BUDGET, SLIDER } from "./scoreUi";
 import { HintBox, HintIcon } from "./Hint";
 import {
   type Metric,
@@ -142,7 +142,7 @@ export function WeightEditor({
                           value={w}
                           aria-label={`${m.label} weight`}
                           onChange={(e) => setWeight(m.key, Number(e.target.value))}
-                          className="w-full accent-[#4a7ba6]"
+                          className={SLIDER}
                         />
                       </div>
                     );

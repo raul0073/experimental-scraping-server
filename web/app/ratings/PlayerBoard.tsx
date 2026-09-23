@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Info } from "../components/Info";
 import { posLabel, posShort } from "../lib/positions";
 
+import { HintBox, HintIcon } from "./Hint";
 import {
   type Data,
   type Player,
@@ -15,7 +16,8 @@ import {
 } from "./RatingsData";
 import {
   ActiveFilters, BUDGET, CHECK_BOX, FILTER_BAR, Field, MARGINAL,
-  RELIABLE, SELECT, SPREAD_PLAYER, ScoreRing, THIN_N, scoreColor, tint,
+  RELIABLE, SELECT, SLIDER, SPREAD_PLAYER, ScoreRing, SortControl, THIN_N,
+  scoreColor, tint,
 } from "./scoreUi";
 
 /** The combined table: every player, each scored on the config for his own
@@ -140,6 +142,65 @@ function relDot(repeat?: Rel, self?: Rel) {
 const SIDE_TAG: Record<string, string> = {
   R: "R", L: "L", C: "—", RL: "R/L", LR: "R/L",
 };
+
+/** The four states a reliability dot can be in, said once.
+ *
+ *  Written as data rather than as markup because the panel has to render it
+ *  twice — four separate popovers where there is room for them, one pooled
+ *  hint on a phone where there is not — and two copies of four paragraphs is
+ *  two places to correct a figure and one place to forget. */
+const REL_LEGEND: { dot: string; word: string; body: React.ReactNode }[] = [
+  {
+    dot: "bg-good",
+    word: "repeats",
+    body: (
+      <>
+        <b className="text-ink">Repeats — rank correlation 0.60+.</b> The same
+        players finish top of this metric season after season, so it is
+        describing the footballer rather than the year he had. Take-ons for a
+        winger sit at 0.79: Salah runs at people every season.
+      </>
+    ),
+  },
+  {
+    dot: "bg-[#c99a1e]",
+    word: "marginal",
+    body: (
+      <>
+        <b className="text-ink">Marginal — 0.40 to 0.60.</b> Some of last
+        season&apos;s order survives into this one, a lot of it does not. Worth
+        a small weight, not a big one. Interceptions for a full-back sit here
+        at 0.46.
+      </>
+    ),
+  },
+  {
+    dot: "bg-bad",
+    word: "noise",
+    body: (
+      <>
+        <b className="text-ink">Noise — below 0.40.</b> Where a player ranked
+        last season tells you nothing about where he ranks this season. Almost
+        always a success <em>rate</em>: whether a duel came off depends more on
+        who he faced than on him. Tackle success for a centre-back is −0.12,
+        worse than a coin flip, while tackles attempted holds at 0.58.
+      </>
+    ),
+  },
+  {
+    dot: "border border-ink-3",
+    word: "untested",
+    body: (
+      <>
+        <b className="text-ink">Untested — not yet checkable.</b> The test
+        needs the same player in the same role in two consecutive seasons, and
+        too few qualify in this bucket — only eight men held down wing-back for
+        a season. Unknown, not failed, so it is left uncoloured rather than
+        being called good or bad. More seasons on disk clears it.
+      </>
+    ),
+  },
+];
 
 
 function sumWeights(w: Record<string, number>): number {
@@ -489,6 +550,31 @@ export function PlayerBoard() {
   const bucket = data.buckets.find((b) => b.key === pos);
   const isTotal = view === "total";
 
+  /** THE CARD LIST HAS NO COLUMN HEADERS TO CLICK, so every sort the table
+   *  offers is offered again as a list, in the order the columns run. A sort
+   *  you cannot reach is a column you have lost, which is the thing the small
+   *  layout is not allowed to do. */
+  const sortOptions: [string, string][] = [
+    ["score", "Score"],
+    ["n", "Player"],
+    ...(isAll ? ([["p", "Position"]] as [string, string][]) : []),
+    ["t", "Team"],
+    ["s", "Side"],
+    ...cols.map((c) => [c, byKey[c]?.label ?? c] as [string, string]),
+    ...(isTotal
+      ? ([["floor", "Floor"], ["swing", "Swing"]] as [string, string][])
+      : []),
+    ["m", "Minutes"],
+  ];
+  /** The same rule the table headers use: a fresh name column opens A-Z, a
+   *  fresh number column opens best-first. */
+  const pickSort = (key: string, dir: 1 | -1) =>
+    setSort({
+      key,
+      dir:
+        key === sort.key ? dir : key === "n" || key === "t" || key === "s" || key === "p" ? 1 : -1,
+    });
+
   const byBucket = Object.fromEntries(data.buckets.map((b) => [b.key, b]));
   const zonedKeys = new Set(ZONES.flatMap((z) => z.keys));
   // Anything the zone map does not know about still gets a home, so adding a
@@ -546,7 +632,7 @@ export function PlayerBoard() {
         key={key}
         title={title}
         onClick={() => onPill(key)}
-        className={`rounded-full border px-3 py-1 text-[12.5px] font-medium transition-colors ${
+        className={`rounded-full border px-3 py-2 text-[12.5px] font-medium transition-colors sm:py-1 ${
           on
             ? "border-home bg-[#e9f1f8] text-[#1c5b8a] shadow-[0_1px_2px_rgba(28,91,138,0.12)]"
             : "border-transparent bg-card/70 text-ink-2 hover:border-ink-3 hover:bg-card"
@@ -610,7 +696,15 @@ export function PlayerBoard() {
           four labels cost about 240px of the rail's width and pushed Attack
           onto a second line; stacked they cost nothing, because each label is
           narrower than the pills beneath it. All nine positions then fit on
-          one row, which is the whole point of grouping them. */}
+          one row, which is the whole point of grouping them.
+
+          ON A PHONE THE ROW BECOMES A COLUMN OF ROWS. The pills carry full
+          names — "Defensive midfield" is a 139px pill — so the midfield group
+          alone is about 425px wide and the page scrolled sideways behind it.
+          Each zone takes a line of its own below `sm` (`basis-full`) and its
+          pills wrap inside that line, so the group is what breaks rather than
+          the viewport. The names stay: a reader who does not already know
+          that AW is a winger is exactly the reader the rail is for. */}
       <div className="flex flex-wrap items-end gap-2">
         <span className="mb-1.5">
           {posPill(
@@ -627,23 +721,23 @@ export function PlayerBoard() {
           return (
             <div
               key={zone.label}
-              className={`flex flex-col gap-1 rounded-xl border border-line ${zone.tint} px-2 py-1.5`}
+              className={`flex basis-full flex-col gap-1 rounded-xl border border-line ${zone.tint} px-2 py-1.5 sm:basis-auto`}
             >
               <span className="px-1 text-[9.5px] font-semibold uppercase tracking-[0.08em] text-ink-3">
                 {zone.label}
               </span>
-              <div className="flex items-center gap-1.5">
+              <div className="flex flex-wrap items-center gap-1.5">
                 {inZone.map((b) => posPill(b.key, b.label, b.desc))}
               </div>
             </div>
           );
         })}
         {unzoned.length > 0 && (
-          <div className="flex flex-col gap-1 rounded-xl border border-line bg-[#f5f5f5] px-2 py-1.5">
+          <div className="flex basis-full flex-col gap-1 rounded-xl border border-line bg-[#f5f5f5] px-2 py-1.5 sm:basis-auto">
             <span className="px-1 text-[9.5px] font-semibold uppercase tracking-[0.08em] text-ink-3">
               Other
             </span>
-            <div className="flex items-center gap-1.5">
+            <div className="flex flex-wrap items-center gap-1.5">
               {unzoned.map((b) => posPill(b.key, b.label, b.desc))}
             </div>
           </div>
@@ -806,10 +900,10 @@ export function PlayerBoard() {
 
       {/* ==================================================== the config */}
       <section className="mt-4 rounded-xl border border-line bg-card">
-        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 border-b border-line px-4 py-3">
+        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 border-b border-line px-3 py-3 sm:px-4">
           <button
             onClick={() => setConfigOpen((o) => !o)}
-            className="flex items-baseline gap-1.5 text-[14px] font-semibold hover:text-home"
+            className="flex items-baseline gap-1.5 text-left text-[14px] font-semibold hover:text-home"
           >
             <span className="text-ink-3">{configOpen ? "▾" : "▸"}</span>
             What counts as good — and you decide
@@ -841,53 +935,45 @@ export function PlayerBoard() {
               style={{ width: `${Math.min(100, (spent / BUDGET) * 100)}%` }}
             />
           </div>
-          <div className="ml-auto flex flex-wrap items-center gap-x-3 gap-y-1 text-[10.5px] text-ink-3">
-            <span className="flex items-center gap-1">
-              <i className="inline-block h-2 w-2 rounded-full bg-good" /> repeats
-              <Info>
-                <b className="text-ink">Repeats — rank correlation 0.60+.</b> The
-                same players finish top of this metric season after season, so
-                it is describing the footballer rather than the year he had.
-                Take-ons for a winger sit at 0.79: Salah runs at people every
-                season.
-              </Info>
-            </span>
-            <span className="flex items-center gap-1">
-              <i className="inline-block h-2 w-2 rounded-full bg-[#c99a1e]" /> marginal
-              <Info>
-                <b className="text-ink">Marginal — 0.40 to 0.60.</b> Some of
-                last season&apos;s order survives into this one, a lot of it
-                does not. Worth a small weight, not a big one. Interceptions
-                for a full-back sit here at 0.46.
-              </Info>
-            </span>
-            <span className="flex items-center gap-1">
-              <i className="inline-block h-2 w-2 rounded-full bg-bad" /> noise
-              <Info>
-                <b className="text-ink">Noise — below 0.40.</b> Where a player
-                ranked last season tells you nothing about where he ranks this
-                season. Almost always a success <em>rate</em>: whether a duel
-                came off depends more on who he faced than on him. Tackle
-                success for a centre-back is −0.12, worse than a coin flip,
-                while tackles attempted holds at 0.58.
-              </Info>
-            </span>
-            <span className="flex items-center gap-1">
-              <i className="inline-block h-2 w-2 rounded-full border border-ink-3" /> untested
-              <Info>
-                <b className="text-ink">Untested — not yet checkable.</b> The
-                test needs the same player in the same role in two consecutive
-                seasons, and too few qualify in this bucket — only eight men
-                held down wing-back for a season. Unknown, not failed, so it
-                is left uncoloured rather than being called good or bad. More
-                seasons on disk clears it.
-              </Info>
-            </span>
+          {/* THE SAME FOUR STATES, TWO RENDERINGS.
+              On a laptop each dot carries its own popover. On a phone it
+              cannot: `Info` is a fixed 288px box hung off a 14px circle, so
+              the fourth dot's popover would start 250px into a 327px column
+              and run off the right edge — which scrolls the whole page
+              sideways — while the first one's runs off the left. Below `sm`
+              the four explanations become one row-anchored hint instead,
+              which is as wide as the row and cannot overflow either way. */}
+          <div className="ml-auto hidden flex-wrap items-center gap-x-3 gap-y-1 text-[10.5px] text-ink-3 sm:flex">
+            {REL_LEGEND.map((r) => (
+              <span key={r.word} className="flex items-center gap-1">
+                <i className={`inline-block h-2 w-2 rounded-full ${r.dot}`} />{" "}
+                {r.word}
+                <Info>{r.body}</Info>
+              </span>
+            ))}
+          </div>
+          <div className="group/hint relative basis-full sm:hidden">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10.5px] text-ink-3">
+              {REL_LEGEND.map((r) => (
+                <span key={r.word} className="flex items-center gap-1">
+                  <i className={`inline-block h-2 w-2 rounded-full ${r.dot}`} />{" "}
+                  {r.word}
+                </span>
+              ))}
+              <HintIcon />
+            </div>
+            <HintBox>
+              {REL_LEGEND.map((r) => (
+                <span key={r.word} className="mt-1.5 block first:mt-0">
+                  {r.body}
+                </span>
+              ))}
+            </HintBox>
           </div>
         </div>
 
         {configOpen && isAll && (
-          <div className="p-4 text-[12.5px] leading-relaxed text-ink-2">
+          <div className="p-3 text-[12.5px] leading-relaxed text-ink-2 sm:p-4">
             There is no single set of weights that means anything across nine
             positions — a keeper cannot be scored on take-ons. So the combined
             table scores every player on his own bucket&apos;s config. Pick a
@@ -896,7 +982,7 @@ export function PlayerBoard() {
           </div>
         )}
         {configOpen && !isAll && (
-        <div className="p-4">
+        <div className="p-3 sm:p-4">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px]">
             <span className="text-ink-3">
               {left === 0
@@ -921,6 +1007,7 @@ export function PlayerBoard() {
                 type="checkbox"
                 checked={blockUnreliable}
                 onChange={(e) => setBlockUnreliable(e.target.checked)}
+                className="h-4 w-4 accent-home"
               />
               ignore metrics that don&apos;t repeat
             </label>
@@ -932,6 +1019,7 @@ export function PlayerBoard() {
                 type="checkbox"
                 checked={padj}
                 onChange={(e) => setPadj(e.target.checked)}
+                className="h-4 w-4 accent-home"
               />
               adjust for possession
             </label>
@@ -952,7 +1040,7 @@ export function PlayerBoard() {
                 value={durability}
                 disabled={!isTotal}
                 onChange={(e) => setDurability(Number(e.target.value))}
-                className="w-24 accent-[#4a7ba6] disabled:opacity-40"
+                className="h-11 w-24 cursor-pointer touch-manipulation accent-[#4a7ba6] disabled:opacity-40 sm:h-5"
               />
               <span className="num w-8 text-[11.5px] text-ink-3">{durability}%</span>
             </label>
@@ -999,48 +1087,58 @@ export function PlayerBoard() {
                         const w = weights[m.key] ?? 0;
                         return (
                           <div key={m.key} className="mt-2">
-                            <div className="flex items-baseline justify-between gap-2">
-                              {/* No `title` here: the Info icon sits inside
-                                  this span, so a native tooltip on the parent
-                                  fires over the popover and hides it. */}
+                            {/* ROW-ANCHORED, NOT ICON-ANCHORED. This used to
+                                be `Info align="left"`, a fixed 288px box
+                                starting wherever the icon landed — which on a
+                                phone is 150px into a 300px column, so the
+                                popover hung 130px off the right of the screen
+                                and took the whole page's horizontal scroll
+                                with it. `Hint` is as wide as this row at any
+                                viewport, and the row is the hover target
+                                rather than a 14px circle.
+                                No `title` on the label span either: a native
+                                tooltip fires over the popover and hides it. */}
+                            <div className="group/hint relative flex items-baseline justify-between gap-2">
                               <span
-                                className={`flex items-baseline gap-1.5 text-[12.5px] ${tone.cls}`}
+                                className={`flex min-w-0 items-baseline gap-1.5 text-[12.5px] ${tone.cls}`}
                               >
                                 <i
                                   className={`inline-block h-2 w-2 shrink-0 translate-y-[-1px] rounded-full ${relDot(rel(m.key), selfRel(m.key))}`}
                                 />
                                 {m.label}
                                 {m.invert ? " ↓" : ""}
-                                <Info align="left">
-                                  <b className="text-ink">{m.label}</b>
-                                  {m.invert ? " — lower is better." : "."}{" "}
-                                  {m.desc}
-                                  <span className="mt-1.5 block border-t border-line pt-1.5">
-                                    <b className="text-ink">
-                                      For {bucket?.label.toLowerCase() ?? pos}:
-                                    </b>{" "}
-                                    {rel(m.key)
-                                      ? `repeats season to season at ${rel(m.key)!.rho} (${rel(m.key)!.n} players).`
-                                      : "not yet testable across seasons — too few players have held this role twice."}{" "}
-                                    {selfRel(m.key)
-                                      ? `Agrees with itself inside a season at ${selfRel(m.key)!.rho} (${selfRel(m.key)!.n}).`
-                                      : ""}
-                                  </span>
-                                </Info>
+                                <HintIcon />
                               </span>
                               <span className="num text-[11.5px] text-ink-3">
                                 {w}
                               </span>
+                              <HintBox>
+                                <b className="text-ink">{m.label}</b>
+                                {m.invert ? " — lower is better." : "."}{" "}
+                                {m.desc}
+                                <span className="mt-1.5 block border-t border-line pt-1.5">
+                                  <b className="text-ink">
+                                    For {bucket?.label.toLowerCase() ?? pos}:
+                                  </b>{" "}
+                                  {rel(m.key)
+                                    ? `repeats season to season at ${rel(m.key)!.rho} (${rel(m.key)!.n} players).`
+                                    : "not yet testable across seasons — too few players have held this role twice."}{" "}
+                                  {selfRel(m.key)
+                                    ? `Agrees with itself inside a season at ${selfRel(m.key)!.rho} (${selfRel(m.key)!.n}).`
+                                    : ""}
+                                </span>
+                              </HintBox>
                             </div>
                             <input
                               type="range"
                               min={0}
                               max={40}
                               value={w}
+                              aria-label={`${m.label} weight`}
                               onChange={(e) =>
                                 setWeight(m.key, Number(e.target.value))
                               }
-                              className="w-full accent-[#4a7ba6]"
+                              className={SLIDER}
                             />
                           </div>
                         );
@@ -1055,8 +1153,154 @@ export function PlayerBoard() {
         )}
       </section>
 
-      {/* ===================================================== the board */}
-      <div className="mt-6 overflow-x-auto rounded-xl border border-line bg-card">
+      {/* ===================================================== the board
+          TWO RENDERINGS OF ONE LIST, the way RankTable does it. Up to
+          thirteen columns is the right shape on a laptop and an unreadable
+          one on a phone: the name and the club alone eat a 375px screen
+          before the score ring, six weighted metrics, the floor and the
+          minutes have been asked for. Below `sm` the same rows come out as
+          cards with an explicit sort control, and NOTHING is dropped —
+          every column of the table is a line or a cell of the card. */}
+      <div className="sm:hidden">
+        {rows.length ? (
+          <>
+            <SortControl
+              options={sortOptions}
+              value={sort.key}
+              dir={sort.dir}
+              onChange={pickSort}
+            />
+            <ul className="mt-3 space-y-2.5">
+              {rows.slice(0, 60).map((p, i) => {
+                const vals = padj ? p.va : p.v;
+                const pcts = padj ? p.qa : p.q;
+                return (
+                  <li
+                    key={`${p.n}-${p.p}`}
+                    className="rounded-xl border border-line bg-card p-3"
+                  >
+                    <div className="flex items-start gap-2.5">
+                      <span className="num pt-1 text-[12px] text-ink-3">
+                        {i + 1}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <div className="truncate text-[14px] font-medium">
+                          {p.n}
+                        </div>
+                        <div className="mt-0.5 flex flex-wrap items-baseline gap-x-1.5 text-[12.5px] text-ink-2">
+                          <span className="truncate">{p.t}</span>
+                          {p.lg && (
+                            <span className="rounded border border-line px-1 py-px text-[10px] text-ink-3">
+                              {p.lg}
+                            </span>
+                          )}
+                          {p.tn && (
+                            <span
+                              className="text-[11px] text-ink-3"
+                              title={`This row is his time at ${p.t}. He plays for ${p.tn} now.`}
+                            >
+                              → {p.tn}
+                            </span>
+                          )}
+                        </div>
+                        <div className="num mt-0.5 text-[11.5px] text-ink-3">
+                          <span title={posLabel(p.p)}>{posShort(p.p)}</span>
+                          {" · "}
+                          {SIDE_TAG[p.s] ?? p.s}
+                          {" · "}
+                          {p.m.toLocaleString()} min
+                        </div>
+                      </div>
+                      <span
+                        className="shrink-0 text-ink"
+                        title={`${p.score.toFixed(0)} of 100 among ${p.p}s on your config.
+Underlying composite ${p.rawScore.toFixed(1)} — his average percentile across the weighted metrics, which is why it sits nearer the middle: nobody is top-10% at ten independent things at once.`}
+                      >
+                        <ScoreRing score={p.score} />
+                      </span>
+                    </div>
+
+                    {isTotal && (
+                      <div className="mt-2 flex items-baseline gap-4 border-t border-line pt-2 text-[11.5px] text-ink-3">
+                        <span title="His worst single season, as a percentile in his position. The dependability question: how bad does he get?">
+                          floor{" "}
+                          <span className="num text-ink-2">
+                            {p.floor === null || p.seasons < 2
+                              ? "—"
+                              : p.floor.toFixed(0)}
+                          </span>
+                        </span>
+                        <span
+                          title={
+                            p.seasons === 1
+                              ? "only one season on record"
+                              : `best season minus worst, across ${p.seasons} seasons`
+                          }
+                        >
+                          swing{" "}
+                          {p.swing === null ? (
+                            <span className="num">—</span>
+                          ) : (
+                            <span
+                              className={`num ${p.swing <= 12 ? "text-good" : p.swing >= 35 ? "text-bad" : "text-ink-2"}`}
+                            >
+                              {p.swing.toFixed(0)}
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                    )}
+
+                    {cols.length > 0 && (
+                      // ONE COLUMN ON A NARROW PHONE. The metric names here
+                      // are sentences — "Shoots from in the box", "Takes his
+                      // big chances", up to 37 characters — and two columns
+                      // of a 303px card leaves 133px a cell, which truncates
+                      // every one of them to the first two words. A name cut
+                      // down to "Shoots from i…" is not a shorter label, it
+                      // is a different metric. They get the full width until
+                      // there is room for two, which is about 520px.
+                      <dl className="mt-2 grid grid-cols-1 gap-x-3 gap-y-1 min-[520px]:grid-cols-2">
+                        {cols.map((c) => (
+                          <div
+                            key={c}
+                            className="flex min-w-0 items-baseline justify-between gap-2 rounded px-1.5 py-0.5"
+                            style={{ background: tint(pcts[c]) }}
+                            title={byKey[c]?.desc}
+                          >
+                            <dt className="min-w-0 truncate text-[11.5px] text-ink-2">
+                              {byKey[c]?.label}
+                            </dt>
+                            <dd className="num shrink-0 text-[12px]">
+                              {vals[c] === undefined ? (
+                                <span className="text-ink-3">—</span>
+                              ) : (
+                                <>
+                                  {vals[c]}
+                                  <span className="ml-1 text-[11px] text-ink-3">
+                                    ({pcts[c] ?? "-"})
+                                  </span>
+                                </>
+                              )}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </>
+        ) : (
+          <p className="mt-6 rounded-xl border border-line bg-card p-4 text-[13px] text-ink-2">
+            No players — give at least one metric a weight, or lower the
+            minutes bar.
+          </p>
+        )}
+      </div>
+
+      <div className="mt-6 hidden overflow-x-auto rounded-xl border border-line bg-card sm:block">
         <table className="w-full text-[13.5px]">
           <thead>
             <tr className="bg-[#f7f8f9] text-[11px] uppercase tracking-wider text-ink-3">

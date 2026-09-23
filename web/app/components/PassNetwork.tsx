@@ -55,10 +55,13 @@ export function PassNetwork({
   resolved?: number;
   title?: string;
   subtitle?: string;
+  /** The width it wants, not the width it takes: the network draws this big
+   *  where there is room and shrinks to its column where there is not. 340
+   *  pixels is wider than a 375px phone has to give, and the overflow moved
+   *  the whole page rather than the picture. */
   width?: number;
 }) {
   const [hover, setHover] = useState<string | null>(null);
-  const px = width / W;
   const h = Math.round((width * H) / W);
 
   const at = useMemo(
@@ -70,7 +73,7 @@ export function PassNetwork({
   const drawn = links.filter((l) => at.has(l.a) && at.has(l.b));
 
   return (
-    <figure className="m-0">
+    <figure className="m-0 min-w-0">
       {title && (
         <figcaption className="mb-1.5 text-[13px] font-medium text-ink">
           {title}
@@ -79,14 +82,20 @@ export function PassNetwork({
           )}
         </figcaption>
       )}
-      <div className="relative" style={{ width }}>
+      <div className="relative w-full" style={{ maxWidth: width }}>
         <svg
           width={width}
           height={h}
           viewBox={`0 0 ${W} ${H}`}
           role="img"
           aria-label={title ?? "average positions and passing links"}
-          style={{ background: PITCH_GREEN, borderRadius: 8, display: "block" }}
+          style={{
+            background: PITCH_GREEN,
+            borderRadius: 8,
+            display: "block",
+            width: "100%",
+            height: "auto",
+          }}
         >
           <PitchLines />
 
@@ -156,17 +165,18 @@ export function PassNetwork({
             .filter((l) => l.a === hover)
             .sort((a, b) => b.n - a.n)
             .slice(0, 3);
-          const cx = X(d.y) * px;
-          const cy = Y(d.x) * px;
-          const above = cy > h / 2;
+          // Per cent of the box, not pixels — the pitch scales to its column.
+          const cx = (X(d.y) / W) * 100;
+          const cy = (Y(d.x) / H) * 100;
+          const above = cy > 50;
           return (
             <span
               role="tooltip"
               className="pointer-events-none absolute z-30 w-52 rounded-lg border border-line bg-card p-2.5 text-left text-[11.5px] leading-relaxed text-ink-2 shadow-lg"
               style={{
-                left: Math.max(4, Math.min(width - 210, cx - 104)),
-                top: above ? undefined : cy + 14,
-                bottom: above ? h - cy + 14 : undefined,
+                left: `clamp(4px, calc(${cx}% - 104px), calc(100% - 212px))`,
+                top: above ? undefined : `calc(${cy}% + 14px)`,
+                bottom: above ? `calc(${100 - cy}% + 14px)` : undefined,
               }}
             >
               <b className="block text-ink">{d.n}</b>

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import { FlatZones } from "./flat/FlatZones";
 import { Formation3D } from "./Formation3D";
 import { PitchScene, defaultCam, type ViewName } from "./PitchScene";
 import { useKit, useSquad } from "./useSquad";
@@ -187,7 +188,7 @@ export function ZoneView({
                  onChange={(e) => setShowSide(e.target.checked)} />
           show the side
         </label>
-        <span className="ml-auto num text-[12.5px] text-ink-2">
+        <span className="num text-[12.5px] text-ink-2 sm:ml-auto">
           {row?.matches ?? 0} matches ·{" "}
           {side === "with" ? "0-100 against the league" : "chances a match"}
         </span>
@@ -201,6 +202,29 @@ export function ZoneView({
             onView={setView}
             tune={tune}
             scene="zones"
+            /* THE FLAT ZONE MAP IS THE TEAM PAGE'S OWN `PitchZones`. This is
+               not a second rendering written for phones: `ZoneHeat` was built
+               to match that component's cells, widths and colour ramp on
+               purpose, so the flat one IS the other half of the pair. */
+            flat={
+              <FlatZones
+                values={values}
+                lo={lo}
+                hi={hi}
+                decimals={side === "with" ? 0 : 2}
+                selected={selected}
+                onSelect={setSelected}
+              />
+            }
+            flatNote={
+              <>
+                A zone value is one number per place on a plane, so the flat
+                map loses nothing the 3D one had — the tiles never carried
+                height. What goes is the stage around it: the goals, the
+                stands and the side standing on the grass, which is context
+                rather than data.
+              </>
+            }
             legend={
               <span className="flex items-center gap-2 text-[11.5px] text-ink-3">
                 {side === "with" ? "0" : "their lowest"}
@@ -256,7 +280,8 @@ export function ZoneView({
           </PitchScene>
         </div>
 
-        <aside className="w-[280px] shrink-0 rounded-xl border border-line bg-card p-3.5 text-[12.5px] leading-relaxed text-ink-2">
+        {/* Under the pitch on a phone, beside it above `sm`. */}
+        <aside className="w-full shrink-0 rounded-xl border border-line bg-card p-3.5 text-[12.5px] leading-relaxed text-ink-2 sm:w-[280px]">
           {selected ? (
             <>
               <div className="text-[11px] uppercase tracking-wide text-ink-3">

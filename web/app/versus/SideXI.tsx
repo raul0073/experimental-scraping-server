@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Formation3D } from "../components/three/Formation3D";
 import { PitchScene, defaultCam, type ViewName } from "../components/three/PitchScene";
 import { territoryFor, useKit, useSquad } from "../components/three/useSquad";
+import { FlatXI } from "../components/three/flat/FlatXI";
 import { TeamHead } from "./TeamHead";
 
 /** One side's eleven on the pitch, with the lab's interactivity kept.
@@ -92,6 +93,23 @@ export function SideXI({
           view={view}
           onView={setView}
           scene="match-xi"
+          /* Same eleven and the SAME filtered edges the 3D scene gets, so
+             the links slider above means one thing in both views and
+             switching never changes what is on show — only how it is
+             drawn. `resolved` is not passed because useSquad does not
+             compute a receiver-resolution share, and a made-up one would
+             print a confidence figure nothing measured. */
+          flat={<FlatXI spots={squad.spots} edges={edges} />}
+          flatNote={
+            <>
+              Flat, every man is the same size wherever he stands, so two
+              players are compared by where they are rather than by how near
+              the camera they happen to be, and a lane reads as a direction
+              rather than as a line running away from you. What only 3D has
+              is height: volume on the ball as a column you can rank down
+              the pitch at a glance.
+            </>
+          }
           caption={
             sel ? (
               <span>

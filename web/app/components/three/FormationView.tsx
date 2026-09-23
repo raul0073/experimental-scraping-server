@@ -1,5 +1,6 @@
 "use client";
 
+import { FlatXI } from "./flat/FlatXI";
 import { useMemo, useState } from "react";
 
 import { Formation3D, type Field } from "./Formation3D";
@@ -126,7 +127,10 @@ export function FormationView({
             clear {selected.split(" ").slice(-1)[0]}
           </button>
         )}
-        <span className="ml-auto num text-[12.5px] text-ink-2">
+        {/* `ml-auto` only where there is a right-hand side to push it to. On
+            a phone the summary is the next wrapped line, and pushing it right
+            there just strands it against the edge. */}
+        <span className="num text-[12.5px] text-ink-2 sm:ml-auto">
           {squad.matches} matches · {spots.length} players ·{" "}
           {squad.everyone.length} used the ball
         </span>
@@ -140,6 +144,29 @@ export function FormationView({
             onView={setView}
             tune={tune}
             scene="formation"
+            /* THE FLAT XI, WHICH ALREADY EXISTED AND WAS NEVER WIRED UP.
+               FlatXI was written for exactly this call — its own docstring
+               names the versus page and the props to pass — but nothing
+               imported it, so PitchScene fell through to "This one is only
+               drawn in 3D" and a phone got a 600KB renderer or nothing.
+               Handed the SAME spots and the SAME filtered edges as the 3D
+               scene, so the links slider means one thing in both and
+               switching view never changes what is being looked at. */
+            /* `resolved` is deliberately not passed: useSquad does not
+               compute a receiver-resolution share, and FlatXI treats the
+               prop as optional. Passing a made-up number would put a
+               confidence figure under a picture that nothing measured. */
+            flat={<FlatXI spots={spots} edges={edges} />}
+            flatNote={
+              <>
+                Flat, every man is the same size wherever he stands, so two
+                players are compared by position rather than by how near the
+                camera they happen to be — and a lane between them is read as
+                a direction rather than as a line running away from you. What
+                only 3D has is height: volume on the ball drawn as a column
+                you can rank down the pitch at a glance.
+              </>
+            }
             caption={
               sel ? (
                 <span>
@@ -203,7 +230,9 @@ export function FormationView({
           )}
         </div>
 
-        <aside className="w-[268px] shrink-0 rounded-xl border border-line bg-card p-3.5 text-[12.5px] leading-relaxed text-ink-2">
+        {/* Under the pitch on a phone, beside it above `sm` — a 268px column
+            inside a 343px one is stranded, not narrow. */}
+        <aside className="w-full shrink-0 rounded-xl border border-line bg-card p-3.5 text-[12.5px] leading-relaxed text-ink-2 sm:w-[268px]">
           {sel ? (
             <>
               <div className="text-[11px] uppercase tracking-wide text-ink-3">

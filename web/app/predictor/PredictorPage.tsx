@@ -26,8 +26,11 @@ export function PredictorPage() {
   return (
     <div>
       <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
-        <section className="max-w-2xl">
-          <h1 className="font-display text-[30px] leading-[1.25] tracking-[0.01em]">
+        {/* min-w-0: a flex item will not shrink below its content's own
+            minimum unless told it may, and without this the headline sets a
+            floor that pushes the page wider than the phone. */}
+        <section className="min-w-0 max-w-2xl">
+          <h1 className="font-display text-[23px] leading-[1.25] tracking-[0.01em] sm:text-[30px]">
             A football model that shows its work.
           </h1>
           <p className="mt-2.5 text-[14px] leading-relaxed text-ink-2">
@@ -60,10 +63,10 @@ export function PredictorPage() {
           <p className="mt-8 max-w-3xl text-[13.5px] leading-relaxed text-ink-2">
             This round, league by league: the model&apos;s probability for each
             result, the outcome it calls, its most likely scoreline, and the{" "}
-            <strong className="font-semibold">fair price</strong> beneath each
-            percentage — what that result is worth. Above that price there is
-            value in it; below it there is not. We never see your book, so the
-            comparison is yours to make.
+            <strong className="font-semibold">fair price</strong> for each
+            result — what it is worth. Above that price there is value in it;
+            below it there is not. We never see your book, so the comparison is
+            yours to make.
           </p>
 
           <div className="mt-5">
@@ -72,7 +75,9 @@ export function PredictorPage() {
 
           <p className="mt-6 text-[12.5px] leading-relaxed text-ink-3">
             Percentages are the model&apos;s probability; the smaller number is
-            the fair price (1 ÷ probability). The called outcome is shaded.
+            the fair price (1 ÷ probability) — on a phone it appears under each
+            percentage once you switch it on above. The called outcome is
+            shaded.
             Scorelines are the most likely result given that call, not a
             prediction of the exact score. Played fixtures stay listed until
             the whole round is done.

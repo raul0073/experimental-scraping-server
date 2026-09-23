@@ -23,8 +23,19 @@ import { Crest } from "../components/Crest";
  *  too; making them re-pick every visit is the same failure as re-scrolling.
  *  Stored per browser, and a stored league that no longer exists in the
  *  payload falls back rather than rendering nothing.
+ *
+ *  TWO RENDERINGS OF ONE ROUND, CHOSEN BY WIDTH — the pattern RankTable set.
+ *  Ten columns is the right shape for a laptop and an unusable one for a
+ *  phone: at 375px this table was a horizontal scroll of numbers with the
+ *  team names pushed off the left edge, so the one column you need to read
+ *  the rest was the first to leave. Below `sm` the same fixtures come out as
+ *  cards. NOTHING IS DROPPED — every number in the table is in the card. The
+ *  fair prices are the one thing folded behind a switch, because they are
+ *  the reason a minority is here and noise to everyone else; the switch is
+ *  remembered like the league, so the price reader sets it once.
  */
 const KEY = "predictorous:league";
+const KEY_PRICES = "predictorous:fair-prices";
 
 const CALL_STYLE: Record<Outcome, string> = {
   home: "bg-[#e3eef7] text-[#1c5b8a] border-[#b9d5e8]",
@@ -130,6 +141,128 @@ function Row({
   );
 }
 
+/** The three probabilities as tiles, for the card layout. The called one is
+ *  filled rather than merely shaded: on a phone the row of columns that made
+ *  shading legible is gone, so the call has to carry its own weight. */
+function Tiles({ f, prices }: { f: Fixture; prices: boolean }) {
+  return (
+    <div className="grid grid-cols-3 gap-1.5">
+      {OUTCOMES.map(({ key, mark }) => {
+        const called = f.call === key;
+        return (
+          <div
+            key={key}
+            title={`${key} — ${f.p[key].toFixed(1)}%, fair price ${f.fair[key].toFixed(2)}`}
+            className={`rounded-lg border px-1 py-1 text-center ${
+              called ? CALL_STYLE[key] : "border-line bg-[#fafbfc] text-ink-2"
+            }`}
+          >
+            <div className="text-[10px] font-semibold uppercase tracking-wider opacity-70">
+              {mark}
+            </div>
+            <div className="num text-[15px] font-semibold leading-tight">
+              {Math.round(f.p[key])}%
+            </div>
+            {prices && (
+              <div className="num text-[11px] leading-tight opacity-75">
+                {f.fair[key].toFixed(2)}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/** One fixture on a phone. Same facts as the table row, stacked: who is
+ *  playing, what the model called, how confident it was, and the result once
+ *  there is one. */
+function Card({
+  f, crests, league, prices,
+}: {
+  f: Fixture; crests: Crests; league: string; prices: boolean;
+}) {
+  const logos = crests.teams[league] ?? {};
+  const href = `/versus?home=${encodeURIComponent(f.home)}&away=${encodeURIComponent(f.away)}`;
+  const side = (team: string) => (
+    <span className="flex min-w-0 items-center gap-2 text-[14px]">
+      <Crest src={logos[team]} alt="" size={17} />
+      <span className="truncate">{team}</span>
+    </span>
+  );
+
+  return (
+    <li className="rounded-xl border border-line bg-card p-3">
+      <div className="flex items-center justify-between gap-2">
+        <span className="num text-[11.5px] text-ink-3">{f.date.slice(5)}</span>
+        <span className="flex items-center gap-1.5">
+          <span
+            title="the outcome the model calls"
+            className={`inline-block min-w-[20px] rounded-full border px-1.5 py-px text-center text-[11px] font-semibold ${CALL_STYLE[f.call]}`}
+          >
+            {OUTCOMES.find((o) => o.key === f.call)?.mark}
+          </span>
+          {f.outcome && (
+            <span
+              className={`text-[10.5px] font-semibold uppercase tracking-wider ${
+                f.outcome === f.call ? "text-good" : "text-bad"
+              }`}
+            >
+              {f.outcome === f.call ? "hit" : "miss"}
+            </span>
+          )}
+        </span>
+      </div>
+
+      <Link href={href} className="mt-1.5 flex items-center justify-between gap-3">
+        <span className="flex min-w-0 flex-1 flex-col gap-1">
+          {side(f.home)}
+          {side(f.away)}
+        </span>
+        {/* The same correction the table makes: once a match is played the
+            RESULT is the headline and what we said moves underneath it. An
+            unplayed fixture says "expected" out loud, because there is no
+            column header up here to say it for us. */}
+        <span className="shrink-0 text-right">
+          {f.played ? (
+            <>
+              <span className="num block text-[16px] font-semibold text-ink">
+                {f.played}
+              </span>
+              <span className="num block text-[10.5px] text-ink-3">
+                said {f.score}
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="num block text-[15px] font-semibold text-ink">
+                {f.score}
+              </span>
+              <span className="block text-[10px] uppercase tracking-wider text-ink-3">
+                expected
+              </span>
+            </>
+          )}
+        </span>
+      </Link>
+
+      <div className="mt-2.5">
+        <Tiles f={f} prices={prices} />
+      </div>
+
+      <div className="mt-2 flex items-center justify-between gap-2 text-[11.5px] text-ink-3">
+        <span className="num">
+          xG {f.xg[0].toFixed(2)} – {f.xg[1].toFixed(2)}
+        </span>
+        <Link href={href} className="text-home">
+          why &rarr;
+        </Link>
+      </div>
+    </li>
+  );
+}
+
 export function RoundTables({ round }: { round: RoundData }) {
   const names = Object.keys(round.leagues);
   const first = names[0] ?? "";
@@ -139,6 +272,7 @@ export function RoundTables({ round }: { round: RoundData }) {
    *  stale preference must not be able to blank the front page. */
   const stored = useStored(KEY, first);
   const active = names.includes(stored) ? stored : first;
+  const prices = useStored(KEY_PRICES, "0") === "1";
 
   const data = round.leagues[active];
   if (!data) return null;
@@ -157,7 +291,7 @@ export function RoundTables({ round }: { round: RoundData }) {
               role="tab"
               aria-selected={on}
               onClick={() => setStored(KEY, league)}
-              className={`flex cursor-pointer items-center gap-2 rounded-full border px-3.5 py-1.5 text-[13px] transition-colors ${
+              className={`flex cursor-pointer items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-[12.5px] transition-colors sm:gap-2 sm:px-3.5 sm:text-[13px] ${
                 on
                   ? "border-ink bg-ink text-white"
                   : "border-line bg-card text-ink-2 hover:border-ink-3 hover:text-ink"
@@ -188,7 +322,31 @@ export function RoundTables({ round }: { round: RoundData }) {
         )}
       </div>
 
-      <div className="mt-2 overflow-x-auto rounded-xl border border-line bg-card">
+      {/* ===================================================== phone: cards */}
+      <label className="mt-3 flex w-fit cursor-pointer items-center gap-2 text-[12.5px] text-ink-2 sm:hidden">
+        <input
+          type="checkbox"
+          checked={prices}
+          onChange={() => setStored(KEY_PRICES, prices ? "0" : "1")}
+          className="h-3.5 w-3.5 accent-home"
+        />
+        fair price under each percentage
+      </label>
+
+      <ul className="mt-2 space-y-2 sm:hidden">
+        {data.fixtures.map((f) => (
+          <Card
+            key={`${f.home}-${f.away}`}
+            f={f}
+            crests={round.crests}
+            league={active}
+            prices={prices}
+          />
+        ))}
+      </ul>
+
+      {/* ==================================================== laptop: table */}
+      <div className="mt-2 hidden overflow-x-auto rounded-xl border border-line bg-card sm:block">
         <table className="w-full text-[13.5px]">
           <thead>
             <tr className="bg-[#f7f8f9] text-[11px] uppercase tracking-wider text-ink-3">

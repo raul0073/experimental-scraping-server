@@ -335,7 +335,8 @@ def main() -> int:
     # BEFORE any error comparison, because it decides what a null can mean.
     # Spearman-Brown lifts the two-half correlation to the full window.
     print(f"\nRELIABILITY — same shift from two disjoint halves of the windows")
-    print(f"{'metric':<16}{'r_half':>9}{'r_full(SB)':>12}")
+    print(f"{'metric':<16}{'r_half':>9}{'r_full(SB)':>12}{'LEVEL r':>10}"
+          f"{'LEVEL SB':>10}")
     rel = {}
     hk = [k for k in halves if k in shift]
     for m in STYLE_KEYS + ["__score__"]:
@@ -363,9 +364,19 @@ def main() -> int:
             continue
         r = float(np.corrcoef(a, b)[0, 1])
         sb = 2 * r / (1 + r) if r > -1 else float("nan")
-        rel[m] = {"r_half": round(r, 4), "r_full_sb": round(sb, 4), "n": len(a)}
+        lr = lsb = float("nan")
+        if m != "__score__":
+            la = np.array([levels[k][0][m] for k in hk])
+            lb = np.array([levels[k][1][m] for k in hk])
+            lr = float(np.corrcoef(la, lb)[0, 1])
+            lsb = 2 * lr / (1 + lr) if lr > -1 else float("nan")
+        rel[m] = {"r_half": round(r, 4), "r_full_sb": round(sb, 4),
+                  "level_r_half": None if lr != lr else round(lr, 4),
+                  "level_r_full_sb": None if lsb != lsb else round(lsb, 4),
+                  "n": len(a)}
         print(f"{('SHIFT SCORE' if m == '__score__' else m):<16}"
-              f"{r:>9.3f}{sb:>12.3f}")
+              f"{r:>9.3f}{sb:>12.3f}"
+              + (f"{lr:>10.3f}{lsb:>10.3f}" if lr == lr else f"{'—':>10}{'—':>10}"))
     report["reliability"] = rel
 
     sh = np.array([r["shift"] for r in kept])
@@ -542,11 +553,35 @@ def main() -> int:
                 "shift_far": round(float(np.mean(far)), 4), **nb}
         else:
             print(f"\nVALIDATION — only {len(near)} post-change observations")
+
+        # The old proxy, scored with the new error measure. Four experiments
+        # have failed on "the manager changed"; none of them looked at excess
+        # log loss, so it costs nothing to check that this metric agrees.
+        fresh_fix = np.array([
+            any(0 <= _days(r["date"], d0) <= 45
+                for side in ("home", "away")
+                for d0 in (starts.get((r["league"], r[side])) or []))
+            for r in kept])
+        if fresh_fix.sum() >= 40:
+            mb = boot_diff(ex[fresh_fix], ex[~fresh_fix], seed=13)
+            print(f"\nOLD PROXY — fixtures within 45 days of a new manager")
+            print(f"  n={int(fresh_fix.sum())} vs {int((~fresh_fix).sum())}  "
+                  f"excess {ex[fresh_fix].mean():+.4f} vs "
+                  f"{ex[~fresh_fix].mean():+.4f}  diff {mb['diff']:+.4f} "
+                  f"[{mb['ci'][0]:+.4f},{mb['ci'][1]:+.4f}] "
+                  f"P(worse)={mb['p_worse']:.3f}")
+            report["new_manager_fixtures"] = {
+                "n": int(fresh_fix.sum()), "n_other": int((~fresh_fix).sum()),
+                "excess_new": round(float(ex[fresh_fix].mean()), 4),
+                "excess_other": round(float(ex[~fresh_fix].mean()), 4), **mb}
     except Exception as e:                                       # noqa: BLE001
         print(f"\nspells unavailable: {type(e).__name__}: {e}")
 
-    REPORT.write_text(json.dumps(report, indent=2), encoding="utf-8")
-    print(f"\n-> {REPORT}")
+    out = REPORT
+    if (short_w, long_w) != (SHORT_W, LONG_W):
+        out = REPORT.with_name(f"experiment_shift_error_{short_w}_{long_w}.json")
+    out.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    print(f"\n-> {out}")
     return 0
 
 

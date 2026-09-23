@@ -78,7 +78,7 @@ export function Calibration({ record }: { record: RecordData }) {
       <button
         onClick={toggle}
         aria-expanded={open}
-        className="flex w-full cursor-pointer flex-wrap items-center gap-x-3 gap-y-1 px-5 py-3.5 text-left"
+        className="flex w-full cursor-pointer flex-wrap items-center gap-x-3 gap-y-1 px-4 py-3.5 text-left sm:px-5"
       >
         <h2 className="text-[13px] font-semibold uppercase tracking-wider text-ink-3">
           The only claim that matters
@@ -114,7 +114,7 @@ export function Calibration({ record }: { record: RecordData }) {
       </button>
 
       {open && (
-        <div className="border-t border-line px-5 pb-5 pt-4">
+        <div className="border-t border-line px-4 pb-5 pt-4 sm:px-5">
           <p className="max-w-3xl text-[13.5px] leading-relaxed text-ink-2">
             Anyone can publish predictions. The test is whether the stated
             probabilities are honest: when this model says 45%, does it happen

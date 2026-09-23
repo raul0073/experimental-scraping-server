@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   getHistory,
@@ -29,6 +28,68 @@ function Verdict({ r }: { r: HistoryRow }) {
     <span className="text-[13px] font-semibold text-good">✓ called it</span>
   ) : (
     <span className="text-[13px] text-bad">✗ missed</span>
+  );
+}
+
+/** One graded call on a phone. Ten columns is a sideways scroll at 375px,
+ *  and the first thing it scrolls off is the two team names — so the same
+ *  ten facts stack instead. Nothing is dropped: probabilities, our call, the
+ *  result, both xG pairs and the verdict are all here. */
+function Card({ r, league }: { r: HistoryRow; league: HistoryLeague }) {
+  const side = (team: string) => (
+    <span className="flex min-w-0 items-center gap-2 text-[14px]">
+      <Crest src={league.teams[team]} alt="" size={16} />
+      <span className="truncate">{team}</span>
+    </span>
+  );
+  return (
+    <li className="rounded-xl border border-line bg-card p-3">
+      <div className="flex items-center justify-between gap-2">
+        <span className="num text-[11.5px] text-ink-3">{r.kickoff}</span>
+        <Verdict r={r} />
+      </div>
+
+      <div className="mt-1.5 flex items-center justify-between gap-3">
+        <span className="flex min-w-0 flex-1 flex-col gap-1">
+          {side(r.home)}
+          {side(r.away)}
+        </span>
+        <span className="shrink-0 text-right">
+          <span className="num block text-[16px] font-semibold">
+            {r.score ?? <span className="font-normal text-ink-3">—</span>}
+          </span>
+          <span className="num block text-[10.5px] text-ink-3">
+            said {r.our_score} ({outcomeLabel[r.call]})
+          </span>
+        </span>
+      </div>
+
+      <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-line pt-2 text-[11.5px] text-ink-3">
+        <span className="num">
+          <span className="mr-1">H/D/A</span>
+          {(["home", "draw", "away"] as const).map((o, i) => (
+            <span key={o}>
+              {i > 0 ? <span className="text-ink-3"> / </span> : null}
+              <span
+                className={r.call === o ? "font-semibold text-ink" : undefined}
+              >
+                {Math.round(r.p[o])}
+              </span>
+            </span>
+          ))}
+        </span>
+        {r.our_xg && (
+          <span className="num">
+            our xG {r.our_xg[0].toFixed(2)}–{r.our_xg[1].toFixed(2)}
+          </span>
+        )}
+        {r.real_xg && (
+          <span className="num">
+            real {r.real_xg[0].toFixed(2)}–{r.real_xg[1].toFixed(2)}
+          </span>
+        )}
+      </div>
+    </li>
   );
 }
 
@@ -116,7 +177,7 @@ export default async function LeagueHistoryPage({
         <h2 className="text-[19px] font-semibold">
           {leagueShort(league.name)}
         </h2>
-        <div className="num flex gap-6 text-[13px] text-ink-2">
+        <div className="num flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-ink-2 sm:gap-6">
           <span>
             <strong className="text-[15px] font-semibold text-ink">
               {rate ?? "—"}%
@@ -131,7 +192,13 @@ export default async function LeagueHistoryPage({
         </div>
       </div>
 
-      <div className="mt-4 overflow-x-auto rounded-xl border border-line bg-card">
+      <ul className="mt-4 space-y-2 sm:hidden">
+        {league.rows.map((r) => (
+          <Card key={`${r.kickoff}-${r.home}`} r={r} league={league} />
+        ))}
+      </ul>
+
+      <div className="mt-4 hidden overflow-x-auto rounded-xl border border-line bg-card sm:block">
         <table className="w-full text-[13.5px]">
           <thead>
             <tr className="bg-[#f7f8f9] text-[11px] uppercase tracking-wider text-ink-3">

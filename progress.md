@@ -24,15 +24,141 @@ The target is 375px with a 16px gutter and no horizontal page scroll, on
 every route in the sitemap. Do the predictor (`/`) first — it is the front
 page and the one a link lands on.
 
-## NEXT — the manager layer as a MODEL input
+**Predictor routes done (2026-09-23), RankTable's pattern copied:** `/`,
+`/predictor/projected`, `/predictor/history` and `/predictor/history/[league]`
+each render cards below `sm` and keep the existing table from `sm` up. The
+shell gutter is now 16px on a phone (`px-4 sm:px-6` in `layout.tsx`) and the
+header wraps instead of pushing the page sideways. NOTHING IS HIDDEN on the
+small layouts — every number in each table is in its card — except the fair
+prices on the fixture cards, which fold behind a remembered switch (see the
+header comment in `RoundTables.tsx`).
 
-Running as of 2026-09-23: does team style actually shift, is a manager
-change a decent proxy for it, and is the model measurably wronger on
-fixtures where it just moved. The hypothesis is that all four previous
-manager experiments tested a PROXY ("the manager changed") for the thing
-that matters ("the football changed"), and the proxy is bad in both
-directions. Verdict pending; a null closes the thread for good, which is a
-real result given it has already cost four experiments.
+**The other three lanes landed the same day.** *Ratings:* `PlayerBoard` and
+`TeamBoard` render cards below `sm`; the shared primitives in `scoreUi.tsx`
+fix every board at once (the club `<select>` sizing to its widest option was
+the single worst page-scroll bug, sliders and checkboxes now clear 44px, the
+position rail wraps per zone). `EloTable` keeps its table and scrolls inside
+its own box, by design. *Team pages and how-it-works:* the five SVG figures
+take the width they are given instead of setting it (`w-full` +
+`maxWidth`), their tooltips position in per cent with a `clamp`, both
+`/team/[slug]` tables become cards below `sm`, and the pipeline diagram has a
+stacked card rendering below `sm` instead of a 0.47-scaled 720-unit viewBox.
+*3D:* `PitchScene` is now a three-free shell — the canvas moved to
+`PitchCanvas.tsx` behind `dynamic(…, {ssr:false})`, so **no page reaches
+three through a static import** and a phone that never asks for a scene never
+fetches the renderer. Below `sm` every reader-facing scene opens on a flat
+2D map of the same rows (`components/three/flat/`), with a 2D/3D switch and a
+full-screen control that falls back to `position:fixed` where iPhone Safari
+refuses `requestFullscreen`. In-scene label sizes now scale with canvas width
+(`labelScale.ts`) and `dpr` drops to `[1, 1.75]` on narrow screens.
+
+**What is honestly dropped at small width, and where the reader still gets
+it:** the fair prices on fixture cards (behind a remembered switch);
+`Fingerprint`'s radar rim labels (every axis name and number is in the strip
+directly below, and a mobile-only caption says so); `Fingerprint`'s mirrored
+bars become stacked ones (both values, both percentiles, both colours
+survive — the mirror does not); flat pass maps encode pass height as a dashed
+line rather than a third dimension and draw the most recent 1,200 of ~4,000
+(both stated in `flatNote`). Every other table keeps every column: nothing
+else is hidden, it is reflowed.
+
+**Still open:** none of this has been checked on a real device or in a
+browser. `tsc --noEmit` is clean and `eslint` carries 15 errors, all
+`react-hooks/set-state-in-effect` — 12 of them predate this work and 3 are
+new in `PitchScene.tsx` (169, 179) and `viewport.ts` (31), where deferring to
+an effect is what keeps a statically exported page from a hydration mismatch.
+The layouts are reasoned from measured widths, not observed. Somebody should
+open `/`, `/ratings`, `/team/[slug]` and `/versus` at 375px before this is
+called done.
+
+## PENDING — ACCESSIBILITY (not started)
+
+The site has never been checked, and it has two specific exposures rather
+than a general worry:
+
+- **Colour as an encoding.** The score ramp runs red-to-green, which is the
+  worst possible pair for colour blindness. `scoreUi.tsx` argues this is
+  survivable because the number is ALWAYS printed beside the mark — the
+  colour is a second encoding of something already legible. That argument
+  has to actually hold everywhere: audit every place a tint, a dot or a bar
+  carries meaning and check the value is readable without it. The
+  reliability dots (green/amber/red/hollow) are the weakest case.
+- **Custom controls.** The position pills, the A/B pick buttons, the
+  collapsible sections and the weight sliders are all hand-built. Keyboard
+  reachability, focus rings and ARIA state need checking — `aria-expanded`
+  is on some toggles and not others.
+
+Also: the 3D scenes need a text alternative, alt text on crests, heading
+order per page, and a contrast pass on `text-ink-3` (#8a949e) which is
+likely under 4.5:1 on white.
+
+## PENDING — THE FOOTER: SOURCES, CREDITS, LINKS (not started)
+
+The footer is currently one sentence. It should carry:
+
+- **Data sources, named and linked** — Understat, fbref, WhoScored/Opta —
+  with what each is used for, since the site's whole argument is that it
+  shows its work.
+- **The CC-BY credit.** `web/app/lib/credits.ts` holds `MODEL_CREDIT` with
+  title, author, source URL and licence. ⚠️ **Verify it is actually
+  RENDERED somewhere a reader reaches.** CC-BY is a contract: an
+  unrendered credit is a licence breach, not an oversight. The footer is
+  where it belongs.
+- Links to /how-it-works, /rejected and the repo.
+- The existing disclaimer, kept: probabilities and fair prices only, never
+  betting advice, and we never see anyone's book.
+
+## CLOSED — the manager layer as a MODEL input (verdict 2026-09-23)
+
+**DROP IT.** Fifth experiment on this thread, and the first to close it for
+a stated reason.
+
+The hypothesis was good: all four previous manager tests used "the manager
+changed" as a PROXY for "the football changed", and that proxy is bad in
+both directions. Measured, it is:
+
+```
+of big style shifts, share following a manager change   15.8%   (base 10.1%)
+of manager changes, share producing a big shift         36.8%   (n=57)
+```
+
+So **84% of real style shifts have no manager change behind them, and 63%
+of manager changes do not move the football**. The proxy thread is closed
+for good.
+
+But the thing the proxy stood for cannot be measured either. Against a
+permutation null that holds the same 26 matches and only destroys "the six
+were the most recent", the observed shift distribution is nearly
+superimposable — **the null's maximum exceeds the observed maximum**. After
+the opponent-mix confound the clean excess is about one fixture in eighty.
+Variance decomposition, share that is real rather than noise:
+
+```
+press_height 3%   territory 8%   ppda 11%   regain_time 11%
+fast_break 14%    directness 27%            pass_length 44%
+```
+
+Press height — the metric a "the football changed" feature would be built
+on — is **97% noise** at a 6-vs-20 window. And the model is NOT wronger on
+high-shift fixtures: matched on its own confidence, −0.0036 nats at the top
+decile, wrong sign, p_worse 0.29.
+
+**The finding worth keeping**: split-half reliability of the style LEVEL is
+0.55–0.86, of the style CHANGE 0.02–0.26. A team's style is a real, stable,
+measurable thing; the change in it over a short window is not. A longer
+window is reliable but no longer responsive, and that tension IS the
+obstacle.
+
+Validity checks passed where they should: Klopp→Slot is the biggest EPL
+shift in the window (99.4th pct), Sevilla under Quique Sánchez Flores is
+the largest anywhere and coherent across all eight metrics. And failed
+where it matters: **ten Hag→Amorim at Man Utd registers as an ordinary
+fortnight (59th pct, p=0.22)** — a manager who switched to a back three on
+day one and never changed it. Guardiola's City is the second-LEAST steady
+side in the sample, so a stable tenure does not imply a stable style.
+
+The style metrics keep their value as a fingerprint, which is exactly where
+they already are: on the managers page, unscored.
 
 ## DEPLOYMENT — DONE 2026-09-23. Cloudflare Pages, five leagues live.
 

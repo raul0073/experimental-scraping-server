@@ -129,24 +129,46 @@ export const BUDGET = 100;
  *  One definition here, imported by both, so they cannot drift again — which
  *  is the same reason the score ramp above lives in this file. */
 
-/** One class for every select on a ratings board. */
+/** One class for every select on a ratings board.
+ *
+ *  WIDTH-CAPPED BELOW `sm`, AND THAT IS NOT COSMETIC. A native <select> sizes
+ *  itself to its WIDEST OPTION, so a club picker in a league containing
+ *  "Borussia Mönchengladbach" is over 200px wide before its padding. Two of
+ *  those in a filter bar and it is the PAGE that scrolls sideways on a 375px
+ *  screen, not the control. Pinned to its field the browser truncates the
+ *  closed control and still opens the list at full width, which is where the
+ *  long name actually has to be readable.
+ *
+ *  `h-11` below `sm` is the 44px touch target; the laptop keeps its 36px. */
 export const SELECT =
-  "h-9 cursor-pointer rounded-lg border border-line bg-card px-2.5 text-[13px] "
+  "h-11 w-full min-w-0 max-w-full cursor-pointer rounded-lg border border-line "
+  + "bg-card px-2.5 text-[13px] "
   + "text-ink transition-colors hover:border-ink-3 focus:border-home "
-  + "focus:outline-none focus:ring-2 focus:ring-[#e9f1f8]";
+  + "focus:outline-none focus:ring-2 focus:ring-[#e9f1f8] sm:h-9 sm:w-auto";
 
 export const FIELD_LABEL =
   "text-[10.5px] font-semibold uppercase tracking-[0.07em] text-ink-3";
 
 /** The bar the fields sit in. */
 export const FILTER_BAR =
-  "flex flex-wrap items-end gap-x-5 gap-y-3 rounded-xl border border-line "
-  + "bg-card px-4 py-3";
+  "flex flex-wrap items-end gap-x-3 gap-y-3 rounded-xl border border-line "
+  + "bg-card px-3 py-3 sm:gap-x-5 sm:px-4";
 
 /** A checkbox styled as a control rather than as stray text. */
 export const CHECK_BOX =
-  "flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-line "
-  + "px-3 text-[12.5px] text-ink-2 transition-colors hover:border-ink-3";
+  "flex h-11 max-w-full cursor-pointer items-center gap-2 rounded-lg border "
+  + "border-line px-3 text-[12.5px] text-ink-2 transition-colors "
+  + "hover:border-ink-3 sm:h-9";
+
+/** A range input with a thumb a finger can actually find.
+ *
+ *  The default control is about 16px tall, which is a third of the 44px a
+ *  touch target is supposed to be — on a phone you aim at a slider you cannot
+ *  hit and end up scrolling the page instead. The element's whole box is the
+ *  hit area, so making it 44px tall below `sm` is the entire fix; the track
+ *  and thumb stay centred in it and the laptop keeps the compact control. */
+export const SLIDER =
+  "h-11 w-full cursor-pointer touch-manipulation accent-[#4a7ba6] sm:h-5";
 
 export function Field({
   label,
@@ -158,9 +180,63 @@ export function Field({
   children: React.ReactNode;
 }) {
   return (
-    <label className="flex flex-col gap-1" title={title}>
+    // TWO TO A ROW ON A PHONE, content-sized on a laptop. `basis-[8.5rem]`
+    // with `flex-1` means two fields share a 375px row and a third wraps
+    // rather than squeezing; `min-w-0` is what lets the select inside be
+    // narrower than its own longest option.
+    <label
+      className="flex min-w-0 flex-1 basis-[8.5rem] flex-col gap-1 sm:flex-none sm:basis-auto"
+      title={title}
+    >
       <span className={FIELD_LABEL}>{label}</span>
       {children}
+    </label>
+  );
+}
+
+/** THE SORT CONTROL THAT COMES WITH A CARD LIST.
+ *
+ *  A table sorts by clicking a column header. Cards have no headers, so the
+ *  sort has to be said out loud or the phone reader simply loses it — which
+ *  is the one thing that would make the small layout a lesser page rather
+ *  than a different shape of the same one. `RankTable` wrote the original
+ *  inline; this is the same control, lifted so the player and team boards
+ *  cannot drift from it. */
+export function SortControl({
+  options,
+  value,
+  dir,
+  onChange,
+}: {
+  /** [key, label] in the order the table's columns run */
+  options: [string, string][];
+  value: string;
+  dir: 1 | -1;
+  /** the board decides which way a fresh key opens — a name opens A-Z, a
+   *  number opens best-first */
+  onChange: (key: string, dir: 1 | -1) => void;
+}) {
+  return (
+    <label className="mt-4 flex items-center gap-2 text-[12.5px] text-ink-2 sm:hidden">
+      sort by
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value, dir)}
+        className="h-11 min-w-0 flex-1 rounded-md border border-line bg-card px-2"
+      >
+        {options.map(([k, label]) => (
+          <option key={k} value={k}>
+            {label}
+          </option>
+        ))}
+      </select>
+      <button
+        onClick={() => onChange(value, (dir * -1) as 1 | -1)}
+        aria-label="reverse the order"
+        className="h-11 w-11 shrink-0 rounded-md border border-line bg-card text-[12px]"
+      >
+        {dir === -1 ? "▾" : "▴"}
+      </button>
     </label>
   );
 }

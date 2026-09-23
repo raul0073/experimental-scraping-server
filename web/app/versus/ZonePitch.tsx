@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { PitchScene, defaultCam, type ViewName } from "../components/three/PitchScene";
 import { ZoneHeat, cellLabel, type ZoneValues } from "../components/three/ZoneHeat";
+import { FlatZones } from "../components/three/flat/FlatZones";
 
 /** One phase of the fixture, as zone tiles on the pitch.
  *
@@ -43,6 +44,33 @@ export function ZonePitch({
       view={view}
       onView={setView}
       scene="match-zones"
+      /* THE FLAT MAP, WIRED HERE AS WELL AS IN ZoneView.
+         ZoneView had it and this did not, so the same fifteen tiles were
+         2D-capable on the team page and "only drawn in 3D" on the match
+         page — which is the page most people arrive on. The versus page
+         builds its own wrappers around PitchScene rather than reusing the
+         library views, so every prop the library adds has to be added here
+         too; that is the cost of the wrapper and it is worth knowing.
+         Same values, same shared scale, same selection. */
+      flat={
+        <FlatZones
+          values={values}
+          lo={0}
+          hi={scale}
+          decimals={2}
+          selected={cell}
+          onSelect={setCell}
+        />
+      }
+      flatNote={
+        <>
+          Flat, every cell is the same size and the same shape, so two zones
+          are compared by their colour alone rather than by colour plus how
+          far up the picture they sit. What only 3D has is the pitch itself
+          underneath — seeing that a hot cell is the right half-space and not
+          merely the third tile along.
+        </>
+      }
       legend={
         <span className="flex items-center gap-2 text-[11.5px] text-ink-3">
           rare
