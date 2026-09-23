@@ -88,7 +88,10 @@ export function ManagerBoard() {
    *  otherwise. It is never a fallback for a failed fetch. */
   const [sample, setSample] = useState<Payload | null>(null);
   const [configOpen, setConfigOpen] = useState(false);
-  const [printOpen, setPrintOpen] = useState(true);
+  /** CLOSED UNTIL ASKED FOR. The fingerprint is a feature of the page, not
+   *  the page — it opens itself the moment a reader picks somebody with the
+   *  A/B buttons, and otherwise stays out of the way of the ranking. */
+  const [printOpen, setPrintOpen] = useState(false);
   const [sort, setSort] = useState<Sort>({ key: "score", dir: -1 });
   /** null until the reader chooses; after that their choice is respected
    *  exactly, including a deliberate clear. `scope` ties it to the league it
@@ -288,15 +291,21 @@ export function ManagerBoard() {
       const keep = (v: string | null) => (v && ids.has(v) ? v : null);
       return { a: keep(pick.a), b: keep(pick.b) };
     }
-    const best = [...rows]
-      .sort((x, y) => (y.s?.final ?? -Infinity) - (x.s?.final ?? -Infinity))
-      .slice(0, 2)
-      .map(rowId);
-    return { a: best[0] ?? null, b: best[1] ?? null };
+    // NOTHING IS CHOSEN UNTIL THE READER CHOOSES. This used to open on the
+    // two highest-scoring spells, which put a head-to-head on the page that
+    // nobody asked for and made a comparison look like the point of the page
+    // rather than a thing you can do on it. The players board does not
+    // pre-compare two men either; a comparison is a question, and the page
+    // should not answer one that was not asked.
+    return { a: null, b: null };
   }, [rows, pick, scope]);
 
   const onPick = useCallback(
     (slot: Slot, id: string) => {
+      // Opening on pick is the whole reason this is discoverable: the A and B
+      // buttons sit in the table, the fingerprint is collapsed below it, and
+      // without this a reader would press A and watch nothing happen.
+      setPrintOpen(true);
       setPick({
         scope,
         a: chosen.a,

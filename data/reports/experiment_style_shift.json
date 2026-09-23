@@ -1730,5 +1730,255 @@
       "median": 0.979,
       "p90": 1.453
     }
-  }
+  },
+  "opponent_mix": {
+    "opp_shift": {
+      "n": 3407,
+      "median": 0.26813258733281337,
+      "p75": 0.3429747580255532,
+      "p90": 0.42573697497826574,
+      "p99": 0.5909764790065122,
+      "max": 0.7584771110621462,
+      "mean": 0.28400172668087764
+    },
+    "corr_with_shift": 0.0969350167422344,
+    "terciles": [
+      {
+        "opp_shift_median": 0.18472814776665997,
+        "n": 1135,
+        "shift_median": 0.7487451526804489,
+        "share_p_le_0.05": 0.06167400881057269
+      },
+      {
+        "opp_shift_median": 0.26813258733281337,
+        "n": 1137,
+        "shift_median": 0.7507855459497742,
+        "share_p_le_0.05": 0.0853122251539138
+      },
+      {
+        "opp_shift_median": 0.38282600255145854,
+        "n": 1135,
+        "shift_median": 0.8048120963848329,
+        "share_p_le_0.05": 0.09515418502202644
+      }
+    ]
+  },
+  "top_fixtures": [
+    {
+      "team": "Sevilla",
+      "date": "2024-03-11",
+      "season": "2324",
+      "shift": 3.156,
+      "p": 0.0,
+      "since_change": 11,
+      "z": {
+        "press_height": -3.14,
+        "ppda": 5.47,
+        "directness": 1.04,
+        "territory": -2.61,
+        "fast_break": 4.87,
+        "regain_time": 2.21,
+        "regain_5s": -1.85,
+        "pass_length": -0.0
+      }
+    },
+    {
+      "team": "Sevilla",
+      "date": "2024-03-17",
+      "season": "2324",
+      "shift": 2.773,
+      "p": 0.0,
+      "since_change": 12,
+      "z": {
+        "press_height": -2.79,
+        "ppda": 4.44,
+        "directness": 0.99,
+        "territory": -2.6,
+        "fast_break": 4.46,
+        "regain_time": 1.97,
+        "regain_5s": -1.52,
+        "pass_length": 0.47
+      }
+    },
+    {
+      "team": "Sevilla",
+      "date": "2024-03-02",
+      "season": "2324",
+      "shift": 2.677,
+      "p": 0.0,
+      "since_change": 10,
+      "z": {
+        "press_height": -1.77,
+        "ppda": 4.33,
+        "directness": 0.67,
+        "territory": -1.99,
+        "fast_break": 4.52,
+        "regain_time": 2.7,
+        "regain_5s": -1.82,
+        "pass_length": 0.19
+      }
+    },
+    {
+      "team": "Sevilla",
+      "date": "2024-03-30",
+      "season": "2324",
+      "shift": 2.506,
+      "p": 0.005,
+      "since_change": 13,
+      "z": {
+        "press_height": -1.97,
+        "ppda": 3.53,
+        "directness": 0.66,
+        "territory": -1.97,
+        "fast_break": 4.9,
+        "regain_time": 1.69,
+        "regain_5s": -1.62,
+        "pass_length": 0.28
+      }
+    },
+    {
+      "team": "Villarreal",
+      "date": "2025-05-25",
+      "season": "2425",
+      "shift": 2.325,
+      "p": 0.0,
+      "since_change": 62,
+      "z": {
+        "press_height": -2.74,
+        "ppda": 3.68,
+        "directness": 0.19,
+        "territory": -1.41,
+        "fast_break": 2.64,
+        "regain_time": 2.27,
+        "regain_5s": -2.79,
+        "pass_length": -0.52
+      }
+    },
+    {
+      "team": "Villarreal",
+      "date": "2026-09-14",
+      "season": "2627",
+      "shift": 2.182,
+      "p": 0.0,
+      "since_change": 4,
+      "z": {
+        "press_height": 1.5,
+        "ppda": -2.77,
+        "directness": -1.33,
+        "territory": 3.3,
+        "fast_break": -2.28,
+        "regain_time": -2.42,
+        "regain_5s": 1.2,
+        "pass_length": -1.73
+      }
+    },
+    {
+      "team": "Villarreal",
+      "date": "2026-09-17",
+      "season": "2627",
+      "shift": 2.157,
+      "p": 0.015,
+      "since_change": 5,
+      "z": {
+        "press_height": 1.42,
+        "ppda": -2.74,
+        "directness": -1.26,
+        "territory": 3.34,
+        "fast_break": -1.46,
+        "regain_time": -2.85,
+        "regain_5s": 1.59,
+        "pass_length": -1.47
+      }
+    },
+    {
+      "team": "Villarreal",
+      "date": "2026-09-05",
+      "season": "2627",
+      "shift": 2.09,
+      "p": 0.025,
+      "since_change": 3,
+      "z": {
+        "press_height": 1.3,
+        "ppda": -2.78,
+        "directness": -1.37,
+        "territory": 2.57,
+        "fast_break": -3.19,
+        "regain_time": -1.9,
+        "regain_5s": 1.07,
+        "pass_length": -1.48
+      }
+    },
+    {
+      "team": "Girona",
+      "date": "2025-10-25",
+      "season": "2526",
+      "shift": 2.077,
+      "p": 0.0,
+      "since_change": 75,
+      "z": {
+        "press_height": -2.9,
+        "ppda": 3.79,
+        "directness": 0.94,
+        "territory": -1.27,
+        "fast_break": 0.98,
+        "regain_time": 1.84,
+        "regain_5s": -2.2,
+        "pass_length": -0.25
+      }
+    },
+    {
+      "team": "Real Madrid",
+      "date": "2025-09-13",
+      "season": "2526",
+      "shift": 2.06,
+      "p": 0.0,
+      "since_change": 3,
+      "z": {
+        "press_height": 2.35,
+        "ppda": -1.0,
+        "directness": -0.47,
+        "territory": 4.38,
+        "fast_break": 0.65,
+        "regain_time": -1.84,
+        "regain_5s": 1.83,
+        "pass_length": -0.92
+      }
+    },
+    {
+      "team": "Villarreal",
+      "date": "2025-08-15",
+      "season": "2526",
+      "shift": 2.038,
+      "p": 0.005,
+      "since_change": 63,
+      "z": {
+        "press_height": -2.4,
+        "ppda": 3.33,
+        "directness": -0.07,
+        "territory": -1.1,
+        "fast_break": 1.98,
+        "regain_time": 2.06,
+        "regain_5s": -2.57,
+        "pass_length": -0.64
+      }
+    },
+    {
+      "team": "West Ham",
+      "date": "2025-12-14",
+      "season": "2526",
+      "shift": 1.919,
+      "p": 0.02,
+      "since_change": 10,
+      "z": {
+        "press_height": -0.93,
+        "ppda": 1.26,
+        "directness": 2.43,
+        "territory": 0.23,
+        "fast_break": 3.72,
+        "regain_time": 1.87,
+        "regain_5s": -1.73,
+        "pass_length": 0.82
+      }
+    }
+  ]
 }

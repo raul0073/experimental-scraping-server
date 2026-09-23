@@ -232,6 +232,7 @@ def main() -> int:
     # ---- raw per-metric shift for every (fixture, side)
     raw: Dict[Tuple[str, str, str], Dict[str, float]] = {}
     halves: Dict[Tuple[str, str, str], Tuple[dict, dict]] = {}
+    levels: Dict[Tuple[str, str, str], Tuple[dict, dict]] = {}
     for (lg, team), rows in series.items():
         idx = {d: i for i, (d, _r) in enumerate(rows)}
         for date, _rec in rows:
@@ -260,6 +261,13 @@ def main() -> int:
                 halves[(lg, team, date)] = (
                     {m: ao[m] - bo[m] for m in STYLE_KEYS},
                     {m: ae[m] - be[m] for m in STYLE_KEYS})
+                # the LEVEL from the same two disjoint halves. This separates
+                # "these metrics cannot measure a team" from "these metrics
+                # measure a team fine, and the team is not changing" — which
+                # are opposite conclusions with the same null on the shift.
+                levels[(lg, team, date)] = (
+                    {m: bo[m] for m in STYLE_KEYS},
+                    {m: be[m] for m in STYLE_KEYS})
 
     # ---- z-score each metric's DIFFERENCE within league-season
     season_of = {(r["league"], r["home"], r["date"]): r["season"] for r in fixtures}

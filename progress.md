@@ -2,9 +2,39 @@
 
 _Always up to date. What's done, what's in flight, what's next. Spec: `projectInfo.md`. Rules: `rules.md`._
 
-**v1 PIPELINE COMPLETE ✅ — all 6 stage gates passed (2026-08-07). First 2026/27 MW1 picks committed to the ledger. Next: frontend dashboard (Option A), weekly-run scheduling, repo re-init under new name.**
+**v1 PIPELINE COMPLETE ✅ — all 6 stage gates passed (2026-08-07). First 2026/27 MW1 picks committed to the ledger.**
 
-## DEPLOYMENT — decided 2026-09-21, to do TOMORROW once the data is aligned
+**LIVE, FIVE LEAGUES, 2026-09-23.** predictorous.com serves teams, players
+and managers for ENG/ESP/ITA/GER/FRA. Commit `cb9c74a` pushed.
+
+## 🔴 URGENT — THE SITE IS NOT RESPONSIVE (user, 2026-09-23)
+
+**It is public and it does not work on a phone.** This is the top of the
+list, above every feature below it. A prediction site is read on a phone far
+more than on a laptop, and the whole point of deploying was to have
+something to show.
+
+Known state: `RoundTables.tsx` has zero breakpoints, `VersusPage.tsx` zero,
+`MentalBoard`/`PlayerBoard` one each. `RankTable.tsx` is the exception — it
+was built with a card layout below `sm` and is the pattern to copy, not to
+reinvent. The new ratings filter bar and position rail wrap correctly but
+have not been checked on a real device.
+
+The target is 375px with a 16px gutter and no horizontal page scroll, on
+every route in the sitemap. Do the predictor (`/`) first — it is the front
+page and the one a link lands on.
+
+## NEXT — the manager layer as a MODEL input
+
+Running as of 2026-09-23: does team style actually shift, is a manager
+change a decent proxy for it, and is the model measurably wronger on
+fixtures where it just moved. The hypothesis is that all four previous
+manager experiments tested a PROXY ("the manager changed") for the thing
+that matters ("the football changed"), and the proxy is bad in both
+directions. Verdict pending; a null closes the thread for good, which is a
+real result given it has already cost four experiments.
+
+## DEPLOYMENT — DONE 2026-09-23. Cloudflare Pages, five leagues live.
 
 **Cloudflare Pages, direct upload.** Not today — the backfill has to finish
 and all five leagues have to be aligned first.
@@ -62,6 +92,63 @@ team-season. They are fetched per team on demand, so this is a hosting cost
 and not page weight; quantising the coordinates would cut it hard without
 changing what the picture shows. Do nothing until it matters.
 
+## THE MANAGER RANKING — shipped 2026-09-23
+
+A third ratings tab, not a nav item: a manager ranking is the same football
+asked about a different unit. `web/app/ratings/ManagerBoard.tsx` and
+friends, `services/managers/{metrics,ranking}.py`,
+`data/config/manager_rank.json`, `scripts/build_manager_web.py`.
+
+**394 spells across five leagues, 25 metrics, 11 of them scoreable.** A
+spell is a club under one man, stitched from WhoScored's per-match
+`managerName`.
+
+**THE TWO HALVES ARE THE WHOLE DESIGN.** The SCORE uses only things a
+manager demonstrably decides — what the opponent gets once his side leads,
+what his side does once behind, what changed over the interval, what the
+bench did, what he gives away. The FINGERPRINT is never scored, because
+pressing high is not better than sitting off, and the moment a table ranks
+style it has started asserting that one way of playing football is correct.
+Three metrics the user asked for late — `regain_time`, `regain_5s`,
+`squad_used` — are weightable at 0: available to anyone who wants them in
+the score, changing nobody's number until they do.
+
+`spells.build()` gained `absorb_short=False`. The default relabels an
+interior run under ten matches with its longer neighbour, which for a
+MANAGER unit does not down-weight a sacked coach — it deletes him and
+credits his football to someone else. Recovered 10 spells in England alone,
+including Postecoglou's five games at Forest.
+
+**Validation that mattered more than the code.** `regain_time` orders
+exactly against PPDA (Arteta 12.94s at PPDA 6.30; McKenna 14.04s at 10.31),
+and `squad_used` independently found the known fact that Nuno's Forest used
+the fewest players in the league (15, against Postecoglou's 21).
+
+### Three bugs it shipped with, all found by an adversarial review
+
+🐛 **THE TABLE WAS RANKED BACKWARDS** on the four inverted metrics — about
+half the score's weight. Percentiles arrive already oriented and
+`contract.ts` flipped them a second time, so the league's WORST discipline
+was climbing. It survived every render test because `sample.ts` built its
+percentiles with the opposite convention from the payload, so the double
+negative cancelled there and only there. **A fixture that disagrees with
+production about a convention does not merely fail to catch bugs — it hides
+them.**
+
+🐛 **TWO SPELLS OF ONE MANAGER AT ONE CLUB COLLIDED.** A metrics row was
+identified by `(team, manager)`, so a manager who came back — or a caretaker
+who did two stints — had both rows resolve to the first spell's key and the
+last row win. One spell published with the other's numbers, the other with
+nothing: Sarri at Lazio, 38 matches, unranked. The tell was a non-integer
+error count on a one-match spell. Rows now carry `spell.key` and an
+ambiguous pair raises rather than silently picking one.
+
+🐛 **TWO COPIES OF THE METRIC BANK, ALREADY DRIFTED.** `ranking.py` knew 22
+metrics while `metrics.py` computed 25, and `_normalise` iterates the
+former — so three metrics were measured on every league-season and silently
+discarded. `ranking.py` now imports the bank; it owns only weight and
+enabled.
+
 ## 🐛 I CORRUPTED TWO EVENT SEASONS FIXING A DIFFERENT BUG (2026-09-23)
 
 `write_events`' retry path existed for a real Arrow failure — a missing
@@ -92,6 +179,42 @@ at 76% (ITA) and 37% (FRA). The repair script overwrote without keeping a
 backup, so the evidence was gone — **that is the lesson worth keeping: a
 repair that destroys its input cannot be audited.** The cache held all 380
 and 306 matches, so the rebuild cost nothing but CPU.
+
+## SEO + THE RATINGS UI (2026-09-23)
+
+**Two real SEO bugs, not just missing tags.** `/ratings` emitted
+`Ratings — Predictorous · Predictorous` — it hardcoded the site name in a
+title the layout template already appends to. And `/predictor`,
+`/how-it-works`, `/predictor/history` and `/predictor/projected` all carried
+the homepage title VERBATIM: four pages competing with the front page and
+each other. The worst was `/predictor`, a client-side redirect stub whose
+entire content is the word "continue", indexed under the site's main title.
+It is now `noindex` with a canonical home, which needed the client half
+split into `Moved.tsx` so the page could be a server component and carry
+metadata at all.
+
+`sitemap.xml` and `robots.txt` now exist, generated from what was actually
+built — the sitemap reads the same league index the pages are generated
+from, so it cannot list a league that was not built.
+
+**Ratings UI.** Position pills grouped by pitch zone (labels above, so nine
+fit one row) and multi-selectable; club filters on players and teams; a
+shared filter bar, select style and active-filter chips moved into
+`scoreUi.tsx` so the boards cannot drift apart again — the same reason the
+score ramp already lives there.
+
+⚠️ **THE RANK COLUMN WAS THE LOOP INDEX, IN THREE PLACES.** Filter a table
+to three clubs and they were numbered 1, 2, 3 — a side lying fourteenth read
+as second. Same trap as percentiling after a filter: both now read from the
+unfiltered table. Worth remembering as a shape, because it will recur
+anywhere a filter is added to a ranked list.
+
+⚠️ **HOOKS AFTER A CONDITIONAL RETURN, TWICE IN ONE SESSION.** Added a
+`useMemo` below `if (!data)` in PlayerBoard and again below `if (!ready)` in
+ManagerBoard. It typechecks perfectly and throws "Rendered more hooks than
+during the previous render" the moment the payload lands. Both moved above
+the guard; the club fallback became a derived value rather than a reset
+effect, which also removed a cascading render.
 
 ## DAILY: THE INTERNATIONAL-BREAK GATE (2026-09-23)
 

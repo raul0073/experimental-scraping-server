@@ -336,6 +336,9 @@ def fixture_shift(scal: np.ndarray, hist: np.ndarray, means: np.ndarray,
     n_all, n_core = rms(nul), rms(nul, CORE_IDX)
     return {"z": obs, "shift": o_all, "shift_core": o_core,
             "null": n_all, "null_core": n_core,
+            # the per-metric noise variance for THIS fixture: what a shift of
+            # this size looks like when only the split point is random
+            "null_sq": np.square(nul).mean(axis=0),
             "p": float((n_all >= o_all).mean()),
             "p_core": float((n_core >= o_core).mean())}
 
@@ -502,7 +505,23 @@ def main() -> None:
     # not remove it. The share of each metric's shift variance carried by the
     # league-season-matchweek mean answers it; with about twenty teams a group,
     # pure noise already produces ~1/20.
+    # HOW BIG IS THE REAL MOVEMENT. The observed shift in a metric is the true
+    # movement plus the noise of reading six matches; the null measures that
+    # noise on the same fixtures. Subtracting the variances leaves the part
+    # that is football, in units of how far apart two teams in the division sit.
+    nsq = np.array([r["null_sq"] for r in rows])
     zz = np.array([r["z"] for r in rows])
+    out["signal_size"] = {}
+    for k in STYLE_KEYS:
+        tot = float(np.mean(np.square(zz[:, KI[k]])))
+        noise = float(np.mean(nsq[:, KI[k]]))
+        out["signal_size"][k] = {
+            "observed_rms_sd": tot ** 0.5, "noise_rms_sd": noise ** 0.5,
+            "real_rms_sd": max(tot - noise, 0.0) ** 0.5,
+            "share_of_variance_real": max(tot - noise, 0.0) / tot if tot else 0.0}
+    for r in rows:
+        r.pop("null_sq", None)
+
     groups: Dict[tuple, List[int]] = defaultdict(list)
     for n, r in enumerate(rows):
         groups[(r["league"], r["season"], r["round"])].append(n)
@@ -709,10 +728,32 @@ def main() -> None:
     print("  " + "  ".join(f"{k}={v:.1%}" for k, v in
                            lc["share_of_variance"].items()))
 
+    om = out.get("opponent_mix")
+    if om:
+        print(f"\nIS IT THE FIXTURE LIST? opponent-mix shift median "
+              f"{om['opp_shift']['median']:.3f}, correlation with the team's own "
+              f"shift {om['corr_with_shift']:+.3f}")
+        for n, t in enumerate(om["terciles"]):
+            print(f"  opponents changed {['least', 'middling', 'most'][n]:<9s} "
+                  f"(opp {t['opp_shift_median']:.3f})  team shift median "
+                  f"{t['shift_median']:.3f}  p<=.05 {t['share_p_le_0.05']:.1%}")
+
+    print("\nTHE TWELVE BIGGEST, METRIC BY METRIC")
+    print(f"  {'team':<17s}{'date':<12s}{'shift':>6s}  "
+          + " ".join(f"{k[:6]:>6s}" for k in STYLE_KEYS))
+    for f in out["top_fixtures"]:
+        print(f"  {f['team']:<17s}{f['date']:<12s}{f['shift']:6.2f}  "
+              + " ".join(f"{f['z'][k]:6.2f}" for k in STYLE_KEYS))
+
     print("\nPER METRIC (|short - long| in league-season sd)")
+    print(f"  {'':14s} {'median':>7s} {'p90':>7s} {'p99':>7s} |{'observed':>9s}"
+          f"{'noise':>8s}{'REAL':>8s}{'real var':>10s}")
     for k, v in out["per_metric"].items():
-        print(f"  {k:14s} median {v['median_abs_z']:.3f}   p90 {v['p90_abs_z']:.3f}"
-              f"   p99 {v['p99_abs_z']:.3f}")
+        s = out["signal_size"][k]
+        print(f"  {k:14s} {v['median_abs_z']:7.3f} {v['p90_abs_z']:7.3f} "
+              f"{v['p99_abs_z']:7.3f} |{s['observed_rms_sd']:9.3f}"
+              f"{s['noise_rms_sd']:8.3f}{s['real_rms_sd']:8.3f}"
+              f"{s['share_of_variance_real']:9.1%}")
 
     p = out["proxy"]
     print(f"\nTHE PROXY  (big = top decile, composite >= {p['big_threshold_p90']:.3f};"
