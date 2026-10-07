@@ -16,18 +16,38 @@ from typing import Any, Dict, List, Optional
 # ---------------------------------------------------------------------------
 
 
-def system_scenarios(legs: List[Dict], k: int) -> List[Dict]:
-    """Exact hit-count table for a Winner שיטה K/N over these legs.
+def system_scenarios(legs: List[Dict], k) -> List[Dict]:
+    """Exact hit-count table for a Winner form over these legs.
 
-    Enumerates all 2^N hit subsets; per subset, lines won = the K-combos fully
-    inside the hit set, and the illustrative return uses each leg's BREAKEVEN
-    odds (1/p — the fair-price floor we publish). Aggregated by hit count:
-    P(count), lines won, avg return as a fraction of total stake. This is what
-    makes 'not every win is a gain' visible: with K=2/N=5, two hits pay one
-    line of ten — a partial refund."""
+    `k` is a combination SIZE, or a list of them. That generalisation is the
+    whole point:
+
+        שיטה K/N   [K]           C(N,K) lines
+        טריקסי     [2, 3]        on 3 legs: 3 doubles + 1 treble = 4
+        פטנט       [1, 2, 3]     Trixi + 3 singles = 7
+        יאנקי      [2, 3, 4]     on 4 legs: 6 + 4 + 1 = 11
+        לאקי 15    [1, 2, 3, 4]  Yankee + 4 singles = 15
+
+    🐛 EVERY NAMED FORM USED TO BE DESCRIBED AND ONLY SYSTEMS WERE SCORED.
+    The catalog above the module listed Yankee, Lucky 15, Trixi and Patent,
+    and `options` printed them with a rough P(return) — but the recommendation
+    competed שיטה against שיטה and nothing else, so "chosen over" could only
+    ever show systems. Every one of those forms is a SUM OF SYSTEMS over the
+    same legs, which means this enumerator could always have priced them; it
+    just took one K.
+
+    Enumerates all 2^N hit subsets; per subset, lines won are the combinations
+    of every size in `k` lying fully inside the hit set, and the illustrative
+    return uses each leg's BREAKEVEN price (1/p — the fair-price floor we
+    publish, never a book's number). Aggregated by hit count: P(count), lines
+    won, average return as a fraction of total stake. This is what makes 'not
+    every win is a gain' visible: with K=2/N=5, two hits pay one line of ten,
+    which is a partial refund.
+    """
     from itertools import combinations, product
+    ks = sorted({k} if isinstance(k, int) else set(k))
     n = len(legs)
-    total_lines = len(list(combinations(range(n), k)))
+    total_lines = sum(len(list(combinations(range(n), j))) for j in ks)
     agg: Dict[int, Dict[str, float]] = {}
     for hits in product((0, 1), repeat=n):
         p = 1.0
@@ -35,11 +55,12 @@ def system_scenarios(legs: List[Dict], k: int) -> List[Dict]:
             p *= leg["prob"] if h else (1 - leg["prob"])
         hit_idx = [i for i, h in enumerate(hits) if h]
         ret = 0.0
-        for combo in combinations(hit_idx, k):
-            line = 1.0
-            for i in combo:
-                line *= 1 / legs[i]["prob"]
-            ret += line
+        for j in ks:
+            for combo in combinations(hit_idx, j):
+                line = 1.0
+                for i in combo:
+                    line *= 1 / legs[i]["prob"]
+                ret += line
         c = len(hit_idx)
         a = agg.setdefault(c, {"p": 0.0, "ret": 0.0})
         a["p"] += p
@@ -48,7 +69,8 @@ def system_scenarios(legs: List[Dict], k: int) -> List[Dict]:
     for c in sorted(agg):
         p = agg[c]["p"]
         avg_ret_frac = (agg[c]["ret"] / p / total_lines) if p else 0.0
-        lines_won = len(list(combinations(range(c), k))) if c >= k else 0
+        lines_won = sum(len(list(combinations(range(c), j)))
+                        for j in ks if c >= j)
         out.append({"hits": c, "p": p, "lines_won": lines_won,
                     "total_lines": total_lines,
                     "ret_frac": avg_ret_frac,
@@ -155,21 +177,63 @@ def advise(weekly: Dict[str, Any]) -> Optional[Dict[str, Any]]:
 
     def build(title_he, title_en, legs, k, how):
         scen = system_scenarios(legs, k)
+        ks = sorted({k} if isinstance(k, int) else set(k))
         return {"title_he": title_he, "title_en": title_en,
                 "lines": scen[0]["total_lines"], "legs": legs, "k": k,
+                # the combination sizes this form pays on, always a list —
+                # [2] is a system, [2,3,4] is a Yankee, and the page should
+                # not have to know which of the two it was handed
+                "ks": ks, "n": len(legs),
                 "scenarios": scen,
                 "p_return": sum(s["p"] for s in scen if s["lines_won"] > 0),
                 "p_profit": sum(s["p"] for s in scen if s["profit"]),
                 "how": how}
 
-    candidates = [
-        build("שיטה 2/4", "system 2/4 — 4 draws, pairs only", draw_legs4, 2,
-              "four draws, every pair a line (6 lines). A draw pair pays ~9-10x one "
-              "line against 6 staked — PROFIT already at 2 hits. Highest "
-              "profit-frequency shape for this board."),
-        build("שיטה 2/3", "system 2/3 — top-3 draws", draw_legs3, 2,
-              "three draws, every pair a line (3 lines); profit at 2 hits."),
+    # THE WHOLE CATALOG, NOT JUST SYSTEMS. Every Winner form is a sum of
+    # C(N,k) over a set of sizes — a single is k={1} on one leg, an
+    # accumulator is k={N} on N, a Yankee is k={2,3,4} on four — so one
+    # enumerator prices all of them and they can compete on the same exact
+    # P(profit) at breakeven. Before this, four forms were printed in a
+    # catalog nobody scored and the recommendation only ever compared systems
+    # against systems.
+    #
+    # (he, en, legs needed, combination sizes, note)
+    FORMS = [
+        ("בודד", "single — top draw only", 1, [1],
+         "one leg, one line. The honest floor: no structure, no dilution, "
+         "and the only shape whose return is exactly its leg's fair price."),
+        ("כפול", "double — top 2 draws, one line", 2, [2],
+         "both must land. One line, biggest multiple per shekel, and nothing "
+         "back at 1 of 2."),
+        ("טריפל", "treble — top 3 draws, one line", 3, [3],
+         "all three. A lottery shape on a draw board: ~3% to land."),
+        ("רביעייה", "fourfold — all 4 draws, one line", 4, [4],
+         "the accumulator. Everything or nothing."),
+        ("טריקסי", "Trixi — top 3 draws, 4 lines", 3, [2, 3],
+         "3 doubles + 1 treble. The smallest form that still pays on a "
+         "partial board — profit from 2 hits."),
+        ("פטנט", "Patent — top 3 draws, 7 lines", 3, [1, 2, 3],
+         "Trixi + 3 singles. Softer floor than Trixi: one hit already "
+         "returns something, paid for with three extra lines."),
+        ("שיטה 2/3", "system 2/3 — top-3 draws, pairs", 3, [2],
+         "three draws, every pair a line (3 lines); profit at 2 hits."),
+        ("שיטה 2/4", "system 2/4 — 4 draws, pairs only", 4, [2],
+         "four draws, every pair a line (6 lines). A draw pair pays ~9-10x "
+         "one line against 6 staked — PROFIT already at 2 hits. Highest "
+         "profit-frequency shape for this board."),
+        ("שיטה 3/4", "system 3/4 — 4 draws, trebles", 4, [3],
+         "all trebles of the four (4 lines): nothing below 3 hits, and the "
+         "tail is the whole point."),
+        ("יאנקי", "Yankee — 4 draws, 11 lines", 4, [2, 3, 4],
+         "6 doubles + 4 trebles + 1 fourfold. The standard: money-back zone "
+         "at 2 of 4, the tails carry the rest."),
+        ("לאקי 15", "Lucky 15 — 4 draws, 15 lines", 4, [1, 2, 3, 4],
+         "Yankee + 4 singles — the softest floor, where even 1 of 4 returns "
+         "something, bought with four more lines."),
     ]
+    pool = [draw_leg(p) for p in draws]
+    candidates = [build(he, en, pool[:n], ks, note)
+                  for he, en, n, ks, note in FORMS if len(pool) >= n]
     if banker_leg:
         candidates.append(build(
             "שיטה 2/5", "system 2/5 — banker counted as a selection",
@@ -213,17 +277,40 @@ def advise(weekly: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     # measured, cleanly and as singles, by the GOLD pot; a favorites system
     # is duplicate exposure in a costume.
 
-    # MANDATE: the slip pot bets ONE instrument — the draw system. Ranking by
-    # P(profit) (the old rule) always crowned the highest-frequency shape,
-    # which is how the pot ended up switching products between rounds. The
-    # default is now fixed by mandate; everything else is an ALTERNATIVE the
-    # user may swap into on PRICE, which is their department.
-    primary = "שיטה 2/4" if len(draw_legs4) == 4 else "שיטה 2/3"
-    others = [c for c in candidates if c["title_he"] != primary]
-    others.sort(key=lambda c: (c["p_profit"], c["p_return"]), reverse=True)
-    slip = next((c for c in candidates if c["title_he"] == primary), candidates[0])
-    slip["mandate"] = "draws"
-    candidates = [slip] + others
+    # NO MANDATE, NO DEFAULT — THE BEST SHAPE EVERY WEEK, ON THE NUMBERS.
+    #
+    # This used to pin שיטה 2/4 as the recommendation whatever the board said,
+    # and offer everything else as an alternative to swap into on price. The
+    # reason was real: ranking crowns a different form most weeks, and a pot
+    # that switches instrument between rounds is harder to read. The user has
+    # weighed that and chosen the ranking (2026-10-07) — so the bias is gone
+    # and the field is sorted on its own merits.
+    #
+    # RANKED ON P(PROFIT), NOT P(RETURN), and the difference is not small:
+    # a שיטה 2/6 can return something 90% of weeks while profiting 28%, and
+    # getting 40% of a stake back is not winning. P(return) is carried beside
+    # it on every row so the trade stays visible rather than being decided
+    # here on the reader's behalf.
+    #
+    # WHAT THIS COSTS, SAID PLAINLY: at fair prices every structure is EV-0 —
+    # they differ in the SHAPE of the distribution, not in expectation. So
+    # this is choosing a variance profile, not finding an edge, and the
+    # monkey's bankroll now measures "betting the best-looking shape each
+    # week" rather than "betting one instrument". That is a weaker claim than
+    # the mandate version and the monkey tab has to say so.
+    # TIE-BREAK ON FEWER LINES, NOT ON P(RETURN). Ties happen constantly here
+    # because several shapes share a profit threshold — this week לאקי 15 and
+    # שיטה 2/4 both profit on exactly 39.7% of boards. Breaking that on
+    # P(return) crowned the 15-line form over the 6-line one: two and a half
+    # times the stake for the SAME chance of ending up ahead, bought with a
+    # higher chance of a partial refund. At fair prices every form is EV-0, so
+    # the cheaper of two shapes with equal win frequency is strictly the
+    # better risk, and P(return) is a comfort rather than a result.
+    candidates.sort(key=lambda c: (c["p_profit"], -c["lines"], c["p_return"]),
+                    reverse=True)
+    slip = candidates[0]
+    slip["mandate"] = None
+    slip["ranked_on"] = "p_profit"
     slip["alternatives"] = [
         {"title_he": c["title_he"], "title_en": c["title_en"], "lines": c["lines"],
          "p_return": c["p_return"], "p_profit": c["p_profit"]}

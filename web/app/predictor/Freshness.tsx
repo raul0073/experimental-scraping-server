@@ -30,6 +30,11 @@ type Stale = {
   stale: boolean;
   reasons: string[];
   checks: Record<string, unknown>;
+  /** every league the update would actually build — the endpoint derives
+   *  this from what has the event history, so it grows by itself */
+  leagues?: string[];
+  /** leagues that exist but are not ready to be built yet */
+  waiting?: string[];
 };
 
 type Status = {
@@ -175,8 +180,22 @@ export function Freshness({ generated }: { generated?: string }) {
                 {st.stale.reasons.join(" · ")}
               </span>
             ) : (
+              /* NAMED FROM THE PAYLOAD, NOT HARDCODED. This said "England up
+                 to date" — a leftover from the phase when the daily really
+                 did run one league. The backend has aggregated every ready
+                 league for weeks, so the badge was quietly reporting one
+                 league's freshness as if it were the site's, while four
+                 others sat thirteen days stale behind a green tick. A status
+                 line that names the wrong scope is worse than none. */
               <span className="text-[11px] text-good">
-                England up to date
+                {(st.stale.leagues?.length ?? 0) > 1
+                  ? `all ${st.stale.leagues!.length} leagues up to date`
+                  : `${(st.stale.leagues?.[0] ?? "").split("-").slice(1).join("-") || "everything"} up to date`}
+                {(st.stale.waiting?.length ?? 0) > 0 && (
+                  <span className="text-ink-3">
+                    {" "}· {st.stale.waiting!.length} waiting on events
+                  </span>
+                )}
               </span>
             )
           )}
