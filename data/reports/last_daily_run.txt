@@ -1,10 +1,32 @@
 {
-  "at": "2026-10-07T18:30:29",
+  "at": "2026-10-16T17:41:39",
   "leagues": [
     "ENG-Premier League",
     "ESP-La Liga",
     "FRA-Ligue 1",
     "GER-Bundesliga",
     "ITA-Serie A"
-  ]
+  ],
+  "state": {
+    "ENG-Premier League": {
+      "played": 60,
+      "events": 60
+    },
+    "ESP-La Liga": {
+      "played": 79,
+      "events": 79
+    },
+    "ITA-Serie A": {
+      "played": 60,
+      "events": 60
+    },
+    "GER-Bundesliga": {
+      "played": 45,
+      "events": 45
+    },
+    "FRA-Ligue 1": {
+      "played": 54,
+      "events": 54
+    }
+  }
 }

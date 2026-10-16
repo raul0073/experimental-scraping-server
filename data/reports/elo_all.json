@@ -1,6 +1,6 @@
 {
   "ESP-La Liga": {
-    "fingerprint": "4629:2026-09-20",
+    "fingerprint": "4638:2026-10-12",
     "k": 0.06,
     "home_adv": 0.25,
     "decay": 1.0,
@@ -21,7 +21,7 @@
       "2425"
     ],
     "holdout": "2526",
-    "n_matches": 4629,
+    "n_matches": 4638,
     "train_log_loss": 0.9907,
     "base_log_loss": 1.0489,
     "log_loss": 0.9883,
@@ -32,7 +32,7 @@
     "draw_top40_said": 0.3132
   },
   "ENG-Premier League": {
-    "fingerprint": "4610:2026-09-20",
+    "fingerprint": "4620:2026-10-12",
     "k": 0.08,
     "home_adv": 0.2,
     "decay": 1.0,
@@ -53,7 +53,7 @@
       "2425"
     ],
     "holdout": "2526",
-    "n_matches": 4610,
+    "n_matches": 4620,
     "train_log_loss": 0.9758,
     "base_log_loss": 1.0835,
     "log_loss": 1.0321,
@@ -64,12 +64,12 @@
     "draw_top40_said": 0.2664
   },
   "ITA-Serie A": {
-    "fingerprint": "4610:2026-09-20",
+    "fingerprint": "4620:2026-10-12",
     "k": 0.1,
     "home_adv": 0.2,
     "decay": 1.0,
-    "conv": 0.72688,
-    "conv_lookback": 1,
+    "conv": 0.73594,
+    "conv_lookback": 3,
     "rho": -0.05,
     "fit_seasons": [
       "1415",
@@ -85,18 +85,18 @@
       "2425"
     ],
     "holdout": "2526",
-    "n_matches": 4610,
-    "train_log_loss": 0.9876,
+    "n_matches": 4620,
+    "train_log_loss": 0.9873,
     "base_log_loss": 1.0884,
-    "log_loss": 1.015,
+    "log_loss": 1.0149,
     "accuracy": 0.5263,
     "n_test": 380,
     "draw_base": 0.2605,
     "draw_top40_hit": 0.35,
-    "draw_top40_said": 0.3112
+    "draw_top40_said": 0.3088
   },
   "GER-Bundesliga": {
-    "fingerprint": "3708:2026-09-20",
+    "fingerprint": "3717:2026-10-11",
     "k": 0.08,
     "home_adv": 0.25,
     "decay": 1.0,
@@ -117,7 +117,7 @@
       "2425"
     ],
     "holdout": "2526",
-    "n_matches": 3708,
+    "n_matches": 3717,
     "train_log_loss": 0.9999,
     "base_log_loss": 1.0707,
     "log_loss": 0.9752,
@@ -128,7 +128,7 @@
     "draw_top40_said": 0.2763
   },
   "FRA-Ligue 1": {
-    "fingerprint": "4282:2027-03-06",
+    "fingerprint": "4291:2027-03-06",
     "k": 0.08,
     "home_adv": 0.25,
     "decay": 1.0,
@@ -149,7 +149,7 @@
       "2425"
     ],
     "holdout": "2526",
-    "n_matches": 4282,
+    "n_matches": 4291,
     "train_log_loss": 1.0091,
     "base_log_loss": 1.0625,
     "log_loss": 0.9866,
