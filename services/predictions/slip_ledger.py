@@ -63,13 +63,15 @@ class SlipLedger:
         if lead_d > cls.MAX_DAYS_AHEAD:
             return {"committed": 0,
                     "reason": f"window opens in {lead_d}d (> {cls.MAX_DAYS_AHEAD})"}
-        # one slip per window: skip when a pending slip has a leg kickoff
-        # inside this window (drift-proof, same rule as the pick ledger)
-        for r in rows:
-            if r["status"] == "pending" and any(
-                    win["start"] <= (l.get("kickoff") or "") <= win["end"]
-                    for l in r["legs"]):
-                return {"committed": 0, "reason": "window already has a pending slip"}
+        # ONE SLIP PER WINDOW, PENDING OR NOT. The check used to require a
+        # PENDING slip, so a window whose slip had graded could be booked a
+        # second time — and the dashboard now hands back the committed slip
+        # while a round is live, so the second booking would have been a copy
+        # of the first with its results already written into the legs. The
+        # window string never moves after commit; refuse on that.
+        if any(r.get("window") == win["start"] for r in rows):
+            return {"committed": 0,
+                    "reason": f"window {win['start']} already has a slip"}
         s = strategy["slip"]
         rows.append({
             "committed_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -238,3 +240,23 @@ class SlipLedger:
             })
         lines.sort(key=lambda x: -x["return"])
         return {**r, "line_detail": lines}
+
+
+    # ------------------------------------------------ a booked window
+
+    @classmethod
+    def window_slip(cls, window: str) -> Optional[Dict[str, Any]]:
+        """The slip booked under one window, or None. Served back verbatim
+        while the round is live — see strategy_advisor.rebuild for why a
+        live slip must never be re-chosen."""
+        for r in reversed(cls._read()):
+            if r.get("window") == window:
+                return r
+        return None
+
+    @classmethod
+    def live_window(cls) -> Optional[str]:
+        """The window of the newest slip still pending, or None."""
+        pending = {r.get("window") for r in cls._read()
+                   if r.get("status") == "pending" and r.get("window")}
+        return max(pending) if pending else None

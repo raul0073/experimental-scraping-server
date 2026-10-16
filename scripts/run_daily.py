@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
@@ -44,6 +45,40 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))          # before the services import below
 PY = str(ROOT / ".venv" / "Scripts" / "python.exe")
+
+# ---------------------------------------------------------------------------
+# TEXT ENCODING — READ THIS BEFORE CHANGING IT.
+#
+# This machine's locale is cp1255 (Hebrew). cp1255 encodes Hebrew perfectly
+# and CANNOT encode n-tilde, o-umlaut, e-acute or a-grave — which is to say
+# it cannot encode the team names of four of the five leagues this pipeline
+# builds. Python picks the locale encoding for stdout, so the moment any step
+# printed "Koln" with its umlaut, or "Atletico" with its accent, the print
+# itself raised UnicodeEncodeError.
+#
+# In run() that exception escaped from inside the `for line in p.stdout` loop
+# — BEFORE the "-> ok / FAILED" line — so the step was recorded as ERROR and
+# abandoned with no outcome printed and the child left mid-fetch. On
+# 2026-10-12 that was `sources` and all five `events` steps: six steps with
+# no result line in the log, a WhoScored event store three weeks stale for
+# England, Spain and Germany, and every rating, payload and page after them
+# computed on events from September. The daily appeared to run fine and
+# published stale data, every single day.
+#
+# Two fixes, because one is not enough:
+#   1. this process writes utf-8 and never dies on a character;
+#   2. CHILD_ENV forces the same on every child, so a step cannot die the
+#      way the parent just stopped dying.
+# errors="replace" is deliberate: a mangled character in a log line must
+# never be able to abort a scrape again.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):       # not a reconfigurable stream
+        pass
+
+CHILD_ENV = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}
+
 LOG = ROOT / "data" / "reports" / "daily.log"
 
 # The season a daily run is allowed to touch. Anything older is history and
@@ -91,7 +126,18 @@ def football_window(leagues: list) -> tuple:
 
 
 def idle_check(leagues: list) -> tuple:
-    """(idle, why). Idle = no fixture has kicked off since the last run.
+    """SUPERSEDED by stale_leagues() — kept for reference, not called.
+
+    It compared the newest fixture DATE against the date of the last run, so
+    "football has happened" meant "a kickoff time has passed" rather than "a
+    match finished and we have not ingested it". Both failure modes are
+    written up in stale_leagues(); the short version is that `>=` on dates
+    means a run on the same day as the last kickoff disables the gate until
+    the next one, so three dead days each cost a full hour.
+
+    (original intent below)
+
+    (idle, why). Idle = no fixture has kicked off since the last run.
 
     WHY THIS IS DERIVED AND NOT A CALENDAR. International breaks are the
     obvious case, but they are not the only one: midweek gaps, winter breaks,
@@ -147,6 +193,14 @@ done: list[tuple[str, str, float]] = []
 def run(label: str, args: list[str], optional: bool = False) -> bool:
     """One step. Never fatal: a source that is down costs that source.
 
+    `optional` MARKS a step, it does not excuse it. The parameter was
+    declared here and never read once, which reads as "these failures are
+    tolerated" to anyone scanning the call sites — and the five `events`
+    steps carry it. They are among the most important steps in the file. So
+    it now labels the step in the summary and leaves the exit code alone: a
+    step that did not run is news whether or not somebody once expected it
+    to be flaky.
+
     🐛 THIS USED TO USE capture_output=True AND THROW THE OUTPUT AWAY unless
     the step failed. So a run that spent eleven minutes fetching wrote
     nothing anywhere: the admin panel showed an empty box, the terminal went
@@ -162,7 +216,7 @@ def run(label: str, args: list[str], optional: bool = False) -> bool:
     print(f"\n--- {label}", flush=True)
     try:
         p = subprocess.Popen(
-            [PY, "-u", *args], cwd=ROOT,
+            [PY, "-u", *args], cwd=ROOT, env=CHILD_ENV,
             stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
             text=True, bufsize=1, encoding="utf-8", errors="replace",
         )
@@ -170,19 +224,35 @@ def run(label: str, args: list[str], optional: bool = False) -> bool:
         for line in p.stdout:                      # streams; never buffers
             line = line.rstrip()
             if line.strip():
-                print(f"    {line}", flush=True)
+                # NEVER let echoing a line kill the step. The streams are
+                # reconfigured to utf-8 above, which is the real fix; this is
+                # the guarantee. A character we cannot print is worth losing
+                # a log line over, never a scrape.
+                try:
+                    print(f"    {line}", flush=True)
+                except (UnicodeError, OSError):
+                    pass
                 last.append(line)
         p.wait(timeout=7200)
         ok = p.returncode == 0
         note = "" if ok else f" {' | '.join(last)}"[:200]
         secs = time.time() - t0
-        done.append((label, "ok" if ok else f"FAILED{note}", secs))
+        tag = "" if not optional else " (optional)"
+        done.append((label, "ok" if ok else f"FAILED{tag}{note}", secs))
         print(f"    -> {'ok' if ok else 'FAILED'} in {secs:.1f}s", flush=True)
         return ok
     except subprocess.TimeoutExpired:
         done.append((label, "TIMED OUT", time.time() - t0))
     except Exception as e:  # noqa: BLE001 - a broken step is data, not a crash
+        # A step that lands here printed NO outcome line, which is how six of
+        # them hid on 2026-10-12 — see the encoding note at the top of this
+        # file. Say so on the spot, so the live log shows the gap rather than
+        # leaving the next label to imply the last step passed.
         done.append((label, f"ERROR {e}", time.time() - t0))
+        try:
+            print(f"    -> ERROR {e}", flush=True)
+        except (UnicodeError, OSError):
+            pass
     return False
 
 
@@ -212,6 +282,78 @@ def stale_seasons(league: str) -> list:
     return out
 
 
+def _slug(league: str) -> str:
+    return league.lower().replace(" ", "-").replace("--", "-")
+
+
+def league_state(league: str) -> dict:
+    """What this league looks like ON DISK: matches fbref says were played,
+    and matches whose events we actually hold. Both local, zero requests."""
+    from services.fbref.fixtures.fixtures_service import FixturesService
+    played = 0
+    try:
+        fx = FixturesService.load(league, SEASON)
+        played = sum(1 for m in (fx["matches"] if fx else []) if m.get("played"))
+    except Exception:                                      # noqa: BLE001
+        pass
+    events = 0
+    try:
+        import pandas as pd
+        pq = ROOT / "data" / "whoscored" / league / f"{SEASON}.parquet"
+        if pq.exists():
+            events = int(pd.read_parquet(pq, columns=["game_id"])["game_id"]
+                         .nunique())
+    except Exception:                                      # noqa: BLE001
+        pass
+    return {"played": played, "events": events}
+
+
+def stale_leagues(leagues: list, mark: dict | None) -> dict:
+    """{league: why} for the leagues with work to do. Everything else is
+    skipped — per league, not all-or-nothing.
+
+    THE OLD GATE ASKED THE WRONG QUESTION. idle_check compared the newest
+    fixture DATE against the date we last ran, so "football has happened"
+    meant "a kickoff time has passed", not "a match finished and we have not
+    ingested it". Two ways that went wrong, both observed:
+
+      2026-10-16  last_kick 10-16 >= last_run 10-12 -> not idle. Fixtures
+                  were SCHEDULED that evening; none had been played. The run
+                  spent 26 min in `sources` and ~8 more re-reading five
+                  ten-page WhoScored schedules to find four leftover matches
+                  from the 12th.
+      2026-10-13  last_kick 10-12 >= last_run 10-12 -> not idle. A run on the
+                  same DATE as the last kickoff disabled the gate until the
+                  next one, so three dead days each cost a full hour.
+
+    Counting what is on disk against what fbref says was played answers the
+    real question for free, and answers it per league, so a quiet league
+    costs nothing while a busy one is still rebuilt in full.
+
+    THE RETRY TRAP, AND WHY THE MARKER STORES COUNTS. A match WhoScored never
+    publishes events for would leave played > events forever, marking its
+    league stale on every future run — the old gate's permanent-outage bug
+    wearing different clothes. So the test is not "is there a gap" but "has
+    the gap CHANGED since we last ran": the marker records each league's
+    (played, events) pair after the work, and an unchanged pair means we
+    already tried and there is nothing new to try. A newly played match moves
+    `played` and the league goes stale again on its own.
+    """
+    prev = (mark or {}).get("state") or {}
+    out: dict = {}
+    for lg in leagues:
+        now = league_state(lg)
+        was = prev.get(lg)
+        if not (ROOT / "data" / "web" / "team" / _slug(lg)).exists():
+            out[lg] = "no team payload on disk"
+        elif was is None:
+            out[lg] = f"no record from a previous run ({now['played']} played)"
+        elif now != was:
+            out[lg] = (f"played {was['played']}->{now['played']}, "
+                       f"events {was['events']}->{now['events']}")
+    return out
+
+
 def stamp_pass(label: str, leagues: list) -> None:
     """Bring every stamped file level with its raw events."""
     for lg in leagues:
@@ -233,6 +375,9 @@ def main() -> int:
     ap.add_argument("--force", action="store_true",
                     help="run the full job even if no football has been "
                          "played since the last run")
+    ap.add_argument("--plan", action="store_true",
+                    help="print what this run WOULD do, then exit. Costs "
+                         "nothing: the decision is read off disk")
     args = ap.parse_args()
 
     # 🐛 READINESS COULD NEVER RESOLVE ITSELF.
@@ -249,7 +394,10 @@ def main() -> int:
     # its own output, so it runs for EVERY league with raw events — not
     # just the built ones. Readiness is then decided after, on the files
     # that now exist.
-    stamp_pass("backfill", args.leagues or ALL_LEAGUES)
+    # --plan must cost nothing, and stamping is work. Readiness is then read
+    # from whatever is already stamped, which is what a plan should reflect.
+    if not args.plan:
+        stamp_pass("backfill", args.leagues or ALL_LEAGUES)
 
     leagues = args.leagues or ready_leagues()
     if not leagues:
@@ -277,12 +425,56 @@ def main() -> int:
     # injured on international duty, and kickoff times get moved. So the
     # cheap half still runs and the expensive half — everything that can
     # only change when a match is played — is skipped.
-    idle, why = (False, "") if args.force else idle_check(leagues)
+    try:
+        mark = json.loads(DAILY_STAMP.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        mark = None
+
+    # A league joining the build is work even though no ball was kicked —
+    # the same case the old gate had to be taught, kept here deliberately.
+    joined = set(leagues) - set((mark or {}).get("leagues") or [])
+
+    if args.force:
+        work = {lg: "--force" for lg in leagues}
+    else:
+        work = stale_leagues(leagues, mark)
+        for lg in joined:
+            work.setdefault(lg, "newly ready for building")
+
+    fresh = [lg for lg in leagues if lg in work]
+    quiet = [lg for lg in leagues if lg not in work]
+    idle = not fresh
+
+    print()
+    print("  what needs doing, measured on disk:")
+    for lg in leagues:
+        if lg in work:
+            print(f"    WORK  {lg:<22} {work[lg]}")
+        else:
+            print(f"    skip  {lg:<22} nothing new since the last run")
+    if quiet:
+        print()
+        print(f"  {len(quiet)} league(s) skipped: no sources, no events, "
+              f"no rebuild.")
+        print("  Injuries still refresh for EVERY league - players get "
+              "hurt on")
+        print("  international duty, and that is not a match result.")
     if idle:
-        print(f"IDLE — no football since the last run.\n  {why}")
-        print("  skip: events, stamping, ratings, Elo, mental, shots, "
-              "passes, managers")
-        print("  run:  fixtures, injuries, grading, predictions, export\n")
+        print()
+        print("  NOTHING PLAYED ANYWHERE since the last run. Skipping "
+              "sources,")
+        print("  events, stamping, ratings, Elo, mental, shots, passes "
+              "and managers.")
+        print("  Still running: injuries, grading, predictions, export.")
+    print()
+
+    if args.plan:
+        # The whole point of deciding from disk is that the decision can be
+        # inspected without paying for it. A gate nobody can check is a gate
+        # nobody trusts — and the last one was wrong for weeks.
+        print(f"  --plan: would run {len(fresh)} league(s) in full, "
+              f"skip {len(quiet)}, and nothing else happened.")
+        return 0
 
     started = datetime.now()
     print(f"daily update  {started:%Y-%m-%d %H:%M}")
@@ -308,14 +500,31 @@ def main() -> int:
         # every one — forty source builds, several forcing refresh=True — to
         # pick up the handful of English matches played yesterday. An
         # "England only" daily spent over ten minutes in this single step.
-        league_args = []
-        for lg in leagues:
-            league_args += ["--league", lg]
-        run("sources", script("run_weekly.py") + ["--sources-only"] + league_args)
+        # ONLY THE LEAGUES WITH SOMETHING NEW. Each league here is eight
+        # source builds, several rate-limited: soccerdata sleeps 7s before
+        # every fbref request and 5-10s before every WhoScored one. A league
+        # with nothing new is minutes of sleeping to be told what we knew.
+        if fresh:
+            league_args = []
+            for lg in fresh:
+                league_args += ["--league", lg]
+            run("sources", script("run_weekly.py")
+                + ["--sources-only"] + league_args)
+
+        # INJURIES ARE NOT A MATCH RESULT, so they refresh for every league
+        # including the quiet ones: they concern UPCOMING fixtures, they move
+        # during international breaks, and the site shows them. Only the
+        # leagues `sources` skipped need this; the others just did it.
+        if quiet:
+            inj_args = []
+            for lg in quiet:
+                inj_args += ["--league", lg]
+            run("injuries (quiet leagues)",
+                script("scrape_injuries.py") + inj_args, optional=True)
         # Skipped when idle: the scraper would ask each league for matches it
         # already has and be told there are none — after paying for the
         # schedule pages that establish it.
-        for lg in ([] if idle else leagues):
+        for lg in fresh:
             # INCREMENTAL BY DESIGN: the event scraper reads the parquet it
             # already has and asks only for matches missing from it, so a
             # daily run fetches a handful and a skipped week fetches that
@@ -338,8 +547,8 @@ def main() -> int:
     # and the Bundesliga sat with every season they needed on disk and stayed
     # invisible. This second pass is the cheap one: only the current season
     # has moved, and stale_seasons() skips everything else by mtime.
-    if not idle:
-        stamp_pass("today", leagues)
+    if fresh:
+        stamp_pass("today", fresh)
 
     # ---- 2. RATINGS, rebuilt on what was just fetched ---------------------
     # Everything the predictor reads must be refitted before it runs: the
@@ -350,7 +559,7 @@ def main() -> int:
         # being played — an international-duty injury is exactly the case —
         # so it is rebuilt even when idle. The other three are functions of
         # match events and cannot have changed.
-        if not idle:
+        if lg in work:
             run(f"team web {lg}", script("build_team_web.py") + ["--league", lg])
             run(f"team plots {lg}", script("build_team_plots.py") + ["--league", lg])
             run(f"form {lg}", script("build_team_form.py") + ["--league", lg])
@@ -368,13 +577,13 @@ def main() -> int:
     # instead of 380. One call covers every league, which is also why it
     # sits outside the loop — its report and params file are written whole,
     # and calling it per league would have each run overwrite the last.
-    if not idle:
+    if fresh:
         run("elo (all leagues)", script("build_elo_all.py"))
         run("reliability", script("build_reliability.py"))
     # PER LEAGUE. build_mental_web takes one league at a time and defaults to
     # England, so calling it bare built only England however many leagues
     # were ready — the players board had no way to show anything else.
-    for lg in ([] if idle else leagues):
+    for lg in fresh:
         run(f"mental web {lg}",
             script("build_mental_web.py") + ["--league", lg],
             optional=True)
@@ -396,7 +605,7 @@ def main() -> int:
     # idle day cannot change any of them. export_web below still runs: the
     # predictions and the injury payload above have moved, and it is the step
     # that puts them where the site reads from.
-    for lg in ([] if idle else leagues):
+    for lg in fresh:
         run(f"shots web {lg}", script("build_shot_web.py") + ["--league", lg])
         run(f"passes {lg}", script("build_pass_web.py") + ["--league", lg])
         # MANAGERS: a payload, not a rating. Nothing downstream reads it —
@@ -415,7 +624,7 @@ def main() -> int:
         run(f"managers {lg}",
             script("build_manager_web.py") + ["--league", lg],
             optional=True)
-    if not idle:
+    if fresh:
         run("kits", script("build_kits.py"))
 
     # LAST, because it reads the season sim and the graded history that the
@@ -424,12 +633,35 @@ def main() -> int:
     run("export web", script("export_web.py"))
 
     # ---- summary ---------------------------------------------------------
+    # WHY THE FAILURE LIST SHOUTS. The exit code has always been right and
+    # daily.log has recorded every failure since September — and none of it
+    # surfaced. The run ended on a tidy "38/51 steps ok" that reads like a
+    # pass, with thirteen "!!" lines scrolled off above it, and the data went
+    # stale for weeks. A partial run is not a pass and must not look like one.
     bad = [d for d in done if d[1] != "ok"]
     print(f"\n{len(done) - len(bad)}/{len(done)} steps ok "
           f"in {(datetime.now() - started).total_seconds() / 60:.1f} min")
     for label, status, secs in done:
         mark = "  " if status == "ok" else "!!"
         print(f"{mark} {label:<34} {status:<28} {secs:5.1f}s")
+
+    if bad:
+        W = 70
+        print()
+        print("=" * W)
+        print(f"  {len(bad)} OF {len(done)} STEPS DID NOT RUN".center(W))
+        print("=" * W)
+        for label, status, _ in bad:
+            print(f"  !! {label:<34} {status[:30]}")
+        print()
+        print("  The site still serves the last good answer for whatever")
+        print("  missed, so nothing looks wrong on screen — which is exactly")
+        print("  why this needs reading. The run marker was NOT written, so")
+        print("  the next run redoes this work rather than skipping it.")
+        print("=" * W)
+    else:
+        print()
+        print(f"  all {len(done)} steps ok - marker written")
 
     LOG.parent.mkdir(parents=True, exist_ok=True)
     with LOG.open("a", encoding="utf-8") as fh:
@@ -448,8 +680,14 @@ def main() -> int:
         DAILY_STAMP.write_text(json.dumps({
             "at": datetime.now().isoformat(timespec="seconds"),
             # Recorded so the next run can tell "nothing happened" from
-            # "a league joined" — see idle_check.
+            # "a league joined" — see stale_leagues.
             "leagues": sorted(leagues),
+            # AND the per-league counts the next run compares against. These
+            # are read AFTER the work, so an unchanged pair next time means
+            # "we already tried and there is nothing new" rather than "there
+            # is a gap" — which is what stops a match WhoScored never
+            # publishes from marking its league stale forever.
+            "state": {lg: league_state(lg) for lg in leagues},
         }, indent=2), encoding="utf-8")
 
     # A failed step is news, not a crash: the site still has yesterday's

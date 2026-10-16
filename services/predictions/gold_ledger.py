@@ -57,16 +57,24 @@ class GoldLedger:
             return {"committed": 0,
                     "reason": f"window opens in {lead_d}d (> {cls.MAX_DAYS_AHEAD})"}
         rows = cls._read()
-        for r in rows:  # drift-proof: same rule as slips/picks
-            if r["status"] == "pending" and any(
-                    win["start"] <= (b.get("kickoff") or "") <= win["end"]
-                    for b in r["bets"]):
-                return {"committed": 0, "reason": "window already has pending gold bets"}
+        # ONE SET OF GOLD BETS PER WINDOW, PENDING OR NOT — same reasoning as
+        # slips and picks: the old check required a PENDING row, so a fully
+        # graded window could be booked again.
+        if any(r.get("window") == win["start"] for r in rows):
+            return {"committed": 0,
+                    "reason": f"window {win['start']} already has gold bets"}
 
         bets = []
         for lg, preds in (weekly.get("all_predictions") or {}).items():
             for p in preds:
                 if not p.get("in_window") or p["confidence"] != "normal":
+                    continue
+                # NEVER BET A FINISHED GAME. A live round keeps its played
+                # fixtures on the board so the round stays whole as it
+                # resolves, which means all_predictions can now hand this loop
+                # a result it already knows. Backing it would be free money on
+                # paper and a lie in the bankroll.
+                if p.get("score"):
                     continue
                 fav = max(p["probabilities"], key=p["probabilities"].get)
                 prob = p["probabilities"][fav]

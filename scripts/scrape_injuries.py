@@ -44,9 +44,28 @@ OUT = ROOT / "data" / "injuries"
 SEASON = "2627"
 LEAGUES = ["ENG-Premier League", "ITA-Serie A", "ESP-La Liga",
            "GER-Bundesliga", "FRA-Ligue 1"]
-# A week ahead by default. Far enough to catch a midweek round, near enough
-# that the list is meaningful — an absentee named ten days out is a rumour.
-DAYS = 7
+# TWO DAYS, BECAUSE THAT IS WHEN THE PAGE EXISTS.
+#
+# 🐛 THIS WAS 7, AND ABOUT 60% OF EVERY PREVIEW REQUEST WAS A 404.
+# The old reasoning was about meaningfulness — "an absentee named ten days
+# out is a rumour" — which is true and is not the binding constraint.
+# WhoScored does not PUBLISH a preview until roughly two days before
+# kickoff; ask earlier and it serves a 676-byte "page you requested does not
+# exist". Measured over the cached responses:
+#
+#     days ahead   0    1    2    3    4
+#     result      real real real 404  404
+#
+# When every fixture in the window is 3+ days out, nothing comes back,
+# soccerdata hands back its degenerate empty frame, and the run looks like a
+# parser crash while quietly keeping a stale file. That is how four leagues
+# carried a twenty-day-old absentee list while every step reported ok.
+#
+# A daily run with a 2-day window still covers every fixture: a match enters
+# the window two days before kickoff and is refreshed each morning until it
+# is played. Nothing is missed and roughly three in five requests are no
+# longer thrown away.
+DAYS = 2
 
 
 def path_for(league: str, season: str) -> Path:
@@ -102,7 +121,31 @@ def run(league: str, season: str, days: int) -> dict:
                 "error": str(e)}
 
     # game_id -> the absentees named for it
+    #
+    # 🐛 "NO ABSENTEES" USED TO LOOK LIKE A CRASH, AND LEFT STALE DATA UP.
+    # soccerdata returns a DEGENERATE frame when a preview names nobody:
+    #
+    #     if len(match_sheets) == 0:
+    #         return pd.DataFrame(index=["league","season","game","team","player"])
+    #
+    # — those five strings become index VALUES, not names, so reset_index()
+    # yields one `index` column and no game_id at all. The loop below then
+    # raised "'Pandas' object has no attribute 'game_id'", the step logged a
+    # WARN, and because the warning is non-fatal the PREVIOUS file stayed on
+    # disk. build_injury_web then rebuilt from it and reported ok, so a
+    # twenty-day-old absentee list was published as current for four leagues
+    # while the summary said every step passed.
+    #
+    # An empty preview is a real and common answer — WhoScored does not fill
+    # the absentee list until close to kickoff — so it is reported as the
+    # fact it is, and the stale file is left ALONE rather than overwritten
+    # with nothing.
     rows = df.reset_index()
+    if "game_id" not in rows.columns:
+        print(f"  {league}: previews carry no absentees yet "
+              f"({len(ids)} fixtures asked) — keeping what is on disk")
+        return {"league": league, "fixtures": len(ids), "missing": 0,
+                "empty_preview": True}
     per: dict = {}
     for r in rows.itertuples(index=False):
         gid = str(int(getattr(r, "game_id")))

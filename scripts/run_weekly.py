@@ -9,6 +9,7 @@ Usage (from repo root, ideally scheduled after the round completes):
     .venv\\Scripts\\python.exe scripts\\run_weekly.py --start 2026-09-12 --no-refresh
 """
 import argparse
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -17,17 +18,65 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from models.fbref.fbref_types import LEAGUE_NAME_MAP
 
+# ---------------------------------------------------------------------------
+# TEXT ENCODING — READ THIS BEFORE CHANGING IT.
+#
+# This machine's locale is cp1255 (Hebrew). cp1255 encodes Hebrew perfectly
+# and CANNOT encode n-tilde, o-umlaut, e-acute or a-grave — which is to say
+# it cannot encode the team names of four of the five leagues this pipeline
+# builds. Python picks the locale encoding for stdout, so the moment any step
+# printed "Koln" with its umlaut, or "Atletico" with its accent, the print
+# itself raised UnicodeEncodeError.
+#
+# In run() that exception escaped from inside the `for line in p.stdout` loop
+# — BEFORE the "-> ok / FAILED" line — so the step was recorded as ERROR and
+# abandoned with no outcome printed and the child left mid-fetch. On
+# 2026-10-12 that was `sources` and all five `events` steps: six steps with
+# no result line in the log, a WhoScored event store three weeks stale for
+# England, Spain and Germany, and every rating, payload and page after them
+# computed on events from September. The daily appeared to run fine and
+# published stale data, every single day.
+#
+# Two fixes, because one is not enough:
+#   1. this process writes utf-8 and never dies on a character;
+#   2. CHILD_ENV forces the same on every child, so a step cannot die the
+#      way the parent just stopped dying.
+# errors="replace" is deliberate: a mangled character in a log line must
+# never be able to abort a scrape again.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):       # not a reconfigurable stream
+        pass
+
+CHILD_ENV = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}
+
+
 SEASON = "2627"
 STAMP = Path(__file__).resolve().parent.parent / "data" / "reports" / "last_weekly_run.txt"
+
+
+def _say(msg: str) -> None:
+    """Print without ever being the reason a step fails — see the encoding
+    note above. `understat map ESP-La Liga` and `understat map
+    GER-Bundesliga` both died here on 2026-10-12, reporting a charmap error
+    for n-tilde and o-umlaut while the work itself had succeeded."""
+    try:
+        print(msg, flush=True)
+    except (UnicodeError, OSError):
+        try:
+            print(msg.encode("ascii", "replace").decode("ascii"), flush=True)
+        except (UnicodeError, OSError):
+            pass
 
 
 def step(label, fn):
     try:
         result = fn()
-        print(f"OK   {label}: {result}", flush=True)
+        _say(f"OK   {label}: {result}")
         return result
     except Exception as e:
-        print(f"WARN {label}: {e}", flush=True)
+        _say(f"WARN {label}: {e}")
         return None
 
 
@@ -135,10 +184,13 @@ def main() -> int:
         # genuinely pre-match information, published before kickoff rather
         # than read off a team sheet afterwards. Safe to run daily; each run
         # refreshes only the fixtures still ahead.
+        # the window is the scraper's own constant — a second copy of the
+        # number here is how it stayed at 7 after the scraper learned better
+        from scripts.scrape_injuries import DAYS as INJURY_DAYS
         from scripts.scrape_injuries import run as scrape_injuries
         for league in refresh_leagues:
             step(f"injuries {league}",
-                 lambda lg=league: scrape_injuries(lg, SEASON, 7))
+                 lambda lg=league: scrape_injuries(lg, SEASON, INJURY_DAYS))
 
     # SPLIT POINT. Everything above reads the outside world; everything below
     # depends on the RATINGS derived from it. The daily run stops here, fits

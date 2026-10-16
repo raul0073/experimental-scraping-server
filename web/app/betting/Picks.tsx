@@ -275,6 +275,20 @@ function WindowStrip({
         </div>
       </div>
 
+      {w.booked && (
+        <p className="mt-3 rounded-lg border border-line bg-[#fafbfc] px-3 py-2 text-[12px] leading-relaxed text-ink-2">
+          <span className="font-semibold text-ink-1">
+            This round is booked.
+          </span>{" "}
+          Everything below is the ledger record for window{" "}
+          <span className="num">{w.booked}</span> — the games it was committed
+          on, at the prices they were committed at, with results filled in as
+          they land. It will not change while the round is live, which is the
+          point: a form you have already filled in cannot be re-picked. The
+          next round opens once this one fully grades.
+        </p>
+      )}
+
       {names.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-1.5">
           {names.map((lg) => (
@@ -333,6 +347,24 @@ function PickCard({ p, rank }: { p: Pick; rank: number }) {
               <span className="text-[#a34a22]"> · low confidence</span>
             )}
           </div>
+          {/* A committed pick whose fixture has been played. The result is
+              stated next to the pick rather than on a separate page, because
+              mid-round the only question worth answering about a booked leg
+              is whether it came in. */}
+          {p.score && (
+            <div className="num mt-1.5 flex items-baseline gap-1.5 text-[11.5px]">
+              <span className="font-semibold">{p.score}</span>
+              <span
+                className={
+                  p.hit
+                    ? "rounded-full bg-[#e8f3ec] px-1.5 py-0.5 font-semibold text-[#1f6b3d]"
+                    : "rounded-full bg-[#f6eaea] px-1.5 py-0.5 font-semibold text-[#8a2b2b]"
+                }
+              >
+                {p.hit ? "landed" : "missed"}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* The probability the pick was ranked on, and the fair price it is

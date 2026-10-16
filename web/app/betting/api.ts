@@ -88,14 +88,31 @@ export type Fixture = {
    *  Can be empty for a fixture with nothing to say. */
   why: Record<string, string>;
   in_window: boolean;
+  /** Set when this fixture has been played — a live round keeps its finished
+   *  games on the board instead of dropping them. */
+  score?: string;
+  outcome?: Side;
 };
 
 /** A fixture carrying the probability it was chosen on. The watchlist stops
  *  here: it is low-confidence, so it is never ranked and never committed. */
 export type Watch = Fixture & { pick_prob: number };
 
-/** A ranked, committable pick. */
-export type Pick = Watch & { rank: number; pick_type: PickType };
+/** A ranked, committable pick.
+ *
+ *  The result fields appear once the pick is COMMITTED and its fixture has
+ *  been played: a live round keeps showing the games it was booked on, so a
+ *  pick can be a record of something already settled rather than advice. */
+export type Pick = Watch & {
+  rank: number;
+  pick_type: PickType;
+  /** Present on a committed pick: "pending" until the fixture grades. */
+  status?: "pending" | "graded";
+  /** "2-1", once played. */
+  score?: string;
+  outcome?: Side;
+  hit?: boolean;
+};
 
 /** P(exactly k of the four draw picks land), assuming independent legs. */
 export type Trixy = { p_ge2: number; p_ge3: number; p_4of4: number };
@@ -204,6 +221,10 @@ export type Weekly = {
   generated_at?: string;
   /** Null when no fixtures are left to play this season. */
   window: { start: string; end: string } | null;
+  /** The window this round was COMMITTED under, or null when nothing is
+   *  booked yet. When set, the picks and the slip are ledger records being
+   *  played out — not a fresh ranking, and they will not move. */
+  booked: string | null;
   /** Which round each league has in this window: { "ITA-Serie A": [6] }. */
   weeks: Record<string, number[]>;
   /** The four committed draws, and 5-8 as priced alternates. */

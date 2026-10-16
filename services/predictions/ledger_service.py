@@ -67,9 +67,26 @@ class LedgerService:
                 return {"added": 0, "skipped_existing_weeks": 0,
                         "reason": f"window opens in {lead_d}d (> {cls.MAX_DAYS_AHEAD})"}
 
-        # a window is "already committed" for a pick type when pending picks of
-        # that type have kickoffs inside it — robust to the window label
-        # drifting as early fixtures get played. Computed BEFORE appending.
+        # ALREADY BOOKED IS ALREADY BOOKED — refuse the whole window.
+        #
+        # The per-type check below only ever noticed PENDING picks, so a round
+        # whose home and away legs had graded while its draws were still live
+        # read as uncommitted for those two types. That was survivable while
+        # the dashboard re-ranked every call, because the re-ranked picks were
+        # at least different games. It stopped being survivable when a live
+        # round began serving its committed rows back: a commit would have
+        # appended the settled half of the round again, as fresh pending picks,
+        # and the ledger would carry the same game twice with two outcomes.
+        #
+        # The window string is written once at commit and never moves, which
+        # is exactly why it is the thing to refuse on.
+        if window and any(r.get("window") == window for r in rows):
+            return {"added": 0, "skipped_existing_weeks": 0,
+                    "reason": f"window {window} is already committed"}
+
+        # kept as a backstop for rows committed before windows were labelled:
+        # a window is "already committed" for a pick type when pending picks
+        # of that type have kickoffs inside it.
         taken = {(r["season"], r["pick_type"]) for r in rows
                  if r["status"] == "pending" and window and window_end
                  and r.get("kickoff") and window <= r["kickoff"] <= window_end}
@@ -188,3 +205,34 @@ class LedgerService:
         if season:
             rows = [r for r in rows if r["season"] == season]
         return rows
+
+
+    # ------------------------------------------------ a booked window
+
+    @classmethod
+    def window_picks(cls, window: str) -> Dict[str, List[Dict[str, Any]]]:
+        """Every pick committed under one window, by pick type, graded ones
+        included and in committed rank order.
+
+        The dashboard reads this instead of re-ranking while a round is live.
+        Re-ranking mid-gameweek is not a refresh, it is a different answer:
+        the model has new results by then and the played fixtures are gone
+        from the pool, so the "top four draws" become four other games than
+        the ones on the user's form.
+        """
+        out: Dict[str, List[Dict[str, Any]]] = {}
+        for r in cls._read():
+            if r.get("window") != window:
+                continue
+            out.setdefault(r.get("pick_type", "draw"), []).append(r)
+        for rows in out.values():
+            rows.sort(key=lambda r: r.get("rank", 99))
+        return out
+
+    @classmethod
+    def live_window(cls) -> Optional[str]:
+        """The window of the most recent round that still has a pending pick,
+        or None when everything committed has graded."""
+        pending = {r.get("window") for r in cls._read()
+                   if r.get("status") == "pending" and r.get("window")}
+        return max(pending) if pending else None

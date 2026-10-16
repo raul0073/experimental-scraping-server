@@ -48,7 +48,23 @@ def out_path(league: str, season: str) -> Path:
     return OUT_DIR / league.replace("/", "-") / f"{season}.parquet"
 
 
-def schedule_for(ws, league: str, season: str) -> pd.DataFrame:
+def fbref_played(league: str, season: str) -> int | None:
+    """How many matches fbref says have been played. Local, free, no network.
+
+    This is the number that lets the two shortcuts below be safe: it is an
+    independent account of what EXISTS, so it can be compared against what a
+    cached WhoScored schedule knows without asking WhoScored anything.
+    """
+    try:
+        from services.fbref.fixtures.fixtures_service import FixturesService
+        fx = FixturesService.load(league, season)
+        return sum(1 for m in (fx["matches"] if fx else []) if m.get("played"))
+    except Exception:                                      # noqa: BLE001
+        return None                       # unknown: take the slow, safe path
+
+
+def schedule_for(ws, league: str, season: str,
+                 expect_played: int | None = None) -> pd.DataFrame:
     """The fixture list, fetched at most once per league-season per day.
 
     🐛 THIS WAS THE DOMINANT COST OF A DAILY RUN. read_schedule() fetches
@@ -75,6 +91,39 @@ def schedule_for(ws, league: str, season: str) -> pd.DataFrame:
         except Exception:
             pass                       # unreadable cache is not a failure
 
+    # YESTERDAY'S LIST IS FINE FOR MATCHES THAT HAVE ALREADY BEEN PLAYED.
+    #
+    # The day-granularity cache above exists because postponements and TV
+    # moves change the fixture list. True — but only for fixtures still to
+    # come. We are here to look up the WhoScored ids of matches fbref says
+    # are ALREADY PLAYED, and a played match's id does not change. So an
+    # older cache is safe for this purpose, and the expensive part of a
+    # quiet morning disappears: on 2026-10-16 each league spent ~90s on ten
+    # month pages to look up one or two ids, 225s a league all in, for four
+    # matches across the five leagues.
+    #
+    # THE TEST IS AN INDEPENDENT COUNT, NOT A GUESS. fbref knows separately
+    # how many matches have been played. If a cached schedule lists at least
+    # that many played fixtures, it cannot be missing one of them, so every
+    # id we could need is in it. If it lists fewer, a match has been played
+    # since it was written and the ten pages have to be paid for.
+    if expect_played:
+        older = sorted(
+            SCHED_DIR.glob(f"{league.replace('/', '-')}_{season}_*.parquet"),
+            key=lambda f: f.name, reverse=True)
+        for cand in older:
+            try:
+                df = pd.read_parquet(cand)
+            except Exception:                              # noqa: BLE001
+                continue
+            covered = len(played_ids(df))
+            if covered >= expect_played:
+                scrape("schedule from OLDER cache", league=league,
+                       season=season, fixtures=len(df), cached=cand.stem[-8:],
+                       covers=covered, fbref_played=expect_played,
+                       note="played ids cannot change; skipped ~10 pages")
+                return df
+
     scrape("reading schedule", league=league, season=season,
            note="~10 month pages, once per day")
     sched = ws.read_schedule().reset_index()
@@ -83,10 +132,17 @@ def schedule_for(ws, league: str, season: str) -> pd.DataFrame:
     try:
         SCHED_DIR.mkdir(parents=True, exist_ok=True)
         out.to_parquet(path, index=False)
-        # yesterday's copies are dead weight the moment today's is written
-        for old in SCHED_DIR.glob(f"{league.replace('/', '-')}_{season}_*.parquet"):
-            if old != path:
-                old.unlink(missing_ok=True)
+        # KEEP A FEW OLDER COPIES — they are the fallback the block above
+        # reads, and deleting them was what made every first run of the day
+        # pay for ten month pages. Three is enough to survive a couple of
+        # days of failed runs and still cost a few KB.
+        stale = sorted(
+            (f for f in SCHED_DIR.glob(
+                f"{league.replace('/', '-')}_{season}_*.parquet")
+             if f != path),
+            key=lambda f: f.name, reverse=True)[3:]
+        for dead in stale:
+            dead.unlink(missing_ok=True)
     except Exception:
         pass
     return out
@@ -206,12 +262,36 @@ def build(league: str, season: str, until: str | None = None) -> dict:
     path = out_path(league, season)
     path.parent.mkdir(parents=True, exist_ok=True)
 
-    ws = sd.WhoScored(leagues=league, seasons=season)
-    schedule = schedule_for(ws, league, season)
-    all_ids = played_ids(schedule, until)
-
+    # ---- ASK THE FREE QUESTION FIRST -----------------------------------
+    #
+    # The order used to be: construct the scraper, read the schedule (ten
+    # month pages, ~90s), THEN discover `todo` was empty. So a league with
+    # nothing missing paid the full price to be told so — on 2026-10-16
+    # Germany and France were already complete and each still spent ~225s
+    # here. Nothing about that read was needed to answer the question.
+    #
+    # fbref already knows how many matches were played, locally and for
+    # free. If we hold at least that many, there is nothing WhoScored can
+    # add, and we can say so without a single request. `until` opts out:
+    # that caller is deliberately fetching a bounded chunk of a season and
+    # wants the schedule consulted.
     done = load_existing(path)
     have = set(done["game_id"].unique().tolist()) if done is not None else set()
+    expect = fbref_played(league, season) if not until else None
+
+    if expect is not None and len(have) >= expect:
+        print()
+        print(f"=== {league} {season}: {len(have)} stored, fbref says "
+              f"{expect} played - nothing missing, no schedule read", flush=True)
+        scrape("events up to date", league=league, season=season,
+               stored=len(have), fbref_played=expect,
+               note="skipped the schedule entirely")
+        return {"league": league, "season": season, "fetched": 0,
+                "stored": len(have), "failed": 0}
+
+    ws = sd.WhoScored(leagues=league, seasons=season)
+    schedule = schedule_for(ws, league, season, expect)
+    all_ids = played_ids(schedule, until)
     todo = [g for g in all_ids if g not in have]
 
     print(f"\n=== {league} {season}: {len(all_ids)} played, "

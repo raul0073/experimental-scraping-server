@@ -7,6 +7,275 @@ _Always up to date. What's done, what's in flight, what's next. Spec: `projectIn
 **LIVE, FIVE LEAGUES, 2026-09-23.** predictorous.com serves teams, players
 and managers for ENG/ESP/ITA/GER/FRA. Commit `cb9c74a` pushed.
 
+## The daily now knows what it needs to do (2026-10-16)
+
+**User: "we need that every day the daily WILL KNOW WHAT HE NEEDS TO DO AND
+NOT DO EVERYTHING ALL THE TIME."** Today showed exactly why, and showed the
+old gate was wrong rather than merely coarse.
+
+Nothing had been played anywhere since 10-12. Four leftover matches needed
+events. The run still spent **26 minutes in `sources`** and ~8 more
+re-reading five ten-page WhoScored schedules before it could discover there
+was nothing to fetch:
+
+```
+[17:03:20] INFO  [1/10] Retrieving fixtures for  whoscored
+[17:03:28] INFO  [2/10] Retrieving fixtures for  whoscored    <- ~9s a page
+```
+
+**`idle_check` asked the wrong question.** It compared the newest fixture
+DATE against the date of the last run, so "football has happened" meant "a
+kickoff time has passed", not "a match finished and we have not ingested
+it". Two observed failures:
+
+- `2026-10-16`: `last_kick 10-16 >= last_run 10-12` → not idle. Fixtures
+  were *scheduled* that evening; none had been played.
+- `2026-10-13`: `last_kick 10-12 >= last_run 10-12` → not idle. **A run on
+  the same date as the last kickoff disables the gate until the next
+  kickoff**, so three dead days each cost a full hour. A previous progress
+  note claimed those days were already free. They were not.
+
+### What replaces it
+
+`stale_leagues()` counts, **per league and entirely from disk**, matches
+fbref says were played against matches whose events are in the parquet. Zero
+requests. A league with nothing new is skipped for `sources`, `events`,
+`stamp`, `team web`, `team plots`, `form`, `mental web`, `shots web`,
+`passes` and `managers`; a busy one is still rebuilt in full.
+
+**Injuries refresh for every league regardless**, quiet ones included — they
+concern upcoming fixtures, they move during international breaks, and the
+site shows them. `sources` covers the fresh leagues' injuries; a separate
+`scrape_injuries.py` pass covers the quiet ones, so each league is done
+exactly once. Grading, predictions and export always run.
+
+**The retry trap, and why the marker stores counts.** A match WhoScored
+never publishes events for would leave `played > events` forever, marking
+its league stale on every future run — the old gate's permanent-outage bug
+in new clothes. So the test is not "is there a gap" but "has the gap CHANGED
+since the last run": the marker now records each league's `(played, events)`
+pair **after** the work, and an unchanged pair means we already tried. A
+newly played match moves `played` and the league goes stale by itself.
+
+`--plan` prints the decision and exits without doing anything — not even the
+backfill stamp pass. A gate nobody can inspect is a gate nobody trusts, and
+the last one was wrong for weeks.
+
+Verified on real and synthetic markers:
+
+| case | result |
+|---|---|
+| marker with no `state` (first run after this change) | all 5 stale — safe |
+| marker equal to current state (a quiet day) | **0 stale, whole run skipped** |
+| ITA +10 played | only ITA stale: `played 50->60` |
+| permanent gap already attempted | **not stale** — no infinite retry |
+
+`idle_check()` is kept, marked superseded and no longer called; its
+docstring records why. `optional=True` was also a dead parameter on all five
+`events` steps — declared in `run()` and never read once, so the call sites
+read as "these failures are tolerated" when they were not. It now labels the
+step in the summary and leaves the exit code alone.
+
+### Still worth doing
+
+- **The local 24 min parallelises to ~6** (5 leagues at a time on 8 cores).
+  Blocker unchanged: `build_team_web.py` and `build_mental_web.py`
+  read-modify-write a shared `index.json` (read :64/:72, write :420/:289),
+  so the index write must move into one serial pass after the fan-out.
+- **`sources` walks three hosts serially.** fbref (7s/request), WhoScored
+  (5-10s) and Understat (0) have independent limits, so the provider tracks
+  could overlap instead of summing.
+
+### The events step asked the expensive question first (2026-10-16)
+
+**User: "we were missing 1 game from each league... need more data???? no
+way!"** Right. It was not fetching matches. It was re-reading WhoScored's
+fixture list to learn which ids to ask for:
+
+```
+events ENG-Premier League   -> ok in 227.4s    for 1 game
+[17:11:27] [5/10] Retrieving fixtures          ~9s a page, ten pages
+[17:12:09] [10/10] Retrieving fixtures
+           Retrieving game with id=1980983     <- then the 1 actual game
+```
+
+`build()` constructed the scraper, read the schedule (~90s), and only THEN
+computed `todo` — so a league with nothing missing paid full price to be
+told so. Germany and France were already complete and each still spent
+~225s. Four matches across five leagues cost ~19 minutes.
+
+**Two fixes, both resting on one free fact:** fbref already knows locally
+how many matches were played, so there is an independent account of what
+exists that costs nothing to consult.
+
+1. **Ask the free question first.** If we already hold at least as many
+   matches as fbref reports played, there is nothing WhoScored can add —
+   return before constructing the scraper or reading anything. `until` opts
+   out, since that caller deliberately wants a bounded chunk.
+2. **Yesterday's fixture list is fine for matches already played.** The
+   day-granularity cache existed because postponements and TV moves change
+   the list — true, but only for fixtures still to come. We are looking up
+   ids of matches fbref says are already played, and a played match's id
+   does not change. So an older cache is accepted when it lists at least as
+   many played fixtures as fbref reports; it cannot then be missing one of
+   them. If it lists fewer, a match has been played since and the ten pages
+   are paid for. Retention changed from "delete every older copy" to keep
+   three — deleting them was what made the first run of every day pay in
+   full.
+
+Measured:
+
+| case | before | after |
+|---|---|---|
+| league already complete (GER) | 225s | **1s**, zero requests |
+| league missing a game, older cache covers it | 225s | ~20s |
+| older cache does NOT cover what fbref knows | 225s | 225s — correctly refused |
+
+Verified by calling `schedule_for` with `ws=None`, so the fetch path would
+crash if it were reached: the reuse path returned 380 rows and 79 played ids
+with no network, and raising the expected count by five made it refuse the
+cache and go to fetch.
+
+## cp1255 was silently killing the daily (2026-10-12)
+
+**User: "that sounds like a long time."** Chasing where the hour went found
+something much worse than slowness: **the daily had been failing six of its
+steps every run, printing nothing, and exiting 0.**
+
+This machine's locale is **cp1255 (Hebrew)**. cp1255 encodes Hebrew
+perfectly and cannot encode `ñ`, `ö`, `é` or `à` — the team names of four of
+the five leagues. Python takes the locale for `sys.stdout`, so printing
+"Köln" or "Atlético Madrid" raised `UnicodeEncodeError` **in the print
+itself**.
+
+In `run_daily.run()` that exception escaped from inside the
+`for line in p.stdout` loop, which sits **before** the `-> ok / FAILED`
+line. So the step was recorded as `ERROR`, the child was abandoned
+mid-fetch, and nothing was printed. Today's log: 17 step labels, 10 outcome
+lines. The seven with no outcome were `sources` and all five `events` steps
+— and `run_daily` still exited 0, so every wrapper around it believed the
+run had succeeded.
+
+The visible damage: the WhoScored event store was a full round behind in
+every league (44 matches), and `elo`, `reliability`, every payload and every
+page after it were built on events that predated the weekend. The daily
+looked healthy and republished stale data, every day. `understat map
+ESP-La Liga` and `GER-Bundesliga` failed the same way with an explicit
+charmap error for ñ and ö — those two at least said so, because
+`run_weekly.step()` catches and prints.
+
+**Fixed in three places, because one is not enough:**
+
+1. `run_daily`, `run_weekly` and `publish` reconfigure their own stdout and
+   stderr to utf-8 with `errors="replace"`. A character we cannot render is
+   worth losing a log line over, never a scrape.
+2. `CHILD_ENV` forces `PYTHONUTF8=1` and `PYTHONIOENCODING=utf-8` on every
+   child process, so a step cannot die the way the parent just stopped
+   dying. Wired into `run_daily`'s `Popen` and `publish`'s `call`.
+3. The echo in `run()` and a new `_say()` in `run_weekly` swallow
+   `UnicodeError`/`OSError` outright — the guarantee behind the fix.
+
+Verified on the exact step that was dying: `understat map ESP-La Liga` now
+returns `'Dep. A Coruña', 'Alavés', 'Atlético Madrid'` and all eight La Liga
+source substeps report OK. The broken run's log is kept at
+`data/reports/daily_broken_encoding.log`.
+
+**Still open, and the reason this was invisible: `run_daily` exits 0 when
+steps ERROR.** A step that records `ERROR` or `TIMED OUT` does not affect
+the exit code, so `publish.py`'s gate — which refuses to deploy bad data —
+was never reached, because the update stage "succeeded". The exit code
+should reflect steps that never ran. Until it does, the only signal is
+reading the log.
+
+### Where the hour actually goes (measured, same run)
+
+| | time | kind |
+|---|---|---|
+| `sources` + `events`×5 | ~37 min | network, rate-limit-bound |
+| 7 build steps × 5 leagues | ~24 min | local compute, 35 independent processes, run serially |
+
+`soccerdata/fbref.py` sets `rate_limit = 7` — seven seconds of sleep before
+every fbref request; WhoScored is 5–10s, Understat 0. **The network time is
+mostly deliberate politeness sleep**, so the only way to cut it is to not
+make the request.
+
+Two wins available, neither started:
+
+- **Parallelise the local 24 min across leagues** (5 at a time on 8 cores)
+  → ~6 min. Blocker: `build_team_web.py` and `build_mental_web.py`
+  read-modify-write a shared `index.json` (read :64/:72, write :420/:289).
+  Run those concurrently and the leagues overwrite each other's entries —
+  exactly the failure `publish.py`'s index check exists to catch. The index
+  write has to move into one serial pass after the fan-out.
+- **Overlap the providers in `sources`.** fbref, WhoScored and Understat are
+  different hosts with independent limits, but `sources` walks them
+  serially per league, so the sleeps add up instead of overlapping.
+
+**Not a win: skipping work on a match day.** Everything in `sources` is
+match-driven and today every league played a full round. And the dead days
+are already free — `idle_check` skips 10-13/14/15 (`last_kick 10-11 <
+last_run 10-12`), so the next real run is the 16th.
+
+## A booked round is a record, not a recommendation (2026-10-11)
+
+**User, mid-gameweek: "u replaced the betting games even thou WE ARE IN THE
+MIDDLE OF THE GW."** Correct, and it was not a display bug — the dashboard
+was genuinely re-choosing a slip that had already been bought.
+
+`_pending_bets_span()` derived the live window from the earliest **still
+pending** kickoff, so the floor walked forward every time a leg graded. By
+Sunday the 11th the window read 10-11 → 10-12 instead of 10-09 → 10-12, and
+`unplayed_fixtures()` had dropped the played games anyway. So `advise()` was
+handed the four or five fixtures left in the round and answered a question
+nobody asked — *the best form among the games that have not kicked off* —
+while the user was holding a Winner form bought on the original four. The
+booked שיטה 2/4 on Torino / Rayo / Nice / Genoa came back as a fresh
+שיטה 2/6 featuring Elche and Crystal Palace, games that were never on it.
+
+The ledger itself was fine the whole time: the picks and the slip were
+committed on 10-07 and only ever graded. It was the **view** that moved.
+
+**A booked round's identity is the window string written once at commit**,
+not where its survivors kick off. That is the fix, and everything follows:
+
+- `_pending_window()` replaces `_pending_bets_span()`. Groups all three
+  ledgers by their `window` field; a window is live while any row under it
+  is pending; the span covers **every** kickoff committed under it, graded
+  ones included.
+- `fixtures_in()` — a span reader that keeps played fixtures, each carrying
+  its score. A round half-finished is still that round.
+- While booked, `weekly_picks()` serves the **ledger rows** as the picks
+  (committed rank, committed prices, results as they land) and
+  `strategy_advisor.rebuild()` serves the **committed slip**.
+  `system_scenarios()` reproduces the line table exactly, because the legs
+  carry frozen probabilities — nothing consults the model. `ranked_on` reads
+  `"committed"` rather than `"p_profit"`.
+- New `booked` field on the payload, and the page says so in plain words
+  instead of leaving the user to notice their slip changed.
+- Picked cards show the score and landed/missed once their fixture is in.
+
+**Three commit guards were wrong in the same way and are now window-based.**
+Picks, slips and gold all asked "does this window have a *pending* row?",
+which meant a round whose home and away legs had graded while its draws were
+still live read as uncommitted *for those types*. Survivable while every
+call re-ranked (the picks were at least different games); not survivable the
+moment a live round serves its committed rows back — a commit would have
+appended the settled half of the round again as fresh pending picks, same
+game twice with two outcomes. Verified refused: all three.
+
+**And gold could have bet a finished game.** It builds from
+`all_predictions`, which now carries played fixtures. Backing a known result
+is free money on paper and a lie in the bankroll. Guarded in `GoldLedger`,
+and at the source in `pick()`, the watchlist and the banker loop — a
+prediction is never made on a result already known.
+
+Verified end to end: two calls agree; the booked round returns its own four
+draws with 0-0 HIT / 2-1 miss filled in; all three commits refused with the
+window named; and on ledger copies with everything marked graded the next
+window opens clean at 10-16 → 10-19 with fresh picks, `ranked_on: p_profit`
+and zero played fixtures in the slate. API restarted (it runs `main.py`
+with no `--reload`, so edits needed a bounce); :8080 and :3000 both serving.
+
 ## 🔴 URGENT — THE SITE IS NOT RESPONSIVE (user, 2026-09-23)
 
 **It is public and it does not work on a phone.** This is the top of the

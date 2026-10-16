@@ -103,6 +103,19 @@ class PredictionService:
         return [m for m in fx["matches"]
                 if not m["played"] and isinstance(m["week"], int) and m["date"]]
 
+    def fixtures_in(self, league: str, lo: str, hi: str) -> List[Dict]:
+        """Every fixture in a date span, PLAYED ONES TOO.
+
+        unplayed_fixtures is right for choosing a round and wrong for showing
+        one: a round half-finished is still that round, and silently dropping
+        its results is what let the dashboard re-pick mid-gameweek."""
+        fx = FixturesService.load(league, SEASON)
+        if not fx:
+            return []
+        return [m for m in fx["matches"]
+                if isinstance(m.get("week"), int) and m.get("date")
+                and lo <= m["date"] <= hi]
+
     # ------------------------------------------------ zones (the "why")
 
     def _elo_for(self, league: str):
@@ -297,37 +310,51 @@ class PredictionService:
         return latest
 
     @staticmethod
-    def _pending_bets_span() -> Optional[tuple]:
-        """(first upcoming kickoff, last kickoff) across PENDING bets. While a
-        booked round is still in play the dashboard must show THAT round —
-        not leap to the next one (bug caught 2026-09-15: booking Monday made
-        the dash skip to October while the live bet hadn't kicked off).
-        Already-played kickoffs inside a still-pending group (gold grades as
-        a block) don't drag the span backwards."""
+    def _pending_window() -> Optional[Dict[str, Any]]:
+        """The booked round still in play: its window key, and the span of
+        EVERY kickoff committed under it — the ones already played included.
+
+        WHY THIS IS NOT KICKOFF ARITHMETIC ANY MORE. _pending_bets_span
+        derived the window from the earliest still-PENDING kickoff, so the
+        floor walked forward every time a leg graded. Mid-gameweek on
+        2026-10-11 it put the window at the 11th-12th: the Friday and
+        Saturday halves of the round were outside it, and unplayed_fixtures
+        had dropped them anyway, so the dashboard re-ranked the four games
+        left and showed a different slip than the Winner form the user was
+        holding. A booked round's identity is the window string written once
+        into the ledger at commit time, not where its survivors kick off.
+
+        A window is live while ANY pick or slip committed under it is still
+        pending. Grading the last one is what releases the next round.
+        """
         import json as _json
-        from datetime import date as _d
-        ks: list = []
+        windows: Dict[str, Dict[str, Any]] = {}
         for path, kicks in (
                 (Path("data/ledger/picks.jsonl"),
-                 lambda r: [r.get("kickoff")] if r.get("status") == "pending" else []),
+                 lambda r: [r.get("kickoff")]),
                 (Path("data/slips/slips.jsonl"),
-                 lambda r: [l.get("kickoff") for l in r.get("legs", [])]
-                 if r.get("status") == "pending" else []),
+                 lambda r: [l.get("kickoff") for l in r.get("legs", [])]),
                 (Path("data/slips/gold.jsonl"),
-                 lambda r: [b.get("kickoff") for b in r.get("bets", [])]
-                 if r.get("status") == "pending" else [])):
+                 lambda r: [b.get("kickoff") for b in r.get("bets", [])])):
             if not path.exists():
                 continue
             for line in path.read_text(encoding="utf-8").splitlines():
-                if line.strip():
-                    ks.extend(k for k in kicks(_json.loads(line)) if k)
-        if not ks:
+                if not line.strip():
+                    continue
+                r = _json.loads(line)
+                w = r.get("window")
+                if not w:
+                    continue
+                slot = windows.setdefault(w, {"pending": False, "kicks": []})
+                slot["pending"] |= r.get("status") == "pending"
+                slot["kicks"].extend(k for k in kicks(r) if k)
+
+        live = [w for w, s in windows.items() if s["pending"] and s["kicks"]]
+        if not live:
             return None
-        today = _d.today().isoformat()
-        future = [k for k in ks if k >= today]
-        if not future:
-            return None  # all played, grading lag — fall through to next round
-        return min(future), max(ks)
+        w = max(live)
+        ks = windows[w]["kicks"]
+        return {"window": w, "start": min(ks), "end": max(ks)}
 
     def weekly_picks(self, start: Optional[str] = None) -> Dict[str, Any]:
         """Weekend-based selection: league round numbers drift (Serie A can be
@@ -341,21 +368,19 @@ class PredictionService:
         if start:
             unplayed = {lg: [m for m in ms if m["date"] >= start]
                         for lg, ms in unplayed.items()}
-        pending_span = None
-        if not start:
-            # while a booked round is pending, show exactly its remaining
-            # span (no re-clustering, no fresh move); once it fully grades,
-            # move past the last bet to the next round
-            pending_span = self._pending_bets_span()
-            if pending_span:
-                lo, hi = pending_span
-                unplayed = {lg: [m for m in ms if lo <= m["date"] <= hi]
+        pending = None if start else self._pending_window()
+        if pending:
+            # A BOOKED ROUND IS SERVED, NOT RECOMPUTED. The slate is the whole
+            # span including played games, so the round the user bet on stays
+            # whole as it resolves; the picks and the slip come from the
+            # ledger further down.
+            unplayed = {lg: self.fixtures_in(lg, pending["start"], pending["end"])
+                        for lg in unplayed}
+        elif not start:
+            last_end = self._last_bet_end()
+            if last_end:
+                unplayed = {lg: [m for m in ms if m["date"] > last_end]
                             for lg, ms in unplayed.items()}
-            else:
-                last_end = self._last_bet_end()
-                if last_end:
-                    unplayed = {lg: [m for m in ms if m["date"] > last_end]
-                                for lg, ms in unplayed.items()}
 
         def league_cluster(ms):
             """A league's NEXT round = the fbref ROUND NUMBER of its earliest
@@ -373,15 +398,23 @@ class PredictionService:
                                  - _date.fromisoformat(first)).days <= WINDOW_MAX_DAYS})
             return first, dates[-1], wk
 
-        if pending_span:
-            # the booked round IS the window — every league shows its
-            # remaining games in the span, round labels come from the data
-            window_start, window_end = pending_span
+        if pending:
+            # the booked round IS the window — every league shows its games in
+            # the span, played or not, round labels come from the data
+            window_start, window_end = pending["start"], pending["end"]
             preds: Dict[str, List[Dict]] = {}
             for league, ms in unplayed.items():
+                played = {(m["home_team"], m["away_team"]): m for m in ms
+                          if m.get("played") and m.get("home_goals") is not None}
                 rows = self.predict_fixtures(league, ms)
                 for p in rows:
                     p["in_window"] = True
+                    m = played.get((p["home"], p["away"]))
+                    if m:
+                        h, a = m["home_goals"], m["away_goals"]
+                        p["score"] = f"{h}-{a}"
+                        p["outcome"] = ("home" if h > a else
+                                        "away" if h < a else "draw")
                 preds[league] = rows
         else:
             clusters = {lg: league_cluster(ms) for lg, ms in unplayed.items()}
@@ -408,9 +441,13 @@ class PredictionService:
                 preds[league] = rows
 
         def pick(leagues, score_fn, n, pick_type):
+            # p.get("score") means the fixture has been played. A booked round
+            # keeps its finished games on the board so it stays whole while it
+            # resolves, and a fresh ranking must never reach for one: picking
+            # a result you already know is not a prediction.
             pool = [p for lg in leagues for p in preds[lg]
                     if p["confidence"] == "normal" and p["in_window"]
-                    and score_fn(p) is not None]
+                    and not p.get("score") and score_fn(p) is not None]
             pool.sort(key=score_fn, reverse=True)
             picks = []
             used_teams: set = set()
@@ -445,14 +482,48 @@ class PredictionService:
         watchlist = sorted(
             (p for lg in DRAW_LEAGUES for p in preds[lg]
              if p["confidence"] == "low" and p["in_window"]
+             and not p.get("score")
              and p["probabilities"]["draw"] >= min_ticket_p),
             key=lambda p: p["probabilities"]["draw"], reverse=True)[:3]
         draw_watchlist = [{**p, "pick_prob": p["probabilities"]["draw"]} for p in watchlist]
+
+        # A LIVE ROUND SHOWS WHAT WAS COMMITTED, NOT A FRESH RANKING. Up to
+        # here the board was re-ranked on today's model, which mid-gameweek
+        # answers a question nobody asked: the best four draws among the games
+        # that have not kicked off. The user is holding a form bought on the
+        # original four. So while the window is booked, the picks ARE the
+        # ledger rows — rank order, prices and results as committed — and the
+        # recomputed ranking is dropped on the floor.
+        if pending:
+            from services.predictions.ledger_service import LedgerService
+            booked = LedgerService.window_picks(pending["window"])
+            if booked:
+                priced = {(p["home"], p["away"]): p
+                          for ps in preds.values() for p in ps}
+
+                def restore(rows):
+                    """Committed row + the fixture's current detail (xG,
+                    scorelines, the zone 'why'), never its probabilities —
+                    those are the frozen ones the pick was made at."""
+                    out = []
+                    for r in rows:
+                        live = priced.get((r["home"], r["away"]), {})
+                        out.append({**live, **r, "in_window": True})
+                    return out
+
+                draw_picks = restore(booked.get("draw", []))
+                draw_candidates = draw_picks
+                home_picks = restore(booked.get("home", []))
+                away_picks = restore(booked.get("away", []))
+                draw_watchlist = []
 
         result = {
             "season": SEASON,
             "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "window": {"start": window_start, "end": window_end},
+            # the window this round was committed under, or None when nothing
+            # is booked yet — the page needs to know it is reading a record
+            "booked": pending["window"] if pending else None,
             "weeks": {lg: sorted({p["week"] for p in ps if p["in_window"]}) for lg, ps in preds.items()},
             "draw_picks": draw_picks,
             "draw_candidates": draw_candidates,
@@ -462,8 +533,18 @@ class PredictionService:
             "trixy": _trixy_outlook([p["pick_prob"] for p in draw_picks]),
             "all_predictions": preds,
         }
-        from services.predictions.strategy_advisor import advise
-        result["strategy"] = advise(result)
+        from services.predictions.strategy_advisor import advise, rebuild
+        slip_row = None
+        if pending:
+            from services.predictions.slip_ledger import SlipLedger
+            slip_row = SlipLedger.window_slip(pending["window"])
+        if slip_row:
+            results = {(p["home"], p["away"]):
+                       {"score": p.get("score"), "outcome": p.get("outcome")}
+                       for ps in preds.values() for p in ps if p.get("score")}
+            result["strategy"] = rebuild(slip_row, results) or advise(result)
+        else:
+            result["strategy"] = advise(result)
         return result
 
 

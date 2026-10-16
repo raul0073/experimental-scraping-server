@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
@@ -43,6 +44,40 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 PY = str(ROOT / ".venv" / "Scripts" / "python.exe")
+
+# ---------------------------------------------------------------------------
+# TEXT ENCODING — READ THIS BEFORE CHANGING IT.
+#
+# This machine's locale is cp1255 (Hebrew). cp1255 encodes Hebrew perfectly
+# and CANNOT encode n-tilde, o-umlaut, e-acute or a-grave — which is to say
+# it cannot encode the team names of four of the five leagues this pipeline
+# builds. Python picks the locale encoding for stdout, so the moment any step
+# printed "Koln" with its umlaut, or "Atletico" with its accent, the print
+# itself raised UnicodeEncodeError.
+#
+# In run() that exception escaped from inside the `for line in p.stdout` loop
+# — BEFORE the "-> ok / FAILED" line — so the step was recorded as ERROR and
+# abandoned with no outcome printed and the child left mid-fetch. On
+# 2026-10-12 that was `sources` and all five `events` steps: six steps with
+# no result line in the log, a WhoScored event store three weeks stale for
+# England, Spain and Germany, and every rating, payload and page after them
+# computed on events from September. The daily appeared to run fine and
+# published stale data, every single day.
+#
+# Two fixes, because one is not enough:
+#   1. this process writes utf-8 and never dies on a character;
+#   2. CHILD_ENV forces the same on every child, so a step cannot die the
+#      way the parent just stopped dying.
+# errors="replace" is deliberate: a mangled character in a log line must
+# never be able to abort a scrape again.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):       # not a reconfigurable stream
+        pass
+
+CHILD_ENV = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}
+
 WEB = ROOT / "web"
 PUB = WEB / "public" / "data"
 OUT = WEB / "out"
@@ -64,7 +99,7 @@ def run(label: str, args: list, cwd: Path = ROOT, shell: bool = False) -> bool:
     pipeline nobody trusts, and this one is unattended by design."""
     print(f"\n{'=' * 70}\n{label}\n{'=' * 70}", flush=True)
     t0 = time.time()
-    rc = subprocess.call(args, cwd=str(cwd), shell=shell)
+    rc = subprocess.call(args, cwd=str(cwd), shell=shell, env=CHILD_ENV)
     secs = time.time() - t0
     print(f"-> {'ok' if rc == 0 else f'FAILED (exit {rc})'} in {secs / 60:.1f} min",
           flush=True)

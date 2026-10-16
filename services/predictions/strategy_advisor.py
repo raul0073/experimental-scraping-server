@@ -111,6 +111,9 @@ def advise(weekly: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         for p in preds:
             if p["confidence"] != "normal" or not p.get("in_window"):
                 continue
+            # already played — see prediction_service.pick
+            if p.get("score"):
+                continue
             if (p["home"], p["away"]) in draw_fixtures:
                 continue
             fav = max(p["probabilities"], key=p["probabilities"].get)
@@ -341,3 +344,87 @@ def advise(weekly: Dict[str, Any]) -> Optional[Dict[str, Any]]:
 
     return {"board": board, "board_avg": round(board_avg, 4), "banker": banker,
             "slip": slip, "options": options, "text": " ".join(lines)}
+
+
+def rebuild(row: Dict[str, Any], results: Optional[Dict[tuple, Dict]] = None
+            ) -> Dict[str, Any]:
+    """A COMMITTED slip, served back as a strategy — no model, no re-ranking.
+
+    WHY THIS EXISTS. advise() picks the best form from this week's board.
+    Run it again midway through a gameweek and it answers a different
+    question: best form from the games that have NOT kicked off yet. On
+    2026-10-11 that turned a booked שיטה 2/4 on four draws into a fresh slip
+    over the four fixtures left, while the user was holding a Winner form
+    bought on the original four. A slip you cannot un-buy must not be
+    re-chosen; once it is in the ledger it is a record, not a recommendation.
+
+    So everything here comes from the stored row. The legs carry the
+    probabilities they were committed at, and system_scenarios turns those
+    into the same line table it produced at commit time — identical numbers,
+    because the inputs are frozen. The only thing that is allowed to be new
+    is how it is DOING: per-leg results, passed in as `results` keyed
+    (home, away), and the live tally they imply.
+    """
+    legs = [dict(l) for l in row.get("legs") or []]
+    if not legs:
+        return None
+    k = row.get("k") or [len(legs)]
+    ks = sorted({k} if isinstance(k, int) else set(k))
+
+    # per-leg outcome, if the fixture has been played
+    settled = 0
+    for leg in legs:
+        res = (results or {}).get((leg.get("home"), leg.get("away")))
+        if not res or not res.get("score"):
+            continue
+        leg["score"] = res["score"]
+        leg["hit"] = res["outcome"] == {"1": "home", "X": "draw",
+                                        "2": "away"}.get(leg.get("mark"))
+        settled += 1
+        if leg["hit"]:
+            leg["role"] = leg.get("role", "draw")
+
+    scen = system_scenarios(legs, k)
+    hits = sum(1 for l in legs if l.get("hit"))
+    alive = sum(1 for l in legs if l.get("score") is None or l.get("hit"))
+
+    slip = {
+        "title_he": row.get("title_he"), "title_en": row.get("title_en"),
+        "lines": row.get("lines") or scen[0]["total_lines"],
+        "legs": legs, "k": k, "ks": ks, "n": len(legs),
+        "scenarios": scen,
+        "p_return": sum(s["p"] for s in scen if s["lines_won"] > 0),
+        "p_profit": row.get("p_profit",
+                            sum(s["p"] for s in scen if s["profit"])),
+        "mandate": row.get("mandate"),
+        "ranked_on": "committed",
+        "alternatives": [],
+        "how": (f"Booked {row.get('committed_at', '')[:10]} at "
+                f"{row.get('unit', 10):g} a line "
+                f"({row.get('stake', 0):g} total). This is the slip as it was "
+                f"bought — the legs and their prices are the committed ones."),
+    }
+
+    banker = next((l for l in legs if l.get("role") == "banker"), None)
+    probs = [l["prob"] for l in legs if l.get("role") != "banker"]
+    board_avg = sum(probs) / len(probs) if probs else 0.0
+
+    if settled == 0:
+        state = "No leg has kicked off yet."
+    elif settled < len(legs):
+        state = (f"{settled} of {len(legs)} legs are in: {hits} landed, "
+                 f"{settled - hits} missed. {alive} legs can still win a line.")
+    else:
+        state = f"All legs in: {hits} of {len(legs)}."
+
+    return {
+        "board": ("strong" if board_avg >= 0.325 else
+                  "normal" if board_avg >= 0.305 else "thin"),
+        "board_avg": round(board_avg, 4),
+        "banker": banker,
+        "slip": slip,
+        "options": [],
+        "text": (f"This round is already booked — {row.get('title_he')}, "
+                 f"{slip['lines']} lines. {state} Nothing is re-picked while a "
+                 f"slip is live; the next round opens once this one grades."),
+    }
