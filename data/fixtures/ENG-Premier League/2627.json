@@ -2,7 +2,7 @@
   "league": "ENG-Premier League",
   "season": "2627",
   "match_count": 380,
-  "played_count": 60,
+  "played_count": 70,
   "matches": [
     {
       "date": "2026-08-21",
@@ -790,11 +790,11 @@
       "week": 7,
       "home_team": "Brentford",
       "away_team": "Liverpool",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 2,
+      "played": true,
       "venue": "Gtech Community Stadium",
-      "referee": null,
+      "referee": "John Brooks",
       "game_id": "2026-10-17 Brentford-Liverpool"
     },
     {
@@ -803,11 +803,11 @@
       "week": 7,
       "home_team": "Everton",
       "away_team": "Chelsea",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 0,
+      "away_goals": 2,
+      "played": true,
       "venue": "Hill Dickinson Stadium",
-      "referee": null,
+      "referee": "Paul Tierney",
       "game_id": "2026-10-17 Everton-Chelsea"
     },
     {
@@ -816,11 +816,11 @@
       "week": 7,
       "home_team": "Fulham",
       "away_team": "Hull City",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 0,
+      "played": true,
       "venue": "Craven Cottage",
-      "referee": null,
+      "referee": "Chris Kavanagh",
       "game_id": "2026-10-17 Fulham-Hull City"
     },
     {
@@ -829,11 +829,11 @@
       "week": 7,
       "home_team": "Manchester City",
       "away_team": "Ipswich Town",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 3,
+      "away_goals": 2,
+      "played": true,
       "venue": "Etihad Stadium",
-      "referee": null,
+      "referee": "Farai Hallam",
       "game_id": "2026-10-17 Manchester City-Ipswich Town"
     },
     {
@@ -842,11 +842,11 @@
       "week": 7,
       "home_team": "Newcastle",
       "away_team": "Aston Villa",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 0,
+      "away_goals": 1,
+      "played": true,
       "venue": "St James' Park",
-      "referee": null,
+      "referee": "Jarred Gillett",
       "game_id": "2026-10-17 Newcastle-Aston Villa"
     },
     {
@@ -855,11 +855,11 @@
       "week": 7,
       "home_team": "Bournemouth",
       "away_team": "Sunderland",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 0,
+      "played": true,
       "venue": "Vitality Stadium",
-      "referee": null,
+      "referee": "Craig Pawson",
       "game_id": "2026-10-18 Bournemouth-Sunderland"
     },
     {
@@ -868,11 +868,11 @@
       "week": 7,
       "home_team": "Brighton",
       "away_team": "Crystal Palace",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 5,
+      "away_goals": 0,
+      "played": true,
       "venue": "The American Express Stadium",
-      "referee": null,
+      "referee": "Robert Jones",
       "game_id": "2026-10-18 Brighton-Crystal Palace"
     },
     {
@@ -881,11 +881,11 @@
       "week": 7,
       "home_team": "Leeds United",
       "away_team": "Manchester Utd",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 1,
+      "played": true,
       "venue": "Elland Road",
-      "referee": null,
+      "referee": "Darren England",
       "game_id": "2026-10-18 Leeds United-Manchester Utd"
     },
     {
@@ -894,11 +894,11 @@
       "week": 7,
       "home_team": "Nottingham",
       "away_team": "Arsenal",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 0,
+      "away_goals": 1,
+      "played": true,
       "venue": "The City Ground",
-      "referee": null,
+      "referee": "Michael Oliver",
       "game_id": "2026-10-18 Nottingham-Arsenal"
     },
     {
@@ -907,11 +907,11 @@
       "week": 7,
       "home_team": "Tottenham",
       "away_team": "Coventry City",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 3,
+      "away_goals": 1,
+      "played": true,
       "venue": "Tottenham Hotspur Stadium",
-      "referee": null,
+      "referee": "Andrew Madley",
       "game_id": "2026-10-19 Tottenham-Coventry City"
     },
     {
@@ -1565,8 +1565,21 @@
       "game_id": "2026-11-29 Sunderland-Tottenham"
     },
     {
-      "date": "2026-12-02",
+      "date": "2026-12-01",
       "time": "20:00 (22:00)",
+      "week": 13,
+      "home_team": "Coventry City",
+      "away_team": "Ipswich Town",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Coventry Building Society Arena",
+      "referee": null,
+      "game_id": "2026-12-01 Coventry City-Ipswich Town"
+    },
+    {
+      "date": "2026-12-02",
+      "time": "20:15 (22:15)",
       "week": 13,
       "home_team": "Aston Villa",
       "away_team": "Everton",
@@ -1579,7 +1592,7 @@
     },
     {
       "date": "2026-12-02",
-      "time": "20:00 (22:00)",
+      "time": "20:15 (22:15)",
       "week": 13,
       "home_team": "Bournemouth",
       "away_team": "Brighton",
@@ -1592,7 +1605,7 @@
     },
     {
       "date": "2026-12-02",
-      "time": "20:00 (22:00)",
+      "time": "20:15 (22:15)",
       "week": 13,
       "home_team": "Brentford",
       "away_team": "Arsenal",
@@ -1605,7 +1618,7 @@
     },
     {
       "date": "2026-12-02",
-      "time": "20:00 (22:00)",
+      "time": "19:30 (21:30)",
       "week": 13,
       "home_team": "Chelsea",
       "away_team": "Crystal Palace",
@@ -1618,20 +1631,7 @@
     },
     {
       "date": "2026-12-02",
-      "time": "20:00 (22:00)",
-      "week": 13,
-      "home_team": "Coventry City",
-      "away_team": "Ipswich Town",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Coventry Building Society Arena",
-      "referee": null,
-      "game_id": "2026-12-02 Coventry City-Ipswich Town"
-    },
-    {
-      "date": "2026-12-02",
-      "time": "20:00 (22:00)",
+      "time": "19:30 (21:30)",
       "week": 13,
       "home_team": "Hull City",
       "away_team": "Nottingham",
@@ -1644,7 +1644,7 @@
     },
     {
       "date": "2026-12-02",
-      "time": "20:00 (22:00)",
+      "time": "19:30 (21:30)",
       "week": 13,
       "home_team": "Liverpool",
       "away_team": "Sunderland",
@@ -1657,7 +1657,7 @@
     },
     {
       "date": "2026-12-02",
-      "time": "20:00 (22:00)",
+      "time": "19:30 (21:30)",
       "week": 13,
       "home_team": "Manchester City",
       "away_team": "Leeds United",
@@ -1670,7 +1670,7 @@
     },
     {
       "date": "2026-12-02",
-      "time": "20:00 (22:00)",
+      "time": "20:15 (22:15)",
       "week": 13,
       "home_team": "Newcastle",
       "away_team": "Manchester Utd",
@@ -1682,7 +1682,7 @@
       "game_id": "2026-12-02 Newcastle-Manchester Utd"
     },
     {
-      "date": "2026-12-02",
+      "date": "2026-12-03",
       "time": "20:00 (22:00)",
       "week": 13,
       "home_team": "Tottenham",
@@ -1692,7 +1692,7 @@
       "played": false,
       "venue": "Tottenham Hotspur Stadium",
       "referee": null,
-      "game_id": "2026-12-02 Tottenham-Fulham"
+      "game_id": "2026-12-03 Tottenham-Fulham"
     },
     {
       "date": "2026-12-05",
@@ -1722,7 +1722,7 @@
     },
     {
       "date": "2026-12-05",
-      "time": "15:00 (17:00)",
+      "time": "20:00 (22:00)",
       "week": 14,
       "home_team": "Brentford",
       "away_team": "Manchester City",
@@ -1735,7 +1735,7 @@
     },
     {
       "date": "2026-12-05",
-      "time": "15:00 (17:00)",
+      "time": "12:30 (14:30)",
       "week": 14,
       "home_team": "Chelsea",
       "away_team": "Liverpool",
@@ -1745,19 +1745,6 @@
       "venue": "Stamford Bridge",
       "referee": null,
       "game_id": "2026-12-05 Chelsea-Liverpool"
-    },
-    {
-      "date": "2026-12-05",
-      "time": "15:00 (17:00)",
-      "week": 14,
-      "home_team": "Everton",
-      "away_team": "Fulham",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Hill Dickinson Stadium",
-      "referee": null,
-      "game_id": "2026-12-05 Everton-Fulham"
     },
     {
       "date": "2026-12-05",
@@ -1787,20 +1774,7 @@
     },
     {
       "date": "2026-12-05",
-      "time": "15:00 (17:00)",
-      "week": 14,
-      "home_team": "Newcastle",
-      "away_team": "Sunderland",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "St James' Park",
-      "referee": null,
-      "game_id": "2026-12-05 Newcastle-Sunderland"
-    },
-    {
-      "date": "2026-12-05",
-      "time": "15:00 (17:00)",
+      "time": "17:30 (19:30)",
       "week": 14,
       "home_team": "Nottingham",
       "away_team": "Brighton",
@@ -1812,8 +1786,34 @@
       "game_id": "2026-12-05 Nottingham-Brighton"
     },
     {
-      "date": "2026-12-05",
-      "time": "15:00 (17:00)",
+      "date": "2026-12-06",
+      "time": "14:00 (16:00)",
+      "week": 14,
+      "home_team": "Everton",
+      "away_team": "Fulham",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Hill Dickinson Stadium",
+      "referee": null,
+      "game_id": "2026-12-06 Everton-Fulham"
+    },
+    {
+      "date": "2026-12-06",
+      "time": "14:00 (16:00)",
+      "week": 14,
+      "home_team": "Newcastle",
+      "away_team": "Sunderland",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "St James' Park",
+      "referee": null,
+      "game_id": "2026-12-06 Newcastle-Sunderland"
+    },
+    {
+      "date": "2026-12-06",
+      "time": "16:30 (18:30)",
       "week": 14,
       "home_team": "Tottenham",
       "away_team": "Arsenal",
@@ -1822,59 +1822,7 @@
       "played": false,
       "venue": "Tottenham Hotspur Stadium",
       "referee": null,
-      "game_id": "2026-12-05 Tottenham-Arsenal"
-    },
-    {
-      "date": "2026-12-12",
-      "time": "15:00 (17:00)",
-      "week": 15,
-      "home_team": "Arsenal",
-      "away_team": "Bournemouth",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Emirates Stadium",
-      "referee": null,
-      "game_id": "2026-12-12 Arsenal-Bournemouth"
-    },
-    {
-      "date": "2026-12-12",
-      "time": "15:00 (17:00)",
-      "week": 15,
-      "home_team": "Brighton",
-      "away_team": "Everton",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "The American Express Stadium",
-      "referee": null,
-      "game_id": "2026-12-12 Brighton-Everton"
-    },
-    {
-      "date": "2026-12-12",
-      "time": "15:00 (17:00)",
-      "week": 15,
-      "home_team": "Coventry City",
-      "away_team": "Aston Villa",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Coventry Building Society Arena",
-      "referee": null,
-      "game_id": "2026-12-12 Coventry City-Aston Villa"
-    },
-    {
-      "date": "2026-12-12",
-      "time": "15:00 (17:00)",
-      "week": 15,
-      "home_team": "Crystal Palace",
-      "away_team": "Manchester Utd",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Selhurst Park",
-      "referee": null,
-      "game_id": "2026-12-12 Crystal Palace-Manchester Utd"
+      "game_id": "2026-12-06 Tottenham-Arsenal"
     },
     {
       "date": "2026-12-12",
@@ -1888,19 +1836,6 @@
       "venue": "Craven Cottage",
       "referee": null,
       "game_id": "2026-12-12 Fulham-Brentford"
-    },
-    {
-      "date": "2026-12-12",
-      "time": "15:00 (17:00)",
-      "week": 15,
-      "home_team": "Hull City",
-      "away_team": "Tottenham",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "MKM Stadium",
-      "referee": null,
-      "game_id": "2026-12-12 Hull City-Tottenham"
     },
     {
       "date": "2026-12-12",
@@ -1930,7 +1865,7 @@
     },
     {
       "date": "2026-12-12",
-      "time": "15:00 (17:00)",
+      "time": "17:30 (19:30)",
       "week": 15,
       "home_team": "Manchester City",
       "away_team": "Chelsea",
@@ -1942,8 +1877,60 @@
       "game_id": "2026-12-12 Manchester City-Chelsea"
     },
     {
-      "date": "2026-12-12",
-      "time": "15:00 (17:00)",
+      "date": "2026-12-13",
+      "time": "14:00 (16:00)",
+      "week": 15,
+      "home_team": "Arsenal",
+      "away_team": "Bournemouth",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Emirates Stadium",
+      "referee": null,
+      "game_id": "2026-12-13 Arsenal-Bournemouth"
+    },
+    {
+      "date": "2026-12-13",
+      "time": "14:00 (16:00)",
+      "week": 15,
+      "home_team": "Brighton",
+      "away_team": "Everton",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "The American Express Stadium",
+      "referee": null,
+      "game_id": "2026-12-13 Brighton-Everton"
+    },
+    {
+      "date": "2026-12-13",
+      "time": "16:30 (18:30)",
+      "week": 15,
+      "home_team": "Coventry City",
+      "away_team": "Aston Villa",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Coventry Building Society Arena",
+      "referee": null,
+      "game_id": "2026-12-13 Coventry City-Aston Villa"
+    },
+    {
+      "date": "2026-12-13",
+      "time": "19:00 (21:00)",
+      "week": 15,
+      "home_team": "Crystal Palace",
+      "away_team": "Manchester Utd",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Selhurst Park",
+      "referee": null,
+      "game_id": "2026-12-13 Crystal Palace-Manchester Utd"
+    },
+    {
+      "date": "2026-12-13",
+      "time": "14:00 (16:00)",
       "week": 15,
       "home_team": "Sunderland",
       "away_team": "Nottingham",
@@ -1952,20 +1939,20 @@
       "played": false,
       "venue": "Stadium of Light",
       "referee": null,
-      "game_id": "2026-12-12 Sunderland-Nottingham"
+      "game_id": "2026-12-13 Sunderland-Nottingham"
     },
     {
-      "date": "2026-12-19",
-      "time": "15:00 (17:00)",
-      "week": 16,
-      "home_team": "Arsenal",
-      "away_team": "Manchester Utd",
+      "date": "2026-12-14",
+      "time": "20:00 (22:00)",
+      "week": 15,
+      "home_team": "Hull City",
+      "away_team": "Tottenham",
       "home_goals": null,
       "away_goals": null,
       "played": false,
-      "venue": "Emirates Stadium",
+      "venue": "MKM Stadium",
       "referee": null,
-      "game_id": "2026-12-19 Arsenal-Manchester Utd"
+      "game_id": "2026-12-14 Hull City-Tottenham"
     },
     {
       "date": "2026-12-19",
@@ -1982,7 +1969,7 @@
     },
     {
       "date": "2026-12-19",
-      "time": "15:00 (17:00)",
+      "time": "12:30 (14:30)",
       "week": 16,
       "home_team": "Brentford",
       "away_team": "Newcastle",
@@ -1992,32 +1979,6 @@
       "venue": "Gtech Community Stadium",
       "referee": null,
       "game_id": "2026-12-19 Brentford-Newcastle"
-    },
-    {
-      "date": "2026-12-19",
-      "time": "15:00 (17:00)",
-      "week": 16,
-      "home_team": "Brighton",
-      "away_team": "Ipswich Town",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "The American Express Stadium",
-      "referee": null,
-      "game_id": "2026-12-19 Brighton-Ipswich Town"
-    },
-    {
-      "date": "2026-12-19",
-      "time": "15:00 (17:00)",
-      "week": 16,
-      "home_team": "Chelsea",
-      "away_team": "Aston Villa",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Stamford Bridge",
-      "referee": null,
-      "game_id": "2026-12-19 Chelsea-Aston Villa"
     },
     {
       "date": "2026-12-19",
@@ -2034,7 +1995,7 @@
     },
     {
       "date": "2026-12-19",
-      "time": "15:00 (17:00)",
+      "time": "17:30 (19:30)",
       "week": 16,
       "home_team": "Liverpool",
       "away_team": "Tottenham",
@@ -2072,8 +2033,34 @@
       "game_id": "2026-12-19 Nottingham-Everton"
     },
     {
-      "date": "2026-12-19",
-      "time": "15:00 (17:00)",
+      "date": "2026-12-20",
+      "time": "16:30 (18:30)",
+      "week": 16,
+      "home_team": "Arsenal",
+      "away_team": "Manchester Utd",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Emirates Stadium",
+      "referee": null,
+      "game_id": "2026-12-20 Arsenal-Manchester Utd"
+    },
+    {
+      "date": "2026-12-20",
+      "time": "14:00 (16:00)",
+      "week": 16,
+      "home_team": "Brighton",
+      "away_team": "Ipswich Town",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "The American Express Stadium",
+      "referee": null,
+      "game_id": "2026-12-20 Brighton-Ipswich Town"
+    },
+    {
+      "date": "2026-12-20",
+      "time": "14:00 (16:00)",
       "week": 16,
       "home_team": "Sunderland",
       "away_team": "Crystal Palace",
@@ -2082,7 +2069,20 @@
       "played": false,
       "venue": "Stadium of Light",
       "referee": null,
-      "game_id": "2026-12-19 Sunderland-Crystal Palace"
+      "game_id": "2026-12-20 Sunderland-Crystal Palace"
+    },
+    {
+      "date": "2026-12-21",
+      "time": "20:00 (22:00)",
+      "week": 16,
+      "home_team": "Chelsea",
+      "away_team": "Aston Villa",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Stamford Bridge",
+      "referee": null,
+      "game_id": "2026-12-21 Chelsea-Aston Villa"
     },
     {
       "date": "2026-12-26",
