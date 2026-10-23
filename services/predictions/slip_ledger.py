@@ -145,13 +145,31 @@ class SlipLedger:
             hit_idx = [i for i, l in enumerate(r["legs"]) if l["hit"]]
             lines_won = 0
             gross = 0.0
-            for combo in combinations(range(len(r["legs"])), r["k"]):
-                if all(i in hit_idx for i in combo):
-                    lines_won += 1
-                    line = r["unit"]
-                    for i in combo:
-                        line *= r["legs"][i]["breakeven"]
-                    gross += line
+            # `k` IS A SET OF COMBINATION SIZES, NOT ONE SIZE.
+            #
+            # 🐛 THIS SILENTLY STOPPED GRADING EVERY SLIP. When the advisor
+            # was generalised past systems — a Yankee is C(4,2)+C(4,3)+C(4,4),
+            # a Lucky 15 adds the singles — `k` became a LIST and the slip
+            # ledger kept storing whatever it was handed. combinations() needs
+            # an int, so this line raised TypeError, run_weekly's step()
+            # caught it, printed "WARN grade slips" and carried on.
+            #
+            # The cost was not a missing number. A slip that never grades
+            # stays `pending`, and _pending_window() treats any pending row as
+            # a live round — so the 2026-10-09 window stayed "in play" for a
+            # fortnight, weekly_picks() kept serving that booked round, and
+            # every commit was refused as already-committed. The whole betting
+            # surface froze on one uncaught type error: no new picks, no new
+            # slip, no new gold, from 10-07 to 10-23.
+            sizes = [r["k"]] if isinstance(r["k"], int) else list(r["k"])
+            for k in sorted(set(sizes)):
+                for combo in combinations(range(len(r["legs"])), k):
+                    if all(i in hit_idx for i in combo):
+                        lines_won += 1
+                        line = r["unit"]
+                        for i in combo:
+                            line *= r["legs"][i]["breakeven"]
+                        gross += line
             r["status"] = "graded"
             r["graded_at"] = now
             r["hits"] = len(hit_idx)
@@ -224,7 +242,11 @@ class SlipLedger:
             return None
         r = rows[0]
         lines = []
-        for combo in combinations(range(len(r["legs"])), r["k"]):
+        # same set-of-sizes contract as grade() — see the note there
+        sizes = [r["k"]] if isinstance(r["k"], int) else list(r["k"])
+        combos = [c for k in sorted(set(sizes))
+                  for c in combinations(range(len(r["legs"])), k)]
+        for combo in combos:
             legs = [r["legs"][i] for i in combo]
             product = 1.0
             for l in legs:

@@ -287,13 +287,41 @@ def _slug(league: str) -> str:
 
 
 def league_state(league: str) -> dict:
-    """What this league looks like ON DISK: matches fbref says were played,
-    and matches whose events we actually hold. Both local, zero requests."""
+    """What this league looks like ON DISK. Three numbers, zero requests.
+
+        played   matches fbref's cached fixture list says were played
+        events   matches whose events we actually hold
+        overdue  fixtures whose date has passed and are STILL marked unplayed
+
+    `overdue` IS THE ONE THAT NOTICES THE OUTSIDE WORLD, and leaving it out
+    was a real bug in the first version of this gate. `played` and `events`
+    are both read from our own disk, so if the fixture cache is stale the two
+    agree with each other and with the marker, and the gate concludes
+    "nothing new" — forever. On 2026-10-23 that skipped all five leagues
+    after a full week of football, because the cache had not been refreshed
+    since the 16th and therefore did not know the 17th-19th had been played.
+
+    The old date-based gate got this part right for a reason worth keeping: a
+    SCHEDULE is known in advance, so a kickoff that has passed is visible
+    offline even when the result is not. Counting fixtures that are overdue
+    and still unplayed asks "has football happened that we have not caught
+    up with" without a single request.
+
+    Day granularity, so a match kicking off today is not overdue until
+    tomorrow — the cost of being late by a run is one stale afternoon; the
+    cost of being early is thrashing every fixture day.
+    """
+    from datetime import date as _date
     from services.fbref.fixtures.fixtures_service import FixturesService
-    played = 0
+    played = overdue = 0
+    today = _date.today().isoformat()
     try:
         fx = FixturesService.load(league, SEASON)
-        played = sum(1 for m in (fx["matches"] if fx else []) if m.get("played"))
+        for m in (fx["matches"] if fx else []):
+            if m.get("played"):
+                played += 1
+            elif m.get("date") and m["date"] < today:
+                overdue += 1
     except Exception:                                      # noqa: BLE001
         pass
     events = 0
@@ -305,7 +333,7 @@ def league_state(league: str) -> dict:
                          .nunique())
     except Exception:                                      # noqa: BLE001
         pass
-    return {"played": played, "events": events}
+    return {"played": played, "events": events, "overdue": overdue}
 
 
 def stale_leagues(leagues: list, mark: dict | None) -> dict:
@@ -349,8 +377,10 @@ def stale_leagues(leagues: list, mark: dict | None) -> dict:
         elif was is None:
             out[lg] = f"no record from a previous run ({now['played']} played)"
         elif now != was:
-            out[lg] = (f"played {was['played']}->{now['played']}, "
-                       f"events {was['events']}->{now['events']}")
+            bits = [f"{k} {was.get(k, '?')}->{now[k]}"
+                    for k in ("played", "events", "overdue")
+                    if was.get(k) != now[k]]
+            out[lg] = ", ".join(bits) or "state changed"
     return out
 
 
