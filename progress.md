@@ -7,6 +7,63 @@ _Always up to date. What's done, what's in flight, what's next. Spec: `projectIn
 **LIVE, FIVE LEAGUES, 2026-09-23.** predictorous.com serves teams, players
 and managers for ENG/ESP/ITA/GER/FRA. Commit `cb9c74a` pushed.
 
+## NEXT UP: scripts/selfcheck.py (agreed 2026-10-23, not yet built)
+
+**The feedback loop is the problem, not the scrape.** A daily run is 60-100
+minutes, and it has been serving as the test harness. Three pipeline changes
+on 2026-10-23, two of them wrong, each needing a full run to disprove — and
+the user found both. User: "every scrape is sizifi / סיזיפית".
+
+A single script, run against COPIES of the real ledgers, no network, seconds
+not minutes. Every case below is a bug that actually happened:
+
+**1. The gate** (`league_state` / `stale_leagues`)
+- fresh cache, nothing played -> 0 stale
+- stale cache with overdue fixtures -> stale   <- the 10-23 blindness
+- event gap -> stale
+- gap already attempted -> NOT stale (no thrash)
+- newly ready league -> stale
+
+**2. Grading** (picks, slips, gold)
+- a slip whose `k` is a LIST grades          <- the 10-23 TypeError
+- a slip whose `k` is an int still grades (pre-change rows exist)
+- every pending row with resolved fixtures reaches `graded`
+
+**3. The window contract** (`_pending_window` / `weekly_picks`)
+- booked window -> two consecutive calls return IDENTICAL picks and slip
+- fully graded -> window advances to the next round
+- no pick, banker or gold bet is ever made on a fixture carrying a score
+- a pending row that can never resolve does not freeze the window forever
+  <- the 10-07 to 10-23 betting freeze
+
+**4. Commit guards**
+- a window already in the ledger is refused on all three
+- a genuinely new window is accepted
+- row counts do not grow on a refused commit
+
+**5. The payload gate** (`publish.check`)
+- every ready league in all three indexes
+- round H/D/A sums to 1
+- no payload shrank past SHRINK_LIMIT
+
+**Where it hooks in:** `publish.py` runs it as STAGE 0, before update. A
+broken contract then cannot reach the site. It is also the thing to run
+before every commit.
+
+**Two things it must not do:** touch the network, or write to the real
+ledgers. It works on copies — a test that can corrupt `picks.jsonl` is worse
+than no test.
+
+### Also still open
+
+- **Local build time ~29 min -> ~6** by running the five leagues in
+  parallel (8 cores). Blocker unchanged: `build_team_web.py` and
+  `build_mental_web.py` read-modify-write a shared `index.json` (read
+  :64/:72, write :420/:289), so the index write must move to one serial pass
+  after the fan-out.
+- `sources` walks fbref / WhoScored / Understat serially though they have
+  independent rate limits; the tracks could overlap.
+
 ## The daily now knows what it needs to do (2026-10-16)
 
 **User: "we need that every day the daily WILL KNOW WHAT HE NEEDS TO DO AND

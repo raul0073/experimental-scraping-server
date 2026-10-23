@@ -21,6 +21,7 @@ Usage:
         --league "ENG-Premier League" --seasons 2425 2526
 """
 import argparse
+import os
 import sys
 import time
 from datetime import datetime, timedelta
@@ -42,6 +43,21 @@ PAUSE_S = 3.0        # between batches, on top of the ~10.9s/match the fetch
 
 
 SCHED_DIR = OUT_DIR / "_schedules"
+
+# WhoScored IS SCRAPED THROUGH A REAL BROWSER, AND soccerdata SHOWS IT.
+#
+# sd.WhoScored(..., headless=False) is the library default, so every events
+# and injuries step opened a visible Chrome window and drove it. On a daily
+# run that is ~50 match pages across five leagues, each popping a window on
+# top of whatever the user is doing — which is exactly how this was
+# reported: "i cant have u opening chrome windows while i work".
+#
+# Headless is the right default for an unattended job. It is an env var
+# rather than a constant because WhoScored does fingerprint browsers and may
+# start refusing headless sessions; WS_HEADLESS=0 restores the visible
+# browser without a code change if that day comes.
+WS_HEADLESS = os.environ.get("WS_HEADLESS", "1") not in ("0", "false", "False")
+
 
 
 def out_path(league: str, season: str) -> Path:
@@ -289,7 +305,8 @@ def build(league: str, season: str, until: str | None = None) -> dict:
         return {"league": league, "season": season, "fetched": 0,
                 "stored": len(have), "failed": 0}
 
-    ws = sd.WhoScored(leagues=league, seasons=season)
+    ws = sd.WhoScored(leagues=league, seasons=season,
+                      headless=WS_HEADLESS)
     schedule = schedule_for(ws, league, season, expect)
     all_ids = played_ids(schedule, until)
     todo = [g for g in all_ids if g not in have]

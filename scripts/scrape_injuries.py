@@ -28,6 +28,7 @@ Usage:
 """
 import argparse
 import json
+import os
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -42,6 +43,21 @@ OUT = ROOT / "data" / "injuries"
 
 # keep in sync with services/predictions/prediction_service.py
 SEASON = "2627"
+
+# WhoScored IS SCRAPED THROUGH A REAL BROWSER, AND soccerdata SHOWS IT.
+#
+# sd.WhoScored(..., headless=False) is the library default, so every events
+# and injuries step opened a visible Chrome window and drove it. On a daily
+# run that is ~50 match pages across five leagues, each popping a window on
+# top of whatever the user is doing — which is exactly how this was
+# reported: "i cant have u opening chrome windows while i work".
+#
+# Headless is the right default for an unattended job. It is an env var
+# rather than a constant because WhoScored does fingerprint browsers and may
+# start refusing headless sessions; WS_HEADLESS=0 restores the visible
+# browser without a code change if that day comes.
+WS_HEADLESS = os.environ.get("WS_HEADLESS", "1") not in ("0", "false", "False")
+
 LEAGUES = ["ENG-Premier League", "ITA-Serie A", "ESP-La Liga",
            "GER-Bundesliga", "FRA-Ligue 1"]
 # TWO DAYS, BECAUSE THAT IS WHEN THE PAGE EXISTS.
@@ -100,7 +116,8 @@ def upcoming(schedule: pd.DataFrame, days: int) -> pd.DataFrame:
 
 
 def run(league: str, season: str, days: int) -> dict:
-    ws = sd.WhoScored(leagues=league, seasons=season)
+    ws = sd.WhoScored(leagues=league, seasons=season,
+                      headless=WS_HEADLESS)
     try:
         schedule = ws.read_schedule(force_cache=False)
     except Exception as e:
