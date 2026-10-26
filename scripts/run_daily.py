@@ -190,6 +190,60 @@ def idle_check(leagues: list) -> tuple:
 done: list[tuple[str, str, float]] = []
 
 
+# ---------------------------------------------------------------------------
+# RESUMING AFTER AN INTERRUPTION.
+#
+# A run is ~100 minutes and it is a child process: closing the session, a
+# reboot or a Ctrl-C kills it wherever it happens to be. The DATA it had
+# already written survives - sources refresh in place, the event scraper
+# writes every ten matches, payloads are per-league files - but the
+# ORCHESTRATION restarted from the top, so a resume paid 32 minutes for a
+# `sources` step that had succeeded an hour earlier. On 2026-10-25 a run died
+# after sources and three of five event steps; all of that was still on disk
+# and all of it would have been redone.
+#
+# So every step that succeeds records itself against today's date, and a
+# later run skips what is already done. The file is keyed by date, so
+# tomorrow starts clean and there is no cleanup step to forget.
+#
+# TWO STEPS IGNORE IT, DELIBERATELY. "grade + predict + simulate" and
+# "export web" read everything the steps before them produced, so re-running
+# them is both cheap and the entire point of resuming - a resume that skipped
+# the export would leave the new data unpublished.
+STEP_LOG = ROOT / "data" / "reports" / "daily_steps.json"
+ALWAYS_RERUN = ("grade + predict + simulate", "export web")
+_done_today: dict = {}
+_ignore_step_log = False
+
+
+def _today() -> str:
+    return datetime.now().strftime("%Y-%m-%d")
+
+
+def step_log_load() -> dict:
+    """{label: seconds} for steps that already succeeded TODAY."""
+    try:
+        d = json.loads(STEP_LOG.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return (d.get("done") or {}) if d.get("date") == _today() else {}
+
+
+def step_log_mark(label: str, secs: float) -> None:
+    try:
+        d = json.loads(STEP_LOG.read_text(encoding="utf-8"))
+        if d.get("date") != _today():
+            d = {"date": _today(), "done": {}}
+    except (OSError, ValueError):
+        d = {"date": _today(), "done": {}}
+    d.setdefault("done", {})[label] = round(secs, 1)
+    try:
+        STEP_LOG.parent.mkdir(parents=True, exist_ok=True)
+        STEP_LOG.write_text(json.dumps(d, indent=2), encoding="utf-8")
+    except OSError:
+        pass                      # a lost marker costs a redo, never a crash
+
+
 def run(label: str, args: list[str], optional: bool = False) -> bool:
     """One step. Never fatal: a source that is down costs that source.
 
@@ -212,6 +266,15 @@ def run(label: str, args: list[str], optional: bool = False) -> bool:
     stream — while the last few lines are still kept for the failure
     summary. Live visibility and a useful error message are not a trade.
     """
+    if (label in _done_today and label not in ALWAYS_RERUN
+            and not _ignore_step_log):
+        print()
+        print(f"--- {label}", flush=True)
+        print(f"    -> skipped: already succeeded today in "
+              f"{_done_today[label]}s", flush=True)
+        done.append((label, "ok (done earlier today)", 0.0))
+        return True
+
     t0 = time.time()
     print(f"\n--- {label}", flush=True)
     try:
@@ -239,6 +302,8 @@ def run(label: str, args: list[str], optional: bool = False) -> bool:
         secs = time.time() - t0
         tag = "" if not optional else " (optional)"
         done.append((label, "ok" if ok else f"FAILED{tag}{note}", secs))
+        if ok:
+            step_log_mark(label, secs)
         print(f"    -> {'ok' if ok else 'FAILED'} in {secs:.1f}s", flush=True)
         return ok
     except subprocess.TimeoutExpired:
@@ -409,6 +474,16 @@ def main() -> int:
                     help="print what this run WOULD do, then exit. Costs "
                          "nothing: the decision is read off disk")
     args = ap.parse_args()
+
+    # WHAT ALREADY SUCCEEDED TODAY. A resume skips it; --force ignores the
+    # log and does everything again.
+    global _done_today, _ignore_step_log
+    _ignore_step_log = args.force
+    _done_today = {} if args.force else step_log_load()
+    if _done_today:
+        mins = sum(_done_today.values()) / 60
+        print(f"  resuming: {len(_done_today)} step(s) already succeeded "
+              f"today ({mins:.0f} min of work kept)")
 
     # 🐛 READINESS COULD NEVER RESOLVE ITSELF.
     #
