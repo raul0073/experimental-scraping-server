@@ -2,7 +2,7 @@
   "league": "FRA-Ligue 1",
   "season": "2627",
   "match_count": 306,
-  "played_count": 63,
+  "played_count": 71,
   "matches": [
     {
       "date": "2026-08-21",
@@ -829,11 +829,11 @@
       "week": 8,
       "home_team": "Brest",
       "away_team": "Nice",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 2,
+      "played": true,
       "venue": "Stade Francis-Le Blé",
-      "referee": null,
+      "referee": "Guillaume Paradis",
       "game_id": "2026-10-23 Brest-Nice"
     },
     {
@@ -842,11 +842,11 @@
       "week": 8,
       "home_team": "Lens",
       "away_team": "Paris FC",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 1,
+      "played": true,
       "venue": "Stade Bollaert-Delelis",
-      "referee": null,
+      "referee": "Mathieu Vernice",
       "game_id": "2026-10-24 Lens-Paris FC"
     },
     {
@@ -855,11 +855,11 @@
       "week": 8,
       "home_team": "Angers",
       "away_team": "Lorient",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 0,
+      "away_goals": 0,
+      "played": true,
       "venue": "Stade Raymond Kopa",
-      "referee": null,
+      "referee": "Azzedine Souifi",
       "game_id": "2026-10-25 Angers-Lorient"
     },
     {
@@ -868,11 +868,11 @@
       "week": 8,
       "home_team": "Auxerre",
       "away_team": "Le Mans",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 1,
+      "played": true,
       "venue": "Stade de l'Abbé Deschamps",
-      "referee": null,
+      "referee": "Willy Delajod",
       "game_id": "2026-10-25 Auxerre-Le Mans"
     },
     {
@@ -881,11 +881,11 @@
       "week": 8,
       "home_team": "Marseille",
       "away_team": "Le Havre",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 4,
+      "away_goals": 3,
+      "played": true,
       "venue": "CEPAC Vélodrome",
-      "referee": null,
+      "referee": "Clément Turpin",
       "game_id": "2026-10-25 Marseille-Le Havre"
     },
     {
@@ -894,25 +894,12 @@
       "week": 8,
       "home_team": "Monaco",
       "away_team": "Lille",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 1,
+      "played": true,
       "venue": "Stade Louis II",
-      "referee": null,
+      "referee": "François Letexier",
       "game_id": "2026-10-25 Monaco-Lille"
-    },
-    {
-      "date": "2026-10-25",
-      "time": "20:45 (21:45)",
-      "week": 8,
-      "home_team": "PSG",
-      "away_team": "Lyon",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Parc des Princes",
-      "referee": null,
-      "game_id": "2026-10-25 Paris SG-Lyon"
     },
     {
       "date": "2026-10-25",
@@ -920,11 +907,11 @@
       "week": 8,
       "home_team": "Rennes",
       "away_team": "Strasbourg",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 3,
+      "away_goals": 0,
+      "played": true,
       "venue": "Roazhon Park",
-      "referee": null,
+      "referee": "Ruddy Buquet",
       "game_id": "2026-10-25 Rennes-Strasbourg"
     },
     {
@@ -933,12 +920,25 @@
       "week": 8,
       "home_team": "Toulouse",
       "away_team": "Troyes",
+      "home_goals": 0,
+      "away_goals": 0,
+      "played": true,
+      "venue": "Stadium de Toulouse",
+      "referee": "Geoffrey Kubler",
+      "game_id": "2026-10-25 Toulouse-Troyes"
+    },
+    {
+      "date": "2026-10-26",
+      "time": "20:30 (21:30)",
+      "week": 8,
+      "home_team": "PSG",
+      "away_team": "Lyon",
       "home_goals": null,
       "away_goals": null,
       "played": false,
-      "venue": "Stadium de Toulouse",
+      "venue": "Parc des Princes",
       "referee": null,
-      "game_id": "2026-10-25 Toulouse-Troyes"
+      "game_id": "2026-10-26 Paris SG-Lyon"
     },
     {
       "date": "2026-10-30",

@@ -1,6 +1,6 @@
 {
   "ESP-La Liga": {
-    "fingerprint": "4648:2026-10-19",
+    "fingerprint": "4658:2026-10-25",
     "k": 0.06,
     "home_adv": 0.25,
     "decay": 1.0,
@@ -21,10 +21,10 @@
       "2425"
     ],
     "holdout": "2526",
-    "n_matches": 4648
+    "n_matches": 4658
   },
   "ENG-Premier League": {
-    "fingerprint": "4630:2026-10-19",
+    "fingerprint": "4640:2026-10-25",
     "k": 0.08,
     "home_adv": 0.2,
     "decay": 1.0,
@@ -45,10 +45,10 @@
       "2425"
     ],
     "holdout": "2526",
-    "n_matches": 4630
+    "n_matches": 4640
   },
   "ITA-Serie A": {
-    "fingerprint": "4630:2026-10-19",
+    "fingerprint": "4640:2026-10-25",
     "k": 0.1,
     "home_adv": 0.2,
     "decay": 1.0,
@@ -69,10 +69,10 @@
       "2425"
     ],
     "holdout": "2526",
-    "n_matches": 4630
+    "n_matches": 4640
   },
   "GER-Bundesliga": {
-    "fingerprint": "3726:2026-10-18",
+    "fingerprint": "3735:2026-10-25",
     "k": 0.08,
     "home_adv": 0.25,
     "decay": 1.0,
@@ -93,10 +93,10 @@
       "2425"
     ],
     "holdout": "2526",
-    "n_matches": 3726
+    "n_matches": 3735
   },
   "FRA-Ligue 1": {
-    "fingerprint": "4300:2027-03-06",
+    "fingerprint": "4308:2027-03-06",
     "k": 0.08,
     "home_adv": 0.25,
     "decay": 1.0,
@@ -117,6 +117,6 @@
       "2425"
     ],
     "holdout": "2526",
-    "n_matches": 4300
+    "n_matches": 4308
   }
 }

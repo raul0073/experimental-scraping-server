@@ -1,60 +1,60 @@
 {
- "generated": "2026-10-23",
- "graded": 299,
- "hit_rate": 51.5,
- "said_avg": 47.3,
- "exact_score": 10.7,
+ "generated": "2026-10-26",
+ "graded": 345,
+ "hit_rate": 51.9,
+ "said_avg": 47.6,
+ "exact_score": 11.6,
  "by_league": {
   "ENG-Premier League": {
-   "n": 60,
-   "hit_rate": 45.0
+   "n": 70,
+   "hit_rate": 44.3
   },
   "ESP-La Liga": {
-   "n": 80,
-   "hit_rate": 51.2
+   "n": 89,
+   "hit_rate": 52.8
   },
   "FRA-Ligue 1": {
-   "n": 54,
-   "hit_rate": 51.9
+   "n": 62,
+   "hit_rate": 51.6
   },
   "GER-Bundesliga": {
-   "n": 45,
-   "hit_rate": 55.6
+   "n": 54,
+   "hit_rate": 53.7
   },
   "ITA-Serie A": {
-   "n": 60,
-   "hit_rate": 55.0
+   "n": 70,
+   "hit_rate": 57.1
   }
  },
  "calibration": [
   {
    "bucket": "30-40%",
-   "n": 96,
-   "said": 36.4,
-   "landed": 39.6
+   "n": 110,
+   "said": 36.2,
+   "landed": 41.8
   },
   {
    "bucket": "40-50%",
-   "n": 93,
-   "said": 44.3,
-   "landed": 44.1
+   "n": 105,
+   "said": 44.5,
+   "landed": 42.9
   },
   {
    "bucket": "50-60%",
-   "n": 67,
-   "said": 54.8,
-   "landed": 61.2
+   "n": 75,
+   "said": 54.9,
+   "landed": 61.3
   },
   {
    "bucket": "60-70%",
-   "n": 35,
-   "said": 64.8,
-   "landed": 74.3
+   "n": 46,
+   "said": 64.2,
+   "landed": 71.7
   },
   {
    "bucket": "70-80%",
-   "n": 8,
-   "said": 75.7,
+   "n": 9,
+   "said": 75.3,
    "landed": 100.0
   }
  ]
