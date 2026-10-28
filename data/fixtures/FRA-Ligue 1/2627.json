@@ -2,7 +2,7 @@
   "league": "FRA-Ligue 1",
   "season": "2627",
   "match_count": 306,
-  "played_count": 71,
+  "played_count": 72,
   "matches": [
     {
       "date": "2026-08-21",
@@ -933,11 +933,11 @@
       "week": 8,
       "home_team": "PSG",
       "away_team": "Lyon",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 0,
+      "played": true,
       "venue": "Parc des Princes",
-      "referee": null,
+      "referee": "Jérôme Brisard",
       "game_id": "2026-10-26 Paris SG-Lyon"
     },
     {
@@ -967,34 +967,8 @@
       "game_id": "2026-10-30 Lille-Lens"
     },
     {
-      "date": "2026-10-31",
-      "time": "20:45 (21:45)",
-      "week": 9,
-      "home_team": "Lorient",
-      "away_team": "Brest",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Stade Yves Allainmat",
-      "referee": null,
-      "game_id": "2026-10-31 Lorient-Brest"
-    },
-    {
-      "date": "2026-10-31",
-      "time": "20:45 (21:45)",
-      "week": 9,
-      "home_team": "Lyon",
-      "away_team": "Angers",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Groupama Stadium",
-      "referee": null,
-      "game_id": "2026-10-31 Lyon-Angers"
-    },
-    {
-      "date": "2026-10-31",
-      "time": "17:15 (18:15)",
+      "date": "2026-10-30",
+      "time": "19:00 (20:00)",
       "week": 9,
       "home_team": "Nice",
       "away_team": "Rennes",
@@ -1003,7 +977,7 @@
       "played": false,
       "venue": "Allianz Riviera",
       "referee": null,
-      "game_id": "2026-10-31 Nice-Rennes"
+      "game_id": "2026-10-30 Nice-Rennes"
     },
     {
       "date": "2026-10-31",
@@ -1017,6 +991,19 @@
       "venue": "Stade de l'Aube",
       "referee": null,
       "game_id": "2026-10-31 Troyes-Le Mans"
+    },
+    {
+      "date": "2026-11-01",
+      "time": "17:15 (18:15)",
+      "week": 9,
+      "home_team": "Lyon",
+      "away_team": "Angers",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Groupama Stadium",
+      "referee": null,
+      "game_id": "2026-11-01 Lyon-Angers"
     },
     {
       "date": "2026-11-01",
@@ -1056,6 +1043,19 @@
       "venue": "Stade de la Meinau",
       "referee": null,
       "game_id": "2026-11-01 Strasbourg-Auxerre"
+    },
+    {
+      "date": "2026-11-02",
+      "time": "20:45 (21:45)",
+      "week": 9,
+      "home_team": "Lorient",
+      "away_team": "Brest",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Stade Yves Allainmat",
+      "referee": null,
+      "game_id": "2026-11-02 Lorient-Brest"
     },
     {
       "date": "2026-11-06",

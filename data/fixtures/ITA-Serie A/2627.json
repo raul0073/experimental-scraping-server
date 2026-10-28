@@ -2,7 +2,7 @@
   "league": "ITA-Serie A",
   "season": "2627",
   "match_count": 380,
-  "played_count": 80,
+  "played_count": 83,
   "matches": [
     {
       "date": "2026-08-22",
@@ -1050,11 +1050,11 @@
       "week": 9,
       "home_team": "Roma",
       "away_team": "Cagliari",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 4,
+      "away_goals": 2,
+      "played": true,
       "venue": "Stadio Olimpico",
-      "referee": null,
+      "referee": "Ermanno Feliciani",
       "game_id": "2026-10-27 Roma-Cagliari"
     },
     {
@@ -1063,11 +1063,11 @@
       "week": 9,
       "home_team": "Sassuolo",
       "away_team": "Lazio",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 6,
+      "played": true,
       "venue": "Mapei Stadium - Città del Tricolore",
-      "referee": null,
+      "referee": "Luca Zufferli",
       "game_id": "2026-10-27 Sassuolo-Lazio"
     },
     {
@@ -1076,11 +1076,11 @@
       "week": 9,
       "home_team": "Torino",
       "away_team": "Como",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 3,
+      "played": true,
       "venue": "Stadio Olimpico Grande Torino",
-      "referee": null,
+      "referee": "Giuseppe Collu",
       "game_id": "2026-10-27 Torino-Como"
     },
     {

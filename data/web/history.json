@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-26",
+ "generated": "2026-10-28",
  "leagues": {
   "esp-la-liga": {
    "name": "ESP-La Liga",
@@ -20,11 +20,14 @@
       1.14,
       1.05
      ],
-     "status": "pending",
-     "score": null,
-     "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "status": "graded",
+     "score": "2-0",
+     "real_xg": [
+      0.87,
+      0.76
+     ],
+     "outcome_hit": true,
+     "score_hit": false
     },
     {
      "kickoff": "2026-10-25",
@@ -2160,8 +2163,8 @@
      "score_hit": false
     }
    ],
-   "graded": 89,
-   "hits": 47,
+   "graded": 90,
+   "hits": 48,
    "exact": 10,
    "teams": {
     "Alavés": "/logos/ESP-La Liga/Alavés.png",
@@ -5289,11 +5292,14 @@
       2.23,
       0.93
      ],
-     "status": "pending",
-     "score": null,
-     "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "status": "graded",
+     "score": "2-0",
+     "real_xg": [
+      1.03,
+      0.47
+     ],
+     "outcome_hit": true,
+     "score_hit": true
     },
     {
      "kickoff": "2026-10-25",
@@ -6736,9 +6742,9 @@
      "score_hit": false
     }
    ],
-   "graded": 62,
-   "hits": 32,
-   "exact": 7,
+   "graded": 63,
+   "hits": 33,
+   "exact": 8,
    "teams": {
     "Auxerre": "/logos/FRA-Ligue 1/Auxerre.png",
     "Brest": "/logos/FRA-Ligue 1/Brest.png",

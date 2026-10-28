@@ -1,7 +1,7 @@
 {
   "league": "ESP-La Liga",
   "season": "2627",
-  "match_count": 98,
+  "match_count": 99,
   "matches": [
     {
       "date": "2026-08-15",
@@ -1864,6 +1864,25 @@
       "home_xpts": 2.6809000000000003,
       "away_xpts": 0.2182,
       "understat_game_id": 30867
+    },
+    {
+      "date": "2026-10-26",
+      "understat_date": "2026-10-26",
+      "home_team": "Sevilla",
+      "away_team": "Osasuna",
+      "home_goals": 2,
+      "away_goals": 0,
+      "home_xg": 0.873541,
+      "away_xg": 0.757546,
+      "home_npxg": 0.873541,
+      "away_npxg": 0.757546,
+      "home_ppda": 17.57894736842105,
+      "away_ppda": 15.461538461538462,
+      "home_deep": 5,
+      "away_deep": 3,
+      "home_xpts": 1.4127,
+      "away_xpts": 1.2387000000000001,
+      "understat_game_id": 30868
     }
   ]
 }

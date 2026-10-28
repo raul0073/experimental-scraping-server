@@ -1,7 +1,7 @@
 {
   "league": "ITA-Serie A",
   "season": "2627",
-  "match_count": 80,
+  "match_count": 83,
   "matches": [
     {
       "date": "2026-08-22",
@@ -1522,6 +1522,63 @@
       "home_xpts": 0.1512,
       "away_xpts": 2.7708,
       "understat_game_id": 31639
+    },
+    {
+      "date": "2026-10-27",
+      "understat_date": "2026-10-27",
+      "home_team": "Roma",
+      "away_team": "Cagliari",
+      "home_goals": 4,
+      "away_goals": 2,
+      "home_xg": 3.85275,
+      "away_xg": 2.47889,
+      "home_npxg": 3.85275,
+      "away_npxg": 1.71759,
+      "home_ppda": 9.153846153846153,
+      "away_ppda": 23.642857142857142,
+      "home_deep": 7,
+      "away_deep": 5,
+      "home_xpts": 2.2033,
+      "away_xpts": 0.6268,
+      "understat_game_id": 31641
+    },
+    {
+      "date": "2026-10-27",
+      "understat_date": "2026-10-27",
+      "home_team": "Sassuolo",
+      "away_team": "Lazio",
+      "home_goals": 2,
+      "away_goals": 6,
+      "home_xg": 1.06739,
+      "away_xg": 4.35541,
+      "home_npxg": 1.06739,
+      "away_npxg": 2.83281,
+      "home_ppda": 35.54545454545455,
+      "away_ppda": 13.0,
+      "home_deep": 5,
+      "away_deep": 11,
+      "home_xpts": 0.061900000000000004,
+      "away_xpts": 2.9044,
+      "understat_game_id": 31647
+    },
+    {
+      "date": "2026-10-27",
+      "understat_date": "2026-10-27",
+      "home_team": "Torino",
+      "away_team": "Como",
+      "home_goals": 1,
+      "away_goals": 3,
+      "home_xg": 1.45119,
+      "away_xg": 2.70766,
+      "home_npxg": 1.45119,
+      "away_npxg": 2.70766,
+      "home_ppda": 27.583333333333332,
+      "away_ppda": 11.785714285714286,
+      "home_deep": 0,
+      "away_deep": 13,
+      "home_xpts": 0.5992999999999999,
+      "away_xpts": 2.2142,
+      "understat_game_id": 31648
     }
   ]
 }
