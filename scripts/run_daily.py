@@ -247,6 +247,43 @@ def step_log_mark(label: str, secs: float) -> None:
 
 DRIVER_NAMES = {"uc_driver.exe", "chromedriver.exe", "chromedriver"}
 
+# A step that prints nothing for this long is stuck, not slow. Measured
+# 2026-10-29 across every publish log: the longest healthy silence between
+# two timestamped lines was 1m40s (sources, 10-26), and no step other than
+# sources has ever run past ten minutes in total. Twenty minutes is twelve
+# times clear of a healthy step and a tenth of the afternoon the 10-29 stall
+# cost. The 2-hour wall stays as the absolute ceiling.
+STALL_SECS = 20 * 60
+POLL_SECS = 30
+STEP_WALL_SECS = 7200
+
+
+def kill_tree(p: subprocess.Popen) -> None:
+    """Kill a step and everything it started.
+
+    `Popen.kill()` is TerminateProcess on the child alone; a hung step's
+    own children (a driver, a browser, a helper python) would outlive it,
+    and the first thing an orphan does is hold a handle we need back.
+    """
+    try:
+        import psutil
+        procs = psutil.Process(p.pid).children(recursive=True)
+    except Exception:  # noqa: BLE001 - psutil missing or child already gone
+        procs = []
+    for proc in procs:
+        try:
+            proc.kill()
+        except Exception:  # noqa: BLE001
+            pass
+    try:
+        p.kill()
+    except Exception:  # noqa: BLE001
+        pass
+    try:
+        p.wait(timeout=30)
+    except Exception:  # noqa: BLE001
+        pass
+
 
 def reap_orphan_drivers(since: float) -> None:
     """Kill browser drivers a finished step left behind.
@@ -315,70 +352,107 @@ def run(label: str, args: list[str], optional: bool = False) -> bool:
         done.append((label, "ok (done earlier today)", 0.0))
         return True
 
-    t0 = time.time()
-    print(f"\n--- {label}", flush=True)
-    try:
-        p = subprocess.Popen(
-            [PY, "-u", *args], cwd=ROOT, env=CHILD_ENV,
-            stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-            text=True, bufsize=1, encoding="utf-8", errors="replace",
-        )
-        last = deque(maxlen=4)
-
-        def pump() -> None:
-            for line in p.stdout:                  # streams; never buffers
-                line = line.rstrip()
-                if line.strip():
-                    # NEVER let echoing a line kill the step. The streams
-                    # are reconfigured to utf-8 above, which is the real
-                    # fix; this is the guarantee. A character we cannot
-                    # print is worth losing a log line over, never a scrape.
-                    try:
-                        print(f"    {line}", flush=True)
-                    except (UnicodeError, OSError):
-                        pass
-                    last.append(line)
-
-        # The echo runs on its own thread so THIS thread waits on the
-        # process, not on the pipe. On 2026-10-29 the injuries step exited
-        # at 15:21 and the run sat on `for line in p.stdout` until 17:32,
-        # because an orphaned uc_driver.exe the scraper had spawned still
-        # held the write end of the pipe: no EOF, no next step, and the
-        # 2-hour timeout below never got its turn. Waiting on the process
-        # means a leaked handle costs a few log lines, not the day.
-        reader = threading.Thread(target=pump, daemon=True)
-        reader.start()
-        p.wait(timeout=7200)
-        reap_orphan_drivers(t0)
-        reader.join(timeout=5)
-        ok = p.returncode == 0
-        note = "" if ok else f" {' | '.join(last)}"[:200]
-        secs = time.time() - t0
-        tag = "" if not optional else " (optional)"
-        done.append((label, "ok" if ok else f"FAILED{tag}{note}", secs))
-        if ok:
-            step_log_mark(label, secs)
-        print(f"    -> {'ok' if ok else 'FAILED'} in {secs:.1f}s", flush=True)
-        return ok
-    except subprocess.TimeoutExpired:
-        # Two hours is not "slow", it is stuck. Leaving it alive would have
-        # it racing the next step for the same files.
+    tag = "" if not optional else " (optional)"
+    for attempt in (1, 2):
+        t0 = time.time()
+        print(f"\n--- {label}" + (" (retry)" if attempt == 2 else ""), flush=True)
         try:
-            p.kill()
-        except Exception:  # noqa: BLE001
-            pass
-        reap_orphan_drivers(t0)
-        done.append((label, "TIMED OUT", time.time() - t0))
-    except Exception as e:  # noqa: BLE001 - a broken step is data, not a crash
-        # A step that lands here printed NO outcome line, which is how six of
-        # them hid on 2026-10-12 — see the encoding note at the top of this
-        # file. Say so on the spot, so the live log shows the gap rather than
-        # leaving the next label to imply the last step passed.
-        done.append((label, f"ERROR {e}", time.time() - t0))
-        try:
-            print(f"    -> ERROR {e}", flush=True)
-        except (UnicodeError, OSError):
-            pass
+            p = subprocess.Popen(
+                [PY, "-u", *args], cwd=ROOT, env=CHILD_ENV,
+                stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                text=True, bufsize=1, encoding="utf-8", errors="replace",
+            )
+            last = deque(maxlen=4)
+            seen = [t0]        # when the step last said anything
+            quiet = [0.0]      # its longest silence, for the summary
+
+            def pump() -> None:
+                for line in p.stdout:              # streams; never buffers
+                    now = time.time()
+                    quiet[0] = max(quiet[0], now - seen[0])
+                    seen[0] = now
+                    line = line.rstrip()
+                    if line.strip():
+                        # NEVER let echoing a line kill the step. The
+                        # streams are reconfigured to utf-8 above, which is
+                        # the real fix; this is the guarantee. A character
+                        # we cannot print is worth losing a log line over,
+                        # never a scrape.
+                        try:
+                            print(f"    {line}", flush=True)
+                        except (UnicodeError, OSError):
+                            pass
+                        last.append(line)
+
+            # The echo runs on its own thread so THIS thread waits on the
+            # process, not on the pipe. On 2026-10-29 the injuries step
+            # exited at 15:21 and the run sat on `for line in p.stdout`
+            # until 17:32, because an orphaned uc_driver.exe the scraper had
+            # spawned still held the write end of the pipe: no EOF, no next
+            # step, and the 2-hour timeout never got its turn. Waiting on
+            # the process means a leaked handle costs a few log lines, not
+            # the day - and polling lets a silent step be caught too.
+            reader = threading.Thread(target=pump, daemon=True)
+            reader.start()
+            stalled = False
+            while True:
+                try:
+                    p.wait(timeout=POLL_SECS)
+                    break
+                except subprocess.TimeoutExpired:
+                    now = time.time()
+                    if now - t0 > STEP_WALL_SECS:
+                        raise
+                    if now - seen[0] > STALL_SECS:
+                        stalled = True
+                        kill_tree(p)
+                        break
+            reap_orphan_drivers(t0)
+            reader.join(timeout=5)
+            secs = time.time() - t0
+            quiet[0] = max(quiet[0], time.time() - seen[0])
+            qnote = f" (quiet max {quiet[0]:.0f}s)"
+            if stalled:
+                print(f"    -> STALLED: no output for {STALL_SECS // 60} min, "
+                      f"killed after {secs:.0f}s", flush=True)
+                if attempt == 1:
+                    print("    -> retrying once", flush=True)
+                    continue
+                done.append((label, f"STALLED{tag} twice, no output for "
+                                    f"{STALL_SECS // 60} min", secs))
+                return False
+            ok = p.returncode == 0
+            note = "" if ok else f" {' | '.join(last)}"[:200]
+            done.append((label, "ok" if ok else f"FAILED{tag}{note}", secs))
+            if ok:
+                step_log_mark(label, secs)
+            print(f"    -> {'ok' if ok else 'FAILED'} in {secs:.1f}s{qnote}",
+                  flush=True)
+            return ok
+        except subprocess.TimeoutExpired:
+            # Two hours is not "slow", it is stuck. Leaving it alive would
+            # have it racing the next step for the same files.
+            kill_tree(p)
+            reap_orphan_drivers(t0)
+            done.append((label, f"TIMED OUT{tag}", time.time() - t0))
+            try:
+                print(f"    -> TIMED OUT after {STEP_WALL_SECS // 60} min, "
+                      "killed", flush=True)
+            except (UnicodeError, OSError):
+                pass
+            return False
+        except Exception as e:  # noqa: BLE001 - a broken step is data, not a crash
+            # A step that lands here printed NO outcome line, which is how
+            # six of them hid on 2026-10-12 - see the encoding note at the
+            # top of this file. Say so on the spot, so the live log shows
+            # the gap rather than leaving the next label to imply the last
+            # step passed.
+            done.append((label, f"ERROR {e}", time.time() - t0))
+            try:
+                print(f"    -> ERROR {e}", flush=True)
+            except (UnicodeError, OSError):
+                pass
+            return False
     return False
 
 

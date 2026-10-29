@@ -90,9 +90,22 @@ within seconds.
   live process still owns. psutil 7.2.2 is already in the venv.
 - A step that hits the 2-hour wall is now killed, not left racing the next
   step for the same files.
+- **Stall detection (same day, second commit).** The user: "u got to handle
+  that things urself, am not here to babysit u." The main thread now polls
+  the process every 30 s and treats 20 minutes of silence as stuck: it
+  kills the whole process tree (`kill_tree`, psutil children + the child),
+  reaps drivers, retries the step ONCE, and on a second stall marks it
+  `STALLED` and moves on. Threshold measured, not guessed: across every
+  publish log the longest healthy silence between timestamped lines was
+  1m40s (sources, 10-26) and no step but sources has ever run past ten
+  minutes. Every step now reports its longest silence
+  (`-> ok in 213.2s (quiet max 51s)`) so the number keeps being measured.
 
-Smoke-tested: child exits leaving a grandchild on its pipe -> step returns in
-5.1 s (old code: as long as the grandchild lives).
+Smoke-tested (`run()` imported, `STALL_SECS=3`): healthy step ok; failing
+step FAILED with its last line; stuck child with a sleeping grandchild ->
+both killed, retried once, `STALLED twice`, no leftover processes; child
+exiting with a grandchild holding its pipe -> returns in 5.1 s (old code: as
+long as the grandchild lives).
 
 **Still open.** Why `uc_driver.exe` outlives `_driver.quit()` in
 soccerdata/seleniumbase. The reaper makes it harmless; it does not make it
