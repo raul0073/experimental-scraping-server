@@ -46,6 +46,11 @@ not minutes. Every case below is a bug that actually happened:
 - round H/D/A sums to 1
 - no payload shrank past SHRINK_LIMIT
 
+**6. The step runner** (`run_daily.run`)
+- a child that exits leaving a grandchild on its stdout pipe returns within
+  seconds, not when the grandchild dies      <- the 10-29 two-hour freeze
+- a non-zero exit is FAILED with the last lines; a zero exit marks the step log
+
 **Where it hooks in:** `publish.py` runs it as STAGE 0, before update. A
 broken contract then cannot reach the site. It is also the thing to run
 before every commit.
@@ -63,6 +68,37 @@ than no test.
   after the fan-out.
 - `sources` walks fbref / WhoScored / Understat serially though they have
   independent rate limits; the tracks could overlap.
+
+## A leaked driver handle froze the daily for two hours (2026-10-29)
+
+**What happened.** The 15:00 publish reached step 2, `injuries (quiet
+leagues)`, printed its last line at 15:21 and then nothing until 17:32. No
+child process was running. `scrape_injuries.py` had exited, but seleniumbase's
+`uc_driver.exe` it spawned at 15:21:15 survived it, orphaned, still holding
+the write end of the step's stdout pipe. `run()` was blocked on
+`for line in p.stdout` waiting for an EOF that could not come. The 2-hour
+`p.wait(timeout=7200)` is on the NEXT line, so it never got its turn.
+Killing the one orphan released the pipe and the run continued on its own
+within seconds.
+
+**Fix (`scripts/run_daily.py`, `run()`).**
+- The echo now runs on a daemon thread; the main thread waits on the
+  PROCESS. A leaked handle costs at most 5 s of `reader.join`, not the day.
+- `reap_orphan_drivers(t0)` after every step: kills `uc_driver.exe` /
+  `chromedriver.exe` (or a `--headless` chrome) started after the step began
+  whose parent no longer exists. Never the user's Chrome, never a driver a
+  live process still owns. psutil 7.2.2 is already in the venv.
+- A step that hits the 2-hour wall is now killed, not left racing the next
+  step for the same files.
+
+Smoke-tested: child exits leaving a grandchild on its pipe -> step returns in
+5.1 s (old code: as long as the grandchild lives).
+
+**Still open.** Why `uc_driver.exe` outlives `_driver.quit()` in
+soccerdata/seleniumbase. The reaper makes it harmless; it does not make it
+right. Also: soccerdata's `read_events` re-reads the WhoScored schedule
+(10 pages, ~90 s) even when we served the schedule from cache - that is the
+"[n/10] Retrieving fixtures" seen after "schedule from OLDER cache".
 
 ## The daily now knows what it needs to do (2026-10-16)
 

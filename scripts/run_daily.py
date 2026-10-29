@@ -37,6 +37,7 @@ import json
 import os
 import subprocess
 import sys
+import threading
 import time
 from collections import deque
 from datetime import datetime
@@ -244,6 +245,45 @@ def step_log_mark(label: str, secs: float) -> None:
         pass                      # a lost marker costs a redo, never a crash
 
 
+DRIVER_NAMES = {"uc_driver.exe", "chromedriver.exe", "chromedriver"}
+
+
+def reap_orphan_drivers(since: float) -> None:
+    """Kill browser drivers a finished step left behind.
+
+    Scoped tightly, because the user's own Chrome is on this machine: only
+    driver binaries (or a HEADLESS chrome) started after `since`, whose
+    parent process no longer exists. A driver another live process owns is
+    not ours to touch. Best effort: anything here that fails is logged
+    and the run moves on.
+    """
+    try:
+        import psutil
+    except ImportError:
+        return
+    for proc in psutil.process_iter(["name", "create_time", "ppid", "cmdline"]):
+        try:
+            info = proc.info
+            name = (info["name"] or "").lower()
+            cmd = info["cmdline"] or []
+            headless = name == "chrome.exe" and any("--headless" in a for a in cmd)
+            if name not in DRIVER_NAMES and not headless:
+                continue
+            if (info["create_time"] or 0) < since:
+                continue
+            if psutil.pid_exists(info["ppid"] or 0):
+                continue
+            proc.kill()
+            print(f"    -> reaped orphan {name} (pid {proc.pid})", flush=True)
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            continue
+        except Exception as e:  # noqa: BLE001
+            try:
+                print(f"    -> reaper: {e}", flush=True)
+            except (UnicodeError, OSError):
+                pass
+
+
 def run(label: str, args: list[str], optional: bool = False) -> bool:
     """One step. Never fatal: a source that is down costs that source.
 
@@ -284,19 +324,33 @@ def run(label: str, args: list[str], optional: bool = False) -> bool:
             text=True, bufsize=1, encoding="utf-8", errors="replace",
         )
         last = deque(maxlen=4)
-        for line in p.stdout:                      # streams; never buffers
-            line = line.rstrip()
-            if line.strip():
-                # NEVER let echoing a line kill the step. The streams are
-                # reconfigured to utf-8 above, which is the real fix; this is
-                # the guarantee. A character we cannot print is worth losing
-                # a log line over, never a scrape.
-                try:
-                    print(f"    {line}", flush=True)
-                except (UnicodeError, OSError):
-                    pass
-                last.append(line)
+
+        def pump() -> None:
+            for line in p.stdout:                  # streams; never buffers
+                line = line.rstrip()
+                if line.strip():
+                    # NEVER let echoing a line kill the step. The streams
+                    # are reconfigured to utf-8 above, which is the real
+                    # fix; this is the guarantee. A character we cannot
+                    # print is worth losing a log line over, never a scrape.
+                    try:
+                        print(f"    {line}", flush=True)
+                    except (UnicodeError, OSError):
+                        pass
+                    last.append(line)
+
+        # The echo runs on its own thread so THIS thread waits on the
+        # process, not on the pipe. On 2026-10-29 the injuries step exited
+        # at 15:21 and the run sat on `for line in p.stdout` until 17:32,
+        # because an orphaned uc_driver.exe the scraper had spawned still
+        # held the write end of the pipe: no EOF, no next step, and the
+        # 2-hour timeout below never got its turn. Waiting on the process
+        # means a leaked handle costs a few log lines, not the day.
+        reader = threading.Thread(target=pump, daemon=True)
+        reader.start()
         p.wait(timeout=7200)
+        reap_orphan_drivers(t0)
+        reader.join(timeout=5)
         ok = p.returncode == 0
         note = "" if ok else f" {' | '.join(last)}"[:200]
         secs = time.time() - t0
@@ -307,6 +361,13 @@ def run(label: str, args: list[str], optional: bool = False) -> bool:
         print(f"    -> {'ok' if ok else 'FAILED'} in {secs:.1f}s", flush=True)
         return ok
     except subprocess.TimeoutExpired:
+        # Two hours is not "slow", it is stuck. Leaving it alive would have
+        # it racing the next step for the same files.
+        try:
+            p.kill()
+        except Exception:  # noqa: BLE001
+            pass
+        reap_orphan_drivers(t0)
         done.append((label, "TIMED OUT", time.time() - t0))
     except Exception as e:  # noqa: BLE001 - a broken step is data, not a crash
         # A step that lands here printed NO outcome line, which is how six of
