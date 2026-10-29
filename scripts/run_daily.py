@@ -252,7 +252,8 @@ DRIVER_NAMES = {"uc_driver.exe", "chromedriver.exe", "chromedriver"}
 # two timestamped lines was 1m40s (sources, 10-26), and no step other than
 # sources has ever run past ten minutes in total. Twenty minutes is twelve
 # times clear of a healthy step and a tenth of the afternoon the 10-29 stall
-# cost. The 2-hour wall stays as the absolute ceiling.
+# cost. The 2-hour wall is the ceiling PER ATTEMPT: a stalled attempt is
+# retried once, so one step can hold the run for 20 min + 2 h at most.
 STALL_SECS = 20 * 60
 POLL_SECS = 30
 STEP_WALL_SECS = 7200
@@ -294,31 +295,36 @@ def reap_orphan_drivers(since: float) -> None:
     not ours to touch. Best effort: anything here that fails is logged
     and the run moves on.
     """
+    # The whole body is guarded, the iterator included. psutil on Windows
+    # re-raises any OSError it has not mapped to NoSuchProcess/AccessDenied,
+    # and an exception raised by process_iter() itself surfaces at the
+    # `for`, outside any handler inside the loop. The reaper must never be
+    # able to change a step's outcome, let alone end the run.
     try:
         import psutil
+        for proc in psutil.process_iter(["name", "create_time", "ppid", "cmdline"]):
+            try:
+                info = proc.info
+                name = (info["name"] or "").lower()
+                cmd = info["cmdline"] or []
+                headless = name == "chrome.exe" and any("--headless" in a for a in cmd)
+                if name not in DRIVER_NAMES and not headless:
+                    continue
+                if (info["create_time"] or 0) < since:
+                    continue
+                if psutil.pid_exists(info["ppid"] or 0):
+                    continue
+                proc.kill()
+                print(f"    -> reaped orphan {name} (pid {proc.pid})", flush=True)
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                continue
     except ImportError:
         return
-    for proc in psutil.process_iter(["name", "create_time", "ppid", "cmdline"]):
+    except Exception as e:  # noqa: BLE001
         try:
-            info = proc.info
-            name = (info["name"] or "").lower()
-            cmd = info["cmdline"] or []
-            headless = name == "chrome.exe" and any("--headless" in a for a in cmd)
-            if name not in DRIVER_NAMES and not headless:
-                continue
-            if (info["create_time"] or 0) < since:
-                continue
-            if psutil.pid_exists(info["ppid"] or 0):
-                continue
-            proc.kill()
-            print(f"    -> reaped orphan {name} (pid {proc.pid})", flush=True)
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            continue
-        except Exception as e:  # noqa: BLE001
-            try:
-                print(f"    -> reaper: {e}", flush=True)
-            except (UnicodeError, OSError):
-                pass
+            print(f"    -> reaper: {e}", flush=True)
+        except (UnicodeError, OSError):
+            pass
 
 
 def run(label: str, args: list[str], optional: bool = False) -> bool:
@@ -366,7 +372,10 @@ def run(label: str, args: list[str], optional: bool = False) -> bool:
             seen = [t0]        # when the step last said anything
             quiet = [0.0]      # its longest silence, for the summary
 
-            def pump() -> None:
+            # Bound as defaults on purpose: a killed attempt's thread may
+            # still be draining when the retry rebinds these names, and a
+            # late-bound closure would let it write into the retry's state.
+            def pump(p=p, seen=seen, quiet=quiet, last=last) -> None:
                 for line in p.stdout:              # streams; never buffers
                     now = time.time()
                     quiet[0] = max(quiet[0], now - seen[0])
@@ -878,7 +887,10 @@ def main() -> int:
     # surfaced. The run ended on a tidy "38/51 steps ok" that reads like a
     # pass, with thirteen "!!" lines scrolled off above it, and the data went
     # stale for weeks. A partial run is not a pass and must not look like one.
-    bad = [d for d in done if d[1] != "ok"]
+    # "ok (done earlier today)" is ok. Comparing against "ok" exactly made
+    # every step a same-day resume skipped count as a failure, so a run
+    # relaunched after a stall could never exit 0 and publish.py aborted.
+    bad = [d for d in done if not d[1].startswith("ok")]
     print(f"\n{len(done) - len(bad)}/{len(done)} steps ok "
           f"in {(datetime.now() - started).total_seconds() / 60:.1f} min")
     for label, status, secs in done:

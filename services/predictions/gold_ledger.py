@@ -48,6 +48,16 @@ class GoldLedger:
     @classmethod
     def commit(cls, weekly: Dict[str, Any]) -> Dict[str, Any]:
         win = weekly.get("window") or {}
+        # A LIVE BOOKED ROUND IS NEVER COMMITTED AGAIN. While any bet under a
+        # round is pending, weekly_picks serves that round back and names it
+        # in "booked"; its window.start is then the earliest kickoff booked
+        # under it, which is not always the round's key (2026-10-29: key
+        # 10-29, earliest kickoff 10-30). Comparing the key against the span
+        # start let the gold ledger book the same round twice. The booked
+        # key is the identity; if it is set there is nothing new to commit.
+        booked = weekly.get("booked")
+        if booked:
+            return {"committed": 0, "reason": f"window {booked} is live and booked"}
         if not win.get("start"):
             return {"committed": 0, "reason": "no window"}
         from datetime import datetime as _dt, timezone as _tz

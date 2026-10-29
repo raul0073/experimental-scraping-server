@@ -69,6 +69,55 @@ than no test.
 - `sources` walks fbref / WhoScored / Understat serially though they have
   independent rate limits; the tracks could overlap.
 
+## The public record was downstream of the betting window (2026-10-29)
+
+**Symptom.** User: "where are the matches from yesterday? the GW hasn't
+passed yet." Serie A's midweek round (10-27/28) was on the predictor page
+on 10-28 and gone on 10-29. A played fixture is read back from
+`data/history/predictions.jsonl` (what we said before kickoff); those eight
+games had no row, so both the round page and the history page dropped
+them. Same hole, every league: the whole 16-19 October round (ENG w7, ESP
+w9, ITA w7, GER w6, FRA w7) was never recorded either.
+
+**Cause.** `record history` records `weekly_picks()`'s slate. Since the
+10-11 mid-gameweek fix that slate stays on the booked betting window while
+any bet is pending - right for betting, fatal for the record. The slip
+grader was broken 10-07..10-23 (list `k`), so the window never moved and
+the 16-19 October round went by unrecorded. Then the 10-23 window's gold
+bet resolved only on 10-28, and `grade gold` ran AFTER `generate picks`,
+so the window advanced one run late: 10-29, after eight of ten midweek
+games.
+
+**What was done.**
+- **Back-filled 56 rows from the published pages.** `round.json` as
+  committed by the 10-16 (`1cbb6c2`) and 10-26 (`fb8877c`) publishes was
+  live before kickoff with the same model numbers (sim == weekly_picks,
+  checked). Rows carry `recorded_at` = that publish's commit time and
+  `recovered_from` = the commit; same-day kickoffs were checked against
+  the publish time. 0 skipped. All 56 graded. Coverage is now complete
+  through every played round in all five leagues.
+- **`record upcoming` step** (`run_weekly.py`): the soonest unplayed
+  round per league plus anything within 3 days, predicted with the same
+  model and recorded through the same `record()`. Independent of the
+  betting window. First recording wins.
+- **All three ledgers graded before picks are generated.**
+- **Ledger guards compare the booked KEY.** The served window's `start`
+  is the span start, which today (key 10-29, earliest kickoff 10-30)
+  differed from the key, and the gold ledger booked the same round a
+  second time under `2026-10-30` during a manual run. Row removed; all
+  three `commit()`s now refuse outright while `weekly["booked"]` is set.
+  Verified: picks/slip/gold all "window 2026-10-29 is live and booked".
+
+**Review of the stall-proof runner** (adversarial, 4 lenses + refuters)
+confirmed three defects, all fixed: an exception from
+`psutil.process_iter()` itself escaped `reap_orphan_drivers` (whole body
+now guarded); a same-day resume recorded skipped steps as "ok (done
+earlier today)" and the exit-code check compared against "ok" exactly, so
+a resumed run could never publish (`startswith("ok")`); the pump closure
+bound `p/seen/quiet/last` late (now default-bound). Noted, not changed:
+pid recycling can fool `pid_exists(ppid)` either way; the design
+tolerates it because run() no longer waits on the pipe.
+
 ## A leaked driver handle froze the daily for two hours (2026-10-29)
 
 **What happened.** The 15:00 publish reached step 2, `injuries (quiet

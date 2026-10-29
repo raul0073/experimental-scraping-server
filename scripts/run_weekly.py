@@ -204,9 +204,19 @@ def main() -> int:
         print("\nsources refreshed — stopping before grading (--sources-only)")
         return 0
 
+    from services.predictions.gold_ledger import GoldLedger
     from services.predictions.history_service import HistoryService
     from services.predictions.ledger_service import LedgerService
+    from services.predictions.slip_ledger import SlipLedger
+    # ALL THREE ledgers are graded before a slate is generated. The betting
+    # window stays live while any row in any ledger is pending, and the gold
+    # ledger used to be graded AFTER generate picks: a gold bet whose last
+    # leg landed on 10-28 kept the 10-23 window booked through that run, and
+    # the window only advanced on 10-29 - after eight of Serie A's ten
+    # midweek fixtures had been played.
     step("grade ledger", LedgerService.grade)
+    step("grade slips", SlipLedger.grade)
+    step("grade gold", GoldLedger.grade)
     step("grade history", HistoryService.grade)
 
     from services.predictions.prediction_service import PredictionService
@@ -214,12 +224,9 @@ def main() -> int:
     if weekly:
         step("commit picks", lambda: LedgerService.commit(weekly))
         step("record history", lambda: HistoryService.record(weekly))
-        from services.predictions.gold_ledger import GoldLedger
-        from services.predictions.slip_ledger import SlipLedger
-        step("grade slips", SlipLedger.grade)
         step("commit slip", lambda: SlipLedger.commit(weekly))
-        step("grade gold", GoldLedger.grade)
         step("commit gold", lambda: GoldLedger.commit(weekly))
+
         step("notify", lambda: _notify(weekly))
         print("\n=== DRAW PICKS ===")
         for p in weekly["draw_picks"]:
@@ -229,6 +236,39 @@ def main() -> int:
         for p in weekly["home_win_picks"]:
             print(f"  {p['rank']}. [{p['league']}] {p['home']} v {p['away']}  "
                   f"P(home)={p['pick_prob']:.0%}  xg={p['xg']}  {p['kickoff']}")
+    def _record_upcoming():
+        """The public record is "what we said before kickoff" for EVERY
+        fixture, not for the betting slate.
+
+        record history above records weekly_picks' slate, and since 10-11
+        that slate stays on the booked betting window while any bet is
+        pending. Right for betting, fatal for the record: while the 10-23
+        window was open nothing was recorded, the slip grader was broken
+        from 10-07 to 10-23 so the window never moved, and the whole
+        16-19 October round plus Serie A's midweek round went unrecorded
+        in every league. The predictor page showed those calls live and
+        then dropped the fixtures the moment they were played, because a
+        played fixture is read back from this log.
+
+        So: the soonest unplayed round per league, plus anything kicking
+        off within three days (a midweek round butting against a weekend),
+        predicted with the same model and recorded through the same
+        record() - first recording wins, so nothing already recorded moves.
+        """
+        from datetime import date, timedelta
+        svc = PredictionService()
+        horizon = (date.today() + timedelta(days=3)).isoformat()
+        preds = {}
+        for league in svc.params["leagues"]:
+            fx = svc.unplayed_fixtures(league)
+            if not fx:
+                continue
+            soonest = min(fx, key=lambda m: (m["date"], m["week"]))
+            chosen = [m for m in fx
+                      if m["week"] == soonest["week"] or m["date"] <= horizon]
+            preds[league] = svc.predict_fixtures(league, chosen)
+        return HistoryService.record({"all_predictions": preds})
+    step("record upcoming", _record_upcoming)
     def _season_sim():
         import simulate_season  # sibling script; scripts/ is sys.path[0]
         return simulate_season.run(sims=10000, verbose=False)

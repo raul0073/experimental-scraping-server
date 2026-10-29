@@ -52,6 +52,16 @@ class LedgerService:
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         win = weekly.get("window") or {}
         window, window_end = win.get("start"), win.get("end")
+        # A LIVE BOOKED ROUND IS NEVER COMMITTED AGAIN. While any bet under a
+        # round is pending, weekly_picks serves that round back and names it
+        # in "booked"; its window.start is then the earliest kickoff booked
+        # under it, which is not always the round's key (2026-10-29: key
+        # 10-29, earliest kickoff 10-30). Comparing the key against the span
+        # start let the gold ledger book the same round twice. The booked
+        # key is the identity; if it is set there is nothing new to commit.
+        booked = weekly.get("booked")
+        if booked:
+            return {"added": 0, "skipped_existing_weeks": 0, "reason": f"window {booked} is live and booked"}
 
         last = max((r["committed_at"] for r in rows), default=None)
         if last:
