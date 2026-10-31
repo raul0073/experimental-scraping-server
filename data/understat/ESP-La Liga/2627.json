@@ -1,7 +1,7 @@
 {
   "league": "ESP-La Liga",
   "season": "2627",
-  "match_count": 99,
+  "match_count": 100,
   "matches": [
     {
       "date": "2026-08-15",
@@ -1883,6 +1883,25 @@
       "home_xpts": 1.4127,
       "away_xpts": 1.2387000000000001,
       "understat_game_id": 30868
+    },
+    {
+      "date": "2026-10-30",
+      "understat_date": "2026-10-30",
+      "home_team": "Villarreal",
+      "away_team": "Espanyol",
+      "home_goals": 0,
+      "away_goals": 1,
+      "home_xg": 0.627843,
+      "away_xg": 0.519942,
+      "home_npxg": 0.627843,
+      "away_npxg": 0.519942,
+      "home_ppda": 7.037037037037037,
+      "away_ppda": 16.333333333333332,
+      "home_deep": 7,
+      "away_deep": 1,
+      "home_xpts": 1.3509,
+      "away_xpts": 1.2230999999999999,
+      "understat_game_id": 30879
     }
   ]
 }

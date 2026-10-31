@@ -2,7 +2,7 @@
   "league": "FRA-Ligue 1",
   "season": "2627",
   "match_count": 306,
-  "played_count": 72,
+  "played_count": 75,
   "matches": [
     {
       "date": "2026-08-21",
@@ -946,11 +946,11 @@
       "week": 9,
       "home_team": "Le Havre",
       "away_team": "PSG",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 5,
+      "played": true,
       "venue": "Stade Océane",
-      "referee": null,
+      "referee": "François Letexier",
       "game_id": "2026-10-30 Le Havre-Paris SG"
     },
     {
@@ -959,11 +959,11 @@
       "week": 9,
       "home_team": "Lille",
       "away_team": "Lens",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 0,
+      "played": true,
       "venue": "Decathlon Arena - Stade Pierre-Mauroy",
-      "referee": null,
+      "referee": "Jérôme Brisard",
       "game_id": "2026-10-30 Lille-Lens"
     },
     {
@@ -972,11 +972,11 @@
       "week": 9,
       "home_team": "Nice",
       "away_team": "Rennes",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 5,
+      "away_goals": 2,
+      "played": true,
       "venue": "Allianz Riviera",
-      "referee": null,
+      "referee": "Eric Wattellier",
       "game_id": "2026-10-30 Nice-Rennes"
     },
     {

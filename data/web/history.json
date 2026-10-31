@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29",
+ "generated": "2026-10-31",
  "leagues": {
   "esp-la-liga": {
    "name": "ESP-La Liga",
@@ -209,11 +209,14 @@
       2.07,
       0.85
      ],
-     "status": "pending",
-     "score": null,
-     "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "status": "graded",
+     "score": "0-1",
+     "real_xg": [
+      0.63,
+      0.52
+     ],
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-10-26",
@@ -2613,7 +2616,7 @@
      "score_hit": false
     }
    ],
-   "graded": 100,
+   "graded": 101,
    "hits": 54,
    "exact": 11,
    "teams": {
@@ -4945,11 +4948,14 @@
       1.4,
       1.76
      ],
-     "status": "pending",
-     "score": null,
-     "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "status": "graded",
+     "score": "5-2",
+     "real_xg": [
+      3.72,
+      2.89
+     ],
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-10-30",
@@ -4966,11 +4972,14 @@
       1.35,
       1.35
      ],
-     "status": "pending",
-     "score": null,
-     "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "status": "graded",
+     "score": "1-0",
+     "real_xg": [
+      2.12,
+      0.4
+     ],
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-10-30",
@@ -4987,11 +4996,14 @@
       0.84,
       2.17
      ],
-     "status": "pending",
-     "score": null,
-     "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "status": "graded",
+     "score": "1-5",
+     "real_xg": [
+      1.69,
+      2.91
+     ],
+     "outcome_hit": true,
+     "score_hit": false
     },
     {
      "kickoff": "2026-10-25",
@@ -6722,8 +6734,8 @@
      "score_hit": false
     }
    ],
-   "graded": 72,
-   "hits": 38,
+   "graded": 75,
+   "hits": 39,
    "exact": 8,
    "teams": {
     "Auxerre": "/logos/FRA-Ligue 1/Auxerre.png",
@@ -6750,6 +6762,48 @@
    "name": "ITA-Serie A",
    "crest": "/logos/leagues/ITA-Serie A.png",
    "rows": [
+    {
+     "kickoff": "2026-11-02",
+     "home": "Sassuolo",
+     "away": "Fiorentina",
+     "p": {
+      "home": 36.4,
+      "draw": 31.1,
+      "away": 32.6
+     },
+     "call": "draw",
+     "our_score": "1-1",
+     "our_xg": [
+      1.42,
+      1.42
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-02",
+     "home": "Atalanta",
+     "away": "Parma",
+     "p": {
+      "home": 59.5,
+      "draw": 24.6,
+      "away": 15.9
+     },
+     "call": "home",
+     "our_score": "2-0",
+     "our_xg": [
+      2.17,
+      0.86
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
     {
      "kickoff": "2026-11-01",
      "home": "Lecce",
@@ -6933,11 +6987,14 @@
       1.95,
       1.65
      ],
-     "status": "pending",
-     "score": null,
-     "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "status": "graded",
+     "score": "5-1",
+     "real_xg": [
+      4.21,
+      1.56
+     ],
+     "outcome_hit": true,
+     "score_hit": false
     },
     {
      "kickoff": "2026-10-29",
@@ -6954,11 +7011,14 @@
       1.54,
       1.64
      ],
-     "status": "pending",
-     "score": null,
-     "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "status": "graded",
+     "score": "2-2",
+     "real_xg": [
+      1.92,
+      1.21
+     ],
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-10-28",
@@ -9073,8 +9133,8 @@
      "score_hit": false
     }
    ],
-   "graded": 88,
-   "hits": 50,
+   "graded": 90,
+   "hits": 51,
    "exact": 13,
    "teams": {
     "Atalanta": "/logos/ITA-Serie A/Atalanta.png",
@@ -9286,11 +9346,14 @@
       1.18,
       2.02
      ],
-     "status": "pending",
-     "score": null,
-     "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "status": "graded",
+     "score": "4-1",
+     "real_xg": [
+      1.14,
+      1.96
+     ],
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-10-25",
@@ -10805,7 +10868,7 @@
      "score_hit": false
     }
    ],
-   "graded": 63,
+   "graded": 64,
    "hits": 34,
    "exact": 7,
    "teams": {

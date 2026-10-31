@@ -2,7 +2,7 @@
   "league": "ESP-La Liga",
   "season": "2627",
   "match_count": 380,
-  "played_count": 100,
+  "played_count": 101,
   "matches": [
     {
       "date": "2026-08-15",
@@ -942,19 +942,6 @@
     },
     {
       "date": "2026-10-10",
-      "time": "14:00 (15:00)",
-      "week": 8,
-      "home_team": "Rayo Vallecano",
-      "away_team": "Athletic Club",
-      "home_goals": 0,
-      "away_goals": 0,
-      "played": true,
-      "venue": "Campo de Fútbol de Vallecas",
-      "referee": "Jose Maria Sánchez",
-      "game_id": "2026-10-10 Rayo Vallecano-Athletic Club"
-    },
-    {
-      "date": "2026-10-10",
       "time": "21:00 (22:00)",
       "week": 8,
       "home_team": "Real Madrid",
@@ -1310,11 +1297,11 @@
       "week": 11,
       "home_team": "Villarreal",
       "away_team": "Espanyol",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 0,
+      "away_goals": 1,
+      "played": true,
       "venue": "Estadio de la Cerámica",
-      "referee": null,
+      "referee": "Jose Maria Sánchez",
       "game_id": "2026-10-30 Villarreal-Espanyol"
     },
     {
@@ -1953,6 +1940,19 @@
       "venue": "Estadio de la Cerámica",
       "referee": null,
       "game_id": "2026-12-06 Villarreal-Real Sociedad"
+    },
+    {
+      "date": "2026-12-09",
+      "time": "20:00 (21:00)",
+      "week": 8,
+      "home_team": "Rayo Vallecano",
+      "away_team": "Athletic Club",
+      "home_goals": 0,
+      "away_goals": 0,
+      "played": true,
+      "venue": "Campo de Fútbol de Vallecas",
+      "referee": "Jose Maria Sánchez",
+      "game_id": "2026-12-09 Rayo Vallecano-Athletic Club"
     },
     {
       "date": "2026-12-13",

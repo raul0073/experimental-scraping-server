@@ -1,7 +1,7 @@
 {
   "league": "GER-Bundesliga",
   "season": "2627",
-  "match_count": 63,
+  "match_count": 64,
   "matches": [
     {
       "date": "2026-08-28",
@@ -1199,6 +1199,25 @@
       "home_xpts": 2.9091,
       "away_xpts": 0.0534,
       "understat_game_id": 32299
+    },
+    {
+      "date": "2026-10-30",
+      "understat_date": "2026-10-30",
+      "home_team": "Elversberg",
+      "away_team": "Mainz 05",
+      "home_goals": 4,
+      "away_goals": 1,
+      "home_xg": 1.14367,
+      "away_xg": 1.96012,
+      "home_npxg": 1.14367,
+      "away_npxg": 1.96012,
+      "home_ppda": 13.333333333333334,
+      "away_ppda": 9.071428571428571,
+      "home_deep": 2,
+      "away_deep": 5,
+      "home_xpts": 0.6542000000000001,
+      "away_xpts": 2.1125,
+      "understat_game_id": 32765
     }
   ]
 }
