@@ -736,28 +736,85 @@
   "date": "2026-11-01",
   "home": "Strasbourg",
   "away": "Auxerre",
-  "fetched": "2026-10-31T07:51:38+00:00",
+  "fetched": "2026-11-01T07:02:40+00:00",
   "missing": []
  },
  "1984225": {
   "date": "2026-11-01",
   "home": "Lyon",
   "away": "Angers",
-  "fetched": "2026-10-31T07:51:38+00:00",
+  "fetched": "2026-11-01T07:02:40+00:00",
   "missing": []
  },
  "1984096": {
   "date": "2026-11-01",
   "home": "Paris FC",
   "away": "Monaco",
-  "fetched": "2026-10-31T07:51:38+00:00",
+  "fetched": "2026-11-01T07:02:40+00:00",
   "missing": []
  },
  "1984088": {
   "date": "2026-11-01",
   "home": "Marseille",
   "away": "Toulouse",
-  "fetched": "2026-10-31T07:51:38+00:00",
+  "fetched": "2026-11-01T07:02:40+00:00",
   "missing": []
+ },
+ "1984222": {
+  "date": "2026-11-02",
+  "home": "Lorient",
+  "away": "Brest",
+  "fetched": "2026-11-01T07:02:40+00:00",
+  "missing": [
+   {
+    "team": "Brest",
+    "player": "Brendan Chardonnet",
+    "player_id": 130298,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Brest",
+    "player": "Giovani Versini",
+    "player_id": 475137,
+    "reason": "injured doubtful",
+    "status": "Doubtful"
+   },
+   {
+    "team": "Brest",
+    "player": "Raphaël Le Guen",
+    "player_id": 548299,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Lorient",
+    "player": "Bandiougou Fadiga",
+    "player_id": 399771,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Lorient",
+    "player": "Mohamed Bamba",
+    "player_id": 515493,
+    "reason": "injured doubtful",
+    "status": "Doubtful"
+   },
+   {
+    "team": "Lorient",
+    "player": "Noah Mbamba",
+    "player_id": 414601,
+    "reason": "injured doubtful",
+    "status": "Doubtful"
+   },
+   {
+    "team": "Lorient",
+    "player": "Panos Katseris",
+    "player_id": 494264,
+    "reason": "injured",
+    "status": "Out"
+   }
+  ]
  }
 }

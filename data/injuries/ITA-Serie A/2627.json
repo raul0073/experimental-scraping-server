@@ -1653,7 +1653,7 @@
   "date": "2026-11-01",
   "home": "Como",
   "away": "Venezia",
-  "fetched": "2026-10-31T07:42:03+00:00",
+  "fetched": "2026-11-01T06:55:15+00:00",
   "missing": [
    {
     "team": "Como",
@@ -1717,14 +1717,14 @@
   "date": "2026-11-01",
   "home": "Frosinone",
   "away": "Torino",
-  "fetched": "2026-10-31T07:42:03+00:00",
+  "fetched": "2026-11-01T06:55:15+00:00",
   "missing": []
  },
  "1980925": {
   "date": "2026-11-01",
   "home": "Lazio",
   "away": "Cagliari",
-  "fetched": "2026-10-31T07:42:03+00:00",
+  "fetched": "2026-11-01T06:55:15+00:00",
   "missing": [
    {
     "team": "Cagliari",
@@ -1767,7 +1767,7 @@
   "date": "2026-11-01",
   "home": "Lecce",
   "away": "Genoa",
-  "fetched": "2026-10-31T07:42:03+00:00",
+  "fetched": "2026-11-01T06:55:15+00:00",
   "missing": [
    {
     "team": "Genoa",
@@ -1838,7 +1838,7 @@
   "date": "2026-11-01",
   "home": "Juventus",
   "away": "Napoli",
-  "fetched": "2026-10-31T07:42:03+00:00",
+  "fetched": "2026-11-01T06:55:15+00:00",
   "missing": [
    {
     "team": "Juventus",
@@ -1935,6 +1935,91 @@
     "team": "Napoli",
     "player": "Leonardo Spinazzola",
     "player_id": 92329,
+    "reason": "injured",
+    "status": "Out"
+   }
+  ]
+ },
+ "1980931": {
+  "date": "2026-11-02",
+  "home": "Sassuolo",
+  "away": "Fiorentina",
+  "fetched": "2026-11-01T06:55:15+00:00",
+  "missing": []
+ },
+ "1980912": {
+  "date": "2026-11-02",
+  "home": "Atalanta",
+  "away": "Parma Calcio 1913",
+  "fetched": "2026-11-01T06:55:15+00:00",
+  "missing": [
+   {
+    "team": "Atalanta",
+    "player": "Franck Kessie",
+    "player_id": 277269,
+    "reason": "injured doubtful",
+    "status": "Doubtful"
+   },
+   {
+    "team": "Atalanta",
+    "player": "Giacomo Raspadori",
+    "player_id": 371497,
+    "reason": "injured doubtful",
+    "status": "Doubtful"
+   },
+   {
+    "team": "Atalanta",
+    "player": "Gianluca Scamacca",
+    "player_id": 302650,
+    "reason": "injured doubtful",
+    "status": "Doubtful"
+   },
+   {
+    "team": "Atalanta",
+    "player": "Isak Hien",
+    "player_id": 454908,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Atalanta",
+    "player": "Odilon Kossounou",
+    "player_id": 384516,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Atalanta",
+    "player": "Raoul Bellanova",
+    "player_id": 349184,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Atalanta",
+    "player": "Sead Kolasinac",
+    "player_id": 110260,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Atalanta",
+    "player": "Thomas Kristensen",
+    "player_id": 440029,
+    "reason": "injured doubtful",
+    "status": "Doubtful"
+   },
+   {
+    "team": "Atalanta",
+    "player": "Thomas Pompei",
+    "player_id": 648879,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Parma Calcio 1913",
+    "player": "Nesta Elphege",
+    "player_id": 479328,
     "reason": "injured",
     "status": "Out"
    }

@@ -2,7 +2,7 @@
   "league": "ITA-Serie A",
   "season": "2627",
   "match_count": 380,
-  "played_count": 90,
+  "played_count": 93,
   "matches": [
     {
       "date": "2026-08-22",
@@ -1180,11 +1180,11 @@
       "week": 10,
       "home_team": "Bologna",
       "away_team": "Monza",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 1,
+      "played": true,
       "venue": "Stadio Renato Dall'Ara",
-      "referee": null,
+      "referee": "Andrea Zanotti",
       "game_id": "2026-10-31 Bologna-Monza"
     },
     {
@@ -1193,11 +1193,11 @@
       "week": 10,
       "home_team": "Milan",
       "away_team": "Inter",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 3,
+      "away_goals": 1,
+      "played": true,
       "venue": "Stadio Giuseppe Meazza",
-      "referee": null,
+      "referee": "Marco Guida",
       "game_id": "2026-10-31 Milan-Inter"
     },
     {
@@ -1206,11 +1206,11 @@
       "week": 10,
       "home_team": "Udinese",
       "away_team": "Roma",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 5,
+      "played": true,
       "venue": "Bluenergy Stadium",
-      "referee": null,
+      "referee": "Fabio Maresca",
       "game_id": "2026-10-31 Udinese-Roma"
     },
     {

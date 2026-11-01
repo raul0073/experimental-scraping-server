@@ -879,7 +879,7 @@
   "date": "2026-11-01",
   "home": "Getafe",
   "away": "Sevilla",
-  "fetched": "2026-10-31T07:36:50+00:00",
+  "fetched": "2026-11-01T06:51:26+00:00",
   "missing": [
    {
     "team": "Getafe",
@@ -929,7 +929,7 @@
   "date": "2026-11-01",
   "home": "Racing Santander",
   "away": "Real Madrid",
-  "fetched": "2026-10-31T07:36:50+00:00",
+  "fetched": "2026-11-01T06:51:26+00:00",
   "missing": [
    {
     "team": "Racing Santander",
@@ -979,7 +979,7 @@
   "date": "2026-11-01",
   "home": "Elche",
   "away": "Valencia",
-  "fetched": "2026-10-31T07:36:50+00:00",
+  "fetched": "2026-11-01T06:51:26+00:00",
   "missing": [
    {
     "team": "Elche",
@@ -1043,7 +1043,7 @@
   "date": "2026-11-01",
   "home": "Athletic Club",
   "away": "Real Sociedad",
-  "fetched": "2026-10-31T07:36:50+00:00",
+  "fetched": "2026-11-01T06:51:26+00:00",
   "missing": [
    {
     "team": "Athletic Club",
@@ -1100,6 +1100,63 @@
     "player_id": 317354,
     "reason": "injured",
     "status": "Out"
+   }
+  ]
+ },
+ "1993962": {
+  "date": "2026-11-02",
+  "home": "Deportivo de A Coruna",
+  "away": "Osasuna",
+  "fetched": "2026-11-01T06:51:26+00:00",
+  "missing": [
+   {
+    "team": "Deportivo de A Coruna",
+    "player": "Bright Ede",
+    "player_id": 631884,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Deportivo de A Coruna",
+    "player": "Marc Casadó",
+    "player_id": 454343,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Deportivo de A Coruna",
+    "player": "Pierre-Emerick Aubameyang",
+    "player_id": 44120,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Deportivo de A Coruna",
+    "player": "Zakaria Eddahchouri",
+    "player_id": 429003,
+    "reason": "injured doubtful",
+    "status": "Doubtful"
+   },
+   {
+    "team": "Osasuna",
+    "player": "Aimar Oroz",
+    "player_id": 395321,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Osasuna",
+    "player": "Jorge Herrando",
+    "player_id": 444253,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Osasuna",
+    "player": "Romain Del Castillo",
+    "player_id": 300291,
+    "reason": "injured doubtful",
+    "status": "Doubtful"
    }
   ]
  }

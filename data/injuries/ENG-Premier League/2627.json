@@ -1572,7 +1572,7 @@
   "date": "2026-11-01",
   "home": "Liverpool",
   "away": "Arsenal",
-  "fetched": "2026-10-31T07:56:59+00:00",
+  "fetched": "2026-11-01T06:47:49+00:00",
   "missing": [
    {
     "team": "Arsenal",
@@ -1664,6 +1664,56 @@
     "player_id": 548106,
     "reason": "injured doubtful",
     "status": "Doubtful"
+   }
+  ]
+ },
+ "1983832": {
+  "date": "2026-11-02",
+  "home": "Newcastle",
+  "away": "Everton",
+  "fetched": "2026-11-01T06:47:49+00:00",
+  "missing": [
+   {
+    "team": "Everton",
+    "player": "Jack Grealish",
+    "player_id": 113069,
+    "reason": "injured doubtful",
+    "status": "Doubtful"
+   },
+   {
+    "team": "Everton",
+    "player": "Jarrad Branthwaite",
+    "player_id": 381045,
+    "reason": "injured doubtful",
+    "status": "Doubtful"
+   },
+   {
+    "team": "Newcastle",
+    "player": "Ewen Jaouen",
+    "player_id": 524208,
+    "reason": "injured",
+    "status": "Out"
+   },
+   {
+    "team": "Newcastle",
+    "player": "Lewis Miley",
+    "player_id": 474264,
+    "reason": "injured doubtful",
+    "status": "Doubtful"
+   },
+   {
+    "team": "Newcastle",
+    "player": "Matias Fernandez-Pardo",
+    "player_id": 475462,
+    "reason": "injured doubtful",
+    "status": "Doubtful"
+   },
+   {
+    "team": "Newcastle",
+    "player": "Tino Livramento",
+    "player_id": 415174,
+    "reason": "injured",
+    "status": "Out"
    }
   ]
  }

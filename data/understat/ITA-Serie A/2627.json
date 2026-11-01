@@ -1,7 +1,7 @@
 {
   "league": "ITA-Serie A",
   "season": "2627",
-  "match_count": 90,
+  "match_count": 93,
   "matches": [
     {
       "date": "2026-08-22",
@@ -1712,6 +1712,63 @@
       "home_xpts": 2.7432000000000003,
       "away_xpts": 0.1827,
       "understat_game_id": 31643
+    },
+    {
+      "date": "2026-10-31",
+      "understat_date": "2026-10-31",
+      "home_team": "Bologna",
+      "away_team": "Monza",
+      "home_goals": 2,
+      "away_goals": 1,
+      "home_xg": 2.75551,
+      "away_xg": 1.69807,
+      "home_npxg": 1.99421,
+      "away_npxg": 0.175469,
+      "home_ppda": 5.529411764705882,
+      "away_ppda": 10.833333333333334,
+      "home_deep": 5,
+      "away_deep": 1,
+      "home_xpts": 2.1790000000000003,
+      "away_xpts": 0.5976999999999999,
+      "understat_game_id": 31652
+    },
+    {
+      "date": "2026-10-31",
+      "understat_date": "2026-10-31",
+      "home_team": "Milan",
+      "away_team": "Inter",
+      "home_goals": 3,
+      "away_goals": 1,
+      "home_xg": 0.909454,
+      "away_xg": 2.11704,
+      "home_npxg": 0.909454,
+      "away_npxg": 2.11704,
+      "home_ppda": 17.823529411764707,
+      "away_ppda": 11.92,
+      "home_deep": 2,
+      "away_deep": 8,
+      "home_xpts": 0.5554,
+      "away_xpts": 2.2405,
+      "understat_game_id": 31650
+    },
+    {
+      "date": "2026-10-31",
+      "understat_date": "2026-10-31",
+      "home_team": "Udinese",
+      "away_team": "Roma",
+      "home_goals": 2,
+      "away_goals": 5,
+      "home_xg": 1.52079,
+      "away_xg": 3.16826,
+      "home_npxg": 1.52079,
+      "away_npxg": 3.16826,
+      "home_ppda": 19.41176470588235,
+      "away_ppda": 12.0,
+      "home_deep": 1,
+      "away_deep": 4,
+      "home_xpts": 0.4291,
+      "away_xpts": 2.4261999999999997,
+      "understat_game_id": 31659
     }
   ]
 }
