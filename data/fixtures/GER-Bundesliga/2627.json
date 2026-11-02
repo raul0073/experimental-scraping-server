@@ -2,7 +2,7 @@
   "league": "GER-Bundesliga",
   "season": "2627",
   "match_count": 306,
-  "played_count": 70,
+  "played_count": 72,
   "matches": [
     {
       "date": "2026-08-28",
@@ -920,11 +920,11 @@
       "week": 8,
       "home_team": "Frankfurt",
       "away_team": "Hamburger SV",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 3,
+      "away_goals": 1,
+      "played": true,
       "venue": "Deutsche Bank Park",
-      "referee": null,
+      "referee": "Florian Exner",
       "game_id": "2026-11-01 Frankfurt-Hamburger SV"
     },
     {
@@ -933,11 +933,11 @@
       "week": 8,
       "home_team": "Union Berlin",
       "away_team": "Köln",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 1,
+      "played": true,
       "venue": "Stadion An der Alten Försterei",
-      "referee": null,
+      "referee": "Richard Hempel",
       "game_id": "2026-11-01 Union Berlin-Köln"
     },
     {

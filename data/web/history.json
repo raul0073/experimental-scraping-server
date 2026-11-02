@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01",
+ "generated": "2026-11-02",
  "leagues": {
   "esp-la-liga": {
    "name": "ESP-La Liga",
@@ -41,11 +41,11 @@
       1.18,
       2.35
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "0-3",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": true,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -62,11 +62,11 @@
       0.82,
       0.83
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "3-1",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -83,11 +83,11 @@
       1.37,
       1.28
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "0-1",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -104,11 +104,11 @@
       1.72,
       1.0
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "2-1",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": true,
+     "score_hit": false
     },
     {
      "kickoff": "2026-10-31",
@@ -2628,8 +2628,8 @@
      "score_hit": false
     }
    ],
-   "graded": 105,
-   "hits": 58,
+   "graded": 109,
+   "hits": 60,
    "exact": 11,
    "teams": {
     "Alavés": "/logos/ESP-La Liga/Alavés.png",
@@ -2694,11 +2694,11 @@
       0.91,
       1.49
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "0-1",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": true,
+     "score_hit": true
     },
     {
      "kickoff": "2026-10-31",
@@ -4813,9 +4813,9 @@
      "score_hit": false
     }
    ],
-   "graded": 88,
-   "hits": 41,
-   "exact": 8,
+   "graded": 89,
+   "hits": 42,
+   "exact": 9,
    "teams": {
     "Arsenal": "/logos/ENG-Premier League/Arsenal.png",
     "Aston Villa": "/logos/ENG-Premier League/Aston Villa.png",
@@ -4879,11 +4879,11 @@
       1.65,
       0.99
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "5-1",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": true,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -4900,11 +4900,11 @@
       1.6,
       1.21
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "3-1",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": true,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -4921,11 +4921,11 @@
       1.68,
       1.25
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "2-0",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": true,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -4942,11 +4942,11 @@
       1.97,
       0.74
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "2-0",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": true,
+     "score_hit": false
     },
     {
      "kickoff": "2026-10-31",
@@ -6773,8 +6773,8 @@
      "score_hit": false
     }
    ],
-   "graded": 76,
-   "hits": 39,
+   "graded": 80,
+   "hits": 43,
    "exact": 8,
    "teams": {
     "Auxerre": "/logos/FRA-Ligue 1/Auxerre.png",
@@ -6858,11 +6858,11 @@
       1.19,
       1.13
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "1-2",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -6879,11 +6879,11 @@
       1.58,
       0.83
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "2-1",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": true,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -6900,11 +6900,11 @@
       1.44,
       0.84
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "2-0",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -6921,11 +6921,11 @@
       1.75,
       1.91
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "2-0",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -6942,11 +6942,11 @@
       2.89,
       1.02
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "1-0",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": true,
+     "score_hit": false
     },
     {
      "kickoff": "2026-10-31",
@@ -9181,8 +9181,8 @@
      "score_hit": false
     }
    ],
-   "graded": 93,
-   "hits": 53,
+   "graded": 98,
+   "hits": 55,
    "exact": 13,
    "teams": {
     "Atalanta": "/logos/ITA-Serie A/Atalanta.png",
@@ -9212,6 +9212,195 @@
    "crest": "/logos/leagues/GER-Bundesliga.png",
    "rows": [
     {
+     "kickoff": "2026-11-08",
+     "home": "Köln",
+     "away": "Leverkusen",
+     "p": {
+      "home": 28.5,
+      "draw": 30.8,
+      "away": 40.7
+     },
+     "call": "away",
+     "our_score": "0-1",
+     "our_xg": [
+      1.13,
+      1.65
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Hoffenheim",
+     "away": "Schalke 04",
+     "p": {
+      "home": 68.5,
+      "draw": 20.0,
+      "away": 11.6
+     },
+     "call": "home",
+     "our_score": "2-0",
+     "our_xg": [
+      2.01,
+      0.61
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Freiburg",
+     "away": "Union Berlin",
+     "p": {
+      "home": 51.2,
+      "draw": 24.0,
+      "away": 24.8
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.19,
+      0.86
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Stuttgart",
+     "away": "Werder Bremen",
+     "p": {
+      "home": 56.2,
+      "draw": 21.5,
+      "away": 22.3
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.65,
+      0.98
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "RB Leipzig",
+     "away": "Augsburg",
+     "p": {
+      "home": 65.2,
+      "draw": 16.8,
+      "away": 18.0
+     },
+     "call": "home",
+     "our_score": "2-1",
+     "our_xg": [
+      2.02,
+      1.11
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Paderborn 07",
+     "away": "Frankfurt",
+     "p": {
+      "home": 28.9,
+      "draw": 33.7,
+      "away": 37.4
+     },
+     "call": "draw",
+     "our_score": "1-1",
+     "our_xg": [
+      0.86,
+      1.25
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Mainz 05",
+     "away": "Bayern Munich",
+     "p": {
+      "home": 20.6,
+      "draw": 19.7,
+      "away": 59.7
+     },
+     "call": "away",
+     "our_score": "1-2",
+     "our_xg": [
+      1.12,
+      2.29
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Dortmund",
+     "away": "Elversberg",
+     "p": {
+      "home": 65.1,
+      "draw": 20.8,
+      "away": 14.2
+     },
+     "call": "home",
+     "our_score": "2-0",
+     "our_xg": [
+      2.06,
+      0.83
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-06",
+     "home": "Hamburger SV",
+     "away": "Gladbach",
+     "p": {
+      "home": 35.4,
+      "draw": 29.5,
+      "away": 35.1
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.04,
+      1.2
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
      "kickoff": "2026-11-01",
      "home": "Union Berlin",
      "away": "Köln",
@@ -9226,11 +9415,11 @@
       1.01,
       1.27
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "1-1",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": true,
+     "score_hit": true
     },
     {
      "kickoff": "2026-11-01",
@@ -9247,11 +9436,11 @@
       1.39,
       0.88
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "3-1",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": true,
+     "score_hit": false
     },
     {
      "kickoff": "2026-10-31",
@@ -10934,9 +11123,9 @@
      "score_hit": false
     }
    ],
-   "graded": 70,
-   "hits": 35,
-   "exact": 8,
+   "graded": 72,
+   "hits": 37,
+   "exact": 9,
    "teams": {
     "Augsburg": "/logos/GER-Bundesliga/Augsburg.png",
     "Bayern Munich": "/logos/GER-Bundesliga/Bayern Munich.png",
