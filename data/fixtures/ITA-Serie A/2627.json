@@ -2,7 +2,7 @@
   "league": "ITA-Serie A",
   "season": "2627",
   "match_count": 380,
-  "played_count": 98,
+  "played_count": 100,
   "matches": [
     {
       "date": "2026-08-22",
@@ -1284,11 +1284,11 @@
       "week": 10,
       "home_team": "Atalanta",
       "away_team": "Parma",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 0,
+      "away_goals": 3,
+      "played": true,
       "venue": "New Balance Arena",
-      "referee": null,
+      "referee": "Valerio Crezzini",
       "game_id": "2026-11-02 Atalanta-Parma"
     },
     {
@@ -1297,11 +1297,11 @@
       "week": 10,
       "home_team": "Sassuolo",
       "away_team": "Fiorentina",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 4,
+      "played": true,
       "venue": "Mapei Stadium - Città del Tricolore",
-      "referee": null,
+      "referee": "Matteo Marcenaro",
       "game_id": "2026-11-02 Sassuolo-Fiorentina"
     },
     {

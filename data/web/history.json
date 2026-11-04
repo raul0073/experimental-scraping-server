@@ -1,10 +1,220 @@
 {
- "generated": "2026-11-02",
+ "generated": "2026-11-04",
  "leagues": {
   "esp-la-liga": {
    "name": "ESP-La Liga",
    "crest": "/logos/leagues/ESP-La Liga.png",
    "rows": [
+    {
+     "kickoff": "2026-11-08",
+     "home": "Villarreal",
+     "away": "Getafe",
+     "p": {
+      "home": 63.8,
+      "draw": 23.0,
+      "away": 13.2
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.82,
+      0.61
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Real Sociedad",
+     "away": "Rayo Vallecano",
+     "p": {
+      "home": 42.9,
+      "draw": 27.9,
+      "away": 29.2
+     },
+     "call": "home",
+     "our_score": "2-1",
+     "our_xg": [
+      1.65,
+      1.24
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Elche",
+     "away": "Real Betis",
+     "p": {
+      "home": 31.0,
+      "draw": 30.6,
+      "away": 38.4
+     },
+     "call": "away",
+     "our_score": "1-2",
+     "our_xg": [
+      1.28,
+      1.63
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Celta Vigo",
+     "away": "Levante",
+     "p": {
+      "home": 44.4,
+      "draw": 29.7,
+      "away": 25.9
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.57,
+      1.04
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Atlético Madrid",
+     "away": "Barcelona",
+     "p": {
+      "home": 27.5,
+      "draw": 25.8,
+      "away": 46.7
+     },
+     "call": "away",
+     "our_score": "1-2",
+     "our_xg": [
+      1.45,
+      2.12
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Valencia",
+     "away": "Real Madrid",
+     "p": {
+      "home": 26.4,
+      "draw": 25.2,
+      "away": 48.4
+     },
+     "call": "away",
+     "our_score": "0-1",
+     "our_xg": [
+      1.12,
+      1.68
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Osasuna",
+     "away": "Athletic Club",
+     "p": {
+      "home": 38.0,
+      "draw": 30.3,
+      "away": 31.7
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.18,
+      1.14
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Málaga",
+     "away": "Racing Sant",
+     "p": {
+      "home": 35.1,
+      "draw": 30.1,
+      "away": 34.8
+     },
+     "call": "home",
+     "our_score": "2-1",
+     "our_xg": [
+      1.37,
+      1.49
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Espanyol",
+     "away": "Dep. A Coruña",
+     "p": {
+      "home": 35.4,
+      "draw": 32.7,
+      "away": 31.8
+     },
+     "call": "draw",
+     "our_score": "1-1",
+     "our_xg": [
+      1.16,
+      1.14
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-06",
+     "home": "Sevilla",
+     "away": "Alavés",
+     "p": {
+      "home": 39.1,
+      "draw": 30.3,
+      "away": 30.6
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.19,
+      0.98
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
     {
      "kickoff": "2026-11-02",
      "home": "Dep. A Coruña",
@@ -20,11 +230,11 @@
       1.39,
       1.04
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "2-1",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -2628,7 +2838,7 @@
      "score_hit": false
     }
    ],
-   "graded": 109,
+   "graded": 110,
    "hits": 60,
    "exact": 11,
    "teams": {
@@ -2659,6 +2869,216 @@
    "crest": "/logos/leagues/ENG-Premier League.png",
    "rows": [
     {
+     "kickoff": "2026-11-08",
+     "home": "Sunderland",
+     "away": "Chelsea",
+     "p": {
+      "home": 31.8,
+      "draw": 28.8,
+      "away": 39.4
+     },
+     "call": "away",
+     "our_score": "0-1",
+     "our_xg": [
+      1.08,
+      1.54
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Manchester Utd",
+     "away": "Aston Villa",
+     "p": {
+      "home": 48.0,
+      "draw": 26.6,
+      "away": 25.4
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.66,
+      1.09
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Ipswich Town",
+     "away": "Bournemouth",
+     "p": {
+      "home": 23.5,
+      "draw": 25.2,
+      "away": 51.3
+     },
+     "call": "away",
+     "our_score": "1-2",
+     "our_xg": [
+      1.19,
+      1.75
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Crystal Palace",
+     "away": "Liverpool",
+     "p": {
+      "home": 29.2,
+      "draw": 27.8,
+      "away": 43.0
+     },
+     "call": "away",
+     "our_score": "0-1",
+     "our_xg": [
+      1.21,
+      1.54
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Brighton",
+     "away": "Brentford",
+     "p": {
+      "home": 54.4,
+      "draw": 22.4,
+      "away": 23.2
+     },
+     "call": "home",
+     "our_score": "2-1",
+     "our_xg": [
+      1.76,
+      1.19
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Nottingham",
+     "away": "Manchester City",
+     "p": {
+      "home": 27.3,
+      "draw": 27.5,
+      "away": 45.2
+     },
+     "call": "away",
+     "our_score": "0-1",
+     "our_xg": [
+      1.06,
+      1.67
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Leeds United",
+     "away": "Tottenham",
+     "p": {
+      "home": 40.2,
+      "draw": 31.4,
+      "away": 28.4
+     },
+     "call": "draw",
+     "our_score": "1-1",
+     "our_xg": [
+      1.31,
+      1.0
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Fulham",
+     "away": "Newcastle",
+     "p": {
+      "home": 49.5,
+      "draw": 25.0,
+      "away": 25.5
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.56,
+      1.12
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Arsenal",
+     "away": "Hull City",
+     "p": {
+      "home": 70.3,
+      "draw": 20.6,
+      "away": 9.1
+     },
+     "call": "home",
+     "our_score": "2-0",
+     "our_xg": [
+      2.2,
+      0.52
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-06",
+     "home": "Everton",
+     "away": "Coventry City",
+     "p": {
+      "home": 45.2,
+      "draw": 30.1,
+      "away": 24.7
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.22,
+      0.81
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
      "kickoff": "2026-11-02",
      "home": "Newcastle",
      "away": "Everton",
@@ -2673,11 +3093,11 @@
       1.48,
       1.15
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "0-1",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -4813,7 +5233,7 @@
      "score_hit": false
     }
    ],
-   "graded": 89,
+   "graded": 90,
    "hits": 42,
    "exact": 9,
    "teams": {
@@ -4844,6 +5264,195 @@
    "crest": "/logos/leagues/FRA-Ligue 1.png",
    "rows": [
     {
+     "kickoff": "2026-11-08",
+     "home": "Rennes",
+     "away": "Lille",
+     "p": {
+      "home": 38.3,
+      "draw": 29.1,
+      "away": 32.6
+     },
+     "call": "home",
+     "our_score": "2-1",
+     "our_xg": [
+      1.48,
+      1.45
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Lens",
+     "away": "Marseille",
+     "p": {
+      "home": 53.4,
+      "draw": 24.2,
+      "away": 22.3
+     },
+     "call": "home",
+     "our_score": "2-1",
+     "our_xg": [
+      2.14,
+      1.28
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Le Mans",
+     "away": "Monaco",
+     "p": {
+      "home": 29.2,
+      "draw": 28.4,
+      "away": 42.5
+     },
+     "call": "away",
+     "our_score": "1-2",
+     "our_xg": [
+      1.28,
+      1.66
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Le Havre",
+     "away": "Lorient",
+     "p": {
+      "home": 34.0,
+      "draw": 31.6,
+      "away": 34.5
+     },
+     "call": "draw",
+     "our_score": "1-1",
+     "our_xg": [
+      1.16,
+      1.27
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Brest",
+     "away": "Lyon",
+     "p": {
+      "home": 36.3,
+      "draw": 30.4,
+      "away": 33.4
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.26,
+      1.3
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Angers",
+     "away": "Nice",
+     "p": {
+      "home": 34.8,
+      "draw": 33.3,
+      "away": 31.9
+     },
+     "call": "draw",
+     "our_score": "1-1",
+     "our_xg": [
+      1.32,
+      1.22
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "PSG",
+     "away": "Troyes",
+     "p": {
+      "home": 75.6,
+      "draw": 16.0,
+      "away": 8.4
+     },
+     "call": "home",
+     "our_score": "2-0",
+     "our_xg": [
+      2.61,
+      0.69
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Auxerre",
+     "away": "Paris FC",
+     "p": {
+      "home": 31.5,
+      "draw": 31.3,
+      "away": 37.2
+     },
+     "call": "draw",
+     "our_score": "1-1",
+     "our_xg": [
+      1.16,
+      1.22
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-06",
+     "home": "Toulouse",
+     "away": "Strasbourg",
+     "p": {
+      "home": 51.9,
+      "draw": 25.6,
+      "away": 22.5
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.64,
+      1.06
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
      "kickoff": "2026-11-02",
      "home": "Lorient",
      "away": "Brest",
@@ -4858,11 +5467,11 @@
       1.4,
       1.04
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "0-2",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -6773,7 +7382,7 @@
      "score_hit": false
     }
    ],
-   "graded": 80,
+   "graded": 81,
    "hits": 43,
    "exact": 8,
    "teams": {
@@ -6802,6 +7411,216 @@
    "crest": "/logos/leagues/ITA-Serie A.png",
    "rows": [
     {
+     "kickoff": "2026-11-08",
+     "home": "Napoli",
+     "away": "Lazio",
+     "p": {
+      "home": 52.0,
+      "draw": 24.8,
+      "away": 23.2
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.41,
+      0.88
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Monza",
+     "away": "Atalanta",
+     "p": {
+      "home": 32.7,
+      "draw": 30.6,
+      "away": 36.6
+     },
+     "call": "away",
+     "our_score": "1-2",
+     "our_xg": [
+      1.68,
+      1.86
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Inter",
+     "away": "Como",
+     "p": {
+      "home": 52.1,
+      "draw": 23.4,
+      "away": 24.5
+     },
+     "call": "home",
+     "our_score": "2-1",
+     "our_xg": [
+      1.77,
+      1.17
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Genoa",
+     "away": "Milan",
+     "p": {
+      "home": 25.4,
+      "draw": 29.3,
+      "away": 45.2
+     },
+     "call": "away",
+     "our_score": "0-1",
+     "our_xg": [
+      0.97,
+      1.62
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-08",
+     "home": "Fiorentina",
+     "away": "Juventus",
+     "p": {
+      "home": 20.2,
+      "draw": 27.3,
+      "away": 52.6
+     },
+     "call": "away",
+     "our_score": "0-1",
+     "our_xg": [
+      0.81,
+      1.77
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Torino",
+     "away": "Lecce",
+     "p": {
+      "home": 49.9,
+      "draw": 26.4,
+      "away": 23.7
+     },
+     "call": "home",
+     "our_score": "1-0",
+     "our_xg": [
+      1.63,
+      1.05
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Roma",
+     "away": "Sassuolo",
+     "p": {
+      "home": 70.4,
+      "draw": 16.6,
+      "away": 13.0
+     },
+     "call": "home",
+     "our_score": "2-0",
+     "our_xg": [
+      2.41,
+      0.93
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Parma",
+     "away": "Bologna",
+     "p": {
+      "home": 22.7,
+      "draw": 28.1,
+      "away": 49.2
+     },
+     "call": "away",
+     "our_score": "0-1",
+     "our_xg": [
+      0.83,
+      1.48
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-07",
+     "home": "Cagliari",
+     "away": "Frosinone",
+     "p": {
+      "home": 37.5,
+      "draw": 28.8,
+      "away": 33.7
+     },
+     "call": "home",
+     "our_score": "2-1",
+     "our_xg": [
+      1.83,
+      1.87
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
+     "kickoff": "2026-11-06",
+     "home": "Venezia",
+     "away": "Udinese",
+     "p": {
+      "home": 46.5,
+      "draw": 25.6,
+      "away": 28.0
+     },
+     "call": "home",
+     "our_score": "2-1",
+     "our_xg": [
+      1.83,
+      1.57
+     ],
+     "status": "pending",
+     "score": null,
+     "real_xg": null,
+     "outcome_hit": null,
+     "score_hit": null
+    },
+    {
      "kickoff": "2026-11-02",
      "home": "Sassuolo",
      "away": "Fiorentina",
@@ -6816,11 +7635,11 @@
       1.42,
       1.42
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "2-4",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-02",
@@ -6837,11 +7656,11 @@
       2.17,
       0.86
      ],
-     "status": "pending",
-     "score": null,
+     "status": "graded",
+     "score": "0-3",
      "real_xg": null,
-     "outcome_hit": null,
-     "score_hit": null
+     "outcome_hit": false,
+     "score_hit": false
     },
     {
      "kickoff": "2026-11-01",
@@ -9181,7 +10000,7 @@
      "score_hit": false
     }
    ],
-   "graded": 98,
+   "graded": 100,
    "hits": 55,
    "exact": 13,
    "teams": {

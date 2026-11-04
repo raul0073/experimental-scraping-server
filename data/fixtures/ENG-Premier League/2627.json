@@ -2,7 +2,7 @@
   "league": "ENG-Premier League",
   "season": "2627",
   "match_count": 380,
-  "played_count": 89,
+  "played_count": 90,
   "matches": [
     {
       "date": "2026-08-21",
@@ -1167,11 +1167,11 @@
       "week": 9,
       "home_team": "Newcastle",
       "away_team": "Everton",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 0,
+      "away_goals": 1,
+      "played": true,
       "venue": "St James' Park",
-      "referee": null,
+      "referee": "John Brooks",
       "game_id": "2026-11-02 Newcastle-Everton"
     },
     {
