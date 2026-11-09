@@ -1178,21 +1178,32 @@ export function Picks() {
   const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  const load = useCallback(async () => {
+  /** The fetch and the "busy" flag are split so the mount effect can start
+   *  the fetch without setting state synchronously — the loading line below
+   *  already covers the first load, and `busy` is for the reload button. */
+  const fetchRound = useCallback(
+    () =>
+      getWeekly().then(
+        (next) => {
+          setW(next);
+          setErr(null);
+          setBusy(false);
+        },
+        (e: unknown) => {
+          setErr(message(e));
+          setBusy(false);
+        },
+      ),
+    [],
+  );
+  const load = useCallback(() => {
     setBusy(true);
-    try {
-      setW(await getWeekly());
-      setErr(null);
-    } catch (e) {
-      setErr(message(e));
-    } finally {
-      setBusy(false);
-    }
-  }, []);
+    return fetchRound();
+  }, [fetchRound]);
 
   useEffect(() => {
-    load();
-  }, [load]);
+    void fetchRound();
+  }, [fetchRound]);
 
   /** Second belt only — layout.tsx is the guard that matters, and it keeps
    *  this route out of a production build entirely. */

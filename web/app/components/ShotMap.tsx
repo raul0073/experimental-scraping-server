@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 
-import { H, PITCH_GREEN, PitchLines, W, X, Y } from "./Pitch";
+import { PITCH_GREEN, PitchLines, W, X, Y } from "./Pitch";
 
 /** Every shot, where it was hit from.
  *

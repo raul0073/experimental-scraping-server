@@ -5,7 +5,7 @@ import { type ThreeEvent } from "@react-three/fiber";
 import { useMemo } from "react";
 import * as THREE from "three";
 
-import { PITCH_L, PITCH_W, toX, toZ } from "./Pitch3D";
+import { PITCH_W, toX, toZ } from "./Pitch3D";
 
 /** The fifteen zones, as heat on the grass.
  *
@@ -44,7 +44,7 @@ import { PITCH_L, PITCH_W, toX, toZ } from "./Pitch3D";
  *  the reason to draw this rather than tabulate it.
  */
 
-import { CHANNELS, THIRDS, cellAt, type ZoneValues } from "./zones";
+import { CHANNELS, THIRDS, type ZoneValues } from "./zones";
 
 /** How much grass shows between tiles. Enough that the stripes and the
  *  markings read through the grid, not so much that the cells stop

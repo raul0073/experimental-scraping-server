@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import Link from "next/link";
 
 import { Crumbs } from "../components/Crumbs";
+import { useTab } from "../components/Tabs";
 import { ManagerBoard } from "./ManagerBoard";
 import { PlayerBoard } from "./PlayerBoard";
 import { RatingsData } from "./RatingsData";
@@ -23,24 +22,13 @@ const TABS: Tab[] = ["players", "teams", "managers"];
  *  genuinely different claims: a player is judged on what he does at his own
  *  job, a team on how well it does the things it chooses to do.
  *
- *  Which view is showing lives in the URL as well as in state, so a team page
- *  can link BACK to the teams table rather than dropping the reader on the
- *  players one. Read once on mount and written with replaceState — a Next
- *  navigation would remount the boards and throw away the loaded payload, and
- *  a static export has no server to ask anyway. */
+ *  Which view is showing lives in the URL, so a team page can link BACK to
+ *  the teams table rather than dropping the reader on the players one. The
+ *  same `useTab` the other tabbed pages use: the URL is the store, written
+ *  with replaceState — a Next navigation would remount the boards and throw
+ *  away the loaded payload, and a static export has no server to ask anyway. */
 export function RatingsTabs() {
-  const [tab, setTab] = useState<Tab>("players");
-  useEffect(() => {
-    const t = new URLSearchParams(window.location.search).get("tab");
-    if ((TABS as string[]).includes(t ?? "")) setTab(t as Tab);
-  }, []);
-  const pick = (t: Tab) => {
-    setTab(t);
-    const u = new URL(window.location.href);
-    if (t === "players") u.searchParams.delete("tab");
-    else u.searchParams.set("tab", t);
-    window.history.replaceState(null, "", u);
-  };
+  const [tab, pick] = useTab<Tab>("tab", TABS);
   return (
     <RatingsData>
     <div>

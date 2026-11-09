@@ -13,6 +13,7 @@ Writes into data/web/:
 Usage: .venv/Scripts/python.exe scripts/export_web.py
 """
 import json
+import math
 import sys
 from collections import defaultdict
 from datetime import date
@@ -235,38 +236,163 @@ def export_round() -> dict:
     return out
 
 
-def export_record() -> dict:
-    """Calibration: the only claim worth publishing. Buckets say whether the
-    stated probabilities are honest; raw hit rate alone is not evidence."""
-    rows = [json.loads(l) for l in HIST.read_text(encoding="utf-8").splitlines() if l.strip()]
-    graded = [r for r in rows if r.get("status") == "graded"]
-    by_league = defaultdict(lambda: {"n": 0, "hit": 0})
+OUTCOMES = ("home", "draw", "away")
+
+
+def _scores(rows: list, probs_of) -> dict | None:
+    """Proper scoring rules for a set of graded rows. `probs_of(row)` returns
+    the triplet to score, so the same function scores the model and any
+    baseline.
+
+    WHY THESE AND NOT HIT RATE. A hit rate rewards calling the favourite and
+    says nothing about whether 46% meant 46%. Log loss and Brier punish a
+    confident miss more than a hesitant one, which is the property a
+    probability has to have to be worth publishing — and they are the only
+    numbers on which a model can be compared with another forecaster."""
+    n = len(rows)
+    if not n:
+        return None
+    ll = br = 0.0
+    for r in rows:
+        p = probs_of(r)
+        o = r["outcome"]
+        ll += -math.log(max(min(p[o], 1 - 1e-9), 1e-9))
+        br += sum((p[k] - (1.0 if k == o else 0.0)) ** 2 for k in OUTCOMES)
+    return {"logloss": round(ll / n, 4), "brier": round(br / n, 4)}
+
+
+def _calibration(rows: list, min_n: int = 5) -> list:
+    """Buckets of the model's stated probability for the outcome it CALLED:
+    what it said on average against how often the call landed."""
     buckets = defaultdict(lambda: {"n": 0, "hit": 0, "said": 0.0})
-    for r in graded:
-        call = r["pred_outcome"]
-        p = r["probabilities"][call]
-        hit = bool(r.get("outcome_hit"))
-        b = by_league[r["league"]]
-        b["n"] += 1
-        b["hit"] += hit
+    for r in rows:
+        p = r["probabilities"][r["pred_outcome"]]
         key = f"{int(p * 10) * 10}-{int(p * 10) * 10 + 10}%"
         buckets[key]["n"] += 1
-        buckets[key]["hit"] += hit
+        buckets[key]["hit"] += bool(r.get("outcome_hit"))
         buckets[key]["said"] += p
-    n = len(graded)
+    return [
+        {"bucket": k, "n": v["n"],
+         "said": round(v["said"] / v["n"] * 100, 1),
+         "landed": round(v["hit"] / v["n"] * 100, 1)}
+        for k, v in sorted(buckets.items()) if v["n"] >= min_n]
+
+
+def _levels(rows: list) -> list:
+    """Per outcome, the mean stated probability against the share that
+    happened, over EVERY row (not only the calls). The call buckets above
+    cannot show a bias in one outcome's level — a draw priced four points
+    too high across the board hides inside "said 45%, landed 50%" — and that
+    is exactly the bias that would make every fair price wrong."""
+    n = len(rows)
+    out = []
+    for k in OUTCOMES:
+        said = sum(r["probabilities"][k] for r in rows) / n
+        got = sum(1 for r in rows if r["outcome"] == k) / n
+        se = math.sqrt(got * (1 - got) / n) if n else 0.0
+        out.append({"outcome": k, "n": n,
+                    "said": round(said * 100, 1), "landed": round(got * 100, 1),
+                    "gap": round((said - got) * 100, 1),
+                    "se": round(se * 100, 1)})
+    return out
+
+
+def _summary(rows: list) -> dict:
+    n = len(rows)
+    if not n:
+        return {"n": 0, "hit_rate": None, "said_avg": None, "exact_score": None,
+                "scores": None}
+    return {
+        "n": n,
+        "hit_rate": round(sum(1 for r in rows if r.get("outcome_hit")) / n * 100, 1),
+        "said_avg": round(sum(r["probabilities"][r["pred_outcome"]] for r in rows) / n * 100, 1),
+        "exact_score": round(sum(1 for r in rows if r.get("score_hit")) / n * 100, 1),
+        "scores": _scores(rows, lambda r: r["probabilities"]),
+    }
+
+
+def export_record() -> dict:
+    """The track record: what was said, what landed, and how that scores.
+
+    LIVE AND RECONSTRUCTED ARE REPORTED APART. Rows with `retro: true` were
+    rebuilt walk-forward on 2026-09-10 for the rounds played before the
+    full-round record existed (the first three or four rounds of each
+    league). The method only used data available before each kickoff, but
+    the rows were written after the results were known, by code that had
+    seen them — and a reader cannot verify the difference. So the headline
+    figures and the calibration are LIVE rows only (committed before
+    kickoff), and the reconstructed rounds are shown separately with their
+    own numbers. The picks ledger was pre-committed from week one; it is the
+    full-round record that started late.
+
+    BASELINES, so the scores mean something. Uniform (a third each) is what
+    knowing nothing scores. Base rate (this season's home/draw/away shares
+    over the same rows) is what knowing only "home sides win more" scores —
+    an in-sample baseline, flattering to the baseline, which is the honest
+    direction to be unfair in."""
+    rows = [json.loads(l) for l in HIST.read_text(encoding="utf-8").splitlines() if l.strip()]
+    graded = [r for r in rows if r.get("status") == "graded" and r.get("outcome") in OUTCOMES]
+    live = [r for r in graded if not r.get("retro")]
+    retro = [r for r in graded if r.get("retro")]
+
+    uniform = {k: 1 / 3 for k in OUTCOMES}
+    n_live = len(live)
+    base = ({k: sum(1 for r in live if r["outcome"] == k) / n_live for k in OUTCOMES}
+            if n_live else uniform)
+
+    by_league = {}
+    for lg in sorted({r["league"] for r in graded}):
+        lg_live = [r for r in live if r["league"] == lg]
+        lg_retro = [r for r in retro if r["league"] == lg]
+        s = _summary(lg_live)
+        by_league[lg] = {
+            "n": s["n"], "hit_rate": s["hit_rate"],
+            "logloss": s["scores"]["logloss"] if s["scores"] else None,
+            "n_reconstructed": len(lg_retro),
+            "reconstructed_rounds": ([min(r["week"] for r in lg_retro),
+                                      max(r["week"] for r in lg_retro)]
+                                     if lg_retro else None),
+        }
+
+    live_s = _summary(live)
+    retro_s = _summary(retro)
     return {
         "generated": date.today().isoformat(),
-        "graded": n,
-        "hit_rate": round(sum(1 for r in graded if r.get("outcome_hit")) / n * 100, 1) if n else None,
-        "said_avg": round(sum(r["probabilities"][r["pred_outcome"]] for r in graded) / n * 100, 1) if n else None,
-        "exact_score": round(sum(1 for r in graded if r.get("score_hit")) / n * 100, 1) if n else None,
-        "by_league": {lg: {"n": v["n"], "hit_rate": round(v["hit"] / v["n"] * 100, 1)}
-                      for lg, v in sorted(by_league.items())},
-        "calibration": [
-            {"bucket": k, "n": v["n"],
-             "said": round(v["said"] / v["n"] * 100, 1),
-             "landed": round(v["hit"] / v["n"] * 100, 1)}
-            for k, v in sorted(buckets.items()) if v["n"] >= 5],
+        # ---- headline = LIVE rows. Keys kept from the old payload so every
+        # page that read them now reads the pre-committed figure.
+        "graded": live_s["n"],
+        "hit_rate": live_s["hit_rate"],
+        "said_avg": live_s["said_avg"],
+        "exact_score": live_s["exact_score"],
+        "by_league": by_league,
+        "calibration": _calibration(live),
+        "levels": _levels(live) if live else [],
+        "scoring": {
+            "model": live_s["scores"],
+            "base_rate": _scores(live, lambda r: base),
+            "uniform": _scores(live, lambda r: uniform),
+            "base_rates": {k: round(v * 100, 1) for k, v in base.items()},
+        } if live else None,
+        "live_since": min((r["recorded_at"][:10] for r in live), default=None),
+        # The goal environment the model priced against what was scored. A
+        # Poisson grid turns every goal it fails to expect straight into
+        # draw probability, so this is the first place to look when the
+        # draw level drifts — before anyone reaches for a correction.
+        "goals": {
+            "expected": round(sum(sum(r["pred_xg"]) for r in live) / n_live, 2),
+            "actual": round(sum(sum(int(x) for x in r["score"].split("-"))
+                                for r in live) / n_live, 2),
+        } if n_live else None,
+        # ---- the reconstructed rounds, apart
+        "reconstructed": {
+            **retro_s,
+            "recorded_on": min((r["recorded_at"][:10] for r in retro), default=None),
+            "kickoffs": ([min(r["kickoff"] for r in retro), max(r["kickoff"] for r in retro)]
+                         if retro else None),
+            "calibration": _calibration(retro),
+        },
+        # ---- everything together, for anyone who wants the old number
+        "all": _summary(graded),
     }
 
 
@@ -296,13 +422,19 @@ def export_history() -> dict:
             "status": r["status"], "score": r.get("score"),
             "real_xg": r.get("real_xg"),
             "outcome_hit": r.get("outcome_hit"), "score_hit": r.get("score_hit"),
+            # carried per row so the drill-down can mark a reconstructed
+            # fixture where it sits, not only count it in a footnote
+            "retro": bool(r.get("retro")),
+            "recorded": r["recorded_at"][:10],
         })
     for e in leagues.values():
         e["rows"].sort(key=lambda x: (x["kickoff"], x["home"]), reverse=True)
         graded = [x for x in e["rows"] if x["status"] == "graded"]
-        e["graded"] = len(graded)
-        e["hits"] = sum(1 for x in graded if x["outcome_hit"])
-        e["exact"] = sum(1 for x in graded if x["score_hit"])
+        live = [x for x in graded if not x["retro"]]
+        e["graded"] = len(live)
+        e["hits"] = sum(1 for x in live if x["outcome_hit"])
+        e["exact"] = sum(1 for x in live if x["score_hit"])
+        e["reconstructed"] = len(graded) - len(live)
         e["teams"] = crests["teams"].get(e["name"], {})
     return {"generated": date.today().isoformat(), "leagues": leagues}
 

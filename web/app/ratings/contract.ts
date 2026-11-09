@@ -157,10 +157,7 @@ export function fmtRaw(v: number | null | undefined, unit = ""): string {
 /** THE ONE PLACE DIRECTION IS APPLIED. 100 always means good afterwards —
  *  and it is only ever called on a directional metric, because a fingerprint
  *  has no good end to point at. */
-export function orient(
-  pct: number | null | undefined,
-  m: Metric,
-): number | undefined {
+export function orient(pct: number | null | undefined): number | undefined {
   if (typeof pct !== "number" || !Number.isFinite(pct)) return undefined;
   // 🐛 THIS USED TO FLIP AGAIN, AND THE WHOLE TABLE WAS BACKWARDS.
   //
@@ -217,7 +214,7 @@ export function scoreRow(
     const w = weights[m.key] ?? 0;
     if (w <= 0) continue;
     asked += w;
-    const p = orient(row.pct?.[m.key], m);
+    const p = orient(row.pct?.[m.key]);
     if (p === undefined) continue;
     acc += p * w;
     used += w;

@@ -7,8 +7,6 @@ import * as THREE from "three";
 
 import { useLabelScale } from "./labelScale";
 
-import { PITCH_L, PITCH_W, toX, toZ } from "./Pitch3D";
-
 /** Passes as ribbons on and over the pitch.
  *
  *  WHAT THE THIRD DIMENSION IS FOR HERE, and it is not decoration: Opta
@@ -50,7 +48,7 @@ export {
   BIT, CLASSES, arcOf, at, classOf, ends, lengthOf, type Pass,
 } from "./passMath";
 import {
-  BASE_Y, BIT, CLASSES, CLIMB_MAX, arcOf, at, classOf, lengthOf, type Pass,
+  BASE_Y, BIT, CLIMB_MAX, arcOf, at, classOf, lengthOf, type Pass,
 } from "./passMath";
 
 const SHADOW_Y = 0.07;      // just under the ribbons, clear of the markings

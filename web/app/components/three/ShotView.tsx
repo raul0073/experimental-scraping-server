@@ -151,7 +151,7 @@ export function ShotView({
       for (const r of list) if (r[9] === want) rows.push(r);
     }
     return unpack(data, rows);
-  }, [data, team, side]);
+  }, [data, team, side, key]);
   /** Who took how many, for the picker — most shots first, because that is
    *  the order anyone looks for a name in. */
   const takers = useMemo(() => {

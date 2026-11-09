@@ -112,9 +112,11 @@ export function EloTable() {
         <span className="num">+0.20</span> means a side creates{" "}
         <span className="num">1.22×</span> what an average one would; a
         defence of <span className="num">+0.20</span> means it concedes that
-        much less. Scored against 25/26 the pair runs at{" "}
-        <span className="num">1.039</span> log-loss against a base rate of{" "}
-        <span className="num">1.085</span>.
+        much less. On the eight-season walk-forward (11,311 fixtures) this
+        arm alone runs at <span className="num">0.990</span> log-loss against
+        a base rate of <span className="num">1.073</span>; averaged with the
+        chance-quality model it is the <span className="num">0.984</span> the
+        site ships.
       </p>
 
       <div className="mt-3 overflow-x-auto rounded-xl border border-line bg-card">

@@ -7,7 +7,9 @@
  *  so anything it imports has to be free of it.
  */
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback, useEffect, useRef, useState, useSyncExternalStore,
+} from "react";
 
 /** Tailwind's `sm`. The flat-by-default rule is the same line the rest of the
  *  site already breaks at — `RankTable` swaps its fourteen-column table for
@@ -22,28 +24,33 @@ export const SM = 640;
  *  React throws the tree away and rebuilds it. Returning `undefined` on that
  *  first pass — rather than guessing `false` — lets a caller render the same
  *  neutral thing the server did and decide on the second.
+ *
+ *  The media query is an external store, so this is `useSyncExternalStore`:
+ *  the server snapshot is `undefined`, the client snapshot is the query's
+ *  answer, and React swaps one for the other itself rather than this hook
+ *  rendering a default and then correcting it from an effect.
  */
 export function useNarrow(max = SM - 1): boolean | undefined {
-  const [narrow, setNarrow] = useState<boolean | undefined>(undefined);
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.matchMedia) {
-      setNarrow(false);
-      return;
-    }
-    const q = window.matchMedia(`(max-width: ${max}px)`);
-    const read = () => setNarrow(q.matches);
-    read();
-    // `addListener` is the iOS < 14 spelling and still the only one there.
-    if (q.addEventListener) {
-      q.addEventListener("change", read);
-      return () => q.removeEventListener("change", read);
-    }
-    q.addListener(read);
-    return () => q.removeListener(read);
-  }, [max]);
-
-  return narrow;
+  const query = `(max-width: ${max}px)`;
+  const subscribe = useCallback(
+    (cb: () => void) => {
+      if (!window.matchMedia) return () => {};
+      const q = window.matchMedia(query);
+      // `addListener` is the iOS < 14 spelling and still the only one there.
+      if (q.addEventListener) {
+        q.addEventListener("change", cb);
+        return () => q.removeEventListener("change", cb);
+      }
+      q.addListener(cb);
+      return () => q.removeListener(cb);
+    },
+    [query],
+  );
+  return useSyncExternalStore(
+    subscribe,
+    () => (window.matchMedia ? window.matchMedia(query).matches : false),
+    () => undefined,
+  );
 }
 
 type FS = {

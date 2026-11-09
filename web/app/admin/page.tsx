@@ -86,24 +86,30 @@ export default function AdminPage() {
   const [season, setSeason] = useState<Record<string, string>>({});
   const [until, setUntil] = useState<Record<string, string>>({});
 
-  const load = useCallback(async () => {
-    try {
-      const [a, b, c] = await Promise.all([
+  /** State is set in the promise callbacks, never in the effect body: the
+   *  API is an external system this page subscribes to, and a setState that
+   *  runs synchronously inside an effect is a render that schedules another
+   *  render. */
+  const load = useCallback(
+    () =>
+      Promise.all([
         fetch(`${API}/leagues`, { cache: "no-store" }).then((r) => r.json()),
         fetch(`${API}/status`, { cache: "no-store" }).then((r) => r.json()),
         fetch(`${API}/scrapelog`, { cache: "no-store" }).then((r) => r.json()),
-      ]);
-      setD(a);
-      setJob(b);
-      setScrape(c);
-      setErr(null);
-    } catch {
-      setErr("API not reachable on :8080 — is main.py running?");
-    }
-  }, []);
+      ]).then(
+        ([a, b, c]) => {
+          setD(a);
+          setJob(b);
+          setScrape(c);
+          setErr(null);
+        },
+        () => setErr("API not reachable on :8080 — is main.py running?"),
+      ),
+    [],
+  );
 
   useEffect(() => {
-    load();
+    void load();
   }, [load]);
 
   /** POLL ALWAYS, not only when THIS page started something.

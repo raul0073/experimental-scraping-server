@@ -211,8 +211,10 @@ export function ManagerBoard() {
     !sample && crestsFor && crestsFor.key === league ? crestsFor.crests : {};
   /** Empty on the sample and while the meta is in flight, which the filter
    *  reads as "no list, so do not narrow" rather than "no clubs qualify". */
-  const currentTeams =
-    !sample && crestsFor && crestsFor.key === league ? crestsFor.current : [];
+  const currentTeams = useMemo(
+    () => (!sample && crestsFor && crestsFor.key === league ? crestsFor.current : []),
+    [sample, crestsFor, league],
+  );
   const ready = payload !== null;
   const missing =
     !ready &&
@@ -268,7 +270,7 @@ export function ManagerBoard() {
       if (sort.key === "kept") return keptOf(r);
       // A directional column sorts on its ORIENTED percentile, so "best
       // first" stays best first on a metric where lower is better.
-      if (metric) return orient(r.pct?.[metric.key], metric) ?? -Infinity;
+      if (metric) return orient(r.pct?.[metric.key]) ?? -Infinity;
       return r.s?.final ?? -Infinity;
     };
     return scored.sort((a, b) => {

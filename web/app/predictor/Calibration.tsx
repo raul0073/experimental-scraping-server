@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { RecordData } from "@/lib/data";
 import { setStored, useStored } from "@/lib/useStored";
 
@@ -70,8 +71,10 @@ export function Calibration({ record }: { record: RecordData }) {
   const open = useStored(KEY, "1") === "1";
   const toggle = () => setStored(KEY, open ? "0" : "1");
 
-  const { graded, hit_rate, said_avg, calibration } = record;
+  const { graded, hit_rate, said_avg, calibration, scoring, reconstructed } =
+    record;
   if (!calibration?.length) return null;
+  const draw = record.levels?.find((l) => l.outcome === "draw");
 
   return (
     <section className="rounded-xl border border-line bg-card">
@@ -88,7 +91,7 @@ export function Calibration({ record }: { record: RecordData }) {
             the table below, and it is one line. */}
         <span className="num flex flex-wrap items-center gap-x-2.5 text-[12px] text-ink-2">
           <span>
-            <b className="font-semibold text-ink">{graded}</b> graded
+            <b className="font-semibold text-ink">{graded}</b> live calls
           </span>
           {said_avg !== null && (
             <>
@@ -106,6 +109,20 @@ export function Calibration({ record }: { record: RecordData }) {
               </span>
             </>
           )}
+          {scoring && (
+            <>
+              <span className="text-ink-3">·</span>
+              <span title="Mean negative log-likelihood of the published triplet. Lower is better; a third each scores 1.099.">
+                log loss{" "}
+                <b className="font-semibold text-ink">
+                  {scoring.model.logloss.toFixed(3)}
+                </b>{" "}
+                <span className="text-ink-3">
+                  v {scoring.base_rate.logloss.toFixed(3)} base rate
+                </span>
+              </span>
+            </>
+          )}
         </span>
 
         <span className="ml-auto text-[11px] text-ink-3">
@@ -119,7 +136,21 @@ export function Calibration({ record }: { record: RecordData }) {
             Anyone can publish predictions. The test is whether the stated
             probabilities are honest: when this model says 45%, does it happen
             about 45% of the time? Each row is a band of confidence — the pale
-            bar is what we said, the solid bar is what actually happened.
+            bar is what it said, the solid bar is what actually happened.
+            Only calls committed before kickoff count here
+            {reconstructed?.n ? (
+              <>
+                ; the {reconstructed.n} fixtures of the opening rounds, rebuilt
+                after the fact, are{" "}
+                <Link
+                  href="/predictor/history#reconstructed"
+                  className="text-home underline underline-offset-2"
+                >
+                  shown apart
+                </Link>
+              </>
+            ) : null}
+            .
           </p>
 
           <div className="mt-4 space-y-3.5">
@@ -167,6 +198,23 @@ export function Calibration({ record }: { record: RecordData }) {
             called. A model that is confident and wrong shows up here as a
             solid bar far short of its pale one — which is why this is the
             first thing on the page rather than a methodology footnote.
+            {draw && Math.abs(draw.gap) >= 2 * draw.se ? (
+              <>
+                {" "}
+                The buckets cannot show a bias in one outcome&apos;s level, so
+                here is the one that exists: the model has said{" "}
+                <span className="num">{draw.said}%</span> draw on average and{" "}
+                <span className="num">{draw.landed}%</span> have drawn. The
+                full breakdown, and why, is on the{" "}
+                <Link
+                  href="/predictor/history#levels"
+                  className="text-home underline underline-offset-2"
+                >
+                  track record
+                </Link>
+                .
+              </>
+            ) : null}
           </p>
         </div>
       )}

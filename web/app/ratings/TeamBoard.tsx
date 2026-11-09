@@ -80,6 +80,9 @@ import {
 } from "./scoreUi";
 
 const DATA = "/data/team";
+/** Stable "nothing loaded" so the memos keyed on `cuts` do not refire on
+ *  every render while a league is in flight. */
+const NO_CUTS: Record<string, Row[]> = {};
 
 /** The pooled pseudo-league.
  *
@@ -133,11 +136,6 @@ const PRESET: Record<string, number> = {
   sp_shot_90: 4,
 };
 
-function fmt(v: unknown, unit: string) {
-  if (typeof v !== "number" || Number.isNaN(v)) return "—";
-  return unit === "%" ? v.toFixed(1) : v.toFixed(unit === "/match" ? 2 : 1);
-}
-
 /** A dot, never coloured text. Two questions sit behind it and both are in
  *  the tooltip: does the metric agree with itself across half a season, and
  *  does it predict POINTS in the half it was not measured on.
@@ -166,25 +164,6 @@ function relTone(r?: Rel) {
       ? "bg-good"
       : "bg-[#c99a1e]";
   return { dot, bad, tip: bits.join("\n") };
-}
-
-/** A style value against the league, as a bar that fills from the middle.
- *  No colour meaning — high is not good, it is just high. */
-function StyleBar({ pct }: { pct: number }) {
-  const p = Math.max(0, Math.min(100, pct));
-  return (
-    <span className="relative block h-1.5 w-full overflow-hidden rounded-full bg-[#eef0f2]">
-      <span className="absolute left-1/2 top-0 h-full w-px bg-line" />
-      <span
-        className="absolute top-0 h-full rounded-full bg-[#8a949e]"
-        style={
-          p >= 50
-            ? { left: "50%", width: `${(p - 50) * 0.94}%` }
-            : { right: "50%", width: `${(50 - p) * 0.94}%` }
-        }
-      />
-    </span>
-  );
 }
 
 /** THE STYLE BANK. Six numbers describing how a side plays are six numbers
@@ -365,12 +344,45 @@ export function TeamBoard() {
     want,
     allWeights,
   } = useRatings();
-  const [meta, setMeta] = useState<Meta | null>(null);
-  const [cuts, setCuts] = useState<Record<string, Row[]>>({});
+  /** WHICH LEAGUE. leagues[0] used to be taken once and kept, so the board
+   *  could only show the first league however many had been built. The index
+   *  is the list of what exists; `league` is the choice within it. Every
+   *  number here is opponent-adjusted WITHIN a league, so switching swaps
+   *  the whole dataset rather than filtering one table. */
+  const [index, setIndex] = useState<{ key: string; label: string }[]>([]);
+  const [league, setLeague] = useState("");
+  /** WHAT HAS LOADED IS TAGGED WITH ITS LEAGUE, and a tag that does not match
+   *  the current choice reads as "not loaded". That is what clearing the meta
+   *  in an effect on every league change used to do, one render late — this
+   *  way the old league's table is never on screen under the new league's
+   *  name at all. */
+  const [loaded, setLoaded] = useState<{
+    league: string;
+    meta: Meta;
+    cuts: Record<string, Row[]>;
+  } | null>(null);
+  const meta = loaded?.league === league ? loaded.meta : null;
+  const cuts = loaded?.league === league ? loaded.cuts : NO_CUTS;
   const [weights, setWeights] = useState<Record<string, number>>({ ...PRESET });
   const [blockUnreliable, setBlockUnreliable] = useState(true);
-  const [season, setSeason] = useState("");
-  const [picked, setPicked] = useState<string | null>(null);
+  /** OPEN ON ALL SEASONS, not the one in progress.
+   *
+   *  A season five rounds old is twenty clubs judged on five matches each,
+   *  which is why the table read as a wall of middling numbers — the
+   *  reliability gate needs team-seasons to correlate against, and one
+   *  partial season gives it almost nothing. The all-seasons view is the
+   *  one that has something to say in September; the current season is
+   *  still a click away for anyone who wants form rather than standing.
+   *
+   *  The reader's pick is null until they make one, and the season on show
+   *  is derived: nothing until the meta is here, "all" once it is. */
+  const [seasonPick, setSeasonPick] = useState<string | null>(null);
+  const season = seasonPick ?? (meta ? "all" : "");
+  /** Season labels differ per league, so a pick does not carry across. */
+  const pickLeague = (k: string) => {
+    setLeague(k);
+    setSeasonPick(null);
+  };
   const [sort, setSort] = useState<Sort>({ key: "score", dir: -1 });
   /** Clubs to show. Empty means all of them.
    *
@@ -379,7 +391,6 @@ export function TeamBoard() {
    *  asking is "how do these three compare", so the select ADDS to a
    *  comparison and the chips below take clubs back out. */
   const [picks, setPicks] = useState<string[]>([]);
-  const [layer, setLayer] = useState<"z" | "zs" | "zc">("z");
 
   /** The players view matching the season on show: "all" is the pooled one. */
   const pView = season === "all" ? "total" : season;
@@ -411,14 +422,6 @@ export function TeamBoard() {
   );
   const [configOpen, setConfigOpen] = useState(false);
 
-  /** WHICH LEAGUE. leagues[0] used to be taken once and kept, so the board
-   *  could only show the first league however many had been built. The index
-   *  is the list of what exists; `league` is the choice within it. Every
-   *  number here is opponent-adjusted WITHIN a league, so switching swaps
-   *  the whole dataset rather than filtering one table. */
-  const [index, setIndex] = useState<{ key: string; label: string }[]>([]);
-  const [league, setLeague] = useState("");
-
   useEffect(() => {
     fetch(`${DATA}/index.json`)
       .then((r) => r.json())
@@ -432,8 +435,6 @@ export function TeamBoard() {
   useEffect(() => {
     if (!league) return;
     let alive = true;
-    setMeta(null);
-    setSeason("");            // season labels differ per league
     const from = league === ALL_LEAGUES ? index.map((l) => l.key) : [league];
     if (!from.length) return;
     const short = (k: string) =>
@@ -472,35 +473,25 @@ export function TeamBoard() {
         const crests = Object.assign({}, ...parts.map((x) => x.m.crests ?? {}));
         const seasons = [...new Set(parts.flatMap((x) => x.m.seasons))].sort();
         const labels = Object.assign({}, ...parts.map((x) => x.m.season_labels));
-        setMeta(
-          from.length > 1
-            ? { ...base, seasons, season_labels: labels, crests,
-                current_teams: parts.flatMap((x) => x.m.current_teams) }
-            : base,
-        );
-        setCuts({
-          club: parts.flatMap((x) => x.club),
-          club_season: parts.flatMap((x) => x.club_season),
-          spell: parts.flatMap((x) => x.spell),
+        setLoaded({
+          league,
+          meta:
+            from.length > 1
+              ? { ...base, seasons, season_labels: labels, crests,
+                  current_teams: parts.flatMap((x) => x.m.current_teams) }
+              : base,
+          cuts: {
+            club: parts.flatMap((x) => x.club),
+            club_season: parts.flatMap((x) => x.club_season),
+            spell: parts.flatMap((x) => x.spell),
+          },
         });
       })
-      .catch(() => alive && setMeta(null));
+      .catch(() => alive && setLoaded(null));
     return () => {
       alive = false;
     };
   }, [league, index]);
-
-  /** OPEN ON ALL SEASONS, not the one in progress.
-   *
-   *  A season five rounds old is twenty clubs judged on five matches each,
-   *  which is why the table read as a wall of middling numbers — the
-   *  reliability gate needs team-seasons to correlate against, and one
-   *  partial season gives it almost nothing. The all-seasons view is the
-   *  one that has something to say in September; the current season is
-   *  still a click away for anyone who wants form rather than standing. */
-  useEffect(() => {
-    if (meta && !season) setSeason("all");
-  }, [meta, season]);
 
   const quality = useMemo(
     () => (meta?.metrics ?? []).filter((m) => m.kind === "quality"),
@@ -657,24 +648,6 @@ export function TeamBoard() {
 
   if (!meta) return <p className="text-[13.5px] text-ink-2">Loading the teams…</p>;
 
-  const detail = picked ? (cuts.spell ?? []).filter((r) => r.team === picked) : [];
-  const shotMax = Math.max(
-    0.2,
-    ...detail.flatMap((r) =>
-      (meta?.grid.cells ?? []).map((c) => {
-        const v = r[`${layer}_${c}`];
-        return typeof v === "number" ? v : 0;
-      }),
-    ),
-  );
-  const stylePct = (r: Row, m: Metric) => {
-    const src = cuts.club ?? [];
-    const vals = src.map((x) => x[m.key]).filter((v) => typeof v === "number") as number[];
-    const v = r[m.key];
-    if (typeof v !== "number" || !vals.length) return 50;
-    return (vals.filter((x) => x < v).length / vals.length) * 100;
-  };
-
   return (
     <div>
       {/* ---------------------------------------------------- filter bar
@@ -692,7 +665,7 @@ export function TeamBoard() {
           >
             <select
               value={league}
-              onChange={(e) => setLeague(e.target.value)}
+              onChange={(e) => pickLeague(e.target.value)}
               className={SELECT}
             >
               {index.map((l) => (
@@ -710,7 +683,7 @@ export function TeamBoard() {
         >
           <select
             value={season}
-            onChange={(e) => setSeason(e.target.value)}
+            onChange={(e) => setSeasonPick(e.target.value)}
             className={SELECT}
           >
             <option value="all">All seasons</option>
@@ -764,7 +737,7 @@ export function TeamBoard() {
                   // cannot identify — as well as being the undefined key
                   // React was warning about.
                   label: meta.season_labels[season] ?? season,
-                  clear: () => setSeason("all"),
+                  clear: () => setSeasonPick("all"),
                 },
               ]),
           ...picks.map((c) => ({

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 /** The pill row, in one place.
  *
@@ -13,22 +13,40 @@ import { useEffect, useState } from "react";
  *  rather than leaving the page. Written with replaceState: a Next
  *  navigation would remount the page and throw away the payload it has
  *  already fetched, and a static export has no server to ask anyway.
+ *
+ *  THE URL IS THE STORE, not a copy of it in state. The prerendered HTML has
+ *  no URL to read, so the server snapshot is the first tab and the client
+ *  snapshot is whatever the query string says; React reconciles the two
+ *  without a hydration mismatch and without the read-then-setState effect
+ *  this used to be. replaceState fires no event, so a write from this tab
+ *  announces itself; popstate covers the back button.
  */
+const listeners = new Set<() => void>();
+
+function subscribe(cb: () => void) {
+  listeners.add(cb);
+  window.addEventListener("popstate", cb);
+  return () => {
+    listeners.delete(cb);
+    window.removeEventListener("popstate", cb);
+  };
+}
+
 export function useTab<T extends string>(key: string, tabs: readonly T[]): [T, (t: T) => void] {
-  const [tab, setTab] = useState<T>(tabs[0]);
-  useEffect(() => {
-    const got = new URLSearchParams(window.location.search).get(key);
-    if (got && (tabs as readonly string[]).includes(got)) setTab(got as T);
-    // tabs is a literal that never changes identity in practice; keying the
-    // effect on it would re-read the URL on every render and fight the user
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key]);
+  const tab = useSyncExternalStore(
+    subscribe,
+    () => {
+      const got = new URLSearchParams(window.location.search).get(key);
+      return got && (tabs as readonly string[]).includes(got) ? (got as T) : tabs[0];
+    },
+    () => tabs[0],
+  );
   const pick = (t: T) => {
-    setTab(t);
     const u = new URL(window.location.href);
     if (t === tabs[0]) u.searchParams.delete(key);
     else u.searchParams.set(key, t);
     window.history.replaceState(null, "", u);
+    for (const l of listeners) l();
   };
   return [tab, pick];
 }

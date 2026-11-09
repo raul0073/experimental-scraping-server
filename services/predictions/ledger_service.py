@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from services.fbref.fixtures.fixtures_service import FixturesService
+from services.predictions.windows import VOID_NOTE, stale_floor
 
 log = logging.getLogger(__name__)
 
@@ -150,6 +151,8 @@ class LedgerService:
                     by_date.setdefault((*league_season, m["date"]), []).append(m)
 
         graded = 0
+        voided = 0
+        floor = stale_floor()
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         for r in pending:
             # exact -> reversed venue (fbref sometimes flips home/away after
@@ -167,6 +170,15 @@ class LedgerService:
                     m = cands[0]
                     flipped = m["home_team"] == r["away"] or m["away_team"] == r["home"]
             if not m:
+                # A pick nothing will ever match must not stay pending: one
+                # such row held the betting window for a fortnight. Past
+                # the grace period it is VOIDED, on the record, with the
+                # reason — never silently dropped and never graded as a miss.
+                if r.get("kickoff") and r["kickoff"] < floor:
+                    r["status"] = "void"
+                    r["graded_at"] = now
+                    r["note"] = VOID_NOTE
+                    voided += 1
                 continue
             outcome = "home" if m["home_goals"] > m["away_goals"] else \
                       "away" if m["away_goals"] > m["home_goals"] else "draw"
@@ -185,9 +197,10 @@ class LedgerService:
                        our_home_won if r["pick_type"] == "home" else \
                        our_away_won if r["pick_type"] == "away" else outcome == r["pick_type"]
             graded += 1
-        if graded:
+        if graded or voided:
             cls._write(rows)
-        return {"graded": graded, "still_pending": len(pending) - graded}
+        return {"graded": graded, "voided": voided,
+                "still_pending": len(pending) - graded - voided}
 
     # ------------------------------------------------ summary
 

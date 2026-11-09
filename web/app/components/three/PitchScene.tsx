@@ -1,12 +1,13 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+import { useStored } from "@/lib/useStored";
 
 import {
-  type Cam, type Focus, type Mode, type Saved, type Seat, type Vec3,
-  type ViewName,
-  asCode, camsFor, modeOf, readSaved, setOpensOn, writeSaved,
+  type Cam, type Focus, type Mode, type Saved, type Seat, type ViewName,
+  OPENS, asCode, camsFor, modeOf, readSaved, setOpensOn, writeSaved,
 } from "./cameras";
 import { SceneGuard } from "./SceneGuard";
 import { useFullscreen, useNarrow } from "./viewport";
@@ -49,6 +50,64 @@ export {
  *  exported site there is no server at all. The import does not run until
  *  this component is rendered, which is what keeps the chunk off a phone. */
 const PitchCanvas = dynamic(() => import("./PitchCanvas"), { ssr: false });
+
+/** THE PLACEHOLDER IS A PITCH. A spinner says "something is happening"; an
+ *  outline of the thing you asked for says what, and it lands in the same
+ *  place the real one will, so the page does not jump when it arrives. It
+ *  fades rather than cuts, because a hard swap reads as a flicker at these
+ *  durations. */
+function Placeholder({ ready }: { ready: boolean }) {
+  return (
+    <div
+      aria-hidden={ready}
+      className={`pointer-events-none absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-500 ${
+        ready ? "opacity-0" : "opacity-100"
+      }`}
+      style={{ background: "linear-gradient(#0e1a26, #172836)" }}
+    >
+      <div className="flex flex-col items-center gap-3 px-4 text-center">
+        <svg
+          viewBox="0 0 68 105"
+          className="h-[min(58%,230px)] w-auto"
+          fill="none"
+          stroke="rgba(255,255,255,0.22)"
+          strokeWidth="0.9"
+        >
+          <rect x="1" y="1" width="66" height="103" rx="0.5" />
+          <line x1="1" y1="52.5" x2="67" y2="52.5" />
+          <circle cx="34" cy="52.5" r="9.15" />
+          <rect x="13.8" y="1" width="40.3" height="16.5" />
+          <rect x="13.8" y="87.5" width="40.3" height="16.5" />
+          <rect x="24.8" y="1" width="18.3" height="5.5" />
+          <rect x="24.8" y="98.5" width="18.3" height="5.5" />
+          <circle cx="34" cy="12" r="0.6" fill="rgba(255,255,255,0.22)" />
+          <circle cx="34" cy="93" r="0.6" fill="rgba(255,255,255,0.22)" />
+        </svg>
+        <span className="text-[12px] tracking-wide text-white/55">
+          building the pitch<span className="animate-pulse">…</span>
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/** The canvas with the placeholder over it. Whether the first frame has
+ *  been drawn lives HERE, in a component that mounts and unmounts with the
+ *  canvas: leaving 3D and coming back is a fresh scene with a fresh first
+ *  frame, and this starts from "not ready" by construction rather than by
+ *  an effect remembering to reset it. Without that the placeholder stayed
+ *  hidden and the reader watched a black box build itself. */
+function Scene3d(
+  props: Omit<React.ComponentProps<typeof PitchCanvas>, "onReady">,
+) {
+  const [ready, setReady] = useState(false);
+  return (
+    <SceneGuard>
+      <Placeholder ready={ready} />
+      <PitchCanvas {...props} onReady={() => setReady(true)} />
+    </SceneGuard>
+  );
+}
 
 export function PitchScene({
   children,
@@ -117,8 +176,19 @@ export function PitchScene({
   const [saved, setSaved] = useState<Saved>(readSaved);
   const [code, setCode] = useState<string | null>(null);
   const [newName, setNewName] = useState("");
-  const [opensOn, setOpens] = useState("");
-  const [ready, setReady] = useState(false);
+  /** Which camera this scene opens on is a localStorage read. `useStored`
+   *  prerenders the fallback and reads the real value once hydrated, so the
+   *  HTML and the first client render agree without an effect in between. */
+  const opensRaw = useStored(OPENS, "{}");
+  const opensOn = useMemo(() => {
+    if (!scene) return "";
+    try {
+      const d = JSON.parse(opensRaw);
+      return typeof d[scene] === "string" ? (d[scene] as string) : "";
+    } catch {
+      return ""; /* garbled storage — the tuner just shows nothing pinned */
+    }
+  }, [opensRaw, scene]);
 
   const narrow = useNarrow();
   const shell = useRef<HTMLDivElement | null>(null);
@@ -157,27 +227,6 @@ export function PitchScene({
    *  open on"; a tap on the switch pins it either way for the session. */
   const [want3d, setWant3d] = useState<boolean | null>(null);
   const show3d = want3d ?? narrow === false;
-
-  // Which camera this scene opens on is a localStorage read, so it happens
-  // after mount — the prerendered HTML has no window.
-  useEffect(() => {
-    if (!scene) return;
-    try {
-      const d = JSON.parse(
-        window.localStorage.getItem("predictorous.cameraDefaults.v1") || "{}",
-      );
-      if (typeof d[scene] === "string") setOpens(d[scene]);
-    } catch {
-      /* blocked storage — the tuner just shows nothing pinned */
-    }
-  }, [scene]);
-
-  // Leaving 3D unmounts the canvas, so coming back is a fresh scene with a
-  // fresh first frame. Without this reset the placeholder stays hidden and
-  // the reader watches a black box build itself with no sign that it is.
-  useEffect(() => {
-    if (!show3d) setReady(false);
-  }, [show3d]);
 
   const mode: Mode = modeOf(portion);
   const cams = camsFor(saved, mode);
@@ -343,44 +392,6 @@ export function PitchScene({
     )
   );
 
-  const placeholder = (
-    /* THE PLACEHOLDER IS A PITCH. A spinner says "something is
-       happening"; an outline of the thing you asked for says what, and
-       it lands in the same place the real one will, so the page does
-       not jump when it arrives. It fades rather than cuts, because a
-       hard swap reads as a flicker at these durations. */
-    <div
-      aria-hidden={ready}
-      className={`pointer-events-none absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-500 ${
-        ready ? "opacity-0" : "opacity-100"
-      }`}
-      style={{ background: "linear-gradient(#0e1a26, #172836)" }}
-    >
-      <div className="flex flex-col items-center gap-3 px-4 text-center">
-        <svg
-          viewBox="0 0 68 105"
-          className="h-[min(58%,230px)] w-auto"
-          fill="none"
-          stroke="rgba(255,255,255,0.22)"
-          strokeWidth="0.9"
-        >
-          <rect x="1" y="1" width="66" height="103" rx="0.5" />
-          <line x1="1" y1="52.5" x2="67" y2="52.5" />
-          <circle cx="34" cy="52.5" r="9.15" />
-          <rect x="13.8" y="1" width="40.3" height="16.5" />
-          <rect x="13.8" y="87.5" width="40.3" height="16.5" />
-          <rect x="24.8" y="1" width="18.3" height="5.5" />
-          <rect x="24.8" y="98.5" width="18.3" height="5.5" />
-          <circle cx="34" cy="12" r="0.6" fill="rgba(255,255,255,0.22)" />
-          <circle cx="34" cy="93" r="0.6" fill="rgba(255,255,255,0.22)" />
-        </svg>
-        <span className="text-[12px] tracking-wide text-white/55">
-          building the pitch<span className="animate-pulse">…</span>
-        </span>
-      </div>
-    </div>
-  );
-
   /** No flat rendering exists for this scene, and the screen is small. Say
    *  what taking the 3D view costs rather than spending it unasked. */
   const offer = (
@@ -465,10 +476,7 @@ export function PitchScene({
               {scene && (
                 <button
                   className={pill}
-                  onClick={() => {
-                    setOpensOn(scene, cam.name);
-                    setOpens(cam.name);
-                  }}
+                  onClick={() => setOpensOn(scene, cam.name)}
                   disabled={opensOn === cam.name}
                   title={`open this view on "${cam.name}" from now on`}
                 >
@@ -520,28 +528,24 @@ export function PitchScene({
               the first client render disagree. One frame of the placeholder
               is cheaper than a hydration mismatch and a visible swap. */}
           {narrow === undefined ? (
-            placeholder
+            <Placeholder ready={false} />
           ) : show3d ? (
-            <SceneGuard>
-              {placeholder}
-              <PitchCanvas
-                portion={portion}
-                goals={goals}
-                arena={arena}
-                seat={seat}
-                target={target}
-                flyingRef={flyingRef}
-                grabRef={grabRef}
-                tune={tune}
-                // A phone shading 2.5x the CSS box is a hot phone with a flat
-                // battery; 1.75 is most of the way there for a quarter less
-                // fill. Full screen it matters more, not less.
-                dpr={narrow ? [1, 1.75] : [1, 2.5]}
-                onReady={() => setReady(true)}
-              >
-                {children}
-              </PitchCanvas>
-            </SceneGuard>
+            <Scene3d
+              portion={portion}
+              goals={goals}
+              arena={arena}
+              seat={seat}
+              target={target}
+              flyingRef={flyingRef}
+              grabRef={grabRef}
+              tune={tune}
+              // A phone shading 2.5x the CSS box is a hot phone with a flat
+              // battery; 1.75 is most of the way there for a quarter less
+              // fill. Full screen it matters more, not less.
+              dpr={narrow ? [1, 1.75] : [1, 2.5]}
+            >
+              {children}
+            </Scene3d>
           ) : flat ? (
             flat
           ) : (

@@ -144,7 +144,6 @@ export function PitchZones({
             const y = Y(t.hi);
             const w = X(c.lo) - X(c.hi);
             const h = Y(t.lo) - Y(t.hi);
-            const where = `${t.label.toLowerCase()}, ${c.label.toLowerCase()}`;
             return (
               <g
                 key={key}

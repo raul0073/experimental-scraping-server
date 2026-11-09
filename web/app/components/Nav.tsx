@@ -33,7 +33,7 @@ const MAIN = [
 
 const MORE = [
   { href: "/how-it-works", label: "How it works", owns: ["how-it-works"] },
-  { href: "/rejected", label: "What we rejected", owns: ["rejected"] },
+  { href: "/rejected", label: "What I rejected", owns: ["rejected"] },
 ];
 
 export function Nav() {

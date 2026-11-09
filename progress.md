@@ -7,7 +7,180 @@ _Always up to date. What's done, what's in flight, what's next. Spec: `projectIn
 **LIVE, FIVE LEAGUES, 2026-09-23.** predictorous.com serves teams, players
 and managers for ENG/ESP/ITA/GER/FRA. Commit `cb9c74a` pushed.
 
-## NEXT UP: scripts/selfcheck.py (agreed 2026-10-23, not yet built)
+## THE RECORD, SCORED PROPERLY — and four things it was hiding (2026-11-09)
+
+Branch `showcase/track-record-market-benchmark`. The occasion: the project
+is going in front of a prediction-research team as a work sample, so it was
+read the way they would read it — record page first, then the repo. Four
+things did not survive that reading. None was dishonest in the data; all
+four were dishonest on the page.
+
+### 1. 29% of the "committed before kickoff" record was not
+
+`predictions.jsonl` had 501 graded rows. 146 carry `retro: true`: rounds
+1–3 (ENG/ITA/FRA), 1–4 (ESP) and 1–2 (GER), kickoffs 2026-08-15 to 09-07,
+all written on 2026-09-10 by `backfill_history.py`. The method was
+walk-forward, and the rows score WORSE than the live ones (0.9909 against
+0.9721 log loss), so nothing was flattered — but the homepage said every
+call was recorded before kickoff, and `export_record` never looked at the
+flag. The picks ledger, separately, was clean: all 63 picks committed
+before kickoff from 2026-08-08.
+
+**Fixed in `export_web.py`:** every headline figure and the calibration are
+LIVE rows only (355). The reconstructed rows get their own block on the
+record page with their own numbers, the per-league cards say "+30 rebuilt",
+and each rebuilt row is tagged where it sits in the drill-down
+(`history.json` rows now carry `retro` and `recorded`). The old all-rows
+number survives under `all` for anyone who wants it.
+
+### 2. The site shipped the layer its own research had rejected
+
+`prediction_service.py:253` still did `unified_probs(mix,
+probs_elo["draw"])` — the LAYER — seven weeks after the 2026-09-23
+walk-forward verdict ("drop the layer. Switch the predictor to plain
+blend"). Switched to the plain average of the two arms. Rows priced by the
+layer between 09-20 and 11-09 stand as recorded; the header comment in the
+service and the rejected page carry the dates. Smoke-tested on the next
+Premier League round: triplets sum to 1, draws come down about a point,
+calls unchanged except where P(draw) crosses `DRAW_CALL_MIN`.
+
+### 3. No proper scoring rule anywhere public
+
+Log loss existed only in experiment scripts; the site showed a hardcoded
+"1.039" in two places that nothing computed. `export_record` now scores the
+live rows (log loss and Brier) against two baselines, and the record page
+shows the table:
+
+| | log loss | Brier |
+|---|---:|---:|
+| model (355 live) | 0.9721 | 0.5759 |
+| base rate (47/22/31, in-sample) | 1.0517 | 0.6349 |
+| a third each | 1.0986 | 0.6667 |
+
+The hardcoded numbers in `EloTable.tsx` and `VersusPage.tsx` were replaced
+with the eight-season walk-forward figures (Elo arm 0.990, blend 0.984,
+base rate 1.073 on 11,311 rows; base rate computed from the same rows).
+
+### 4. The draw level, measured instead of patched
+
+Live rows: mean P(draw) stated 27.0%, drawn 22.3% — a 4.7-point gap at 2.2
+s.e. The call buckets could not show it; a new `levels` table on the record
+page does, with the s.e. beside it. Before touching anything, the same
+question was asked of the frozen rows: over 11,311 walk-forward fixtures
+the blend says 25.0% draw against 25.4% drawn, and a multiplicative draw
+correction fitted leave-one-season-out comes out at 1.00–1.02 and never
+improves the held-out season. So no correction (rules.md #5). Where the
+live gap comes from, measured: the model priced the live matches at 2.73
+goals a game and 2.99 were scored; a Poisson grid turns every goal it fails
+to expect straight into draw probability. That sentence is on the page,
+with the two numbers read from `record.json`.
+
+### Also on this branch
+
+- `web/app/lab/layout.tsx`: the component lab was publicly reachable
+  (`/lab` served the 3D bench with its debugging notes). Same
+  development-only guard as admin and betting; `out/lab.html` becomes the
+  404 page like the other two.
+- Footer names the author and links the repo and razm.pro; the narrative
+  pages (how-it-works, rejected) speak in the first person singular. The
+  rejected page gains the layer as a `reversed` entry with both dates, and
+  its closing numbers are the walk-forward ones.
+- README rewritten (the old one described a deleted 2025 layout).
+  Dockerfile copies the services it imports and uses port 8080 to match
+  `core/config.py`. `requirements.txt` listed mplsoccer twice.
+
+### Versus the market — the benchmark the site never had
+
+`services/market/football_data.py` + `scripts/build_market.py` →
+`data/web/market.json`, `data/reports/market_report.md`, a "Versus the
+market" tab under the predictor, and one step in `run_daily.py` after the
+export. Closing odds from football-data.co.uk (Pinnacle closing where the
+file has it, which is 10,608 of 11,309 historical rows; football-data
+dropped Pinnacle in January 2026, so every 26/27 live row is scored
+against the CLOSING market average, a softer line — the page says so, and
+the live gap below is therefore understated), margin removed by normalisation
+(Shin moves market log loss by 0.0001, so the simpler method stays). Team
+names mapped explicitly in `data/config/market_team_names.json`, join
+asserted: 499 of 501 live rows (two Athletic Club fixtures unmatched),
+11,309 of 11,311 historical rows. `experiment_walk_forward.py` now writes
+`date`, `home`, `away` into its rows CSV (the TODO from 09-23), rerun in
+full.
+
+**The numbers, which are the point of the exercise:**
+
+| | model LL | market LL | gap |
+|---|---:|---:|---:|
+| live 26/27, 353 rows | 0.9715 | 0.9298 | 0.042 |
+| eight frozen seasons, 11,309 rows | 0.9844 | 0.9657 | 0.019 |
+
+The gap is steady season to season (0.011 to 0.028) and the layer was
+0.0007 worse than the blend on every one of them, which closes that
+question for good. On disagreements the market wins every bucket, and
+wins by most where the model disagrees most (≥0.15: 0.91 against 0.77) —
+the model shrinks favourites too hard, which is the same fact as the draw
+level seen from the other side.
+
+**Information test: the model does not add information beyond the
+market.** Stacked multinomial logit, leave-one-season-out: model weight
+0.09, 95% CI −0.05 to 0.21 (500 bootstrap resamples), market weight 1.01;
+pooled log loss 0.9656 market-only against 0.9655 stacked. That is the
+expected answer for a model built on public shot data, and it is on the
+page in one sentence rather than buried. What the site can honestly claim
+is: 0.019 nats behind the sharpest public forecast, with no odds input,
+consistently, for eight seasons.
+
+### Lint is clean, and the web had been carrying 16 errors
+
+`pnpm lint` reported 16 `react-hooks/set-state-in-effect` errors and 37
+warnings, all pre-existing. Every one is fixed by shape, not by a disable:
+URL-mirrored tab state and the narrow-viewport flag moved to
+`useSyncExternalStore` (server snapshot preserved, so hydration is
+unchanged), per-league data is tagged with the league it was fetched for
+and derived rather than reset, "pick or default" state replaces
+"set the default in an effect" in the ratings boards, the versus page
+resolves renamed clubs during render, async loaders set state in their
+callbacks. Zero disables for the hooks rules; `tsc` and `eslint` both exit
+0. One stale header comment in `sitemap.ts` (it says club pages are
+listed; only league history pages are) was left as is — noted, not fixed.
+
+### The self-check harness exists, and its first run found a real bug
+
+`scripts/selfcheck.py` (25 cases in the six groups specified below, ~7s,
+no network, on copies of the ledgers, hashes the real ones before and
+after) plus `tests/` with pytest (40 tests) and `publish.py` STAGE 0. The
+first run failed one case: **a pending row whose fixture can never grade
+held the betting window forever** — `_pending_window` had no expiry, so a
+pick on an abandoned or renamed fixture would reproduce the 10-07..10-23
+freeze with no TypeError to find. Fixed: `services/predictions/windows.py`
+holds `WINDOW_GRACE_DAYS = 7`; `_pending_window` ignores a round whose
+last kickoff is older than that; the three graders VOID what never matched
+past the grace period — picks get `status: void`, slip legs and gold bets
+settle at 1.00 with stake through — each with a note saying why, so the
+record explains itself. 25/25 and 40/40 after the fix; the real ledgers
+have no row the rule would touch today (every pending row is on an
+unplayed fixture).
+
+### What this branch does NOT do, on purpose
+
+- No draw correction (measured, not warranted — above).
+- No row in any ledger was rewritten. Round 11, already recorded under the
+  layer on 11-04, is published as recorded; the first blend-priced rows
+  are round 12.
+- The betting workbench stays development-only. `investor_plan.md` was
+  taken out of the repository (user decision, 2026-11-09) and kept in a
+  private folder beside it; it remains in the git history of earlier
+  commits.
+- The 404 page is now the site's own (`web/app/not-found.tsx`), listing
+  the pages that exist; admin, betting and lab resolve to it in the export.
+- The disagreement table on Versus the market shows the prices behind the
+  probabilities — the model's fair price and the closing odds as published
+  — for played fixtures only.
+- Open question worth a session: the live model prices 2.73 goals a game
+  against 2.99 scored, and the live draw level follows from that; the
+  frozen seasons show no such gap. Season effect or a live-path bias in
+  the lambdas — not yet separated.
+
+## DONE 2026-11-09: scripts/selfcheck.py (agreed 2026-10-23)
 
 **The feedback loop is the problem, not the scrape.** A daily run is 60-100
 minutes, and it has been serving as the test harness. Three pipeline changes

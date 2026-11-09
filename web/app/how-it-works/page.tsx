@@ -327,21 +327,27 @@ export default function HowItWorksPage() {
           The same shots, grouped by area, give nine functional zones per club:
           three attacking lanes, three defensive lanes, and midfield split by
           job — progression, press, screen. Defensive zones are built from what
-          opponents produced against that side, and lanes are mirrored, so our
-          left attack is judged against their right defence.
+          opponents produced against that side, and lanes are mirrored, so a
+          side&apos;s left attack is judged against the other&apos;s right defence.
         </Stage>
         <Stage n={4} title="Price the fixture">
           Ratings become expected goals for this specific match, then a grid of
           scorelines, then three probabilities. The zone matchup nudges those
           expected goals through four fitted channels. The published triplet is
           then a{" "}
-          <strong className="font-semibold text-ink">layer</strong>: the
-          home:away ratio is the average of two independently fitted models —
-          the chance-quality one above and a{" "}
+          <strong className="font-semibold text-ink">blend</strong>: the plain
+          average of two independently fitted models — the chance-quality one
+          above and a{" "}
           <strong className="font-semibold text-ink">process Elo</strong> built
-          from thirteen seasons of expected goals — while the draw is handed
-          whole to a classifier trained on 17,134 matches. Two questions with
-          two different winners, measured on 1,714 matches neither had seen.
+          from thirteen seasons of expected goals, each with its draw from a
+          classifier trained on 17,134 matches. For seven weeks the site
+          shipped a fancier version that handed the draw to the Elo arm alone,
+          on a one-season test; the eight-season walk-forward reversed it, and
+          the switch is{" "}
+          <Link href="/rejected" className="text-home underline underline-offset-2">
+            on the record
+          </Link>
+          .
         </Stage>
         <Stage n={5} title="Commit it before kickoff">
           The prediction is written down and never revised, then graded against
@@ -353,9 +359,10 @@ export default function HowItWorksPage() {
         </Stage>
         <Stage n={6} title="Replay the season ten thousand times">
           Every remaining fixture is priced and the season played out repeatedly.
-          Each replay draws its own per-team strength error, because our estimate
-          of a club is itself uncertain — without that, projections come out
-          about 1.45× too confident, which we measured rather than assumed.
+          Each replay draws its own per-team strength error, because the
+          estimate of a club is itself uncertain — without that, projections
+          come out about 1.45× too confident, which I measured rather than
+          assumed.
         </Stage>
       </div>
 
@@ -400,10 +407,16 @@ export default function HowItWorksPage() {
         <h2 className="text-[17px] font-semibold">What it does not do</h2>
         <ul className="mt-3 max-w-3xl space-y-1.5 text-[13.5px] leading-relaxed text-ink-2">
           <li>
-            <strong className="font-semibold text-ink">Never reads bookmakers&apos; odds.</strong>{" "}
-            It states what an outcome is worth and stops. Comparing that with a
-            price is the reader&apos;s job; telling anyone what to bet is
-            nobody&apos;s.
+            <strong className="font-semibold text-ink">Never prices from bookmakers&apos; odds.</strong>{" "}
+            No market price goes into a prediction, and none is shown beside
+            an unplayed fixture. The closing price does serve as the benchmark
+            afterwards —{" "}
+            <Link href="/predictor/market" className="text-home underline underline-offset-2">
+              Versus the market
+            </Link>{" "}
+            scores the model against it on played matches — because the
+            sharpest public forecast is the only honest yardstick for a
+            probability. Telling anyone what to bet remains nobody&apos;s job.
           </li>
           <li>
             <strong className="font-semibold text-ink">Does not know tonight&apos;s line-up.</strong>{" "}

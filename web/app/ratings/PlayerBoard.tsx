@@ -7,7 +7,6 @@ import { posLabel, posShort } from "../lib/positions";
 
 import { HintBox, HintIcon } from "./Hint";
 import {
-  type Data,
   type Player,
   type Rel,
   ALL_LEAGUES,
@@ -16,8 +15,7 @@ import {
 } from "./RatingsData";
 import {
   ActiveFilters, BUDGET, CHECK_BOX, FILTER_BAR, Field, MARGINAL,
-  RELIABLE, SELECT, SLIDER, SPREAD_PLAYER, ScoreRing, SortControl, THIN_N,
-  scoreColor, tint,
+  RELIABLE, SELECT, SLIDER, ScoreRing, SortControl, THIN_N, tint,
 } from "./scoreUi";
 
 /** The combined table: every player, each scored on the config for his own
@@ -210,7 +208,22 @@ function sumWeights(w: Record<string, number>): number {
 export function PlayerBoard() {
   const { meta: data, index, league, setLeague, players, want,
           loading: loadingView, allWeights, setAllWeights } = useRatings();
-  const [view, setView] = useState<string>("");
+  /** THE POOLED VIEW, not the season in progress, until the reader picks.
+   *
+   *  The old default was this season, on the reasoning that a summer signing
+   *  is invisible in a four-season total. That is true, and it is the lesser
+   *  problem: five rounds is ~450 minutes, which clears almost nobody's
+   *  minutes bar and puts most of the metrics below the reliability gate, so
+   *  the table opens thin and half-red in September. The pooled view is the
+   *  one with something to say; a reader after current form picks the season
+   *  from the dropdown, which is one click and clearly labelled. The default
+   *  is derived from the meta rather than written into state when it lands. */
+  const [viewPick, setViewPick] = useState<string>("");
+  const view =
+    viewPick ||
+    data?.views.find((v) => v.key === "total")?.key ||
+    data?.views[0]?.key ||
+    "";
   const [pos, setPos] = useState("ALL");
   const isAll = pos === ALL;
   const [side, setSide] = useState("any");
@@ -240,10 +253,9 @@ export function PlayerBoard() {
    *  the controls are one click away for anyone who disagrees with it. The
    *  teams board already worked this way; only this one did not. */
   const [configOpen, setConfigOpen] = useState(false);
-  /** Defaults to the strictest bar available for the view, so the table opens
-   *  on players with a season's worth of evidence behind them rather than on
-   *  everyone who cleared 450 minutes. */
-  const [minShare, setMinShare] = useState(SHARE_RUNGS[1]);
+  /** The bar the reader set, which only counts once `shareTouched` says they
+   *  did; until then the period picks it — see `minShare` below. */
+  const [sharePick, setSharePick] = useState(SHARE_RUNGS[1]);
   /** Off by default: a league ranking is about the league as it is now. */
   const [includeGone, setIncludeGone] = useState(false);
   const [team, setTeam] = useState(ALL);
@@ -285,35 +297,21 @@ export function PlayerBoard() {
     if (data && view) want(view);
   }, [data, view, want]);
 
-  /** THE POOLED VIEW, not the season in progress.
-   *
-   *  The old default was this season, on the reasoning that a summer signing
-   *  is invisible in a four-season total. That is true, and it is the lesser
-   *  problem: five rounds is ~450 minutes, which clears almost nobody's
-   *  minutes bar and puts most of the metrics below the reliability gate, so
-   *  the table opens thin and half-red in September. The pooled view is the
-   *  one with something to say; a reader after current form picks the season
-   *  from the dropdown, which is one click and clearly labelled. */
-  useEffect(() => {
-    if (!data || view) return;
-    const pooled = data.views.find((v) => v.key === "total");
-    setView(pooled?.key ?? data.views[0]?.key ?? "");
-  }, [data, view]);
-
   const periodMin = data?.period_minutes?.[view] ?? 0;
 
   /** Pick the strictest rung that still leaves a table worth reading. 85% of
    *  five rounds keeps 92 players; 85% of four seasons keeps five. Rather
-   *  than make the reader discover that, the bar follows the period. */
-  useEffect(() => {
-    if (!data || !view || shareTouched) return;
+   *  than make the reader discover that, the bar follows the period — until
+   *  the reader moves it, after which it is theirs. */
+  const autoShare = useMemo(() => {
     const rows = players[view];
-    if (!rows?.length) return;
+    if (!rows?.length) return SHARE_RUNGS[1];
     const best = [...SHARE_RUNGS]
       .reverse()
       .find((v) => rows.filter((r) => r.rs >= v).length >= rows.length * USABLE);
-    setMinShare(best ?? SHARE_RUNGS[0]);
-  }, [data, view, players, shareTouched]);
+    return best ?? SHARE_RUNGS[0];
+  }, [players, view]);
+  const minShare = shareTouched ? sharePick : autoShare;
 
   const rel = (key: string) => data?.reliability?.[key]?.[pos];
   const selfRel = (key: string) => data?.self_reliability?.[key]?.[pos];
@@ -680,7 +678,7 @@ export function PlayerBoard() {
     });
   }
   // Only when the reader MOVED it. Untouched, the bar is chosen for them by
-  // the effect above, and showing that as a filter they set would be a lie —
+  // the period, and showing that as a filter they set would be a lie —
   // clearing it hands the choice back rather than jumping to a fixed rung.
   if (shareTouched) {
     active.push({
@@ -817,7 +815,7 @@ export function PlayerBoard() {
           <select
             value={minShare}
             onChange={(e) => {
-              setMinShare(Number(e.target.value));
+              setSharePick(Number(e.target.value));
               setShareTouched(true);
             }}
             className={SELECT}
@@ -838,7 +836,7 @@ export function PlayerBoard() {
         >
           <select
             value={view}
-            onChange={(e) => setView(e.target.value)}
+            onChange={(e) => setViewPick(e.target.value)}
             className={SELECT}
           >
             {data.views.map((v) => (

@@ -1,0 +1,52 @@
+{
+  "_comment": "football-data.co.uk team name -> this project's canonical (fbref-style) name, per league. Names already identical are omitted. services/market/football_data.assert_names fails loudly on anything unmapped; never add fuzzy matching here.",
+  "ENG-Premier League": {
+    "Coventry": "Coventry City",
+    "Hull": "Hull City",
+    "Ipswich": "Ipswich Town",
+    "Leeds": "Leeds United",
+    "Leicester": "Leicester City",
+    "Man City": "Manchester City",
+    "Man United": "Manchester Utd",
+    "Nott'm Forest": "Nottingham",
+    "West Brom": "West Bromwich Albion"
+  },
+  "ESP-La Liga": {
+    "Alaves": "Alavés",
+    "Ath Bilbao": "Athletic Club",
+    "Ath Madrid": "Atlético Madrid",
+    "Betis": "Real Betis",
+    "Celta": "Celta Vigo",
+    "Espanol": "Espanyol",
+    "Huesca": "SD Huesca",
+    "La Coruna": "Dep. A Coruña",
+    "Leganes": "Leganés",
+    "Malaga": "Málaga",
+    "Santander": "Racing Sant",
+    "Sociedad": "Real Sociedad",
+    "Vallecano": "Rayo Vallecano"
+  },
+  "ITA-Serie A": {
+    "Spal": "SPAL 2013",
+    "Verona": "Hellas Verona"
+  },
+  "GER-Bundesliga": {
+    "Bielefeld": "Arminia Bielefeld",
+    "Ein Frankfurt": "Frankfurt",
+    "FC Koln": "Köln",
+    "Fortuna Dusseldorf": "Fortuna Duesseldorf",
+    "Greuther Furth": "Greuther Fuerth",
+    "Hamburg": "Hamburger SV",
+    "Hannover": "Hannover 96",
+    "Hertha": "Hertha Berlin",
+    "M'gladbach": "Gladbach",
+    "Mainz": "Mainz 05",
+    "Nurnberg": "Nuernberg",
+    "Paderborn": "Paderborn 07"
+  },
+  "FRA-Ligue 1": {
+    "Clermont": "Clermont Foot",
+    "Paris SG": "PSG",
+    "St Etienne": "Saint-Étienne"
+  }
+}

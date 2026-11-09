@@ -19,15 +19,6 @@ import teamIndex from "../public/data/team/index.json";
  */
 const SITE = "https://predictorous.com";
 
-/** Must match the slug the team pages are generated under — see
- *  generateStaticParams in app/team/[slug]/page.tsx. */
-function slugify(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
-
 type LeagueRef = { key: string; label: string };
 
 export const dynamic = "force-static";
@@ -42,6 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/how-it-works`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE}/predictor/history`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
     { url: `${SITE}/predictor/projected`, lastModified: now, changeFrequency: "daily", priority: 0.7 },
+    { url: `${SITE}/predictor/market`, lastModified: now, changeFrequency: "daily", priority: 0.7 },
     // The graveyard of rejected experiments. Low priority, but it is the page
     // that most distinguishes this site from every other prediction site, so
     // it does not get left out.

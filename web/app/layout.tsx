@@ -106,9 +106,34 @@ export default function RootLayout({
         <main className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6 sm:py-8">
           {children}
         </main>
-        <footer className="mx-auto max-w-[1440px] px-4 pb-12 pt-6 text-[12.5px] text-ink-3 sm:px-6">
-          Probabilities and fair prices only — never betting advice. Data:
-          Understat and fbref, with limits stated on each metric.
+        <footer className="mx-auto max-w-[1440px] space-y-1 px-4 pb-12 pt-6 text-[12.5px] text-ink-3 sm:px-6">
+          <p>
+            Probabilities and fair prices only — never betting advice. Data:
+            Understat and fbref, with limits stated on each metric; bookmaker
+            closing prices from football-data.co.uk, used only as a benchmark
+            on played matches.
+          </p>
+          <p>
+            Built and run by one person, Raz Massami —{" "}
+            <a
+              href="https://github.com/raul0073/experimental-scraping-server"
+              className="text-home underline underline-offset-2"
+            >
+              code
+            </a>
+            {" · "}
+            <a
+              href="https://razm.pro"
+              className="text-home underline underline-offset-2"
+            >
+              razm.pro
+            </a>
+            . Model switches and reversals are dated on{" "}
+            <Link href="/rejected" className="text-home underline underline-offset-2">
+              the record
+            </Link>
+            .
+          </p>
         </footer>
       </body>
     </html>

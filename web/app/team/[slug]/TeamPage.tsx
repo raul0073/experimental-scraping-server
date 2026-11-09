@@ -197,8 +197,10 @@ function Inner({ slug, team }: { slug: string; team: string }) {
   const [side, setSide] = useState<"with" | "against">("with");
   // This season by default: it is what a reader wants, and a club promoted
   // last summer has no pooled row at all, so "all seasons" shows them
-  // nothing. Set once the meta names the current season.
-  const [season, setSeason] = useState("");
+  // nothing. The pick is empty until the reader makes one, and the season
+  // on show falls back to whatever the meta names as current — derived,
+  // rather than written into state once the meta arrives.
+  const [seasonPick, setSeasonPick] = useState("");
   const [clubSeasons, setClubSeasons] = useState<Row[]>([]);
   const [plots, setPlots] = useState<Plots | null>(null);
   const [allSpells, setAllSpells] = useState<Row[]>([]);
@@ -257,10 +259,8 @@ function Inner({ slug, team }: { slug: string; team: string }) {
   }, [slug]);
 
   /** One period drives everything: the squad, the scores and the maps. */
+  const season = seasonPick || meta?.current_season || "";
   const pView = !season ? "" : season === "all" ? "total" : season;
-  useEffect(() => {
-    if (meta && !season) setSeason(meta.current_season);
-  }, [meta, season]);
 
   useEffect(() => {
     if (pMeta && pView) want(pView);
@@ -522,7 +522,7 @@ function Inner({ slug, team }: { slug: string; team: string }) {
           try
           <select
             value={season}
-            onChange={(e) => setSeason(e.target.value)}
+            onChange={(e) => setSeasonPick(e.target.value)}
             className="rounded-md border border-line bg-card px-2 py-1"
           >
             <option value="all">All seasons</option>
@@ -658,7 +658,7 @@ function Inner({ slug, team }: { slug: string; team: string }) {
             period
             <select
               value={season}
-              onChange={(e) => setSeason(e.target.value)}
+              onChange={(e) => setSeasonPick(e.target.value)}
               className="rounded-md border border-line bg-card px-2 py-1"
               title="Drives everything on this page — the squad, the scores and the maps."
             >

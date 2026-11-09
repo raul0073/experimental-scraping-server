@@ -165,7 +165,13 @@ def season_rows(eval_season: str) -> list:
             layer = unified_probs(blend, elo_clf["draw"])
 
             hg, ag = int(m["home_goals"]), int(m["away_goals"])
+            # date and both teams ride along so the rows can be joined to
+            # anything else keyed by fixture — bookmaker closing odds for the
+            # market benchmark, a real gameweek for the top-four cut. The
+            # names are Understat's, which are already the project's
+            # canonical ones. Scoring columns are unchanged.
             row = {"season": eval_season, "league": league,
+                   "date": date, "home": h, "away": a,
                    "y": "H" if hg > ag else ("A" if ag > hg else "D")}
             for name, p in (("ship", ship), ("elo_clf", elo_clf),
                             ("blend", blend), ("layer", layer)):

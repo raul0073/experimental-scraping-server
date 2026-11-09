@@ -247,11 +247,12 @@ export function useRatings(): Ctx {
   return c;
 }
 
+/** Stable "nothing loaded" so a league with no rows yet does not hand every
+ *  memo downstream a fresh object per render. */
+const NO_PLAYERS: Record<string, Player[]> = {};
+
 export function RatingsData({ children }: { children: React.ReactNode }) {
-  const [meta, setMeta] = useState<Data | null>(null);
-  const [players, setPlayers] = useState<Record<string, Player[]>>({});
   const [wanted, setWanted] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
   const [allWeights, setAllWeights] =
     useState<Record<string, Record<string, number>>>(() => ({ ...PRESETS }));
 
@@ -263,6 +264,21 @@ export function RatingsData({ children }: { children: React.ReactNode }) {
    *  one percentile. */
   const [index, setIndex] = useState<LeagueRef[]>([]);
   const [league, setLeague] = useState<string>("");
+
+  /** WHAT HAS LOADED IS TAGGED WITH THE LEAGUE IT CAME FROM, and a tag that
+   *  does not match the current choice reads as "nothing yet". Percentiles
+   *  are WITHIN a league, so rows from two leagues must never share a
+   *  table: this used to be done by clearing both in an effect when the
+   *  league changed, which still painted one frame of the old league's rows
+   *  under the new league's name. Derived, the stale rows are never visible
+   *  at all. */
+  const [metaFor, setMetaFor] = useState<{ league: string; data: Data } | null>(null);
+  const [playersFor, setPlayersFor] = useState<{
+    league: string;
+    rows: Record<string, Player[]>;
+  }>({ league: "", rows: NO_PLAYERS });
+  const meta = metaFor?.league === league ? metaFor.data : null;
+  const players = playersFor.league === league ? playersFor.rows : NO_PLAYERS;
 
   useEffect(() => {
     fetch(`${DATA}/index.json`)
@@ -277,8 +293,6 @@ export function RatingsData({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!league) return;
     let alive = true;
-    setMeta(null);
-    setPlayers({});          // percentiles are WITHIN a league — never mix
     // The pooled view borrows the first league's META — metric list,
     // buckets, weights, the reliability gate. Those are the same shape
     // everywhere; only the ROWS differ, and those are what get pooled.
@@ -286,8 +300,8 @@ export function RatingsData({ children }: { children: React.ReactNode }) {
     if (!from) return;
     fetch(`${DATA}/${from}/meta.json`)
       .then((r) => r.json())
-      .then((d: Data) => alive && setMeta(d))
-      .catch(() => alive && setMeta(null));
+      .then((d: Data) => alive && setMetaFor({ league, data: d }))
+      .catch(() => alive && setMetaFor(null));
     return () => {
       alive = false;
     };
@@ -296,6 +310,11 @@ export function RatingsData({ children }: { children: React.ReactNode }) {
   const want = useCallback((view: string) => {
     setWanted((prev) => (prev.includes(view) ? prev : [...prev, view]));
   }, []);
+
+  /** Loading means a view somebody ASKED for has not landed — not the
+   *  background fetch of the other seasons. Read off the rows rather than
+   *  kept as its own flag, so it cannot disagree with them. */
+  const loading = !!meta && wanted.some((k) => !players[k]);
 
   /** What was asked for, then every other view — the floor and swing columns
    *  need each season separately, so they all arrive eventually, just not
@@ -308,7 +327,6 @@ export function RatingsData({ children }: { children: React.ReactNode }) {
     );
     if (!missing.length) return;
     let alive = true;
-    setLoading(missing.some((k) => wanted.includes(k)));
     const from = league === ALL_LEAGUES
       ? index.map((l) => l.key)
       : [league];
@@ -332,13 +350,18 @@ export function RatingsData({ children }: { children: React.ReactNode }) {
       ),
     ).then((got) => {
       if (!alive) return;
-      setPlayers((prev) => ({ ...prev, ...Object.fromEntries(got) }));
-      setLoading(false);
+      setPlayersFor((prev) => ({
+        league,
+        rows: {
+          ...(prev.league === league ? prev.rows : {}),
+          ...Object.fromEntries(got),
+        },
+      }));
     });
     return () => {
       alive = false;
     };
-  }, [meta, league, wanted, players]);
+  }, [meta, league, index, wanted, players]);
 
   const value = useMemo(
     () => ({ meta, index, league, setLeague, players, want, loading,

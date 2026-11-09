@@ -9,6 +9,8 @@
  *  `PitchScene` re-exports the lot, so existing imports are unchanged.
  */
 
+import { setStored } from "@/lib/useStored";
+
 import { PITCH_L } from "./dims";
 
 /** A camera's name. NOT a fixed union: the list of seats belongs to whoever
@@ -124,7 +126,7 @@ export function readSaved(): Saved {
  *  fallback so a scene that has never been set still opens somewhere
  *  sensible.
  */
-const OPENS = "predictorous.cameraDefaults.v1";
+export const OPENS = "predictorous.cameraDefaults.v1";
 
 export function defaultCam(scene: string, fallback: ViewName): ViewName {
   if (typeof window === "undefined" || !scene) return fallback;
@@ -136,14 +138,17 @@ export function defaultCam(scene: string, fallback: ViewName): ViewName {
   }
 }
 
+/** Written through `setStored` so the scene reading it with `useStored`
+ *  re-renders — localStorage only tells OTHER tabs about a write. */
 export function setOpensOn(scene: string, name: string) {
+  let d: Record<string, string> = {};
   try {
-    const d = JSON.parse(window.localStorage.getItem(OPENS) || "{}");
-    d[scene] = name;
-    window.localStorage.setItem(OPENS, JSON.stringify(d));
+    d = JSON.parse(window.localStorage.getItem(OPENS) || "{}");
   } catch {
-    /* blocked storage — the choice still applies for this session */
+    /* blocked or garbled storage — start the map again */
   }
+  d[scene] = name;
+  setStored(OPENS, JSON.stringify(d));
 }
 
 export function camsFor(saved: Saved, mode: Mode): Cam[] {

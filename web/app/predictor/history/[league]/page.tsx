@@ -15,6 +15,38 @@ export function generateStaticParams() {
   return Object.keys(history?.leagues ?? {}).map((league) => ({ league }));
 }
 
+/** The tab used to read as the site's default title; a drill-down should
+ *  say which competition it is before the reader has to look. */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ league: string }>;
+}) {
+  const { league: slug } = await params;
+  const name = getHistory()?.leagues[slug]?.name;
+  return name
+    ? {
+        title: `Track record — ${leagueShort(name)}`,
+        description: `Every ${leagueShort(name)} call this model made, graded match by match, misses included.`,
+      }
+    : {};
+}
+
+/** A row rebuilt after the fact says so where it sits. Same method as a live
+ *  row, but written after the result was known — the reader should never
+ *  have to go to a footnote to find out which rows those are. */
+function Rebuilt({ r }: { r: HistoryRow }) {
+  if (!r.retro) return null;
+  return (
+    <span
+      className="rounded-full border border-dashed border-line px-1.5 py-px text-[10px] uppercase tracking-wider text-ink-3"
+      title={`Reconstructed walk-forward on ${r.recorded}, after the result was known. Not counted in the headline figures.`}
+    >
+      rebuilt
+    </span>
+  );
+}
+
 function Verdict({ r }: { r: HistoryRow }) {
   if (r.status !== "graded")
     return <span className="text-[12.5px] text-ink-3">pending</span>;
@@ -45,7 +77,10 @@ function Card({ r, league }: { r: HistoryRow; league: HistoryLeague }) {
   return (
     <li className="rounded-xl border border-line bg-card p-3">
       <div className="flex items-center justify-between gap-2">
-        <span className="num text-[11.5px] text-ink-3">{r.kickoff}</span>
+        <span className="flex items-center gap-2">
+          <span className="num text-[11.5px] text-ink-3">{r.kickoff}</span>
+          <Rebuilt r={r} />
+        </span>
         <Verdict r={r} />
       </div>
 
@@ -98,7 +133,10 @@ function Row({ r, league }: { r: HistoryRow; league: HistoryLeague }) {
   return (
     <tr className="border-t border-line">
       <td className="whitespace-nowrap py-2.5 pl-4 pr-3 text-[12px] text-ink-3">
-        {r.kickoff}
+        <span className="inline-flex items-center gap-2">
+          {r.kickoff}
+          <Rebuilt r={r} />
+        </span>
       </td>
       <td className="py-2.5 pr-2 text-right">
         <span className="inline-flex items-center gap-2">
@@ -185,9 +223,16 @@ export default async function LeagueHistoryPage({
             called
           </span>
           <span>
-            {league.hits}/{league.graded} graded
+            {league.hits}/{league.graded} live calls
           </span>
           <span>{league.exact} exact scores</span>
+          {league.reconstructed ? (
+            <span
+              title="Opening-round fixtures rebuilt walk-forward after the fact. Marked in the table; not in these figures."
+            >
+              {league.reconstructed} rebuilt, shown apart
+            </span>
+          ) : null}
           {pending ? <span>{pending} pending</span> : null}
         </div>
       </div>

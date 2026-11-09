@@ -1,6 +1,6 @@
 "use client";
 
-import { H, PITCH_GREEN, PitchLines, W, X, Y } from "../../Pitch";
+import { PITCH_GREEN, PitchLines, W, X, Y } from "../../Pitch";
 import { GOAL_W, RESULT_COLOUR, xgRadius, type Shot } from "../shotMath";
 
 /** THE SAME SHOTS, LYING DOWN.

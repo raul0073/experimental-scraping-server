@@ -29,9 +29,9 @@ import { MatchShots } from "./MatchShots";
 import type { RoundData } from "@/lib/data";
 import { posLabel, posShort } from "../lib/positions";
 import { matchTeam } from "../lib/teamName";
-import { buildSquad, type Squad } from "../lib/squad";
+import { buildSquad } from "../lib/squad";
 import { RatingsData, useRatings } from "../ratings/RatingsData";
-import { PRESET, type TeamRow, percentiles, scoreTeams } from "../ratings/teamScore";
+import { type TeamRow, scoreTeams } from "../ratings/teamScore";
 
 /** One side against another, zone by zone.
  *
@@ -167,8 +167,8 @@ function Inner({ round }: { round: RoundData | null }) {
    *  pair; after that the pickers belong to whoever is looking, and writing
    *  their choices back into the address bar would fight them every time
    *  they changed one. */
-  const [home, setHome] = useState(() => params.get("home") ?? "");
-  const [away, setAway] = useState(() => params.get("away") ?? "");
+  const [homePick, setHome] = useState(() => params.get("home") ?? "");
+  const [awayPick, setAway] = useState(() => params.get("away") ?? "");
   const [elo, setElo] = useState<Elo | null>(null);
   /** ONE PHASE PER CARD. A single toggle for both made the only question
    *  worth asking impossible: "their attack against this defence" needs one
@@ -219,24 +219,20 @@ function Inner({ round }: { round: RoundData | null }) {
     () => [...new Set(pool.map((r) => String(r.team)))].sort(),
     [pool],
   );
-  useEffect(() => {
-    if (!teams.length) return;
-    // A fixture link arrives spelling clubs the way the round export does,
-    // which is not how this table spells them. Translate before falling
-    // back, or every link with a renamed club lands on Arsenal.
-    if (!teams.includes(home)) setHome(matchTeam(home, teams) ?? teams[0]);
-    if (!teams.includes(away)) setAway(matchTeam(away, teams) ?? teams[1] ?? teams[0]);
-  }, [teams, home, away]);
+  // A fixture link arrives spelling clubs the way the round export does,
+  // which is not how this table spells them. Translate before falling
+  // back, or every link with a renamed club lands on Arsenal. Resolved from
+  // the pick on every render rather than written back into it, so there is
+  // no frame between the two spellings.
+  const resolve = (name: string, fallback: string) =>
+    !teams.length || teams.includes(name) ? name : matchTeam(name, teams) ?? fallback;
+  const home = resolve(homePick, teams[0]);
+  const away = resolve(awayPick, teams[1] ?? teams[0]);
 
   const scores = useMemo(
     () => (meta ? scoreTeams(pool as TeamRow[], meta.metrics, meta.reliability) : new Map()),
     [pool, meta],
   );
-  const pct = useMemo(
-    () => (meta ? percentiles(pool as TeamRow[], meta.metrics) : {}),
-    [pool, meta],
-  );
-
   /** The league's average chance origin per cell — the baseline an attack
    *  and a defence are both measured against. */
   const zoneMean = useMemo(() => {
@@ -345,8 +341,6 @@ function Inner({ round }: { round: RoundData | null }) {
 
   if (!meta) return <p className="text-[13.5px] text-ink-2">Loading…</p>;
 
-  const label =
-    season === "all" ? "All seasons" : meta.season_labels[season] ?? season;
   const hs = hRow ? scores.get(hRow as TeamRow) : undefined;
   const as_ = aRow ? scores.get(aRow as TeamRow) : undefined;
 
@@ -507,7 +501,7 @@ function Inner({ round }: { round: RoundData | null }) {
     who: string, total: number, other: number,
     r: { cell: string; edge: number },
   ) => {
-    const w = where(r.cell, meta);
+    const w = where(r.cell);
     const n = <span className="num">{r.edge.toFixed(2)}</span>;
     const share = total / (total + other || 1);
     if (share >= 0.58) {
@@ -729,7 +723,6 @@ function Inner({ round }: { round: RoundData | null }) {
             routes={hRoutes}
             attack={home}
             defend={away}
-            meta={meta}
             scale={scaleH}
             phase={phaseH}
             onPhase={setPhaseH}
@@ -751,7 +744,6 @@ function Inner({ round }: { round: RoundData | null }) {
             routes={aRoutes}
             attack={away}
             defend={home}
-            meta={meta}
             scale={scaleA}
             phase={phaseA}
             onPhase={setPhaseA}
@@ -866,11 +858,12 @@ function Inner({ round }: { round: RoundData | null }) {
                 predict it at <span className="num">0.78</span>.
               </p>
               <p>
-                Scored against 25/26 it runs at{" "}
-                <span className="num">1.039</span> log-loss against a base
-                rate of <span className="num">1.085</span> — clearly better
-                than guessing, and behind the model the site ships at{" "}
-                <span className="num">1.034</span>. It is shown because two
+                On the eight-season walk-forward, 11,311 fixtures, this arm
+                alone runs at <span className="num">0.990</span> log-loss
+                against a base rate of <span className="num">1.073</span> —
+                clearly better than guessing, and behind the chance-quality
+                model at <span className="num">0.984</span>. The published
+                triplet is the average of the two. It is shown because two
                 independent readings that agree are worth more than one, and
                 because hiding the disagreement would be the only way to get
                 it wrong.
@@ -922,7 +915,7 @@ function Inner({ round }: { round: RoundData | null }) {
  *  shows. The legend used to sit once at the far right of the section
  *  heading, a screen away from the colours it explained. */
 function Half({
-  title, subtitle, values, routes, attack, defend, meta, scale,
+  title, subtitle, values, routes, attack, defend, scale,
   phase, onPhase, leads, cells,
 }: {
   title: string;
@@ -931,7 +924,6 @@ function Half({
   routes: { cell: string; edge: number }[];
   attack: string;
   defend: string;
-  meta: Meta;
   /** shared by both maps, so the hotter side is visibly the hotter side */
   scale: number;
   phase: Phase;
@@ -1018,7 +1010,7 @@ function Half({
                     {r.edge.toFixed(1)}&times;
                   </span>
                   <span className="text-[12.5px] leading-snug text-ink-2">
-                    {where(r.cell, meta)}
+                    {where(r.cell)}
                   </span>
                 </li>
               ))}
@@ -1204,7 +1196,7 @@ function Bar({
 /** A cell key as words. "ALW" is the attacking left wing; nobody reads a
  *  three-letter code and the maps are worth nothing if the prose beside
  *  them has to be decoded. */
-function where(cell: string, meta: Meta): string {
+function where(cell: string): string {
   const thirds: Record<string, string> = {
     D: "defensive third",
     M: "middle third",

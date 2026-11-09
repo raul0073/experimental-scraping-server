@@ -11,6 +11,7 @@ const TABS = [
   { href: "/", label: "Next round", at: ["/", "/predictor"] },
   { href: "/predictor/projected", label: "Projected tables", at: ["/predictor/projected"] },
   { href: "/predictor/history", label: "Track record", at: ["/predictor/history"] },
+  { href: "/predictor/market", label: "Versus the market", at: ["/predictor/market"] },
 ];
 
 export function SubNav() {

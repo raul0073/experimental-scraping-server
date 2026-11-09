@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from services.fbref.fixtures.fixtures_service import FixturesService
+from services.predictions.windows import VOID_NOTE, stale_floor
 
 log = logging.getLogger(__name__)
 
@@ -124,6 +125,7 @@ class SlipLedger:
                                 results[key][(m["home_team"], m["away_team"])] = m
 
         graded = 0
+        floor = stale_floor()
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         for r in pending:
             all_resolved = True
@@ -137,6 +139,16 @@ class SlipLedger:
                     m = book.get((l["away"], l["home"]))
                     flipped = m is not None
                 if not m:
+                    # A leg nothing will ever match is settled the way a
+                    # book settles a void: at 1.00, stake through, so the
+                    # slip can grade and the window can close. The note
+                    # keeps it from reading as a result.
+                    if l.get("kickoff") and l["kickoff"] < floor:
+                        l["void"] = True
+                        l["hit"] = True
+                        l["breakeven"] = 1.0
+                        l["note"] = VOID_NOTE
+                        continue
                     all_resolved = False
                     continue
                 hg, ag = (m["away_goals"], m["home_goals"]) if flipped else \

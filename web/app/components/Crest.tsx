@@ -14,8 +14,8 @@ export function Crest({
   if (!src) return null;
   // Plain <img>: next/image's optimiser is disabled under output: "export",
   // and these are already small PNGs served from the same origin.
-  // eslint-disable-next-line @next/next/no-img-element
   return (
+    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
       alt={alt}

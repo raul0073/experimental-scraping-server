@@ -66,18 +66,24 @@ export function Freshness({ generated }: { generated?: string }) {
   const [err, setErr] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
 
-  const poll = useCallback(async () => {
-    if (!DEV) return;
-    try {
-      const r = await fetch(`${API}/status`, { cache: "no-store" });
-      if (r.ok) setSt(await r.json());
-    } catch {
-      /* API not running — the static line below still tells the truth */
-    }
+  /** A promise chain rather than async/await so the state is set in a
+   *  callback: the effect below only starts the request. */
+  const poll = useCallback(() => {
+    if (!DEV) return Promise.resolve();
+    return fetch(`${API}/status`, { cache: "no-store" })
+      .then((r) => (r.ok ? (r.json() as Promise<Status>) : null))
+      .then(
+        (s) => {
+          if (s) setSt(s);
+        },
+        () => {
+          /* API not running — the static line below still tells the truth */
+        },
+      );
   }, []);
 
   useEffect(() => {
-    poll();
+    void poll();
   }, [poll]);
 
   /** While a run is in flight, poll often enough to feel live; otherwise

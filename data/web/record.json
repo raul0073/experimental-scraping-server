@@ -1,61 +1,192 @@
 {
  "generated": "2026-11-09",
- "graded": 501,
- "hit_rate": 53.3,
- "said_avg": 47.4,
+ "graded": 355,
+ "hit_rate": 52.4,
+ "said_avg": 47.5,
  "exact_score": 11.0,
  "by_league": {
   "ENG-Premier League": {
-   "n": 100,
-   "hit_rate": 47.0
+   "n": 70,
+   "hit_rate": 44.3,
+   "logloss": 1.0228,
+   "n_reconstructed": 30,
+   "reconstructed_rounds": [
+    1,
+    3
+   ]
   },
   "ESP-La Liga": {
-   "n": 120,
-   "hit_rate": 55.0
+   "n": 79,
+   "hit_rate": 55.7,
+   "logloss": 0.9678,
+   "n_reconstructed": 41,
+   "reconstructed_rounds": [
+    1,
+    6
+   ]
   },
   "FRA-Ligue 1": {
-   "n": 90,
-   "hit_rate": 51.1
+   "n": 63,
+   "hit_rate": 52.4,
+   "logloss": 0.924,
+   "n_reconstructed": 27,
+   "reconstructed_rounds": [
+    1,
+    3
+   ]
   },
   "GER-Bundesliga": {
-   "n": 81,
-   "hit_rate": 56.8
+   "n": 63,
+   "hit_rate": 57.1,
+   "logloss": 0.9904,
+   "n_reconstructed": 18,
+   "reconstructed_rounds": [
+    1,
+    2
+   ]
   },
   "ITA-Serie A": {
-   "n": 110,
-   "hit_rate": 56.4
+   "n": 80,
+   "hit_rate": 52.5,
+   "logloss": 0.9553,
+   "n_reconstructed": 30,
+   "reconstructed_rounds": [
+    1,
+    3
+   ]
   }
  },
  "calibration": [
   {
    "bucket": "30-40%",
-   "n": 161,
-   "said": 35.7,
-   "landed": 36.6
+   "n": 116,
+   "said": 35.3,
+   "landed": 31.9
   },
   {
    "bucket": "40-50%",
-   "n": 150,
+   "n": 103,
    "said": 44.8,
-   "landed": 50.0
+   "landed": 51.5
   },
   {
    "bucket": "50-60%",
-   "n": 111,
-   "said": 54.6,
-   "landed": 64.0
+   "n": 74,
+   "said": 54.4,
+   "landed": 64.9
   },
   {
    "bucket": "60-70%",
-   "n": 63,
-   "said": 64.3,
-   "landed": 73.0
+   "n": 48,
+   "said": 64.1,
+   "landed": 70.8
   },
   {
    "bucket": "70-80%",
-   "n": 16,
-   "said": 73.9,
+   "n": 14,
+   "said": 74.0,
    "landed": 100.0
   }
- ]
+ ],
+ "levels": [
+  {
+   "outcome": "home",
+   "n": 355,
+   "said": 41.5,
+   "landed": 47.0,
+   "gap": -5.6,
+   "se": 2.6
+  },
+  {
+   "outcome": "draw",
+   "n": 355,
+   "said": 27.0,
+   "landed": 22.3,
+   "gap": 4.7,
+   "se": 2.2
+  },
+  {
+   "outcome": "away",
+   "n": 355,
+   "said": 31.6,
+   "landed": 30.7,
+   "gap": 0.9,
+   "se": 2.4
+  }
+ ],
+ "scoring": {
+  "model": {
+   "logloss": 0.9721,
+   "brier": 0.5759
+  },
+  "base_rate": {
+   "logloss": 1.0517,
+   "brier": 0.6349
+  },
+  "uniform": {
+   "logloss": 1.0986,
+   "brier": 0.6667
+  },
+  "base_rates": {
+   "home": 47.0,
+   "draw": 22.3,
+   "away": 30.7
+  }
+ },
+ "live_since": "2026-09-10",
+ "goals": {
+  "expected": 2.73,
+  "actual": 2.99
+ },
+ "reconstructed": {
+  "n": 146,
+  "hit_rate": 55.5,
+  "said_avg": 47.2,
+  "exact_score": 11.0,
+  "scores": {
+   "logloss": 0.9909,
+   "brier": 0.5897
+  },
+  "recorded_on": "2026-09-10",
+  "kickoffs": [
+   "2026-08-15",
+   "2026-09-07"
+  ],
+  "calibration": [
+   {
+    "bucket": "30-40%",
+    "n": 45,
+    "said": 36.7,
+    "landed": 48.9
+   },
+   {
+    "bucket": "40-50%",
+    "n": 47,
+    "said": 44.6,
+    "landed": 46.8
+   },
+   {
+    "bucket": "50-60%",
+    "n": 37,
+    "said": 54.9,
+    "landed": 62.2
+   },
+   {
+    "bucket": "60-70%",
+    "n": 15,
+    "said": 64.7,
+    "landed": 80.0
+   }
+  ]
+ },
+ "all": {
+  "n": 501,
+  "hit_rate": 53.3,
+  "said_avg": 47.4,
+  "exact_score": 11.0,
+  "scores": {
+   "logloss": 0.9776,
+   "brier": 0.5799
+  }
+ }
 }

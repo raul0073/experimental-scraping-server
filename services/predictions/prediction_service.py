@@ -23,34 +23,38 @@ log = logging.getLogger(__name__)
 
 PARAMS_PATH = Path("data/config/model_params.json")
 
-# ---- THE PUBLISHED TRIPLET IS A LAYER, NOT ONE MODEL (2026-09-20) --------
+# ---- THE PUBLISHED TRIPLET IS THE BLEND OF TWO ARMS ----------------------
 #
-# Settled on 1,714 fixtures — every 25/26 match of all five leagues, the one
-# complete season the frozen draw classifier has never seen, so it is the
-# only leak-free test that exists for the shipped artifact.
+# Two models price every fixture: the shipped chance-quality model (form
+# xG -> scoreline grid -> Poisson triplet, draw from the classifier) and the
+# process-Elo arm (thirteen seasons of Understat xG, same classifier for its
+# draw). The published triplet is their plain average.
 #
-# Two questions came back with different winners, which is why this is a
-# layer rather than a swap:
+# HISTORY, because the record carries both versions. From 2026-09-20 to
+# 2026-11-09 the code shipped a LAYER: the average for the home:away ratio,
+# then P(draw) handed to the Elo arm's classifier, on a 1,714-fixture
+# single-season test that said the Elo arm ranked draws best. The
+# 2026-09-23 walk-forward over eight seasons (11,311 fixtures, every fold
+# fitted only on earlier seasons) reversed that:
 #
-#   what PRICES a match   the blend of the shipped model and the Elo arm
-#                         (log-loss 0.9924 against ship's 0.9937)
-#   what RANKS a draw     the Elo's lambdas through the shipped classifier
-#                         (top-200 draw picks 32.5% against ship's 29.5%,
-#                          binomial p=0.0175 against a 25.6% base)
+#   arm      triplet log-loss   draws found at top 10%
+#   ship         0.9842              30.9%
+#   blend        0.9843              31.6%
+#   layer        0.9850              30.1%     <- what shipped
 #
-# So: average the two triplets for the home:away ratio, then hand P(draw) to
-# the arm that ranks draws best. `unified_probs` already does exactly this —
-# it is how the shipped model itself is built, Poisson for the ratio and a
-# classifier for the draw — so the layer is one extra call, not a new model.
+# The layer imports the classifier's draw ORDER, which is worse than the
+# blend's, and it loses on the triplet too. Ship and blend are a coin flip
+# on log loss; blend ranks draws best at the cutoff the product uses, so it
+# ships. The verdict was written on 2026-09-23 (progress.md, "WALK-FORWARD
+# VERDICT") and the code switched on 2026-11-09. Rows recorded in between
+# stand as recorded — the ledger is never rewritten.
 #
-# HONEST LIMITS. Blend beats ship on the triplet by 0.0013 nats at
-# P(better)=0.74 — directional, not proven. Layer and blend are within two
-# picks of each other on 200. What IS solid is that both beat ship at
-# ranking draws, and the product ranks draws.
-#
-# Naive layerings were tried and failed: ship's ratio with the Elo's RAW
-# draw, and the Elo's ratio with ship's draw, both land between their
-# parents and beat neither (mix_se 0.9957, mix_es 0.9982).
+# DRAW LEVEL, measured so nobody hand-tunes it. On the same 11,311 frozen
+# rows blend says 25.0% draw against 25.4% actual, and a multiplicative
+# draw correction fitted leave-one-season-out comes out at 1.00-1.02 and
+# never improves the held-out season. No correction is applied. The live
+# 26/27 record shows draws stated above their frequency; that gap is being
+# measured on the record page, not patched here.
 ELO_PARAMS_PATH = Path("data/config/elo_params.json")
 ELO_TABLE_DIR = Path("data/web/team")
 
@@ -244,13 +248,18 @@ class PredictionService:
                         outcome_probs(elh, ela, ep["rho"]), p_draw_elo)
 
             if probs_elo:
-                # average the triplets for the home:away ratio…
+                # THE BLEND: average the two triplets, nothing else. The
+                # layer that used to follow — `unified_probs(mix,
+                # probs_elo["draw"])`, handing P(draw) to the Elo arm's
+                # classifier — was dropped on the 2026-09-23 walk-forward
+                # verdict (11,311 fixtures: layer 0.9850 against blend
+                # 0.9843 on the triplet, and 30.1% against 31.6% at ranking
+                # draws). The code kept shipping it until 2026-11-09; rows
+                # recorded before that date stand as recorded.
                 mix = {k: (probs_ship[k] + probs_elo[k]) / 2
                        for k in ("home", "draw", "away")}
                 tot = sum(mix.values()) or 1.0
-                mix = {k: v / tot for k, v in mix.items()}
-                # …then give P(draw) to the arm that ranks draws best
-                probs_unified = unified_probs(mix, probs_elo["draw"])
+                probs_unified = {k: round(v / tot, 4) for k, v in mix.items()}
             else:
                 probs_unified = probs_ship
             p_max = max(probs_unified.values())
@@ -326,8 +335,21 @@ class PredictionService:
 
         A window is live while ANY pick or slip committed under it is still
         pending. Grading the last one is what releases the next round.
+
+        …UNLESS THE ROUND IS A WEEK GONE. A pending row whose fixture can
+        never grade — abandoned, renamed, a club that stopped matching any
+        fixture file — held the surface forever: `weekly_picks` served a
+        dead round and all three commits refused it. That is the 10-07 to
+        10-23 freeze without the TypeError, and `scripts/selfcheck.py`
+        ("a pending row that can never resolve…") reproduces it. So a
+        window whose LAST kickoff is more than WINDOW_GRACE_DAYS behind
+        today is no longer live, whatever is still pending under it. The
+        row itself is not touched here — the graders void it, with a note,
+        so the record says why rather than quietly moving on.
         """
         import json as _json
+        from services.predictions.windows import stale_floor
+        floor = stale_floor()
         windows: Dict[str, Dict[str, Any]] = {}
         for path, kicks in (
                 (Path("data/ledger/picks.jsonl"),
@@ -349,7 +371,8 @@ class PredictionService:
                 slot["pending"] |= r.get("status") == "pending"
                 slot["kicks"].extend(k for k in kicks(r) if k)
 
-        live = [w for w, s in windows.items() if s["pending"] and s["kicks"]]
+        live = [w for w, s in windows.items()
+                if s["pending"] and s["kicks"] and max(s["kicks"]) >= floor]
         if not live:
             return None
         w = max(live)

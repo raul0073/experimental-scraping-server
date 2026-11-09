@@ -221,7 +221,7 @@ function PickButtons({
 
 function MetricCell({ row, m }: { row: ManagerRow; m: Metric }) {
   const raw = row.raw?.[m.key];
-  const p = orient(row.pct?.[m.key], m);
+  const p = orient(row.pct?.[m.key]);
   return (
     <td
       className="num px-2.5 py-2 text-right text-[12.5px] tabular-nums"
@@ -358,7 +358,7 @@ export function RankTable({
 
                 <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1">
                   {directional.map((m) => {
-                    const p = orient(r.pct?.[m.key], m);
+                    const p = orient(r.pct?.[m.key]);
                     return (
                       <div
                         key={m.key}

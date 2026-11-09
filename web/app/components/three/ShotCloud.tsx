@@ -7,7 +7,6 @@ import * as THREE from "three";
 
 import { useLabelScale } from "./labelScale";
 
-import { PITCH_L, PITCH_W } from "./Pitch3D";
 /** THE SHOT ITSELF — the type, the colours and the geometry — now lives in
  *  `shotMath.ts`, which imports no three, so the flat fallback can draw the
  *  same shots in the same colours without the WebGL stack behind it.
@@ -17,7 +16,7 @@ export {
   goalEndOf, goalZOf, shotX, shotZ, xgRadius, type Shot,
 } from "./shotMath";
 import {
-  GOAL_W, GOAL_H, RESULT_COLOUR, RESULT_LABEL, eyeOf, geometry, goalEndOf,
+  GOAL_W, GOAL_H, RESULT_COLOUR, RESULT_LABEL, geometry, goalEndOf,
   goalZOf, shotX, shotZ, type Shot,
 } from "./shotMath";
 

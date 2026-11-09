@@ -880,6 +880,11 @@ def main() -> int:
     # steps above have just refreshed. Exporting first was how round.json
     # ended up four days older than the results sitting beside it.
     run("export web", script("export_web.py"))
+    # AFTER the export because it reads the same graded history and writes
+    # its own payload (market.json) beside the export's. Non-fatal like the
+    # rest: football-data.co.uk being down costs the benchmark a day's
+    # freshness, not the site its update.
+    run("market benchmark", script("build_market.py"))
 
     # ---- summary ---------------------------------------------------------
     # WHY THE FAILURE LIST SHOUTS. The exit code has always been right and

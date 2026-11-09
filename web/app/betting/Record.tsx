@@ -364,7 +364,9 @@ export function Record() {
    *  this week is reading it next week too. */
   const filter = useStored(KEY, "all");
 
-  const entries: Entry[] = d?.entries ?? [];
+  // Memoised so the empty fallback is one array, not a new one per render
+  // that would invalidate the two memos below every time.
+  const entries: Entry[] = useMemo(() => d?.entries ?? [], [d]);
 
   const sorted = useMemo(
     () =>

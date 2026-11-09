@@ -12,6 +12,9 @@ wrong.
 
 THE ORDER, AND WHY IT IS THIS ORDER:
 
+    0. SELFCHECK  scripts/selfcheck.py — the pipeline's own contracts, in
+                seconds, on copies of the ledgers. A broken contract must
+                not cost a 60-minute run to find, and must not reach the site.
     1. UPDATE   run_daily, every league with enough history. No --league
                 flag anywhere; the set is derived from disk so it can never
                 be left pinned to one league by a forgotten argument.
@@ -221,6 +224,19 @@ def main() -> int:
     started = datetime.now()
     print(f"publish  {started:%Y-%m-%d %H:%M}")
     done: list = []
+
+    # ---- 0. selfcheck ----------------------------------------------------
+    # BEFORE the update, because the update is the expensive part and the
+    # daily run used to be the test harness: on 2026-10-23 three pipeline
+    # changes, two of them wrong, each needed a full run to disprove. The
+    # cases are the bugs that actually happened; its output streams above.
+    if not run("0. SELFCHECK — the pipeline's own contracts, on ledger copies",
+               [PY, "-u", str(ROOT / "scripts" / "selfcheck.py")]):
+        print("\nThe self-check failed. Nothing was updated, built, deployed or\n"
+              "pushed. The FAIL lines above name the contract; fix it and run\n"
+              "again. The live site still serves the last good publish.")
+        return 1
+    done.append(("selfcheck", "ok"))
 
     # ---- 1. update -------------------------------------------------------
     before = sizes_before()

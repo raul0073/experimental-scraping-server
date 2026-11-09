@@ -1,0 +1,7662 @@
+{
+ "generated": "2026-11-09T10:43:24+00:00",
+ "as_of": "2026-11-09",
+ "source": "football-data.co.uk",
+ "source_url": "https://www.football-data.co.uk/mmz4281/{season}/{code}.csv",
+ "margin_method": "normalise",
+ "margin_methods": {
+  "n": 11309,
+  "normalise_log_loss": 0.9655,
+  "shin_log_loss": 0.9654,
+  "reason": "Shin changes market log loss by +0.0001 nats, inside the ±0.002 band where the simpler method is preferred"
+ },
+ "odds_column_used": {
+  "live": {
+   "pinnacle_closing": 0,
+   "pinnacle": 0,
+   "average_closing": 499,
+   "average": 0
+  },
+  "historical": {
+   "pinnacle_closing": 10608,
+   "pinnacle": 4,
+   "average_closing": 697,
+   "average": 0
+  },
+  "all": {
+   "pinnacle_closing": 10608,
+   "pinnacle": 4,
+   "average_closing": 1196,
+   "average": 0
+  }
+ },
+ "live": {
+  "join": {
+   "graded": 501,
+   "joined": 499,
+   "rate": 0.996,
+   "unjoined": [
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-16",
+     "home": "Levante",
+     "away": "Athletic Club",
+     "retro": false
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-10",
+     "home": "Rayo Vallecano",
+     "away": "Athletic Club",
+     "retro": false
+    }
+   ]
+  },
+  "splits": {
+   "live": {
+    "n": 353,
+    "model": {
+     "log_loss": 0.9715,
+     "brier": 0.5755,
+     "accuracy": 0.5524
+    },
+    "market": {
+     "log_loss": 0.9298,
+     "brier": 0.5478,
+     "accuracy": 0.5751
+    },
+    "uniform": {
+     "log_loss": 1.0986,
+     "brier": 0.6667,
+     "accuracy": 0.4703
+    },
+    "base_rate": {
+     "log_loss": 1.0513,
+     "brier": 0.6347,
+     "accuracy": 0.4703
+    },
+    "gap": 0.0417
+   },
+   "reconstructed": {
+    "n": 146,
+    "model": {
+     "log_loss": 0.9909,
+     "brier": 0.5897,
+     "accuracy": 0.5548
+    },
+    "market": {
+     "log_loss": 0.9783,
+     "brier": 0.5817,
+     "accuracy": 0.5411
+    },
+    "uniform": {
+     "log_loss": 1.0986,
+     "brier": 0.6667,
+     "accuracy": 0.4178
+    },
+    "base_rate": {
+     "log_loss": 1.0763,
+     "brier": 0.652,
+     "accuracy": 0.4178
+    },
+    "gap": 0.0126
+   },
+   "all": {
+    "n": 499,
+    "model": {
+     "log_loss": 0.9772,
+     "brier": 0.5796,
+     "accuracy": 0.5531
+    },
+    "market": {
+     "log_loss": 0.944,
+     "brier": 0.5577,
+     "accuracy": 0.5651
+    },
+    "uniform": {
+     "log_loss": 1.0986,
+     "brier": 0.6667,
+     "accuracy": 0.4549
+    },
+    "base_rate": {
+     "log_loss": 1.0597,
+     "brier": 0.6406,
+     "accuracy": 0.4549
+    },
+    "gap": 0.0332
+   }
+  },
+  "by_league": {
+   "ENG-Premier League": {
+    "n": 100,
+    "model": {
+     "log_loss": 1.0055,
+     "brier": 0.6025,
+     "accuracy": 0.5
+    },
+    "market": {
+     "log_loss": 1.0108,
+     "brier": 0.6047,
+     "accuracy": 0.48
+    },
+    "gap": -0.0053
+   },
+   "ESP-La Liga": {
+    "n": 118,
+    "model": {
+     "log_loss": 0.9677,
+     "brier": 0.5734,
+     "accuracy": 0.5254
+    },
+    "market": {
+     "log_loss": 0.9037,
+     "brier": 0.5318,
+     "accuracy": 0.5763
+    },
+    "gap": 0.064
+   },
+   "ITA-Serie A": {
+    "n": 110,
+    "model": {
+     "log_loss": 0.938,
+     "brier": 0.5492,
+     "accuracy": 0.6
+    },
+    "market": {
+     "log_loss": 0.9041,
+     "brier": 0.5252,
+     "accuracy": 0.6364
+    },
+    "gap": 0.0339
+   },
+   "GER-Bundesliga": {
+    "n": 81,
+    "model": {
+     "log_loss": 0.9916,
+     "brier": 0.5908,
+     "accuracy": 0.5556
+    },
+    "market": {
+     "log_loss": 0.9696,
+     "brier": 0.5778,
+     "accuracy": 0.5679
+    },
+    "gap": 0.022
+   },
+   "FRA-Ligue 1": {
+    "n": 90,
+    "model": {
+     "log_loss": 0.9931,
+     "brier": 0.5896,
+     "accuracy": 0.5889
+    },
+    "market": {
+     "log_loss": 0.9482,
+     "brier": 0.5611,
+     "accuracy": 0.5556
+    },
+    "gap": 0.0449
+   }
+  },
+  "disagreement": {
+   "threshold": 0.08,
+   "buckets": [
+    {
+     "bucket": "<0.05",
+     "n": 153,
+     "model_log_loss": 0.9423,
+     "market_log_loss": 0.9349,
+     "better": "market"
+    },
+    {
+     "bucket": "0.05–0.10",
+     "n": 169,
+     "model_log_loss": 1.0556,
+     "market_log_loss": 1.0495,
+     "better": "market"
+    },
+    {
+     "bucket": "0.10–0.15",
+     "n": 110,
+     "model_log_loss": 0.9295,
+     "market_log_loss": 0.8727,
+     "better": "market"
+    },
+    {
+     "bucket": "≥0.15",
+     "n": 67,
+     "model_log_loss": 0.9377,
+     "market_log_loss": 0.8156,
+     "better": "market"
+    }
+   ],
+   "rows": [
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-12",
+     "home": "Chelsea",
+     "away": "Hull City",
+     "retro": false,
+     "model": {
+      "home": 0.469,
+      "draw": 0.243,
+      "away": 0.287
+     },
+     "market": {
+      "home": 0.78,
+      "draw": 0.141,
+      "away": 0.079
+     },
+     "fair": {
+      "home": 2.13,
+      "draw": 4.11,
+      "away": 3.48
+     },
+     "odds": {
+      "home": 1.21,
+      "draw": 6.67,
+      "away": 11.96
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.31,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-08-30",
+     "home": "Rennes",
+     "away": "Le Mans",
+     "retro": true,
+     "model": {
+      "home": 0.398,
+      "draw": 0.308,
+      "away": 0.295
+     },
+     "market": {
+      "home": 0.699,
+      "draw": 0.181,
+      "away": 0.121
+     },
+     "fair": {
+      "home": 2.52,
+      "draw": 3.25,
+      "away": 3.39
+     },
+     "odds": {
+      "home": 1.35,
+      "draw": 5.22,
+      "away": 7.81
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.301,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-11-07",
+     "home": "Valencia",
+     "away": "Real Madrid",
+     "retro": false,
+     "model": {
+      "home": 0.264,
+      "draw": 0.253,
+      "away": 0.484
+     },
+     "market": {
+      "home": 0.087,
+      "draw": 0.145,
+      "away": 0.767
+     },
+     "fair": {
+      "home": 3.79,
+      "draw": 3.96,
+      "away": 2.07
+     },
+     "odds": {
+      "home": 10.84,
+      "draw": 6.49,
+      "away": 1.23
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.284,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-08-22",
+     "home": "Hull City",
+     "away": "Manchester Utd",
+     "retro": true,
+     "model": {
+      "home": 0.304,
+      "draw": 0.262,
+      "away": 0.433
+     },
+     "market": {
+      "home": 0.111,
+      "draw": 0.185,
+      "away": 0.704
+     },
+     "fair": {
+      "home": 3.28,
+      "draw": 3.81,
+      "away": 2.31
+     },
+     "odds": {
+      "home": 8.49,
+      "draw": 5.11,
+      "away": 1.34
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.271,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-16",
+     "home": "Atlético Madrid",
+     "away": "Osasuna",
+     "retro": false,
+     "model": {
+      "home": 0.46,
+      "draw": 0.287,
+      "away": 0.253
+     },
+     "market": {
+      "home": 0.728,
+      "draw": 0.175,
+      "away": 0.097
+     },
+     "fair": {
+      "home": 2.17,
+      "draw": 3.48,
+      "away": 3.96
+     },
+     "odds": {
+      "home": 1.3,
+      "draw": 5.41,
+      "away": 9.75
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.268,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-19",
+     "home": "Nottingham",
+     "away": "Coventry City",
+     "retro": false,
+     "model": {
+      "home": 0.316,
+      "draw": 0.335,
+      "away": 0.349
+     },
+     "market": {
+      "home": 0.579,
+      "draw": 0.24,
+      "away": 0.181
+     },
+     "fair": {
+      "home": 3.16,
+      "draw": 2.98,
+      "away": 2.87
+     },
+     "odds": {
+      "home": 1.63,
+      "draw": 3.93,
+      "away": 5.21
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.263,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-05",
+     "home": "Nice",
+     "away": "Le Mans",
+     "retro": true,
+     "model": {
+      "home": 0.319,
+      "draw": 0.329,
+      "away": 0.352
+     },
+     "market": {
+      "home": 0.571,
+      "draw": 0.237,
+      "away": 0.192
+     },
+     "fair": {
+      "home": 3.13,
+      "draw": 3.04,
+      "away": 2.84
+     },
+     "odds": {
+      "home": 1.65,
+      "draw": 3.98,
+      "away": 4.91
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.252,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-11-01",
+     "home": "Racing Sant",
+     "away": "Real Madrid",
+     "retro": false,
+     "model": {
+      "home": 0.209,
+      "draw": 0.246,
+      "away": 0.544
+     },
+     "market": {
+      "home": 0.089,
+      "draw": 0.122,
+      "away": 0.789
+     },
+     "fair": {
+      "home": 4.78,
+      "draw": 4.06,
+      "away": 1.84
+     },
+     "odds": {
+      "home": 10.64,
+      "draw": 7.73,
+      "away": 1.2
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.244,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-12",
+     "home": "Dortmund",
+     "away": "Paderborn 07",
+     "retro": false,
+     "model": {
+      "home": 0.511,
+      "draw": 0.261,
+      "away": 0.227
+     },
+     "market": {
+      "home": 0.752,
+      "draw": 0.149,
+      "away": 0.099
+     },
+     "fair": {
+      "home": 1.96,
+      "draw": 3.83,
+      "away": 4.4
+     },
+     "odds": {
+      "home": 1.25,
+      "draw": 6.33,
+      "away": 9.46
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.241,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-30",
+     "home": "Real Madrid",
+     "away": "Málaga",
+     "retro": true,
+     "model": {
+      "home": 0.637,
+      "draw": 0.226,
+      "away": 0.136
+     },
+     "market": {
+      "home": 0.868,
+      "draw": 0.088,
+      "away": 0.043
+     },
+     "fair": {
+      "home": 1.57,
+      "draw": 4.42,
+      "away": 7.33
+     },
+     "odds": {
+      "home": 1.09,
+      "draw": 10.72,
+      "away": 21.88
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.231,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-04",
+     "home": "Real Betis",
+     "away": "Real Madrid",
+     "retro": true,
+     "model": {
+      "home": 0.29,
+      "draw": 0.287,
+      "away": 0.424
+     },
+     "market": {
+      "home": 0.16,
+      "draw": 0.188,
+      "away": 0.652
+     },
+     "fair": {
+      "home": 3.45,
+      "draw": 3.49,
+      "away": 2.36
+     },
+     "odds": {
+      "home": 5.87,
+      "draw": 5.0,
+      "away": 1.44
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.229,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-08-29",
+     "home": "Fiorentina",
+     "away": "Frosinone",
+     "retro": true,
+     "model": {
+      "home": 0.318,
+      "draw": 0.349,
+      "away": 0.333
+     },
+     "market": {
+      "home": 0.545,
+      "draw": 0.241,
+      "away": 0.214
+     },
+     "fair": {
+      "home": 3.15,
+      "draw": 2.87,
+      "away": 3.0
+     },
+     "odds": {
+      "home": 1.72,
+      "draw": 3.89,
+      "away": 4.38
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.227,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-04",
+     "home": "Ipswich Town",
+     "away": "Liverpool",
+     "retro": true,
+     "model": {
+      "home": 0.332,
+      "draw": 0.308,
+      "away": 0.36
+     },
+     "market": {
+      "home": 0.195,
+      "draw": 0.219,
+      "away": 0.586
+     },
+     "fair": {
+      "home": 3.01,
+      "draw": 3.25,
+      "away": 2.78
+     },
+     "odds": {
+      "home": 4.86,
+      "draw": 4.34,
+      "away": 1.62
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.226,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-05",
+     "home": "Manchester City",
+     "away": "Coventry City",
+     "retro": true,
+     "model": {
+      "home": 0.576,
+      "draw": 0.251,
+      "away": 0.173
+     },
+     "market": {
+      "home": 0.795,
+      "draw": 0.132,
+      "away": 0.073
+     },
+     "fair": {
+      "home": 1.74,
+      "draw": 3.98,
+      "away": 5.78
+     },
+     "odds": {
+      "home": 1.19,
+      "draw": 7.18,
+      "away": 12.96
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.219,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-11-07",
+     "home": "Auxerre",
+     "away": "Paris FC",
+     "retro": false,
+     "model": {
+      "home": 0.315,
+      "draw": 0.313,
+      "away": 0.372
+     },
+     "market": {
+      "home": 0.18,
+      "draw": 0.23,
+      "away": 0.591
+     },
+     "fair": {
+      "home": 3.17,
+      "draw": 3.2,
+      "away": 2.69
+     },
+     "odds": {
+      "home": 5.23,
+      "draw": 4.09,
+      "away": 1.59
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.219,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-18",
+     "home": "Monaco",
+     "away": "Lens",
+     "retro": false,
+     "model": {
+      "home": 0.307,
+      "draw": 0.259,
+      "away": 0.434
+     },
+     "market": {
+      "home": 0.521,
+      "draw": 0.24,
+      "away": 0.239
+     },
+     "fair": {
+      "home": 3.26,
+      "draw": 3.86,
+      "away": 2.3
+     },
+     "odds": {
+      "home": 1.81,
+      "draw": 3.92,
+      "away": 3.95
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.214,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-19",
+     "home": "Everton",
+     "away": "Ipswich Town",
+     "retro": false,
+     "model": {
+      "home": 0.33,
+      "draw": 0.316,
+      "away": 0.354
+     },
+     "market": {
+      "home": 0.542,
+      "draw": 0.245,
+      "away": 0.213
+     },
+     "fair": {
+      "home": 3.03,
+      "draw": 3.16,
+      "away": 2.83
+     },
+     "odds": {
+      "home": 1.74,
+      "draw": 3.85,
+      "away": 4.43
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.212,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-16",
+     "home": "Dep. A Coruña",
+     "away": "Sevilla",
+     "retro": false,
+     "model": {
+      "home": 0.56,
+      "draw": 0.256,
+      "away": 0.184
+     },
+     "market": {
+      "home": 0.348,
+      "draw": 0.306,
+      "away": 0.346
+     },
+     "fair": {
+      "home": 1.79,
+      "draw": 3.91,
+      "away": 5.43
+     },
+     "odds": {
+      "home": 2.71,
+      "draw": 3.09,
+      "away": 2.73
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.211,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-20",
+     "home": "Marseille",
+     "away": "PSG",
+     "retro": false,
+     "model": {
+      "home": 0.272,
+      "draw": 0.269,
+      "away": 0.46
+     },
+     "market": {
+      "home": 0.144,
+      "draw": 0.185,
+      "away": 0.671
+     },
+     "fair": {
+      "home": 3.68,
+      "draw": 3.72,
+      "away": 2.17
+     },
+     "odds": {
+      "home": 6.54,
+      "draw": 5.08,
+      "away": 1.4
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.211,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-08-29",
+     "home": "Mainz 05",
+     "away": "Paderborn 07",
+     "retro": true,
+     "model": {
+      "home": 0.413,
+      "draw": 0.256,
+      "away": 0.33
+     },
+     "market": {
+      "home": 0.624,
+      "draw": 0.21,
+      "away": 0.167
+     },
+     "fair": {
+      "home": 2.42,
+      "draw": 3.9,
+      "away": 3.03
+     },
+     "odds": {
+      "home": 1.51,
+      "draw": 4.49,
+      "away": 5.65
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.21,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-08-22",
+     "home": "Troyes",
+     "away": "Paris FC",
+     "retro": true,
+     "model": {
+      "home": 0.491,
+      "draw": 0.245,
+      "away": 0.264
+     },
+     "market": {
+      "home": 0.286,
+      "draw": 0.268,
+      "away": 0.447
+     },
+     "fair": {
+      "home": 2.04,
+      "draw": 4.08,
+      "away": 3.78
+     },
+     "odds": {
+      "home": 3.3,
+      "draw": 3.52,
+      "away": 2.11
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.205,
+     "result": "draw",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-11",
+     "home": "Sevilla",
+     "away": "Valencia",
+     "retro": false,
+     "model": {
+      "home": 0.333,
+      "draw": 0.305,
+      "away": 0.362
+     },
+     "market": {
+      "home": 0.536,
+      "draw": 0.267,
+      "away": 0.197
+     },
+     "fair": {
+      "home": 3.01,
+      "draw": 3.27,
+      "away": 2.76
+     },
+     "odds": {
+      "home": 1.76,
+      "draw": 3.53,
+      "away": 4.79
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.203,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-05",
+     "home": "Gladbach",
+     "away": "Elversberg",
+     "retro": true,
+     "model": {
+      "home": 0.296,
+      "draw": 0.31,
+      "away": 0.393
+     },
+     "market": {
+      "home": 0.497,
+      "draw": 0.239,
+      "away": 0.263
+     },
+     "fair": {
+      "home": 3.38,
+      "draw": 3.22,
+      "away": 2.54
+     },
+     "odds": {
+      "home": 1.89,
+      "draw": 3.93,
+      "away": 3.57
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.201,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-31",
+     "home": "Levante",
+     "away": "Atlético Madrid",
+     "retro": false,
+     "model": {
+      "home": 0.291,
+      "draw": 0.261,
+      "away": 0.448
+     },
+     "market": {
+      "home": 0.155,
+      "draw": 0.198,
+      "away": 0.647
+     },
+     "fair": {
+      "home": 3.44,
+      "draw": 3.83,
+      "away": 2.23
+     },
+     "odds": {
+      "home": 6.09,
+      "draw": 4.76,
+      "away": 1.46
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.199,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-13",
+     "home": "Celta Vigo",
+     "away": "Málaga",
+     "retro": false,
+     "model": {
+      "home": 0.364,
+      "draw": 0.336,
+      "away": 0.3
+     },
+     "market": {
+      "home": 0.561,
+      "draw": 0.258,
+      "away": 0.18
+     },
+     "fair": {
+      "home": 2.75,
+      "draw": 2.98,
+      "away": 3.33
+     },
+     "odds": {
+      "home": 1.68,
+      "draw": 3.65,
+      "away": 5.23
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.198,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-05",
+     "home": "Hull City",
+     "away": "Aston Villa",
+     "retro": true,
+     "model": {
+      "home": 0.432,
+      "draw": 0.267,
+      "away": 0.3
+     },
+     "market": {
+      "home": 0.24,
+      "draw": 0.262,
+      "away": 0.498
+     },
+     "fair": {
+      "home": 2.31,
+      "draw": 3.74,
+      "away": 3.33
+     },
+     "odds": {
+      "home": 3.92,
+      "draw": 3.59,
+      "away": 1.89
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.198,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-13",
+     "home": "Brest",
+     "away": "PSG",
+     "retro": false,
+     "model": {
+      "home": 0.185,
+      "draw": 0.238,
+      "away": 0.578
+     },
+     "market": {
+      "home": 0.088,
+      "draw": 0.138,
+      "away": 0.774
+     },
+     "fair": {
+      "home": 5.42,
+      "draw": 4.2,
+      "away": 1.73
+     },
+     "odds": {
+      "home": 10.7,
+      "draw": 6.86,
+      "away": 1.22
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.197,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-18",
+     "home": "Bayern Munich",
+     "away": "Union Berlin",
+     "retro": false,
+     "model": {
+      "home": 0.728,
+      "draw": 0.179,
+      "away": 0.093
+     },
+     "market": {
+      "home": 0.924,
+      "draw": 0.053,
+      "away": 0.024
+     },
+     "fair": {
+      "home": 1.37,
+      "draw": 5.58,
+      "away": 10.78
+     },
+     "odds": {
+      "home": 1.03,
+      "draw": 18.0,
+      "away": 40.23
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.195,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-19",
+     "home": "Newcastle",
+     "away": "Hull City",
+     "retro": false,
+     "model": {
+      "home": 0.398,
+      "draw": 0.262,
+      "away": 0.341
+     },
+     "market": {
+      "home": 0.593,
+      "draw": 0.22,
+      "away": 0.187
+     },
+     "fair": {
+      "home": 2.51,
+      "draw": 3.82,
+      "away": 2.94
+     },
+     "odds": {
+      "home": 1.59,
+      "draw": 4.29,
+      "away": 5.05
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.195,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-11-08",
+     "home": "Angers",
+     "away": "Nice",
+     "retro": false,
+     "model": {
+      "home": 0.347,
+      "draw": 0.333,
+      "away": 0.32
+     },
+     "market": {
+      "home": 0.24,
+      "draw": 0.252,
+      "away": 0.509
+     },
+     "fair": {
+      "home": 2.88,
+      "draw": 3.0,
+      "away": 3.13
+     },
+     "odds": {
+      "home": 3.93,
+      "draw": 3.74,
+      "away": 1.85
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.189,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-10",
+     "home": "Alavés",
+     "away": "Atlético Madrid",
+     "retro": false,
+     "model": {
+      "home": 0.363,
+      "draw": 0.303,
+      "away": 0.334
+     },
+     "market": {
+      "home": 0.215,
+      "draw": 0.262,
+      "away": 0.523
+     },
+     "fair": {
+      "home": 2.75,
+      "draw": 3.3,
+      "away": 2.99
+     },
+     "odds": {
+      "home": 4.37,
+      "draw": 3.6,
+      "away": 1.8
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.189,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-11-08",
+     "home": "Crystal Palace",
+     "away": "Liverpool",
+     "retro": false,
+     "model": {
+      "home": 0.292,
+      "draw": 0.278,
+      "away": 0.43
+     },
+     "market": {
+      "home": 0.173,
+      "draw": 0.208,
+      "away": 0.619
+     },
+     "fair": {
+      "home": 3.42,
+      "draw": 3.6,
+      "away": 2.32
+     },
+     "odds": {
+      "home": 5.43,
+      "draw": 4.52,
+      "away": 1.52
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.188,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-19",
+     "home": "Angers",
+     "away": "Troyes",
+     "retro": false,
+     "model": {
+      "home": 0.275,
+      "draw": 0.319,
+      "away": 0.406
+     },
+     "market": {
+      "home": 0.462,
+      "draw": 0.271,
+      "away": 0.267
+     },
+     "fair": {
+      "home": 3.64,
+      "draw": 3.14,
+      "away": 2.46
+     },
+     "odds": {
+      "home": 2.04,
+      "draw": 3.47,
+      "away": 3.53
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.187,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-08-30",
+     "home": "Manchester Utd",
+     "away": "Ipswich Town",
+     "retro": true,
+     "model": {
+      "home": 0.516,
+      "draw": 0.266,
+      "away": 0.219
+     },
+     "market": {
+      "home": 0.703,
+      "draw": 0.175,
+      "away": 0.123
+     },
+     "fair": {
+      "home": 1.94,
+      "draw": 3.77,
+      "away": 4.57
+     },
+     "odds": {
+      "home": 1.34,
+      "draw": 5.39,
+      "away": 7.68
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.187,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-04",
+     "home": "Stuttgart",
+     "away": "Köln",
+     "retro": true,
+     "model": {
+      "home": 0.47,
+      "draw": 0.283,
+      "away": 0.247
+     },
+     "market": {
+      "home": 0.656,
+      "draw": 0.185,
+      "away": 0.159
+     },
+     "fair": {
+      "home": 2.13,
+      "draw": 3.53,
+      "away": 4.05
+     },
+     "odds": {
+      "home": 1.44,
+      "draw": 5.09,
+      "away": 5.94
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.186,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-13",
+     "home": "Levante",
+     "away": "Barcelona",
+     "retro": false,
+     "model": {
+      "home": 0.19,
+      "draw": 0.194,
+      "away": 0.617
+     },
+     "market": {
+      "home": 0.079,
+      "draw": 0.119,
+      "away": 0.802
+     },
+     "fair": {
+      "home": 5.27,
+      "draw": 5.16,
+      "away": 1.62
+     },
+     "odds": {
+      "home": 12.0,
+      "draw": 7.97,
+      "away": 1.18
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.186,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-06",
+     "home": "Valencia",
+     "away": "Barcelona",
+     "retro": true,
+     "model": {
+      "home": 0.216,
+      "draw": 0.207,
+      "away": 0.577
+     },
+     "market": {
+      "home": 0.09,
+      "draw": 0.148,
+      "away": 0.762
+     },
+     "fair": {
+      "home": 4.63,
+      "draw": 4.82,
+      "away": 1.73
+     },
+     "odds": {
+      "home": 10.48,
+      "draw": 6.39,
+      "away": 1.24
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.185,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-24",
+     "home": "Atlético Madrid",
+     "away": "Dep. A Coruña",
+     "retro": false,
+     "model": {
+      "home": 0.574,
+      "draw": 0.241,
+      "away": 0.185
+     },
+     "market": {
+      "home": 0.758,
+      "draw": 0.152,
+      "away": 0.089
+     },
+     "fair": {
+      "home": 1.74,
+      "draw": 4.14,
+      "away": 5.4
+     },
+     "odds": {
+      "home": 1.24,
+      "draw": 6.18,
+      "away": 10.52
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.185,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-09",
+     "home": "Lens",
+     "away": "Lyon",
+     "retro": false,
+     "model": {
+      "home": 0.552,
+      "draw": 0.229,
+      "away": 0.219
+     },
+     "market": {
+      "home": 0.373,
+      "draw": 0.259,
+      "away": 0.367
+     },
+     "fair": {
+      "home": 1.81,
+      "draw": 4.37,
+      "away": 4.56
+     },
+     "odds": {
+      "home": 2.52,
+      "draw": 3.63,
+      "away": 2.56
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.179,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-19",
+     "home": "Tottenham",
+     "away": "Aston Villa",
+     "retro": false,
+     "model": {
+      "home": 0.323,
+      "draw": 0.335,
+      "away": 0.342
+     },
+     "market": {
+      "home": 0.501,
+      "draw": 0.251,
+      "away": 0.248
+     },
+     "fair": {
+      "home": 3.1,
+      "draw": 2.98,
+      "away": 2.92
+     },
+     "odds": {
+      "home": 1.89,
+      "draw": 3.77,
+      "away": 3.81
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.178,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-05",
+     "home": "Schalke 04",
+     "away": "Bayern Munich",
+     "retro": true,
+     "model": {
+      "home": 0.165,
+      "draw": 0.218,
+      "away": 0.616
+     },
+     "market": {
+      "home": 0.082,
+      "draw": 0.128,
+      "away": 0.791
+     },
+     "fair": {
+      "home": 6.05,
+      "draw": 4.58,
+      "away": 1.62
+     },
+     "odds": {
+      "home": 11.53,
+      "draw": 7.37,
+      "away": 1.19
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.174,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-08-28",
+     "home": "Bayern Munich",
+     "away": "Stuttgart",
+     "retro": true,
+     "model": {
+      "home": 0.603,
+      "draw": 0.215,
+      "away": 0.182
+     },
+     "market": {
+      "home": 0.777,
+      "draw": 0.128,
+      "away": 0.095
+     },
+     "fair": {
+      "home": 1.66,
+      "draw": 4.66,
+      "away": 5.49
+     },
+     "odds": {
+      "home": 1.21,
+      "draw": 7.37,
+      "away": 9.88
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.174,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-11-08",
+     "home": "Köln",
+     "away": "Leverkusen",
+     "retro": false,
+     "model": {
+      "home": 0.285,
+      "draw": 0.308,
+      "away": 0.407
+     },
+     "market": {
+      "home": 0.198,
+      "draw": 0.222,
+      "away": 0.58
+     },
+     "fair": {
+      "home": 3.51,
+      "draw": 3.25,
+      "away": 2.46
+     },
+     "odds": {
+      "home": 4.78,
+      "draw": 4.25,
+      "away": 1.63
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.173,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-25",
+     "home": "Hull City",
+     "away": "Brentford",
+     "retro": false,
+     "model": {
+      "home": 0.27,
+      "draw": 0.329,
+      "away": 0.401
+     },
+     "market": {
+      "home": 0.193,
+      "draw": 0.233,
+      "away": 0.573
+     },
+     "fair": {
+      "home": 3.71,
+      "draw": 3.04,
+      "away": 2.49
+     },
+     "odds": {
+      "home": 4.86,
+      "draw": 4.03,
+      "away": 1.64
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.172,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-09-19",
+     "home": "Venezia",
+     "away": "Lazio",
+     "retro": false,
+     "model": {
+      "home": 0.419,
+      "draw": 0.271,
+      "away": 0.31
+     },
+     "market": {
+      "home": 0.253,
+      "draw": 0.266,
+      "away": 0.481
+     },
+     "fair": {
+      "home": 2.38,
+      "draw": 3.7,
+      "away": 3.23
+     },
+     "odds": {
+      "home": 3.72,
+      "draw": 3.55,
+      "away": 1.96
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.171,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-20",
+     "home": "Schalke 04",
+     "away": "Elversberg",
+     "retro": false,
+     "model": {
+      "home": 0.334,
+      "draw": 0.335,
+      "away": 0.331
+     },
+     "market": {
+      "home": 0.505,
+      "draw": 0.24,
+      "away": 0.255
+     },
+     "fair": {
+      "home": 2.99,
+      "draw": 2.98,
+      "away": 3.02
+     },
+     "odds": {
+      "home": 1.86,
+      "draw": 3.92,
+      "away": 3.68
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.171,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-13",
+     "home": "Elversberg",
+     "away": "Bayern Munich",
+     "retro": false,
+     "model": {
+      "home": 0.168,
+      "draw": 0.194,
+      "away": 0.638
+     },
+     "market": {
+      "home": 0.08,
+      "draw": 0.113,
+      "away": 0.806
+     },
+     "fair": {
+      "home": 5.97,
+      "draw": 5.14,
+      "away": 1.57
+     },
+     "odds": {
+      "home": 11.75,
+      "draw": 8.33,
+      "away": 1.17
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.168,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-10-10",
+     "home": "Augsburg",
+     "away": "Bayern Munich",
+     "retro": false,
+     "model": {
+      "home": 0.149,
+      "draw": 0.193,
+      "away": 0.658
+     },
+     "market": {
+      "home": 0.071,
+      "draw": 0.104,
+      "away": 0.826
+     },
+     "fair": {
+      "home": 6.7,
+      "draw": 5.18,
+      "away": 1.52
+     },
+     "odds": {
+      "home": 13.3,
+      "draw": 9.08,
+      "away": 1.14
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.168,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-05",
+     "home": "Paderborn 07",
+     "away": "Freiburg",
+     "retro": true,
+     "model": {
+      "home": 0.388,
+      "draw": 0.289,
+      "away": 0.323
+     },
+     "market": {
+      "home": 0.263,
+      "draw": 0.247,
+      "away": 0.49
+     },
+     "fair": {
+      "home": 2.58,
+      "draw": 3.47,
+      "away": 3.09
+     },
+     "odds": {
+      "home": 3.58,
+      "draw": 3.8,
+      "away": 1.92
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.167,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-13",
+     "home": "Coventry City",
+     "away": "Brighton",
+     "retro": false,
+     "model": {
+      "home": 0.35,
+      "draw": 0.32,
+      "away": 0.33
+     },
+     "market": {
+      "home": 0.255,
+      "draw": 0.25,
+      "away": 0.495
+     },
+     "fair": {
+      "home": 2.85,
+      "draw": 3.12,
+      "away": 3.03
+     },
+     "odds": {
+      "home": 3.71,
+      "draw": 3.78,
+      "away": 1.91
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.165,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-11",
+     "home": "Rennes",
+     "away": "Marseille",
+     "retro": false,
+     "model": {
+      "home": 0.317,
+      "draw": 0.299,
+      "away": 0.384
+     },
+     "market": {
+      "home": 0.477,
+      "draw": 0.244,
+      "away": 0.278
+     },
+     "fair": {
+      "home": 3.16,
+      "draw": 3.34,
+      "away": 2.6
+     },
+     "odds": {
+      "home": 1.97,
+      "draw": 3.85,
+      "away": 3.38
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.161,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-08-28",
+     "home": "Milan",
+     "away": "Venezia",
+     "retro": true,
+     "model": {
+      "home": 0.478,
+      "draw": 0.286,
+      "away": 0.236
+     },
+     "market": {
+      "home": 0.639,
+      "draw": 0.213,
+      "away": 0.149
+     },
+     "fair": {
+      "home": 2.09,
+      "draw": 3.49,
+      "away": 4.24
+     },
+     "odds": {
+      "home": 1.48,
+      "draw": 4.44,
+      "away": 6.36
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.161,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-08-22",
+     "home": "Ipswich Town",
+     "away": "Sunderland",
+     "retro": true,
+     "model": {
+      "home": 0.493,
+      "draw": 0.273,
+      "away": 0.234
+     },
+     "market": {
+      "home": 0.333,
+      "draw": 0.293,
+      "away": 0.374
+     },
+     "fair": {
+      "home": 2.03,
+      "draw": 3.66,
+      "away": 4.27
+     },
+     "odds": {
+      "home": 2.83,
+      "draw": 3.22,
+      "away": 2.52
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.16,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-12",
+     "home": "Levante",
+     "away": "Sevilla",
+     "retro": false,
+     "model": {
+      "home": 0.482,
+      "draw": 0.266,
+      "away": 0.252
+     },
+     "market": {
+      "home": 0.323,
+      "draw": 0.29,
+      "away": 0.387
+     },
+     "fair": {
+      "home": 2.07,
+      "draw": 3.76,
+      "away": 3.97
+     },
+     "odds": {
+      "home": 2.91,
+      "draw": 3.24,
+      "away": 2.43
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.159,
+     "result": "draw",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-17",
+     "home": "Real Betis",
+     "away": "Barcelona",
+     "retro": false,
+     "model": {
+      "home": 0.248,
+      "draw": 0.239,
+      "away": 0.512
+     },
+     "market": {
+      "home": 0.156,
+      "draw": 0.173,
+      "away": 0.671
+     },
+     "fair": {
+      "home": 4.03,
+      "draw": 4.18,
+      "away": 1.95
+     },
+     "odds": {
+      "home": 6.04,
+      "draw": 5.43,
+      "away": 1.4
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.159,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-11-08",
+     "home": "Le Mans",
+     "away": "Monaco",
+     "retro": false,
+     "model": {
+      "home": 0.292,
+      "draw": 0.284,
+      "away": 0.425
+     },
+     "market": {
+      "home": 0.179,
+      "draw": 0.238,
+      "away": 0.584
+     },
+     "fair": {
+      "home": 3.43,
+      "draw": 3.53,
+      "away": 2.35
+     },
+     "odds": {
+      "home": 5.26,
+      "draw": 3.95,
+      "away": 1.61
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.159,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-22",
+     "home": "Espanyol",
+     "away": "Real Madrid",
+     "retro": true,
+     "model": {
+      "home": 0.212,
+      "draw": 0.268,
+      "away": 0.52
+     },
+     "market": {
+      "home": 0.128,
+      "draw": 0.193,
+      "away": 0.678
+     },
+     "fair": {
+      "home": 4.72,
+      "draw": 3.73,
+      "away": 1.92
+     },
+     "odds": {
+      "home": 7.35,
+      "draw": 4.88,
+      "away": 1.39
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.158,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-30",
+     "home": "Le Havre",
+     "away": "PSG",
+     "retro": false,
+     "model": {
+      "home": 0.186,
+      "draw": 0.232,
+      "away": 0.581
+     },
+     "market": {
+      "home": 0.107,
+      "draw": 0.154,
+      "away": 0.739
+     },
+     "fair": {
+      "home": 5.36,
+      "draw": 4.31,
+      "away": 1.72
+     },
+     "odds": {
+      "home": 8.82,
+      "draw": 6.13,
+      "away": 1.28
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.157,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-11-07",
+     "home": "Osasuna",
+     "away": "Athletic Club",
+     "retro": false,
+     "model": {
+      "home": 0.38,
+      "draw": 0.303,
+      "away": 0.317
+     },
+     "market": {
+      "home": 0.244,
+      "draw": 0.282,
+      "away": 0.474
+     },
+     "fair": {
+      "home": 2.64,
+      "draw": 3.3,
+      "away": 3.15
+     },
+     "odds": {
+      "home": 3.86,
+      "draw": 3.34,
+      "away": 1.99
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.157,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-25",
+     "home": "Real Sociedad",
+     "away": "Levante",
+     "retro": false,
+     "model": {
+      "home": 0.465,
+      "draw": 0.271,
+      "away": 0.264
+     },
+     "market": {
+      "home": 0.622,
+      "draw": 0.199,
+      "away": 0.18
+     },
+     "fair": {
+      "home": 2.15,
+      "draw": 3.69,
+      "away": 3.79
+     },
+     "odds": {
+      "home": 1.52,
+      "draw": 4.75,
+      "away": 5.26
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.156,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-10",
+     "home": "Real Madrid",
+     "away": "Villarreal",
+     "retro": false,
+     "model": {
+      "home": 0.559,
+      "draw": 0.236,
+      "away": 0.205
+     },
+     "market": {
+      "home": 0.713,
+      "draw": 0.162,
+      "away": 0.124
+     },
+     "fair": {
+      "home": 1.79,
+      "draw": 4.24,
+      "away": 4.87
+     },
+     "odds": {
+      "home": 1.32,
+      "draw": 5.81,
+      "away": 7.57
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.155,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-11-07",
+     "home": "Mainz 05",
+     "away": "Bayern Munich",
+     "retro": false,
+     "model": {
+      "home": 0.206,
+      "draw": 0.197,
+      "away": 0.597
+     },
+     "market": {
+      "home": 0.108,
+      "draw": 0.143,
+      "away": 0.749
+     },
+     "fair": {
+      "home": 4.86,
+      "draw": 5.07,
+      "away": 1.67
+     },
+     "odds": {
+      "home": 8.77,
+      "draw": 6.61,
+      "away": 1.26
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.152,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-05",
+     "home": "Leverkusen",
+     "away": "Union Berlin",
+     "retro": true,
+     "model": {
+      "home": 0.548,
+      "draw": 0.262,
+      "away": 0.191
+     },
+     "market": {
+      "home": 0.7,
+      "draw": 0.173,
+      "away": 0.127
+     },
+     "fair": {
+      "home": 1.83,
+      "draw": 3.82,
+      "away": 5.25
+     },
+     "odds": {
+      "home": 1.34,
+      "draw": 5.43,
+      "away": 7.38
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.152,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-17",
+     "home": "Espanyol",
+     "away": "Atlético Madrid",
+     "retro": false,
+     "model": {
+      "home": 0.306,
+      "draw": 0.276,
+      "away": 0.417
+     },
+     "market": {
+      "home": 0.192,
+      "draw": 0.239,
+      "away": 0.569
+     },
+     "fair": {
+      "home": 3.27,
+      "draw": 3.62,
+      "away": 2.4
+     },
+     "odds": {
+      "home": 4.91,
+      "draw": 3.96,
+      "away": 1.66
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.152,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-31",
+     "home": "Tottenham",
+     "away": "Crystal Palace",
+     "retro": false,
+     "model": {
+      "home": 0.427,
+      "draw": 0.276,
+      "away": 0.297
+     },
+     "market": {
+      "home": 0.579,
+      "draw": 0.229,
+      "away": 0.192
+     },
+     "fair": {
+      "home": 2.34,
+      "draw": 3.63,
+      "away": 3.37
+     },
+     "odds": {
+      "home": 1.63,
+      "draw": 4.13,
+      "away": 4.91
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.152,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-06",
+     "home": "Frankfurt",
+     "away": "Augsburg",
+     "retro": true,
+     "model": {
+      "home": 0.363,
+      "draw": 0.327,
+      "away": 0.31
+     },
+     "market": {
+      "home": 0.515,
+      "draw": 0.23,
+      "away": 0.255
+     },
+     "fair": {
+      "home": 2.76,
+      "draw": 3.06,
+      "away": 3.23
+     },
+     "odds": {
+      "home": 1.83,
+      "draw": 4.09,
+      "away": 3.69
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.152,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-08-28",
+     "home": "Lille",
+     "away": "PSG",
+     "retro": true,
+     "model": {
+      "home": 0.294,
+      "draw": 0.312,
+      "away": 0.394
+     },
+     "market": {
+      "home": 0.211,
+      "draw": 0.245,
+      "away": 0.544
+     },
+     "fair": {
+      "home": 3.4,
+      "draw": 3.2,
+      "away": 2.54
+     },
+     "odds": {
+      "home": 4.46,
+      "draw": 3.85,
+      "away": 1.73
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.15,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-19",
+     "home": "Athletic Club",
+     "away": "Alavés",
+     "retro": false,
+     "model": {
+      "home": 0.44,
+      "draw": 0.283,
+      "away": 0.277
+     },
+     "market": {
+      "home": 0.59,
+      "draw": 0.248,
+      "away": 0.162
+     },
+     "fair": {
+      "home": 2.27,
+      "draw": 3.53,
+      "away": 3.62
+     },
+     "odds": {
+      "home": 1.6,
+      "draw": 3.8,
+      "away": 5.82
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.149,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-06",
+     "home": "Angers",
+     "away": "Rennes",
+     "retro": true,
+     "model": {
+      "home": 0.279,
+      "draw": 0.317,
+      "away": 0.404
+     },
+     "market": {
+      "home": 0.213,
+      "draw": 0.235,
+      "away": 0.552
+     },
+     "fair": {
+      "home": 3.59,
+      "draw": 3.16,
+      "away": 2.47
+     },
+     "odds": {
+      "home": 4.41,
+      "draw": 4.0,
+      "away": 1.7
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.148,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-19",
+     "home": "Celta Vigo",
+     "away": "Racing Sant",
+     "retro": false,
+     "model": {
+      "home": 0.377,
+      "draw": 0.311,
+      "away": 0.312
+     },
+     "market": {
+      "home": 0.525,
+      "draw": 0.25,
+      "away": 0.224
+     },
+     "fair": {
+      "home": 2.65,
+      "draw": 3.22,
+      "away": 3.21
+     },
+     "odds": {
+      "home": 1.79,
+      "draw": 3.76,
+      "away": 4.19
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.148,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-10",
+     "home": "Monaco",
+     "away": "Toulouse",
+     "retro": false,
+     "model": {
+      "home": 0.436,
+      "draw": 0.267,
+      "away": 0.298
+     },
+     "market": {
+      "home": 0.582,
+      "draw": 0.226,
+      "away": 0.192
+     },
+     "fair": {
+      "home": 2.29,
+      "draw": 3.75,
+      "away": 3.36
+     },
+     "odds": {
+      "home": 1.62,
+      "draw": 4.17,
+      "away": 4.92
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.146,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-10",
+     "home": "Chelsea",
+     "away": "Bournemouth",
+     "retro": false,
+     "model": {
+      "home": 0.376,
+      "draw": 0.31,
+      "away": 0.313
+     },
+     "market": {
+      "home": 0.523,
+      "draw": 0.239,
+      "away": 0.238
+     },
+     "fair": {
+      "home": 2.66,
+      "draw": 3.22,
+      "away": 3.19
+     },
+     "odds": {
+      "home": 1.8,
+      "draw": 3.93,
+      "away": 3.95
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.146,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-11-08",
+     "home": "Elche",
+     "away": "Real Betis",
+     "retro": false,
+     "model": {
+      "home": 0.31,
+      "draw": 0.306,
+      "away": 0.384
+     },
+     "market": {
+      "home": 0.238,
+      "draw": 0.232,
+      "away": 0.53
+     },
+     "fair": {
+      "home": 3.22,
+      "draw": 3.27,
+      "away": 2.61
+     },
+     "odds": {
+      "home": 3.96,
+      "draw": 4.06,
+      "away": 1.78
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.146,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-19",
+     "home": "Tottenham",
+     "away": "Coventry City",
+     "retro": false,
+     "model": {
+      "home": 0.47,
+      "draw": 0.296,
+      "away": 0.234
+     },
+     "market": {
+      "home": 0.616,
+      "draw": 0.211,
+      "away": 0.173
+     },
+     "fair": {
+      "home": 2.13,
+      "draw": 3.38,
+      "away": 4.27
+     },
+     "odds": {
+      "home": 1.53,
+      "draw": 4.47,
+      "away": 5.43
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.146,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-08-21",
+     "home": "Arsenal",
+     "away": "Coventry City",
+     "retro": true,
+     "model": {
+      "home": 0.645,
+      "draw": 0.222,
+      "away": 0.133
+     },
+     "market": {
+      "home": 0.791,
+      "draw": 0.141,
+      "away": 0.068
+     },
+     "fair": {
+      "home": 1.55,
+      "draw": 4.51,
+      "away": 7.52
+     },
+     "odds": {
+      "home": 1.2,
+      "draw": 6.72,
+      "away": 14.0
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.146,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-17",
+     "home": "Dep. A Coruña",
+     "away": "Elche",
+     "retro": true,
+     "model": {
+      "home": 0.577,
+      "draw": 0.228,
+      "away": 0.195
+     },
+     "market": {
+      "home": 0.432,
+      "draw": 0.3,
+      "away": 0.268
+     },
+     "fair": {
+      "home": 1.73,
+      "draw": 4.38,
+      "away": 5.14
+     },
+     "odds": {
+      "home": 2.19,
+      "draw": 3.15,
+      "away": 3.53
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.145,
+     "result": "draw",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-08-22",
+     "home": "Le Mans",
+     "away": "Brest",
+     "retro": true,
+     "model": {
+      "home": 0.519,
+      "draw": 0.244,
+      "away": 0.236
+     },
+     "market": {
+      "home": 0.376,
+      "draw": 0.283,
+      "away": 0.341
+     },
+     "fair": {
+      "home": 1.92,
+      "draw": 4.1,
+      "away": 4.23
+     },
+     "odds": {
+      "home": 2.5,
+      "draw": 3.32,
+      "away": 2.76
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.143,
+     "result": "draw",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-10",
+     "home": "Lorient",
+     "away": "Paris FC",
+     "retro": false,
+     "model": {
+      "home": 0.361,
+      "draw": 0.327,
+      "away": 0.312
+     },
+     "market": {
+      "home": 0.256,
+      "draw": 0.291,
+      "away": 0.453
+     },
+     "fair": {
+      "home": 2.77,
+      "draw": 3.06,
+      "away": 3.21
+     },
+     "odds": {
+      "home": 3.68,
+      "draw": 3.24,
+      "away": 2.08
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.141,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-17",
+     "home": "Málaga",
+     "away": "Villarreal",
+     "retro": false,
+     "model": {
+      "home": 0.347,
+      "draw": 0.337,
+      "away": 0.316
+     },
+     "market": {
+      "home": 0.278,
+      "draw": 0.266,
+      "away": 0.457
+     },
+     "fair": {
+      "home": 2.88,
+      "draw": 2.97,
+      "away": 3.17
+     },
+     "odds": {
+      "home": 3.39,
+      "draw": 3.54,
+      "away": 2.06
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.141,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-05",
+     "home": "Villarreal",
+     "away": "Dep. A Coruña",
+     "retro": true,
+     "model": {
+      "home": 0.516,
+      "draw": 0.265,
+      "away": 0.219
+     },
+     "market": {
+      "home": 0.656,
+      "draw": 0.202,
+      "away": 0.141
+     },
+     "fair": {
+      "home": 1.94,
+      "draw": 3.77,
+      "away": 4.57
+     },
+     "odds": {
+      "home": 1.44,
+      "draw": 4.67,
+      "away": 6.7
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.14,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-15",
+     "home": "Elche",
+     "away": "Real Madrid",
+     "retro": false,
+     "model": {
+      "home": 0.159,
+      "draw": 0.19,
+      "away": 0.651
+     },
+     "market": {
+      "home": 0.078,
+      "draw": 0.13,
+      "away": 0.791
+     },
+     "fair": {
+      "home": 6.29,
+      "draw": 5.27,
+      "away": 1.54
+     },
+     "odds": {
+      "home": 12.02,
+      "draw": 7.22,
+      "away": 1.19
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.14,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-08-29",
+     "home": "Coventry City",
+     "away": "Hull City",
+     "retro": true,
+     "model": {
+      "home": 0.411,
+      "draw": 0.268,
+      "away": 0.321
+     },
+     "market": {
+      "home": 0.551,
+      "draw": 0.248,
+      "away": 0.201
+     },
+     "fair": {
+      "home": 2.43,
+      "draw": 3.73,
+      "away": 3.12
+     },
+     "odds": {
+      "home": 1.72,
+      "draw": 3.82,
+      "away": 4.72
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.14,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-19",
+     "home": "Werder Bremen",
+     "away": "Augsburg",
+     "retro": false,
+     "model": {
+      "home": 0.283,
+      "draw": 0.321,
+      "away": 0.397
+     },
+     "market": {
+      "home": 0.422,
+      "draw": 0.251,
+      "away": 0.327
+     },
+     "fair": {
+      "home": 3.54,
+      "draw": 3.12,
+      "away": 2.52
+     },
+     "odds": {
+      "home": 2.23,
+      "draw": 3.75,
+      "away": 2.88
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.139,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-12",
+     "home": "Freiburg",
+     "away": "Gladbach",
+     "retro": false,
+     "model": {
+      "home": 0.421,
+      "draw": 0.311,
+      "away": 0.267
+     },
+     "market": {
+      "home": 0.561,
+      "draw": 0.225,
+      "away": 0.214
+     },
+     "fair": {
+      "home": 2.37,
+      "draw": 3.21,
+      "away": 3.74
+     },
+     "odds": {
+      "home": 1.68,
+      "draw": 4.18,
+      "away": 4.4
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.139,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-11-08",
+     "home": "Freiburg",
+     "away": "Union Berlin",
+     "retro": false,
+     "model": {
+      "home": 0.512,
+      "draw": 0.24,
+      "away": 0.248
+     },
+     "market": {
+      "home": 0.651,
+      "draw": 0.207,
+      "away": 0.142
+     },
+     "fair": {
+      "home": 1.95,
+      "draw": 4.17,
+      "away": 4.03
+     },
+     "odds": {
+      "home": 1.45,
+      "draw": 4.57,
+      "away": 6.65
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.139,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-10-31",
+     "home": "Werder Bremen",
+     "away": "Hoffenheim",
+     "retro": false,
+     "model": {
+      "home": 0.264,
+      "draw": 0.298,
+      "away": 0.438
+     },
+     "market": {
+      "home": 0.402,
+      "draw": 0.245,
+      "away": 0.353
+     },
+     "fair": {
+      "home": 3.79,
+      "draw": 3.35,
+      "away": 2.28
+     },
+     "odds": {
+      "home": 2.35,
+      "draw": 3.85,
+      "away": 2.68
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.138,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-16",
+     "home": "Racing Sant",
+     "away": "Villarreal",
+     "retro": true,
+     "model": {
+      "home": 0.392,
+      "draw": 0.254,
+      "away": 0.354
+     },
+     "market": {
+      "home": 0.256,
+      "draw": 0.251,
+      "away": 0.493
+     },
+     "fair": {
+      "home": 2.55,
+      "draw": 3.94,
+      "away": 2.82
+     },
+     "odds": {
+      "home": 3.69,
+      "draw": 3.77,
+      "away": 1.92
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.138,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-17",
+     "home": "Strasbourg",
+     "away": "PSG",
+     "retro": false,
+     "model": {
+      "home": 0.234,
+      "draw": 0.252,
+      "away": 0.514
+     },
+     "market": {
+      "home": 0.161,
+      "draw": 0.187,
+      "away": 0.652
+     },
+     "fair": {
+      "home": 4.27,
+      "draw": 3.97,
+      "away": 1.95
+     },
+     "odds": {
+      "home": 5.83,
+      "draw": 5.03,
+      "away": 1.44
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.138,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-08-23",
+     "home": "Newcastle",
+     "away": "Liverpool",
+     "retro": true,
+     "model": {
+      "home": 0.32,
+      "draw": 0.325,
+      "away": 0.355
+     },
+     "market": {
+      "home": 0.259,
+      "draw": 0.248,
+      "away": 0.493
+     },
+     "fair": {
+      "home": 3.13,
+      "draw": 3.08,
+      "away": 2.81
+     },
+     "odds": {
+      "home": 3.66,
+      "draw": 3.82,
+      "away": 1.92
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.138,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-16",
+     "home": "Barcelona",
+     "away": "Racing Sant",
+     "retro": false,
+     "model": {
+      "home": 0.761,
+      "draw": 0.139,
+      "away": 0.1
+     },
+     "market": {
+      "home": 0.898,
+      "draw": 0.067,
+      "away": 0.035
+     },
+     "fair": {
+      "home": 1.31,
+      "draw": 7.2,
+      "away": 10.02
+     },
+     "odds": {
+      "home": 1.05,
+      "draw": 14.15,
+      "away": 26.81
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.137,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-08-22",
+     "home": "Inter",
+     "away": "Monza",
+     "retro": true,
+     "model": {
+      "home": 0.687,
+      "draw": 0.189,
+      "away": 0.124
+     },
+     "market": {
+      "home": 0.824,
+      "draw": 0.121,
+      "away": 0.055
+     },
+     "fair": {
+      "home": 1.45,
+      "draw": 5.3,
+      "away": 8.06
+     },
+     "odds": {
+      "home": 1.15,
+      "draw": 7.82,
+      "away": 17.22
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.136,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-12",
+     "home": "Real Madrid",
+     "away": "Rayo Vallecano",
+     "retro": false,
+     "model": {
+      "home": 0.695,
+      "draw": 0.186,
+      "away": 0.12
+     },
+     "market": {
+      "home": 0.83,
+      "draw": 0.11,
+      "away": 0.06
+     },
+     "fair": {
+      "home": 1.44,
+      "draw": 5.39,
+      "away": 8.35
+     },
+     "odds": {
+      "home": 1.14,
+      "draw": 8.6,
+      "away": 15.73
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.135,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-31",
+     "home": "Barcelona",
+     "away": "Rayo Vallecano",
+     "retro": true,
+     "model": {
+      "home": 0.727,
+      "draw": 0.172,
+      "away": 0.101
+     },
+     "market": {
+      "home": 0.862,
+      "draw": 0.091,
+      "away": 0.048
+     },
+     "fair": {
+      "home": 1.38,
+      "draw": 5.8,
+      "away": 9.92
+     },
+     "odds": {
+      "home": 1.1,
+      "draw": 10.44,
+      "away": 19.91
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.135,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-10-11",
+     "home": "Lazio",
+     "away": "Monza",
+     "retro": false,
+     "model": {
+      "home": 0.426,
+      "draw": 0.25,
+      "away": 0.324
+     },
+     "market": {
+      "home": 0.56,
+      "draw": 0.246,
+      "away": 0.194
+     },
+     "fair": {
+      "home": 2.35,
+      "draw": 3.99,
+      "away": 3.09
+     },
+     "odds": {
+      "home": 1.68,
+      "draw": 3.83,
+      "away": 4.86
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.135,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-10",
+     "home": "PSG",
+     "away": "Le Mans",
+     "retro": false,
+     "model": {
+      "home": 0.681,
+      "draw": 0.223,
+      "away": 0.096
+     },
+     "market": {
+      "home": 0.815,
+      "draw": 0.116,
+      "away": 0.069
+     },
+     "fair": {
+      "home": 1.47,
+      "draw": 4.49,
+      "away": 10.44
+     },
+     "odds": {
+      "home": 1.16,
+      "draw": 8.12,
+      "away": 13.78
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.134,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-17",
+     "home": "Fulham",
+     "away": "Hull City",
+     "retro": false,
+     "model": {
+      "home": 0.445,
+      "draw": 0.291,
+      "away": 0.264
+     },
+     "market": {
+      "home": 0.579,
+      "draw": 0.234,
+      "away": 0.187
+     },
+     "fair": {
+      "home": 2.25,
+      "draw": 3.44,
+      "away": 3.79
+     },
+     "odds": {
+      "home": 1.62,
+      "draw": 4.0,
+      "away": 5.01
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.134,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-18",
+     "home": "Lorient",
+     "away": "Monaco",
+     "retro": false,
+     "model": {
+      "home": 0.343,
+      "draw": 0.32,
+      "away": 0.336
+     },
+     "market": {
+      "home": 0.259,
+      "draw": 0.273,
+      "away": 0.468
+     },
+     "fair": {
+      "home": 2.92,
+      "draw": 3.12,
+      "away": 2.98
+     },
+     "odds": {
+      "home": 3.63,
+      "draw": 3.45,
+      "away": 2.01
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.132,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-25",
+     "home": "Monaco",
+     "away": "Lille",
+     "retro": false,
+     "model": {
+      "home": 0.366,
+      "draw": 0.304,
+      "away": 0.329
+     },
+     "market": {
+      "home": 0.497,
+      "draw": 0.265,
+      "away": 0.237
+     },
+     "fair": {
+      "home": 2.73,
+      "draw": 3.29,
+      "away": 3.04
+     },
+     "odds": {
+      "home": 1.89,
+      "draw": 3.54,
+      "away": 3.96
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.131,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-11-08",
+     "home": "Monza",
+     "away": "Atalanta",
+     "retro": false,
+     "model": {
+      "home": 0.327,
+      "draw": 0.306,
+      "away": 0.366
+     },
+     "market": {
+      "home": 0.257,
+      "draw": 0.247,
+      "away": 0.497
+     },
+     "fair": {
+      "home": 3.06,
+      "draw": 3.26,
+      "away": 2.73
+     },
+     "odds": {
+      "home": 3.68,
+      "draw": 3.83,
+      "away": 1.9
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.131,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-11",
+     "home": "Real Betis",
+     "away": "Osasuna",
+     "retro": false,
+     "model": {
+      "home": 0.518,
+      "draw": 0.262,
+      "away": 0.22
+     },
+     "market": {
+      "home": 0.648,
+      "draw": 0.203,
+      "away": 0.148
+     },
+     "fair": {
+      "home": 1.93,
+      "draw": 3.82,
+      "away": 4.54
+     },
+     "odds": {
+      "home": 1.45,
+      "draw": 4.62,
+      "away": 6.33
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.13,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-11-07",
+     "home": "Nottingham",
+     "away": "Manchester City",
+     "retro": false,
+     "model": {
+      "home": 0.273,
+      "draw": 0.275,
+      "away": 0.452
+     },
+     "market": {
+      "home": 0.188,
+      "draw": 0.23,
+      "away": 0.582
+     },
+     "fair": {
+      "home": 3.66,
+      "draw": 3.64,
+      "away": 2.21
+     },
+     "odds": {
+      "home": 5.02,
+      "draw": 4.1,
+      "away": 1.62
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.13,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-09-06",
+     "home": "Parma",
+     "away": "Monza",
+     "retro": true,
+     "model": {
+      "home": 0.241,
+      "draw": 0.292,
+      "away": 0.467
+     },
+     "market": {
+      "home": 0.334,
+      "draw": 0.329,
+      "away": 0.337
+     },
+     "fair": {
+      "home": 4.15,
+      "draw": 3.42,
+      "away": 2.14
+     },
+     "odds": {
+      "home": 2.81,
+      "draw": 2.86,
+      "away": 2.79
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.13,
+     "result": "draw",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-11",
+     "home": "Rennes",
+     "away": "Auxerre",
+     "retro": false,
+     "model": {
+      "home": 0.535,
+      "draw": 0.241,
+      "away": 0.224
+     },
+     "market": {
+      "home": 0.665,
+      "draw": 0.193,
+      "away": 0.142
+     },
+     "fair": {
+      "home": 1.87,
+      "draw": 4.14,
+      "away": 4.47
+     },
+     "odds": {
+      "home": 1.42,
+      "draw": 4.88,
+      "away": 6.65
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.129,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-10-11",
+     "home": "Sassuolo",
+     "away": "Milan",
+     "retro": false,
+     "model": {
+      "home": 0.311,
+      "draw": 0.319,
+      "away": 0.37
+     },
+     "market": {
+      "home": 0.245,
+      "draw": 0.256,
+      "away": 0.499
+     },
+     "fair": {
+      "home": 3.21,
+      "draw": 3.14,
+      "away": 2.7
+     },
+     "odds": {
+      "home": 3.85,
+      "draw": 3.68,
+      "away": 1.89
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.129,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-13",
+     "home": "Real Sociedad",
+     "away": "Atlético Madrid",
+     "retro": false,
+     "model": {
+      "home": 0.368,
+      "draw": 0.309,
+      "away": 0.323
+     },
+     "market": {
+      "home": 0.283,
+      "draw": 0.265,
+      "away": 0.452
+     },
+     "fair": {
+      "home": 2.72,
+      "draw": 3.24,
+      "away": 3.1
+     },
+     "odds": {
+      "home": 3.32,
+      "draw": 3.55,
+      "away": 2.08
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.129,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-31",
+     "home": "Hull City",
+     "away": "Ipswich Town",
+     "retro": false,
+     "model": {
+      "home": 0.42,
+      "draw": 0.311,
+      "away": 0.27
+     },
+     "market": {
+      "home": 0.325,
+      "draw": 0.277,
+      "away": 0.398
+     },
+     "fair": {
+      "home": 2.38,
+      "draw": 3.22,
+      "away": 3.71
+     },
+     "odds": {
+      "home": 2.88,
+      "draw": 3.38,
+      "away": 2.35
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.129,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-08-29",
+     "home": "Elversberg",
+     "away": "Leverkusen",
+     "retro": true,
+     "model": {
+      "home": 0.281,
+      "draw": 0.251,
+      "away": 0.468
+     },
+     "market": {
+      "home": 0.188,
+      "draw": 0.216,
+      "away": 0.596
+     },
+     "fair": {
+      "home": 3.55,
+      "draw": 3.98,
+      "away": 2.14
+     },
+     "odds": {
+      "home": 5.02,
+      "draw": 4.35,
+      "away": 1.58
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.128,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-13",
+     "home": "Le Mans",
+     "away": "Lens",
+     "retro": false,
+     "model": {
+      "home": 0.264,
+      "draw": 0.279,
+      "away": 0.457
+     },
+     "market": {
+      "home": 0.196,
+      "draw": 0.219,
+      "away": 0.585
+     },
+     "fair": {
+      "home": 3.79,
+      "draw": 3.58,
+      "away": 2.19
+     },
+     "odds": {
+      "home": 4.79,
+      "draw": 4.3,
+      "away": 1.61
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.128,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-12",
+     "home": "Strasbourg",
+     "away": "Monaco",
+     "retro": false,
+     "model": {
+      "home": 0.422,
+      "draw": 0.277,
+      "away": 0.301
+     },
+     "market": {
+      "home": 0.313,
+      "draw": 0.258,
+      "away": 0.429
+     },
+     "fair": {
+      "home": 2.37,
+      "draw": 3.61,
+      "away": 3.32
+     },
+     "odds": {
+      "home": 3.01,
+      "draw": 3.65,
+      "away": 2.2
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.128,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-04",
+     "home": "Lyon",
+     "away": "Auxerre",
+     "retro": true,
+     "model": {
+      "home": 0.549,
+      "draw": 0.266,
+      "away": 0.185
+     },
+     "market": {
+      "home": 0.677,
+      "draw": 0.187,
+      "away": 0.136
+     },
+     "fair": {
+      "home": 1.82,
+      "draw": 3.76,
+      "away": 5.41
+     },
+     "odds": {
+      "home": 1.39,
+      "draw": 5.02,
+      "away": 6.92
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.127,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-20",
+     "home": "Leverkusen",
+     "away": "RB Leipzig",
+     "retro": false,
+     "model": {
+      "home": 0.385,
+      "draw": 0.299,
+      "away": 0.316
+     },
+     "market": {
+      "home": 0.512,
+      "draw": 0.216,
+      "away": 0.272
+     },
+     "fair": {
+      "home": 2.6,
+      "draw": 3.35,
+      "away": 3.16
+     },
+     "odds": {
+      "home": 1.84,
+      "draw": 4.36,
+      "away": 3.46
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.127,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-11",
+     "home": "Union Berlin",
+     "away": "Schalke 04",
+     "retro": false,
+     "model": {
+      "home": 0.281,
+      "draw": 0.37,
+      "away": 0.35
+     },
+     "market": {
+      "home": 0.407,
+      "draw": 0.277,
+      "away": 0.316
+     },
+     "fair": {
+      "home": 3.57,
+      "draw": 2.7,
+      "away": 2.86
+     },
+     "odds": {
+      "home": 2.31,
+      "draw": 3.4,
+      "away": 2.98
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.127,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-10-17",
+     "home": "Bayern Munich",
+     "away": "RB Leipzig",
+     "retro": false,
+     "model": {
+      "home": 0.639,
+      "draw": 0.162,
+      "away": 0.199
+     },
+     "market": {
+      "home": 0.766,
+      "draw": 0.13,
+      "away": 0.104
+     },
+     "fair": {
+      "home": 1.56,
+      "draw": 6.17,
+      "away": 5.03
+     },
+     "odds": {
+      "home": 1.23,
+      "draw": 7.25,
+      "away": 9.03
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.127,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-26",
+     "home": "Real Madrid",
+     "away": "Real Sociedad",
+     "retro": true,
+     "model": {
+      "home": 0.674,
+      "draw": 0.201,
+      "away": 0.125
+     },
+     "market": {
+      "home": 0.799,
+      "draw": 0.128,
+      "away": 0.073
+     },
+     "fair": {
+      "home": 1.48,
+      "draw": 4.97,
+      "away": 8.01
+     },
+     "odds": {
+      "home": 1.18,
+      "draw": 7.37,
+      "away": 12.96
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.125,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-31",
+     "home": "Barcelona",
+     "away": "Alavés",
+     "retro": false,
+     "model": {
+      "home": 0.738,
+      "draw": 0.161,
+      "away": 0.101
+     },
+     "market": {
+      "home": 0.863,
+      "draw": 0.087,
+      "away": 0.05
+     },
+     "fair": {
+      "home": 1.36,
+      "draw": 6.2,
+      "away": 9.88
+     },
+     "odds": {
+      "home": 1.1,
+      "draw": 10.86,
+      "away": 19.13
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.125,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-11-07",
+     "home": "Arsenal",
+     "away": "Hull City",
+     "retro": false,
+     "model": {
+      "home": 0.703,
+      "draw": 0.206,
+      "away": 0.091
+     },
+     "market": {
+      "home": 0.829,
+      "draw": 0.118,
+      "away": 0.053
+     },
+     "fair": {
+      "home": 1.42,
+      "draw": 4.86,
+      "away": 10.99
+     },
+     "odds": {
+      "home": 1.14,
+      "draw": 8.0,
+      "away": 17.72
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.125,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-10-27",
+     "home": "Sassuolo",
+     "away": "Lazio",
+     "retro": false,
+     "model": {
+      "home": 0.337,
+      "draw": 0.308,
+      "away": 0.355
+     },
+     "market": {
+      "home": 0.26,
+      "draw": 0.26,
+      "away": 0.48
+     },
+     "fair": {
+      "home": 2.97,
+      "draw": 3.25,
+      "away": 2.82
+     },
+     "odds": {
+      "home": 3.62,
+      "draw": 3.62,
+      "away": 1.96
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.125,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-20",
+     "home": "Leeds United",
+     "away": "Crystal Palace",
+     "retro": false,
+     "model": {
+      "home": 0.444,
+      "draw": 0.286,
+      "away": 0.269
+     },
+     "market": {
+      "home": 0.569,
+      "draw": 0.239,
+      "away": 0.192
+     },
+     "fair": {
+      "home": 2.25,
+      "draw": 3.49,
+      "away": 3.71
+     },
+     "odds": {
+      "home": 1.66,
+      "draw": 3.95,
+      "away": 4.93
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.125,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-25",
+     "home": "Liverpool",
+     "away": "Brighton",
+     "retro": false,
+     "model": {
+      "home": 0.356,
+      "draw": 0.306,
+      "away": 0.338
+     },
+     "market": {
+      "home": 0.48,
+      "draw": 0.247,
+      "away": 0.273
+     },
+     "fair": {
+      "home": 2.81,
+      "draw": 3.26,
+      "away": 2.96
+     },
+     "odds": {
+      "home": 1.96,
+      "draw": 3.82,
+      "away": 3.45
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.125,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-08-29",
+     "home": "Monza",
+     "away": "Udinese",
+     "retro": true,
+     "model": {
+      "home": 0.45,
+      "draw": 0.289,
+      "away": 0.261
+     },
+     "market": {
+      "home": 0.326,
+      "draw": 0.308,
+      "away": 0.366
+     },
+     "fair": {
+      "home": 2.22,
+      "draw": 3.47,
+      "away": 3.83
+     },
+     "odds": {
+      "home": 2.89,
+      "draw": 3.06,
+      "away": 2.57
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.124,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-05",
+     "home": "Fulham",
+     "away": "Crystal Palace",
+     "retro": true,
+     "model": {
+      "home": 0.314,
+      "draw": 0.336,
+      "away": 0.35
+     },
+     "market": {
+      "home": 0.438,
+      "draw": 0.279,
+      "away": 0.283
+     },
+     "fair": {
+      "home": 3.19,
+      "draw": 2.97,
+      "away": 2.86
+     },
+     "odds": {
+      "home": 2.16,
+      "draw": 3.39,
+      "away": 3.35
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.124,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-09-13",
+     "home": "Lecce",
+     "away": "Monza",
+     "retro": false,
+     "model": {
+      "home": 0.244,
+      "draw": 0.282,
+      "away": 0.474
+     },
+     "market": {
+      "home": 0.334,
+      "draw": 0.316,
+      "away": 0.35
+     },
+     "fair": {
+      "home": 4.1,
+      "draw": 3.55,
+      "away": 2.11
+     },
+     "odds": {
+      "home": 2.82,
+      "draw": 2.98,
+      "away": 2.69
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.124,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-24",
+     "home": "Lens",
+     "away": "Paris FC",
+     "retro": false,
+     "model": {
+      "home": 0.532,
+      "draw": 0.265,
+      "away": 0.203
+     },
+     "market": {
+      "home": 0.408,
+      "draw": 0.266,
+      "away": 0.326
+     },
+     "fair": {
+      "home": 1.88,
+      "draw": 3.78,
+      "away": 4.92
+     },
+     "odds": {
+      "home": 2.31,
+      "draw": 3.54,
+      "away": 2.89
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.124,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-08-23",
+     "home": "Manchester City",
+     "away": "Bournemouth",
+     "retro": true,
+     "model": {
+      "home": 0.531,
+      "draw": 0.263,
+      "away": 0.205
+     },
+     "market": {
+      "home": 0.655,
+      "draw": 0.197,
+      "away": 0.148
+     },
+     "fair": {
+      "home": 1.88,
+      "draw": 3.8,
+      "away": 4.87
+     },
+     "odds": {
+      "home": 1.44,
+      "draw": 4.78,
+      "away": 6.36
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.123,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-08-29",
+     "home": "Tottenham",
+     "away": "Newcastle",
+     "retro": true,
+     "model": {
+      "home": 0.314,
+      "draw": 0.325,
+      "away": 0.361
+     },
+     "market": {
+      "home": 0.437,
+      "draw": 0.256,
+      "away": 0.307
+     },
+     "fair": {
+      "home": 3.19,
+      "draw": 3.08,
+      "away": 2.77
+     },
+     "odds": {
+      "home": 2.15,
+      "draw": 3.67,
+      "away": 3.06
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.123,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-18",
+     "home": "Nottingham",
+     "away": "Arsenal",
+     "retro": false,
+     "model": {
+      "home": 0.224,
+      "draw": 0.267,
+      "away": 0.508
+     },
+     "market": {
+      "home": 0.143,
+      "draw": 0.226,
+      "away": 0.631
+     },
+     "fair": {
+      "home": 4.46,
+      "draw": 3.75,
+      "away": 1.97
+     },
+     "odds": {
+      "home": 6.55,
+      "draw": 4.16,
+      "away": 1.49
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.123,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-28",
+     "home": "Alavés",
+     "away": "Villarreal",
+     "retro": true,
+     "model": {
+      "home": 0.389,
+      "draw": 0.317,
+      "away": 0.294
+     },
+     "market": {
+      "home": 0.31,
+      "draw": 0.273,
+      "away": 0.416
+     },
+     "fair": {
+      "home": 2.57,
+      "draw": 3.16,
+      "away": 3.4
+     },
+     "odds": {
+      "home": 3.03,
+      "draw": 3.44,
+      "away": 2.26
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.122,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-27",
+     "home": "Celta Vigo",
+     "away": "Osasuna",
+     "retro": true,
+     "model": {
+      "home": 0.387,
+      "draw": 0.328,
+      "away": 0.285
+     },
+     "market": {
+      "home": 0.51,
+      "draw": 0.287,
+      "away": 0.204
+     },
+     "fair": {
+      "home": 2.58,
+      "draw": 3.05,
+      "away": 3.51
+     },
+     "odds": {
+      "home": 1.85,
+      "draw": 3.29,
+      "away": 4.63
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.122,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-05",
+     "home": "Newcastle",
+     "away": "Bournemouth",
+     "retro": true,
+     "model": {
+      "home": 0.325,
+      "draw": 0.333,
+      "away": 0.342
+     },
+     "market": {
+      "home": 0.446,
+      "draw": 0.26,
+      "away": 0.294
+     },
+     "fair": {
+      "home": 3.08,
+      "draw": 3.0,
+      "away": 2.92
+     },
+     "odds": {
+      "home": 2.12,
+      "draw": 3.64,
+      "away": 3.22
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.121,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-20",
+     "home": "Bournemouth",
+     "away": "Liverpool",
+     "retro": false,
+     "model": {
+      "home": 0.373,
+      "draw": 0.308,
+      "away": 0.319
+     },
+     "market": {
+      "home": 0.303,
+      "draw": 0.258,
+      "away": 0.439
+     },
+     "fair": {
+      "home": 2.68,
+      "draw": 3.24,
+      "away": 3.14
+     },
+     "odds": {
+      "home": 3.11,
+      "draw": 3.66,
+      "away": 2.15
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.12,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-19",
+     "home": "Paris FC",
+     "away": "Strasbourg",
+     "retro": false,
+     "model": {
+      "home": 0.407,
+      "draw": 0.302,
+      "away": 0.291
+     },
+     "market": {
+      "home": 0.526,
+      "draw": 0.243,
+      "away": 0.231
+     },
+     "fair": {
+      "home": 2.46,
+      "draw": 3.31,
+      "away": 3.43
+     },
+     "odds": {
+      "home": 1.79,
+      "draw": 3.88,
+      "away": 4.07
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.119,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-19",
+     "home": "Le Mans",
+     "away": "Lorient",
+     "retro": false,
+     "model": {
+      "home": 0.446,
+      "draw": 0.296,
+      "away": 0.259
+     },
+     "market": {
+      "home": 0.328,
+      "draw": 0.295,
+      "away": 0.377
+     },
+     "fair": {
+      "home": 2.24,
+      "draw": 3.38,
+      "away": 3.87
+     },
+     "odds": {
+      "home": 2.87,
+      "draw": 3.2,
+      "away": 2.5
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.119,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-27",
+     "home": "Barcelona",
+     "away": "Athletic Club",
+     "retro": true,
+     "model": {
+      "home": 0.654,
+      "draw": 0.205,
+      "away": 0.141
+     },
+     "market": {
+      "home": 0.771,
+      "draw": 0.142,
+      "away": 0.087
+     },
+     "fair": {
+      "home": 1.53,
+      "draw": 4.88,
+      "away": 7.08
+     },
+     "odds": {
+      "home": 1.22,
+      "draw": 6.64,
+      "away": 10.81
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.118,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-12",
+     "home": "Auxerre",
+     "away": "Nice",
+     "retro": false,
+     "model": {
+      "home": 0.427,
+      "draw": 0.303,
+      "away": 0.27
+     },
+     "market": {
+      "home": 0.33,
+      "draw": 0.283,
+      "away": 0.387
+     },
+     "fair": {
+      "home": 2.34,
+      "draw": 3.3,
+      "away": 3.7
+     },
+     "odds": {
+      "home": 2.85,
+      "draw": 3.33,
+      "away": 2.43
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.117,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-11-06",
+     "home": "Everton",
+     "away": "Coventry City",
+     "retro": false,
+     "model": {
+      "home": 0.452,
+      "draw": 0.301,
+      "away": 0.247
+     },
+     "market": {
+      "home": 0.569,
+      "draw": 0.236,
+      "away": 0.196
+     },
+     "fair": {
+      "home": 2.21,
+      "draw": 3.32,
+      "away": 4.05
+     },
+     "odds": {
+      "home": 1.66,
+      "draw": 4.01,
+      "away": 4.83
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.117,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-23",
+     "home": "Getafe",
+     "away": "Racing Sant",
+     "retro": true,
+     "model": {
+      "home": 0.299,
+      "draw": 0.339,
+      "away": 0.362
+     },
+     "market": {
+      "home": 0.416,
+      "draw": 0.308,
+      "away": 0.276
+     },
+     "fair": {
+      "home": 3.34,
+      "draw": 2.95,
+      "away": 2.76
+     },
+     "odds": {
+      "home": 2.27,
+      "draw": 3.07,
+      "away": 3.42
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.117,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-18",
+     "home": "Real Madrid",
+     "away": "Sevilla",
+     "retro": false,
+     "model": {
+      "home": 0.652,
+      "draw": 0.22,
+      "away": 0.128
+     },
+     "market": {
+      "home": 0.768,
+      "draw": 0.142,
+      "away": 0.09
+     },
+     "fair": {
+      "home": 1.53,
+      "draw": 4.55,
+      "away": 7.81
+     },
+     "odds": {
+      "home": 1.23,
+      "draw": 6.66,
+      "away": 10.55
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.116,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-13",
+     "home": "Lille",
+     "away": "Troyes",
+     "retro": false,
+     "model": {
+      "home": 0.522,
+      "draw": 0.261,
+      "away": 0.217
+     },
+     "market": {
+      "home": 0.637,
+      "draw": 0.206,
+      "away": 0.157
+     },
+     "fair": {
+      "home": 1.92,
+      "draw": 3.83,
+      "away": 4.61
+     },
+     "odds": {
+      "home": 1.48,
+      "draw": 4.57,
+      "away": 6.02
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.115,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-10-29",
+     "home": "Frosinone",
+     "away": "Lecce",
+     "retro": false,
+     "model": {
+      "home": 0.433,
+      "draw": 0.267,
+      "away": 0.3
+     },
+     "market": {
+      "home": 0.549,
+      "draw": 0.226,
+      "away": 0.225
+     },
+     "fair": {
+      "home": 2.31,
+      "draw": 3.75,
+      "away": 3.33
+     },
+     "odds": {
+      "home": 1.72,
+      "draw": 4.17,
+      "away": 4.19
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.115,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-08-29",
+     "home": "Lorient",
+     "away": "Troyes",
+     "retro": true,
+     "model": {
+      "home": 0.373,
+      "draw": 0.366,
+      "away": 0.262
+     },
+     "market": {
+      "home": 0.488,
+      "draw": 0.283,
+      "away": 0.23
+     },
+     "fair": {
+      "home": 2.68,
+      "draw": 2.74,
+      "away": 3.82
+     },
+     "odds": {
+      "home": 1.93,
+      "draw": 3.33,
+      "away": 4.1
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.115,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-10-10",
+     "home": "Paderborn 07",
+     "away": "Stuttgart",
+     "retro": false,
+     "model": {
+      "home": 0.214,
+      "draw": 0.319,
+      "away": 0.467
+     },
+     "market": {
+      "home": 0.207,
+      "draw": 0.212,
+      "away": 0.582
+     },
+     "fair": {
+      "home": 4.67,
+      "draw": 3.13,
+      "away": 2.14
+     },
+     "odds": {
+      "home": 4.56,
+      "draw": 4.45,
+      "away": 1.62
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.115,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-09-11",
+     "home": "Venezia",
+     "away": "Fiorentina",
+     "retro": false,
+     "model": {
+      "home": 0.432,
+      "draw": 0.296,
+      "away": 0.271
+     },
+     "market": {
+      "home": 0.335,
+      "draw": 0.279,
+      "away": 0.386
+     },
+     "fair": {
+      "home": 2.31,
+      "draw": 3.37,
+      "away": 3.69
+     },
+     "odds": {
+      "home": 2.81,
+      "draw": 3.38,
+      "away": 2.44
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.115,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-08-30",
+     "home": "Chelsea",
+     "away": "Brighton",
+     "retro": true,
+     "model": {
+      "home": 0.399,
+      "draw": 0.308,
+      "away": 0.293
+     },
+     "market": {
+      "home": 0.513,
+      "draw": 0.245,
+      "away": 0.241
+     },
+     "fair": {
+      "home": 2.51,
+      "draw": 3.25,
+      "away": 3.41
+     },
+     "odds": {
+      "home": 1.83,
+      "draw": 3.83,
+      "away": 3.89
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.114,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-08-23",
+     "home": "Frosinone",
+     "away": "Juventus",
+     "retro": true,
+     "model": {
+      "home": 0.208,
+      "draw": 0.248,
+      "away": 0.544
+     },
+     "market": {
+      "home": 0.141,
+      "draw": 0.201,
+      "away": 0.658
+     },
+     "fair": {
+      "home": 4.81,
+      "draw": 4.03,
+      "away": 1.84
+     },
+     "odds": {
+      "home": 6.67,
+      "draw": 4.69,
+      "away": 1.43
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.114,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-12",
+     "home": "Osasuna",
+     "away": "Espanyol",
+     "retro": false,
+     "model": {
+      "home": 0.54,
+      "draw": 0.26,
+      "away": 0.2
+     },
+     "market": {
+      "home": 0.427,
+      "draw": 0.295,
+      "away": 0.279
+     },
+     "fair": {
+      "home": 1.85,
+      "draw": 3.85,
+      "away": 5.01
+     },
+     "odds": {
+      "home": 2.21,
+      "draw": 3.2,
+      "away": 3.38
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.114,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-10-17",
+     "home": "Schalke 04",
+     "away": "Mainz 05",
+     "retro": false,
+     "model": {
+      "home": 0.223,
+      "draw": 0.287,
+      "away": 0.489
+     },
+     "market": {
+      "home": 0.337,
+      "draw": 0.268,
+      "away": 0.395
+     },
+     "fair": {
+      "home": 4.48,
+      "draw": 3.48,
+      "away": 2.04
+     },
+     "odds": {
+      "home": 2.79,
+      "draw": 3.5,
+      "away": 2.38
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.114,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-10-19",
+     "home": "Monza",
+     "away": "Cagliari",
+     "retro": false,
+     "model": {
+      "home": 0.484,
+      "draw": 0.284,
+      "away": 0.232
+     },
+     "market": {
+      "home": 0.371,
+      "draw": 0.299,
+      "away": 0.33
+     },
+     "fair": {
+      "home": 2.07,
+      "draw": 3.52,
+      "away": 4.31
+     },
+     "odds": {
+      "home": 2.54,
+      "draw": 3.15,
+      "away": 2.85
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.113,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-12",
+     "home": "Mainz 05",
+     "away": "Frankfurt",
+     "retro": false,
+     "model": {
+      "home": 0.425,
+      "draw": 0.303,
+      "away": 0.272
+     },
+     "market": {
+      "home": 0.538,
+      "draw": 0.232,
+      "away": 0.23
+     },
+     "fair": {
+      "home": 2.35,
+      "draw": 3.3,
+      "away": 3.68
+     },
+     "odds": {
+      "home": 1.74,
+      "draw": 4.04,
+      "away": 4.07
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.113,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-19",
+     "home": "Stuttgart",
+     "away": "Dortmund",
+     "retro": false,
+     "model": {
+      "home": 0.292,
+      "draw": 0.3,
+      "away": 0.409
+     },
+     "market": {
+      "home": 0.404,
+      "draw": 0.243,
+      "away": 0.353
+     },
+     "fair": {
+      "home": 3.43,
+      "draw": 3.34,
+      "away": 2.45
+     },
+     "odds": {
+      "home": 2.33,
+      "draw": 3.88,
+      "away": 2.67
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.113,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-09-18",
+     "home": "Monza",
+     "away": "Sassuolo",
+     "retro": false,
+     "model": {
+      "home": 0.447,
+      "draw": 0.284,
+      "away": 0.269
+     },
+     "market": {
+      "home": 0.337,
+      "draw": 0.281,
+      "away": 0.382
+     },
+     "fair": {
+      "home": 2.24,
+      "draw": 3.52,
+      "away": 3.72
+     },
+     "odds": {
+      "home": 2.8,
+      "draw": 3.35,
+      "away": 2.47
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.113,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-15",
+     "home": "Sevilla",
+     "away": "Rayo Vallecano",
+     "retro": true,
+     "model": {
+      "home": 0.278,
+      "draw": 0.313,
+      "away": 0.409
+     },
+     "market": {
+      "home": 0.38,
+      "draw": 0.324,
+      "away": 0.296
+     },
+     "fair": {
+      "home": 3.6,
+      "draw": 3.19,
+      "away": 2.45
+     },
+     "odds": {
+      "home": 2.49,
+      "draw": 2.92,
+      "away": 3.19
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.112,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-03",
+     "home": "Toulouse",
+     "away": "Lille",
+     "retro": true,
+     "model": {
+      "home": 0.309,
+      "draw": 0.334,
+      "away": 0.357
+     },
+     "market": {
+      "home": 0.254,
+      "draw": 0.277,
+      "away": 0.469
+     },
+     "fair": {
+      "home": 3.23,
+      "draw": 2.99,
+      "away": 2.8
+     },
+     "odds": {
+      "home": 3.71,
+      "draw": 3.41,
+      "away": 2.01
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.112,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-09-06",
+     "home": "Juventus",
+     "away": "Milan",
+     "retro": true,
+     "model": {
+      "home": 0.542,
+      "draw": 0.27,
+      "away": 0.188
+     },
+     "market": {
+      "home": 0.43,
+      "draw": 0.305,
+      "away": 0.265
+     },
+     "fair": {
+      "home": 1.84,
+      "draw": 3.71,
+      "away": 5.31
+     },
+     "odds": {
+      "home": 2.19,
+      "draw": 3.09,
+      "away": 3.55
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.112,
+     "result": "draw",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-11-07",
+     "home": "Cagliari",
+     "away": "Frosinone",
+     "retro": false,
+     "model": {
+      "home": 0.375,
+      "draw": 0.288,
+      "away": 0.337
+     },
+     "market": {
+      "home": 0.306,
+      "draw": 0.247,
+      "away": 0.447
+     },
+     "fair": {
+      "home": 2.67,
+      "draw": 3.47,
+      "away": 2.97
+     },
+     "odds": {
+      "home": 3.08,
+      "draw": 3.81,
+      "away": 2.11
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.11,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-26",
+     "home": "Sevilla",
+     "away": "Osasuna",
+     "retro": false,
+     "model": {
+      "home": 0.381,
+      "draw": 0.303,
+      "away": 0.316
+     },
+     "market": {
+      "home": 0.49,
+      "draw": 0.281,
+      "away": 0.229
+     },
+     "fair": {
+      "home": 2.63,
+      "draw": 3.3,
+      "away": 3.16
+     },
+     "odds": {
+      "home": 1.93,
+      "draw": 3.37,
+      "away": 4.14
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.11,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-15",
+     "home": "Alavés",
+     "away": "Getafe",
+     "retro": true,
+     "model": {
+      "home": 0.516,
+      "draw": 0.289,
+      "away": 0.195
+     },
+     "market": {
+      "home": 0.407,
+      "draw": 0.342,
+      "away": 0.252
+     },
+     "fair": {
+      "home": 1.94,
+      "draw": 3.46,
+      "away": 5.14
+     },
+     "odds": {
+      "home": 2.32,
+      "draw": 2.76,
+      "away": 3.75
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.109,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-11-01",
+     "home": "Frosinone",
+     "away": "Torino",
+     "retro": false,
+     "model": {
+      "home": 0.346,
+      "draw": 0.299,
+      "away": 0.355
+     },
+     "market": {
+      "home": 0.455,
+      "draw": 0.24,
+      "away": 0.305
+     },
+     "fair": {
+      "home": 2.89,
+      "draw": 3.34,
+      "away": 2.82
+     },
+     "odds": {
+      "home": 2.07,
+      "draw": 3.92,
+      "away": 3.08
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.109,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-05",
+     "home": "Hoffenheim",
+     "away": "Dortmund",
+     "retro": true,
+     "model": {
+      "home": 0.28,
+      "draw": 0.297,
+      "away": 0.423
+     },
+     "market": {
+      "home": 0.388,
+      "draw": 0.248,
+      "away": 0.364
+     },
+     "fair": {
+      "home": 3.57,
+      "draw": 3.37,
+      "away": 2.36
+     },
+     "odds": {
+      "home": 2.43,
+      "draw": 3.81,
+      "away": 2.59
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.108,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-09-20",
+     "home": "Milan",
+     "away": "Lecce",
+     "retro": false,
+     "model": {
+      "home": 0.662,
+      "draw": 0.215,
+      "away": 0.122
+     },
+     "market": {
+      "home": 0.771,
+      "draw": 0.154,
+      "away": 0.075
+     },
+     "fair": {
+      "home": 1.51,
+      "draw": 4.65,
+      "away": 8.18
+     },
+     "odds": {
+      "home": 1.22,
+      "draw": 6.11,
+      "away": 12.5
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.108,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-19",
+     "home": "Atlético Madrid",
+     "away": "Málaga",
+     "retro": true,
+     "model": {
+      "home": 0.538,
+      "draw": 0.232,
+      "away": 0.23
+     },
+     "market": {
+      "home": 0.646,
+      "draw": 0.209,
+      "away": 0.144
+     },
+     "fair": {
+      "home": 1.86,
+      "draw": 4.3,
+      "away": 4.36
+     },
+     "odds": {
+      "home": 1.46,
+      "draw": 4.51,
+      "away": 6.53
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.108,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-24",
+     "home": "Aston Villa",
+     "away": "Manchester City",
+     "retro": false,
+     "model": {
+      "home": 0.274,
+      "draw": 0.254,
+      "away": 0.473
+     },
+     "market": {
+      "home": 0.21,
+      "draw": 0.209,
+      "away": 0.581
+     },
+     "fair": {
+      "home": 3.65,
+      "draw": 3.94,
+      "away": 2.12
+     },
+     "odds": {
+      "home": 4.47,
+      "draw": 4.5,
+      "away": 1.62
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.108,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-11",
+     "home": "Nice",
+     "away": "Strasbourg",
+     "retro": false,
+     "model": {
+      "home": 0.342,
+      "draw": 0.322,
+      "away": 0.337
+     },
+     "market": {
+      "home": 0.449,
+      "draw": 0.256,
+      "away": 0.296
+     },
+     "fair": {
+      "home": 2.93,
+      "draw": 3.11,
+      "away": 2.97
+     },
+     "odds": {
+      "home": 2.1,
+      "draw": 3.69,
+      "away": 3.19
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.107,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-25",
+     "home": "PSG",
+     "away": "Lyon",
+     "retro": false,
+     "model": {
+      "home": 0.607,
+      "draw": 0.228,
+      "away": 0.165
+     },
+     "market": {
+      "home": 0.714,
+      "draw": 0.168,
+      "away": 0.118
+     },
+     "fair": {
+      "home": 1.65,
+      "draw": 4.39,
+      "away": 6.08
+     },
+     "odds": {
+      "home": 1.32,
+      "draw": 5.62,
+      "away": 7.98
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.107,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-31",
+     "home": "Osasuna",
+     "away": "Getafe",
+     "retro": true,
+     "model": {
+      "home": 0.545,
+      "draw": 0.284,
+      "away": 0.172
+     },
+     "market": {
+      "home": 0.438,
+      "draw": 0.331,
+      "away": 0.231
+     },
+     "fair": {
+      "home": 1.84,
+      "draw": 3.52,
+      "away": 5.83
+     },
+     "odds": {
+      "home": 2.15,
+      "draw": 2.85,
+      "away": 4.08
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.106,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-10-16",
+     "home": "Frankfurt",
+     "away": "Köln",
+     "retro": false,
+     "model": {
+      "home": 0.434,
+      "draw": 0.264,
+      "away": 0.303
+     },
+     "market": {
+      "home": 0.54,
+      "draw": 0.22,
+      "away": 0.24
+     },
+     "fair": {
+      "home": 2.3,
+      "draw": 3.79,
+      "away": 3.3
+     },
+     "odds": {
+      "home": 1.74,
+      "draw": 4.28,
+      "away": 3.91
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.106,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-17",
+     "home": "Troyes",
+     "away": "Lens",
+     "retro": false,
+     "model": {
+      "home": 0.156,
+      "draw": 0.209,
+      "away": 0.634
+     },
+     "market": {
+      "home": 0.225,
+      "draw": 0.246,
+      "away": 0.529
+     },
+     "fair": {
+      "home": 6.41,
+      "draw": 4.78,
+      "away": 1.58
+     },
+     "odds": {
+      "home": 4.18,
+      "draw": 3.82,
+      "away": 1.78
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.105,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-11-08",
+     "home": "Lens",
+     "away": "Marseille",
+     "retro": false,
+     "model": {
+      "home": 0.534,
+      "draw": 0.242,
+      "away": 0.223
+     },
+     "market": {
+      "home": 0.429,
+      "draw": 0.259,
+      "away": 0.312
+     },
+     "fair": {
+      "home": 1.87,
+      "draw": 4.12,
+      "away": 4.48
+     },
+     "odds": {
+      "home": 2.19,
+      "draw": 3.63,
+      "away": 3.01
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.105,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-10-17",
+     "home": "Hamburger SV",
+     "away": "Stuttgart",
+     "retro": false,
+     "model": {
+      "home": 0.251,
+      "draw": 0.296,
+      "away": 0.453
+     },
+     "market": {
+      "home": 0.221,
+      "draw": 0.22,
+      "away": 0.558
+     },
+     "fair": {
+      "home": 3.98,
+      "draw": 3.38,
+      "away": 2.21
+     },
+     "odds": {
+      "home": 4.26,
+      "draw": 4.28,
+      "away": 1.69
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.105,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-06",
+     "home": "Hamburger SV",
+     "away": "Mainz 05",
+     "retro": true,
+     "model": {
+      "home": 0.228,
+      "draw": 0.295,
+      "away": 0.477
+     },
+     "market": {
+      "home": 0.333,
+      "draw": 0.272,
+      "away": 0.395
+     },
+     "fair": {
+      "home": 4.39,
+      "draw": 3.39,
+      "away": 2.1
+     },
+     "odds": {
+      "home": 2.83,
+      "draw": 3.46,
+      "away": 2.38
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.105,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-06",
+     "home": "Troyes",
+     "away": "Strasbourg",
+     "retro": true,
+     "model": {
+      "home": 0.389,
+      "draw": 0.331,
+      "away": 0.279
+     },
+     "market": {
+      "home": 0.341,
+      "draw": 0.275,
+      "away": 0.384
+     },
+     "fair": {
+      "home": 2.57,
+      "draw": 3.02,
+      "away": 3.58
+     },
+     "odds": {
+      "home": 2.76,
+      "draw": 3.42,
+      "away": 2.45
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.105,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-18",
+     "home": "Lyon",
+     "away": "Nice",
+     "retro": false,
+     "model": {
+      "home": 0.58,
+      "draw": 0.248,
+      "away": 0.172
+     },
+     "market": {
+      "home": 0.476,
+      "draw": 0.255,
+      "away": 0.269
+     },
+     "fair": {
+      "home": 1.72,
+      "draw": 4.03,
+      "away": 5.81
+     },
+     "odds": {
+      "home": 1.98,
+      "draw": 3.69,
+      "away": 3.5
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.104,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-11-01",
+     "home": "Frankfurt",
+     "away": "Hamburger SV",
+     "retro": false,
+     "model": {
+      "home": 0.529,
+      "draw": 0.245,
+      "away": 0.226
+     },
+     "market": {
+      "home": 0.632,
+      "draw": 0.196,
+      "away": 0.171
+     },
+     "fair": {
+      "home": 1.89,
+      "draw": 4.08,
+      "away": 4.43
+     },
+     "odds": {
+      "home": 1.49,
+      "draw": 4.8,
+      "away": 5.5
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.103,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-08-22",
+     "home": "Nottingham",
+     "away": "Leeds United",
+     "retro": true,
+     "model": {
+      "home": 0.282,
+      "draw": 0.325,
+      "away": 0.393
+     },
+     "market": {
+      "home": 0.385,
+      "draw": 0.295,
+      "away": 0.321
+     },
+     "fair": {
+      "home": 3.55,
+      "draw": 3.08,
+      "away": 2.54
+     },
+     "odds": {
+      "home": 2.45,
+      "draw": 3.2,
+      "away": 2.94
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.103,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-15",
+     "home": "Rayo Vallecano",
+     "away": "Espanyol",
+     "retro": false,
+     "model": {
+      "home": 0.525,
+      "draw": 0.269,
+      "away": 0.206
+     },
+     "market": {
+      "home": 0.423,
+      "draw": 0.291,
+      "away": 0.286
+     },
+     "fair": {
+      "home": 1.9,
+      "draw": 3.72,
+      "away": 4.86
+     },
+     "odds": {
+      "home": 2.23,
+      "draw": 3.24,
+      "away": 3.29
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.103,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-12",
+     "home": "Coventry City",
+     "away": "Newcastle",
+     "retro": false,
+     "model": {
+      "home": 0.314,
+      "draw": 0.309,
+      "away": 0.377
+     },
+     "market": {
+      "home": 0.267,
+      "draw": 0.254,
+      "away": 0.479
+     },
+     "fair": {
+      "home": 3.19,
+      "draw": 3.23,
+      "away": 2.65
+     },
+     "odds": {
+      "home": 3.54,
+      "draw": 3.72,
+      "away": 1.97
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.102,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-08-30",
+     "home": "Napoli",
+     "away": "Como",
+     "retro": true,
+     "model": {
+      "home": 0.309,
+      "draw": 0.333,
+      "away": 0.358
+     },
+     "market": {
+      "home": 0.412,
+      "draw": 0.308,
+      "away": 0.28
+     },
+     "fair": {
+      "home": 3.24,
+      "draw": 3.0,
+      "away": 2.79
+     },
+     "odds": {
+      "home": 2.29,
+      "draw": 3.06,
+      "away": 3.36
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.102,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-12",
+     "home": "Le Havre",
+     "away": "Angers",
+     "retro": false,
+     "model": {
+      "home": 0.446,
+      "draw": 0.304,
+      "away": 0.25
+     },
+     "market": {
+      "home": 0.366,
+      "draw": 0.281,
+      "away": 0.353
+     },
+     "fair": {
+      "home": 2.24,
+      "draw": 3.29,
+      "away": 4.0
+     },
+     "odds": {
+      "home": 2.57,
+      "draw": 3.35,
+      "away": 2.67
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.102,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-10-24",
+     "home": "Köln",
+     "away": "Schalke 04",
+     "retro": false,
+     "model": {
+      "home": 0.535,
+      "draw": 0.258,
+      "away": 0.207
+     },
+     "market": {
+      "home": 0.435,
+      "draw": 0.262,
+      "away": 0.303
+     },
+     "fair": {
+      "home": 1.87,
+      "draw": 3.87,
+      "away": 4.83
+     },
+     "odds": {
+      "home": 2.16,
+      "draw": 3.59,
+      "away": 3.1
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.1,
+     "result": "draw",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-08-28",
+     "home": "Crystal Palace",
+     "away": "Manchester City",
+     "retro": true,
+     "model": {
+      "home": 0.234,
+      "draw": 0.283,
+      "away": 0.482
+     },
+     "market": {
+      "home": 0.19,
+      "draw": 0.228,
+      "away": 0.582
+     },
+     "fair": {
+      "home": 4.27,
+      "draw": 3.53,
+      "away": 2.07
+     },
+     "odds": {
+      "home": 4.96,
+      "draw": 4.13,
+      "away": 1.62
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.1,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-10-17",
+     "home": "Werder Bremen",
+     "away": "Paderborn 07",
+     "retro": false,
+     "model": {
+      "home": 0.462,
+      "draw": 0.302,
+      "away": 0.236
+     },
+     "market": {
+      "home": 0.561,
+      "draw": 0.225,
+      "away": 0.215
+     },
+     "fair": {
+      "home": 2.16,
+      "draw": 3.31,
+      "away": 4.24
+     },
+     "odds": {
+      "home": 1.68,
+      "draw": 4.19,
+      "away": 4.39
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.099,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-19",
+     "home": "Osasuna",
+     "away": "Rayo Vallecano",
+     "retro": false,
+     "model": {
+      "home": 0.455,
+      "draw": 0.285,
+      "away": 0.26
+     },
+     "market": {
+      "home": 0.357,
+      "draw": 0.295,
+      "away": 0.348
+     },
+     "fair": {
+      "home": 2.2,
+      "draw": 3.51,
+      "away": 3.85
+     },
+     "odds": {
+      "home": 2.64,
+      "draw": 3.19,
+      "away": 2.71
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.098,
+     "result": "draw",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-31",
+     "home": "Aston Villa",
+     "away": "Fulham",
+     "retro": false,
+     "model": {
+      "home": 0.385,
+      "draw": 0.303,
+      "away": 0.312
+     },
+     "market": {
+      "home": 0.483,
+      "draw": 0.256,
+      "away": 0.261
+     },
+     "fair": {
+      "home": 2.6,
+      "draw": 3.3,
+      "away": 3.2
+     },
+     "odds": {
+      "home": 1.95,
+      "draw": 3.67,
+      "away": 3.61
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.098,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-11-02",
+     "home": "Sassuolo",
+     "away": "Fiorentina",
+     "retro": false,
+     "model": {
+      "home": 0.363,
+      "draw": 0.311,
+      "away": 0.326
+     },
+     "market": {
+      "home": 0.316,
+      "draw": 0.261,
+      "away": 0.423
+     },
+     "fair": {
+      "home": 2.75,
+      "draw": 3.22,
+      "away": 3.07
+     },
+     "odds": {
+      "home": 2.98,
+      "draw": 3.61,
+      "away": 2.23
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.097,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-10-24",
+     "home": "Augsburg",
+     "away": "Union Berlin",
+     "retro": false,
+     "model": {
+      "home": 0.457,
+      "draw": 0.269,
+      "away": 0.274
+     },
+     "market": {
+      "home": 0.554,
+      "draw": 0.227,
+      "away": 0.219
+     },
+     "fair": {
+      "home": 2.19,
+      "draw": 3.72,
+      "away": 3.65
+     },
+     "odds": {
+      "home": 1.7,
+      "draw": 4.15,
+      "away": 4.31
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.097,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-20",
+     "home": "Dep. A Coruña",
+     "away": "Real Betis",
+     "retro": false,
+     "model": {
+      "home": 0.299,
+      "draw": 0.31,
+      "away": 0.392
+     },
+     "market": {
+      "home": 0.253,
+      "draw": 0.258,
+      "away": 0.488
+     },
+     "fair": {
+      "home": 3.35,
+      "draw": 3.23,
+      "away": 2.55
+     },
+     "odds": {
+      "home": 3.72,
+      "draw": 3.65,
+      "away": 1.93
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.097,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-09-20",
+     "home": "Valencia",
+     "away": "Real Sociedad",
+     "retro": false,
+     "model": {
+      "home": 0.42,
+      "draw": 0.289,
+      "away": 0.291
+     },
+     "market": {
+      "home": 0.329,
+      "draw": 0.283,
+      "away": 0.388
+     },
+     "fair": {
+      "home": 2.38,
+      "draw": 3.47,
+      "away": 3.43
+     },
+     "odds": {
+      "home": 2.86,
+      "draw": 3.33,
+      "away": 2.43
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.096,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-11-01",
+     "home": "Marseille",
+     "away": "Toulouse",
+     "retro": false,
+     "model": {
+      "home": 0.405,
+      "draw": 0.308,
+      "away": 0.287
+     },
+     "market": {
+      "home": 0.5,
+      "draw": 0.242,
+      "away": 0.257
+     },
+     "fair": {
+      "home": 2.47,
+      "draw": 3.24,
+      "away": 3.49
+     },
+     "odds": {
+      "home": 1.88,
+      "draw": 3.88,
+      "away": 3.66
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.096,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-11-08",
+     "home": "Fiorentina",
+     "away": "Juventus",
+     "retro": false,
+     "model": {
+      "home": 0.202,
+      "draw": 0.273,
+      "away": 0.526
+     },
+     "market": {
+      "home": 0.293,
+      "draw": 0.277,
+      "away": 0.43
+     },
+     "fair": {
+      "home": 4.96,
+      "draw": 3.67,
+      "away": 1.9
+     },
+     "odds": {
+      "home": 3.22,
+      "draw": 3.4,
+      "away": 2.19
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.095,
+     "result": "draw",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-09-05",
+     "home": "Fiorentina",
+     "away": "Torino",
+     "retro": true,
+     "model": {
+      "home": 0.369,
+      "draw": 0.33,
+      "away": 0.302
+     },
+     "market": {
+      "home": 0.463,
+      "draw": 0.283,
+      "away": 0.253
+     },
+     "fair": {
+      "home": 2.71,
+      "draw": 3.03,
+      "away": 3.32
+     },
+     "odds": {
+      "home": 2.03,
+      "draw": 3.32,
+      "away": 3.71
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.094,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-19",
+     "home": "Hamburger SV",
+     "away": "Köln",
+     "retro": false,
+     "model": {
+      "home": 0.26,
+      "draw": 0.31,
+      "away": 0.43
+     },
+     "market": {
+      "home": 0.354,
+      "draw": 0.261,
+      "away": 0.385
+     },
+     "fair": {
+      "home": 3.84,
+      "draw": 3.23,
+      "away": 2.32
+     },
+     "odds": {
+      "home": 2.66,
+      "draw": 3.61,
+      "away": 2.45
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.094,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-23",
+     "home": "Brest",
+     "away": "Nice",
+     "retro": false,
+     "model": {
+      "home": 0.494,
+      "draw": 0.272,
+      "away": 0.234
+     },
+     "market": {
+      "home": 0.401,
+      "draw": 0.274,
+      "away": 0.326
+     },
+     "fair": {
+      "home": 2.02,
+      "draw": 3.68,
+      "away": 4.28
+     },
+     "odds": {
+      "home": 2.35,
+      "draw": 3.44,
+      "away": 2.89
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.094,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-08-22",
+     "home": "Everton",
+     "away": "Crystal Palace",
+     "retro": true,
+     "model": {
+      "home": 0.314,
+      "draw": 0.348,
+      "away": 0.338
+     },
+     "market": {
+      "home": 0.408,
+      "draw": 0.282,
+      "away": 0.31
+     },
+     "fair": {
+      "home": 3.18,
+      "draw": 2.88,
+      "away": 2.96
+     },
+     "odds": {
+      "home": 2.32,
+      "draw": 3.36,
+      "away": 3.05
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.094,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-10-17",
+     "home": "Roma",
+     "away": "Genoa",
+     "retro": false,
+     "model": {
+      "home": 0.686,
+      "draw": 0.186,
+      "away": 0.128
+     },
+     "market": {
+      "home": 0.593,
+      "draw": 0.244,
+      "away": 0.164
+     },
+     "fair": {
+      "home": 1.46,
+      "draw": 5.38,
+      "away": 7.81
+     },
+     "odds": {
+      "home": 1.59,
+      "draw": 3.87,
+      "away": 5.76
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.093,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-11-06",
+     "home": "Sevilla",
+     "away": "Alavés",
+     "retro": false,
+     "model": {
+      "home": 0.391,
+      "draw": 0.303,
+      "away": 0.305
+     },
+     "market": {
+      "home": 0.483,
+      "draw": 0.289,
+      "away": 0.228
+     },
+     "fair": {
+      "home": 2.56,
+      "draw": 3.29,
+      "away": 3.27
+     },
+     "odds": {
+      "home": 1.95,
+      "draw": 3.26,
+      "away": 4.14
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.092,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-31",
+     "home": "Real Betis",
+     "away": "Málaga",
+     "retro": false,
+     "model": {
+      "home": 0.631,
+      "draw": 0.241,
+      "away": 0.129
+     },
+     "market": {
+      "home": 0.722,
+      "draw": 0.172,
+      "away": 0.106
+     },
+     "fair": {
+      "home": 1.59,
+      "draw": 4.15,
+      "away": 7.78
+     },
+     "odds": {
+      "home": 1.31,
+      "draw": 5.51,
+      "away": 8.94
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.092,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-11-07",
+     "home": "Leeds United",
+     "away": "Tottenham",
+     "retro": false,
+     "model": {
+      "home": 0.402,
+      "draw": 0.314,
+      "away": 0.284
+     },
+     "market": {
+      "home": 0.342,
+      "draw": 0.282,
+      "away": 0.376
+     },
+     "fair": {
+      "home": 2.49,
+      "draw": 3.19,
+      "away": 3.52
+     },
+     "odds": {
+      "home": 2.75,
+      "draw": 3.33,
+      "away": 2.5
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.092,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-10-11",
+     "home": "Real Sociedad",
+     "away": "Dep. A Coruña",
+     "retro": false,
+     "model": {
+      "home": 0.449,
+      "draw": 0.308,
+      "away": 0.243
+     },
+     "market": {
+      "home": 0.54,
+      "draw": 0.247,
+      "away": 0.213
+     },
+     "fair": {
+      "home": 2.23,
+      "draw": 3.25,
+      "away": 4.12
+     },
+     "odds": {
+      "home": 1.74,
+      "draw": 3.81,
+      "away": 4.42
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.092,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-11-01",
+     "home": "Lecce",
+     "away": "Genoa",
+     "retro": false,
+     "model": {
+      "home": 0.381,
+      "draw": 0.312,
+      "away": 0.308
+     },
+     "market": {
+      "home": 0.29,
+      "draw": 0.318,
+      "away": 0.392
+     },
+     "fair": {
+      "home": 2.63,
+      "draw": 3.21,
+      "away": 3.25
+     },
+     "odds": {
+      "home": 3.25,
+      "draw": 2.96,
+      "away": 2.4
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.091,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-08-29",
+     "home": "Lyon",
+     "away": "Le Havre",
+     "retro": true,
+     "model": {
+      "home": 0.578,
+      "draw": 0.258,
+      "away": 0.164
+     },
+     "market": {
+      "home": 0.669,
+      "draw": 0.201,
+      "away": 0.131
+     },
+     "fair": {
+      "home": 1.73,
+      "draw": 3.88,
+      "away": 6.09
+     },
+     "odds": {
+      "home": 1.41,
+      "draw": 4.7,
+      "away": 7.21
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.091,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-09-13",
+     "home": "Napoli",
+     "away": "Bologna",
+     "retro": false,
+     "model": {
+      "home": 0.435,
+      "draw": 0.297,
+      "away": 0.268
+     },
+     "market": {
+      "home": 0.525,
+      "draw": 0.263,
+      "away": 0.211
+     },
+     "fair": {
+      "home": 2.3,
+      "draw": 3.36,
+      "away": 3.73
+     },
+     "odds": {
+      "home": 1.79,
+      "draw": 3.57,
+      "away": 4.45
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.091,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-08-30",
+     "home": "Sunderland",
+     "away": "Fulham",
+     "retro": true,
+     "model": {
+      "home": 0.335,
+      "draw": 0.344,
+      "away": 0.321
+     },
+     "market": {
+      "home": 0.425,
+      "draw": 0.287,
+      "away": 0.288
+     },
+     "fair": {
+      "home": 2.98,
+      "draw": 2.91,
+      "away": 3.12
+     },
+     "odds": {
+      "home": 2.22,
+      "draw": 3.29,
+      "away": 3.28
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.09,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-11-07",
+     "home": "PSG",
+     "away": "Troyes",
+     "retro": false,
+     "model": {
+      "home": 0.756,
+      "draw": 0.16,
+      "away": 0.084
+     },
+     "market": {
+      "home": 0.846,
+      "draw": 0.102,
+      "away": 0.053
+     },
+     "fair": {
+      "home": 1.32,
+      "draw": 6.25,
+      "away": 11.96
+     },
+     "odds": {
+      "home": 1.12,
+      "draw": 9.31,
+      "away": 17.97
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.089,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-12",
+     "home": "Tottenham",
+     "away": "Everton",
+     "retro": false,
+     "model": {
+      "home": 0.388,
+      "draw": 0.305,
+      "away": 0.307
+     },
+     "market": {
+      "home": 0.477,
+      "draw": 0.26,
+      "away": 0.263
+     },
+     "fair": {
+      "home": 2.58,
+      "draw": 3.27,
+      "away": 3.26
+     },
+     "odds": {
+      "home": 1.98,
+      "draw": 3.63,
+      "away": 3.59
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.089,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-11",
+     "home": "Hull City",
+     "away": "Everton",
+     "retro": false,
+     "model": {
+      "home": 0.324,
+      "draw": 0.28,
+      "away": 0.396
+     },
+     "market": {
+      "home": 0.235,
+      "draw": 0.281,
+      "away": 0.484
+     },
+     "fair": {
+      "home": 3.09,
+      "draw": 3.57,
+      "away": 2.52
+     },
+     "odds": {
+      "home": 4.02,
+      "draw": 3.36,
+      "away": 1.95
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.089,
+     "result": "draw",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-08-30",
+     "home": "Augsburg",
+     "away": "Schalke 04",
+     "retro": true,
+     "model": {
+      "home": 0.327,
+      "draw": 0.268,
+      "away": 0.405
+     },
+     "market": {
+      "home": 0.414,
+      "draw": 0.269,
+      "away": 0.317
+     },
+     "fair": {
+      "home": 3.06,
+      "draw": 3.73,
+      "away": 2.47
+     },
+     "odds": {
+      "home": 2.27,
+      "draw": 3.5,
+      "away": 2.97
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.089,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-11-02",
+     "home": "Atalanta",
+     "away": "Parma",
+     "retro": false,
+     "model": {
+      "home": 0.595,
+      "draw": 0.246,
+      "away": 0.159
+     },
+     "market": {
+      "home": 0.684,
+      "draw": 0.188,
+      "away": 0.129
+     },
+     "fair": {
+      "home": 1.68,
+      "draw": 4.07,
+      "away": 6.29
+     },
+     "odds": {
+      "home": 1.38,
+      "draw": 5.03,
+      "away": 7.33
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.089,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-10-17",
+     "home": "Union Berlin",
+     "away": "Dortmund",
+     "retro": false,
+     "model": {
+      "home": 0.215,
+      "draw": 0.24,
+      "away": 0.545
+     },
+     "market": {
+      "home": 0.161,
+      "draw": 0.207,
+      "away": 0.632
+     },
+     "fair": {
+      "home": 4.65,
+      "draw": 4.17,
+      "away": 1.83
+     },
+     "odds": {
+      "home": 5.84,
+      "draw": 4.56,
+      "away": 1.49
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.087,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-11-06",
+     "home": "Toulouse",
+     "away": "Strasbourg",
+     "retro": false,
+     "model": {
+      "home": 0.519,
+      "draw": 0.256,
+      "away": 0.225
+     },
+     "market": {
+      "home": 0.433,
+      "draw": 0.262,
+      "away": 0.305
+     },
+     "fair": {
+      "home": 1.93,
+      "draw": 3.91,
+      "away": 4.44
+     },
+     "odds": {
+      "home": 2.17,
+      "draw": 3.58,
+      "away": 3.08
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.087,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-11",
+     "home": "Crystal Palace",
+     "away": "Nottingham",
+     "retro": false,
+     "model": {
+      "home": 0.375,
+      "draw": 0.332,
+      "away": 0.294
+     },
+     "market": {
+      "home": 0.339,
+      "draw": 0.281,
+      "away": 0.38
+     },
+     "fair": {
+      "home": 2.67,
+      "draw": 3.01,
+      "away": 3.41
+     },
+     "odds": {
+      "home": 2.77,
+      "draw": 3.34,
+      "away": 2.47
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.086,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-10-31",
+     "home": "Bayern Munich",
+     "away": "Dortmund",
+     "retro": false,
+     "model": {
+      "home": 0.621,
+      "draw": 0.183,
+      "away": 0.196
+     },
+     "market": {
+      "home": 0.707,
+      "draw": 0.162,
+      "away": 0.131
+     },
+     "fair": {
+      "home": 1.61,
+      "draw": 5.45,
+      "away": 5.12
+     },
+     "odds": {
+      "home": 1.33,
+      "draw": 5.81,
+      "away": 7.2
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.086,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-10-25",
+     "home": "Freiburg",
+     "away": "Bayern Munich",
+     "retro": false,
+     "model": {
+      "home": 0.19,
+      "draw": 0.227,
+      "away": 0.583
+     },
+     "market": {
+      "home": 0.156,
+      "draw": 0.175,
+      "away": 0.668
+     },
+     "fair": {
+      "home": 5.26,
+      "draw": 4.4,
+      "away": 1.72
+     },
+     "odds": {
+      "home": 6.03,
+      "draw": 5.38,
+      "away": 1.41
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.086,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-25",
+     "home": "Toulouse",
+     "away": "Troyes",
+     "retro": false,
+     "model": {
+      "home": 0.685,
+      "draw": 0.185,
+      "away": 0.129
+     },
+     "market": {
+      "home": 0.6,
+      "draw": 0.223,
+      "away": 0.178
+     },
+     "fair": {
+      "home": 1.46,
+      "draw": 5.39,
+      "away": 7.73
+     },
+     "odds": {
+      "home": 1.57,
+      "draw": 4.23,
+      "away": 5.3
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.085,
+     "result": "draw",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-11-07",
+     "home": "Paderborn 07",
+     "away": "Frankfurt",
+     "retro": false,
+     "model": {
+      "home": 0.289,
+      "draw": 0.337,
+      "away": 0.374
+     },
+     "market": {
+      "home": 0.315,
+      "draw": 0.252,
+      "away": 0.433
+     },
+     "fair": {
+      "home": 3.46,
+      "draw": 2.97,
+      "away": 2.68
+     },
+     "odds": {
+      "home": 2.99,
+      "draw": 3.74,
+      "away": 2.18
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.085,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-31",
+     "home": "Coventry City",
+     "away": "Sunderland",
+     "retro": false,
+     "model": {
+      "home": 0.358,
+      "draw": 0.325,
+      "away": 0.317
+     },
+     "market": {
+      "home": 0.319,
+      "draw": 0.28,
+      "away": 0.401
+     },
+     "fair": {
+      "home": 2.79,
+      "draw": 3.08,
+      "away": 3.16
+     },
+     "odds": {
+      "home": 2.94,
+      "draw": 3.35,
+      "away": 2.34
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.084,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-24",
+     "home": "Coventry City",
+     "away": "Fulham",
+     "retro": false,
+     "model": {
+      "home": 0.297,
+      "draw": 0.337,
+      "away": 0.366
+     },
+     "market": {
+      "home": 0.287,
+      "draw": 0.263,
+      "away": 0.45
+     },
+     "fair": {
+      "home": 3.37,
+      "draw": 2.97,
+      "away": 2.73
+     },
+     "odds": {
+      "home": 3.29,
+      "draw": 3.59,
+      "away": 2.1
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.084,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-08-29",
+     "home": "Levante",
+     "away": "Real Betis",
+     "retro": true,
+     "model": {
+      "home": 0.324,
+      "draw": 0.345,
+      "away": 0.331
+     },
+     "market": {
+      "home": 0.304,
+      "draw": 0.282,
+      "away": 0.415
+     },
+     "fair": {
+      "home": 3.09,
+      "draw": 2.9,
+      "away": 3.02
+     },
+     "odds": {
+      "home": 3.1,
+      "draw": 3.34,
+      "away": 2.27
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.083,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-11-08",
+     "home": "Real Sociedad",
+     "away": "Rayo Vallecano",
+     "retro": false,
+     "model": {
+      "home": 0.429,
+      "draw": 0.279,
+      "away": 0.292
+     },
+     "market": {
+      "home": 0.512,
+      "draw": 0.244,
+      "away": 0.244
+     },
+     "fair": {
+      "home": 2.33,
+      "draw": 3.59,
+      "away": 3.42
+     },
+     "odds": {
+      "home": 1.84,
+      "draw": 3.86,
+      "away": 3.87
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.083,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-05",
+     "home": "Brighton",
+     "away": "Leeds United",
+     "retro": true,
+     "model": {
+      "home": 0.404,
+      "draw": 0.312,
+      "away": 0.284
+     },
+     "market": {
+      "home": 0.487,
+      "draw": 0.26,
+      "away": 0.253
+     },
+     "fair": {
+      "home": 2.48,
+      "draw": 3.21,
+      "away": 3.51
+     },
+     "odds": {
+      "home": 1.94,
+      "draw": 3.63,
+      "away": 3.73
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.083,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-08-29",
+     "home": "Union Berlin",
+     "away": "Frankfurt",
+     "retro": true,
+     "model": {
+      "home": 0.331,
+      "draw": 0.342,
+      "away": 0.328
+     },
+     "market": {
+      "home": 0.361,
+      "draw": 0.258,
+      "away": 0.38
+     },
+     "fair": {
+      "home": 3.02,
+      "draw": 2.93,
+      "away": 3.05
+     },
+     "odds": {
+      "home": 2.61,
+      "draw": 3.65,
+      "away": 2.48
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.083,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-08-30",
+     "home": "Freiburg",
+     "away": "Werder Bremen",
+     "retro": true,
+     "model": {
+      "home": 0.449,
+      "draw": 0.304,
+      "away": 0.247
+     },
+     "market": {
+      "home": 0.532,
+      "draw": 0.248,
+      "away": 0.22
+     },
+     "fair": {
+      "home": 2.23,
+      "draw": 3.29,
+      "away": 4.05
+     },
+     "odds": {
+      "home": 1.77,
+      "draw": 3.8,
+      "away": 4.28
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.083,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-20",
+     "home": "Auxerre",
+     "away": "Brest",
+     "retro": false,
+     "model": {
+      "home": 0.346,
+      "draw": 0.33,
+      "away": 0.325
+     },
+     "market": {
+      "home": 0.325,
+      "draw": 0.268,
+      "away": 0.407
+     },
+     "fair": {
+      "home": 2.89,
+      "draw": 3.03,
+      "away": 3.08
+     },
+     "odds": {
+      "home": 2.9,
+      "draw": 3.51,
+      "away": 2.31
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.083,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-10-11",
+     "home": "Troyes",
+     "away": "Marseille",
+     "retro": false,
+     "model": {
+      "home": 0.224,
+      "draw": 0.231,
+      "away": 0.546
+     },
+     "market": {
+      "home": 0.271,
+      "draw": 0.266,
+      "away": 0.463
+     },
+     "fair": {
+      "home": 4.47,
+      "draw": 4.34,
+      "away": 1.83
+     },
+     "odds": {
+      "home": 3.47,
+      "draw": 3.54,
+      "away": 2.03
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.083,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-10-31",
+     "home": "Brentford",
+     "away": "Nottingham",
+     "retro": false,
+     "model": {
+      "home": 0.367,
+      "draw": 0.312,
+      "away": 0.321
+     },
+     "market": {
+      "home": 0.449,
+      "draw": 0.261,
+      "away": 0.289
+     },
+     "fair": {
+      "home": 2.73,
+      "draw": 3.2,
+      "away": 3.12
+     },
+     "odds": {
+      "home": 2.1,
+      "draw": 3.61,
+      "away": 3.26
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.082,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-20",
+     "home": "Paderborn 07",
+     "away": "Hoffenheim",
+     "retro": false,
+     "model": {
+      "home": 0.163,
+      "draw": 0.248,
+      "away": 0.589
+     },
+     "market": {
+      "home": 0.246,
+      "draw": 0.222,
+      "away": 0.533
+     },
+     "fair": {
+      "home": 6.12,
+      "draw": 4.03,
+      "away": 1.7
+     },
+     "odds": {
+      "home": 3.84,
+      "draw": 4.25,
+      "away": 1.77
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.082,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-10-28",
+     "home": "Monza",
+     "away": "Napoli",
+     "retro": false,
+     "model": {
+      "home": 0.237,
+      "draw": 0.24,
+      "away": 0.523
+     },
+     "market": {
+      "home": 0.176,
+      "draw": 0.219,
+      "away": 0.605
+     },
+     "fair": {
+      "home": 4.22,
+      "draw": 4.17,
+      "away": 1.91
+     },
+     "odds": {
+      "home": 5.36,
+      "draw": 4.31,
+      "away": 1.56
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.082,
+     "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-09-19",
+     "home": "Lyon",
+     "away": "Rennes",
+     "retro": false,
+     "model": {
+      "home": 0.532,
+      "draw": 0.243,
+      "away": 0.225
+     },
+     "market": {
+      "home": 0.451,
+      "draw": 0.251,
+      "away": 0.298
+     },
+     "fair": {
+      "home": 1.88,
+      "draw": 4.11,
+      "away": 4.45
+     },
+     "odds": {
+      "home": 2.09,
+      "draw": 3.75,
+      "away": 3.16
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.081,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-09-05",
+     "home": "Werder Bremen",
+     "away": "RB Leipzig",
+     "retro": true,
+     "model": {
+      "home": 0.17,
+      "draw": 0.25,
+      "away": 0.579
+     },
+     "market": {
+      "home": 0.251,
+      "draw": 0.231,
+      "away": 0.518
+     },
+     "fair": {
+      "home": 5.87,
+      "draw": 4.0,
+      "away": 1.73
+     },
+     "odds": {
+      "home": 3.75,
+      "draw": 4.08,
+      "away": 1.82
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.081,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-09-12",
+     "home": "Genoa",
+     "away": "Frosinone",
+     "retro": false,
+     "model": {
+      "home": 0.336,
+      "draw": 0.288,
+      "away": 0.376
+     },
+     "market": {
+      "home": 0.417,
+      "draw": 0.283,
+      "away": 0.301
+     },
+     "fair": {
+      "home": 2.98,
+      "draw": 3.47,
+      "away": 2.66
+     },
+     "odds": {
+      "home": 2.26,
+      "draw": 3.33,
+      "away": 3.13
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.08,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-09-12",
+     "home": "Sunderland",
+     "away": "Arsenal",
+     "retro": false,
+     "model": {
+      "home": 0.121,
+      "draw": 0.214,
+      "away": 0.665
+     },
+     "market": {
+      "home": 0.161,
+      "draw": 0.255,
+      "away": 0.585
+     },
+     "fair": {
+      "home": 8.26,
+      "draw": 4.67,
+      "away": 1.5
+     },
+     "odds": {
+      "home": 5.89,
+      "draw": 3.72,
+      "away": 1.62
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.08,
+     "result": "away",
+     "better": "model"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-10-18",
+     "home": "Fiorentina",
+     "away": "Como",
+     "retro": false,
+     "model": {
+      "home": 0.237,
+      "draw": 0.259,
+      "away": 0.504
+     },
+     "market": {
+      "home": 0.31,
+      "draw": 0.266,
+      "away": 0.424
+     },
+     "fair": {
+      "home": 4.22,
+      "draw": 3.86,
+      "away": 1.98
+     },
+     "odds": {
+      "home": 3.03,
+      "draw": 3.54,
+      "away": 2.22
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.08,
+     "result": "away",
+     "better": "model"
+    }
+   ]
+  },
+  "histogram": {
+   "bins": [
+    {
+     "from": -0.3,
+     "to": -0.25,
+     "label": "-0.30"
+    },
+    {
+     "from": -0.25,
+     "to": -0.2,
+     "label": "-0.25"
+    },
+    {
+     "from": -0.2,
+     "to": -0.15,
+     "label": "-0.20"
+    },
+    {
+     "from": -0.15,
+     "to": -0.1,
+     "label": "-0.15"
+    },
+    {
+     "from": -0.1,
+     "to": -0.05,
+     "label": "-0.10"
+    },
+    {
+     "from": -0.05,
+     "to": 0.0,
+     "label": "-0.05"
+    },
+    {
+     "from": 0.0,
+     "to": 0.05,
+     "label": "+0.00"
+    },
+    {
+     "from": 0.05,
+     "to": 0.1,
+     "label": "+0.05"
+    },
+    {
+     "from": 0.1,
+     "to": 0.15,
+     "label": "+0.10"
+    },
+    {
+     "from": 0.15,
+     "to": 0.2,
+     "label": "+0.15"
+    },
+    {
+     "from": 0.2,
+     "to": 0.25,
+     "label": "+0.20"
+    },
+    {
+     "from": 0.25,
+     "to": 0.3,
+     "label": "+0.25"
+    }
+   ],
+   "home": [
+    5,
+    9,
+    17,
+    61,
+    79,
+    114,
+    96,
+    77,
+    32,
+    7,
+    2,
+    0
+   ],
+   "draw": [
+    0,
+    0,
+    0,
+    0,
+    3,
+    85,
+    266,
+    132,
+    13,
+    0,
+    0,
+    0
+   ],
+   "away": [
+    2,
+    5,
+    26,
+    40,
+    81,
+    102,
+    139,
+    78,
+    17,
+    8,
+    1,
+    0
+   ]
+  }
+ },
+ "historical": {
+  "leagues": [
+   "ENG-Premier League",
+   "ESP-La Liga",
+   "GER-Bundesliga",
+   "ITA-Serie A"
+  ],
+  "join": {
+   "rows": 11311,
+   "joined": 11309,
+   "rate": 0.9998,
+   "unjoined": [
+    {
+     "season": "1819",
+     "league": "GER-Bundesliga",
+     "date": "2019-05-04",
+     "home": "Bayern Munich",
+     "away": "Hannover 96"
+    },
+    {
+     "season": "2324",
+     "league": "ITA-Serie A",
+     "date": "2024-04-14",
+     "home": "Udinese",
+     "away": "Roma"
+    }
+   ]
+  },
+  "seasons": [
+   {
+    "season": "1819",
+    "n": 1412,
+    "market_log_loss": 0.9502,
+    "blend_log_loss": 0.9748,
+    "blend_gap": 0.0245,
+    "layer_log_loss": 0.9763,
+    "layer_gap": 0.026
+   },
+   {
+    "season": "1920",
+    "n": 1411,
+    "market_log_loss": 0.9688,
+    "blend_log_loss": 0.9888,
+    "blend_gap": 0.0199,
+    "layer_log_loss": 0.9902,
+    "layer_gap": 0.0214
+   },
+   {
+    "season": "2021",
+    "n": 1415,
+    "market_log_loss": 0.9727,
+    "blend_log_loss": 0.9907,
+    "blend_gap": 0.0179,
+    "layer_log_loss": 0.992,
+    "layer_gap": 0.0192
+   },
+   {
+    "season": "2122",
+    "n": 1415,
+    "market_log_loss": 0.9715,
+    "blend_log_loss": 0.9868,
+    "blend_gap": 0.0153,
+    "layer_log_loss": 0.9872,
+    "layer_gap": 0.0157
+   },
+   {
+    "season": "2223",
+    "n": 1413,
+    "market_log_loss": 0.9769,
+    "blend_log_loss": 0.9881,
+    "blend_gap": 0.0111,
+    "layer_log_loss": 0.988,
+    "layer_gap": 0.0111
+   },
+   {
+    "season": "2324",
+    "n": 1412,
+    "market_log_loss": 0.9423,
+    "blend_log_loss": 0.9701,
+    "blend_gap": 0.0277,
+    "layer_log_loss": 0.9703,
+    "layer_gap": 0.028
+   },
+   {
+    "season": "2425",
+    "n": 1415,
+    "market_log_loss": 0.9635,
+    "blend_log_loss": 0.981,
+    "blend_gap": 0.0175,
+    "layer_log_loss": 0.9812,
+    "layer_gap": 0.0177
+   },
+   {
+    "season": "2526",
+    "n": 1416,
+    "market_log_loss": 0.9781,
+    "blend_log_loss": 0.9953,
+    "blend_gap": 0.0172,
+    "layer_log_loss": 0.9952,
+    "layer_gap": 0.0171
+   }
+  ],
+  "pooled": {
+   "n": 11309,
+   "market_log_loss": 0.9655,
+   "blend_log_loss": 0.9844,
+   "blend_gap": 0.0189,
+   "layer_log_loss": 0.9851,
+   "layer_gap": 0.0195
+  },
+  "note": null
+ },
+ "information_test": {
+  "arm": "blend",
+  "n": 11309,
+  "seasons": [
+   "1819",
+   "1920",
+   "2021",
+   "2122",
+   "2223",
+   "2324",
+   "2425",
+   "2526"
+  ],
+  "weight_model": 0.0909,
+  "weight_market": 1.0193,
+  "ci95": [
+   -0.0456,
+   0.2128
+  ],
+  "resamples": 500,
+  "per_season": [
+   {
+    "season": "1819",
+    "n": 1412,
+    "market_only": 0.9504,
+    "stacked": 0.9504
+   },
+   {
+    "season": "1920",
+    "n": 1411,
+    "market_only": 0.9697,
+    "stacked": 0.9696
+   },
+   {
+    "season": "2021",
+    "n": 1415,
+    "market_only": 0.9724,
+    "stacked": 0.9721
+   },
+   {
+    "season": "2122",
+    "n": 1415,
+    "market_only": 0.9715,
+    "stacked": 0.9712
+   },
+   {
+    "season": "2223",
+    "n": 1413,
+    "market_only": 0.9793,
+    "stacked": 0.9794
+   },
+   {
+    "season": "2324",
+    "n": 1412,
+    "market_only": 0.9401,
+    "stacked": 0.9405
+   },
+   {
+    "season": "2425",
+    "n": 1415,
+    "market_only": 0.9624,
+    "stacked": 0.9621
+   },
+   {
+    "season": "2526",
+    "n": 1416,
+    "market_only": 0.9773,
+    "stacked": 0.9773
+   }
+  ],
+  "pooled": {
+   "market_only": 0.9654,
+   "stacked": 0.9653
+  },
+  "adds_information": false,
+  "verdict": "The model does not add information beyond the market: its weight is 0.09 with a 95% CI of -0.05 to 0.21, which includes zero."
+ }
+}

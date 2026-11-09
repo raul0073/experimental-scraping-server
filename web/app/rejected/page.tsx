@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Crumbs } from "../components/Crumbs";
 
-/** WHAT WE TRIED AND THREW AWAY.
+/** WHAT I TRIED AND THREW AWAY.
  *
  *  Every project publishes what worked. This one has an unusual amount of
  *  evidence about what did NOT, because each idea was tested against the
@@ -13,12 +13,13 @@ import { Crumbs } from "../components/Crumbs";
  *  The rule throughout: a paired bootstrap on the fixtures an idea actually
  *  touches, and nothing ships on a story. P(better) is the share of
  *  resamples in which the new version beat the old one. Around 0.5 is a coin
- *  flip. None of these got near enough to 0.95 to ship.
+ *  flip. One idea here DID ship, on a one-season test, and was reversed by
+ *  the eight-season walk-forward seven weeks later; it is listed as such.
  */
 export const metadata = {
-  title: "What we rejected — Predictorous",
+  title: "What I rejected — Predictorous",
   description:
-    "Ideas that were tested against the shipping model and lost, with the numbers.",
+    "Ideas that were tested against the shipping model and lost, with the numbers — including one that shipped and was reversed.",
 };
 
 type Entry = {
@@ -55,12 +56,20 @@ const ENTRIES: Entry[] = [
     stat: "P(better) = 0.633",
   },
   {
+    idea: "The layer: let the Elo arm's classifier own the draw",
+    hope: "On the 1,714 fixtures of 25/26 the Elo arm ranked draws best, so average the two models for the home:away ratio and hand P(draw) to the Elo arm alone. It shipped on 2026-09-20.",
+    result:
+      "The eight-season walk-forward (11,311 fixtures, every fold fitted only on earlier seasons) reversed it: the layer imports the classifier's draw ORDER, which is worse than the plain blend's, and loses on the triplet too — 0.9850 against 0.9843. The plain blend ships from 2026-11-09; rows priced by the layer stand on the record as recorded.",
+    verdict: "reversed",
+    stat: "layer 0.9850 v blend 0.9843, 30.1% v 31.6% of draws found",
+  },
+  {
     idea: "Blending the process-Elo arm into the shipped model",
     hope: "Two independent models usually beat one.",
     result:
-      "Better on the sample, nowhere near significantly. It has not shipped and will not until a bigger sample says so.",
+      "On a few hundred fixtures it was better and nowhere near significant (P(better) 0.790). On the eight-season walk-forward the blend and the shipped model are a coin flip on log loss — 0.9843 against 0.9842 — and the blend finds more draws at the cutoff the product uses. It ships for that reason, not because it won.",
     verdict: "not proven",
-    stat: "P(better) = 0.790",
+    stat: "0.9843 v 0.9842 log loss, 11,311 fixtures",
   },
   {
     idea: "Seeding the model with a manager's record",
@@ -102,9 +111,9 @@ const STYLE: Record<Entry["verdict"], string> = {
 export default function RejectedPage() {
   return (
     <div>
-      <Crumbs trail={[{ label: "What we rejected" }]} />
+      <Crumbs trail={[{ label: "What I rejected" }]} />
       <h1 className="font-display text-[24px] tracking-[0.01em]">
-        What we rejected
+        What I rejected
       </h1>
       <p className="mt-1.5 max-w-3xl text-[13.5px] leading-relaxed text-ink-2">
         Every idea below was built, tested against the shipping model on
@@ -117,8 +126,9 @@ export default function RejectedPage() {
         touches. <span className="num">P(better)</span> is the share of
         resamples in which the new version beat the old one — about{" "}
         <span className="num">0.5</span> is a coin flip. Nothing here got near
-        enough to <span className="num">0.95</span> to ship, so nothing here
-        shipped.
+        enough to <span className="num">0.95</span> to ship on its merits. One
+        thing shipped anyway, on a single season, and the longer test took it
+        back out; that entry is marked <em>reversed</em>, with the dates.
       </p>
 
       <div className="mt-6 space-y-3">
@@ -157,11 +167,12 @@ export default function RejectedPage() {
           What this leaves
         </h2>
         <p className="mt-2 text-[13px] leading-relaxed text-ink-2">
-          A shipping model that beats picking the home side by{" "}
-          <span className="num">9.6</span> points of accuracy, is{" "}
-          <span className="num">6.9%</span> better than league base rates on
-          log loss, and is calibrated where the mass is — matches it calls at
-          25–35% happen 29% of the time. Everything above was an attempt to
+          A shipping model that, over eight frozen seasons and 11,311
+          fixtures, scores <span className="num">0.984</span> log loss against
+          a base rate of <span className="num">1.073</span>, calls the right
+          outcome <span className="num">52.7%</span> of the time where always
+          picking the home side gets <span className="num">43.4%</span>, and is
+          calibrated where the mass is. Everything above was an attempt to
           improve on that and did not.
         </p>
         <p className="mt-2 text-[12.5px] leading-relaxed text-ink-3">

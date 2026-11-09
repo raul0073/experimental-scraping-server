@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 from services.fbref.fixtures.fixtures_service import FixturesService
+from services.predictions.windows import VOID_NOTE, stale_floor
 
 log = logging.getLogger(__name__)
 
@@ -132,6 +133,7 @@ class GoldLedger:
                                 books[key][(m["home_team"], m["away_team"])] = m
         graded = 0
         resolved_now = 0   # legs settled this pass, even in unfinished windows
+        floor = stale_floor()
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         for r in pending:
             all_resolved = True
@@ -145,6 +147,16 @@ class GoldLedger:
                     m = book.get((b["away"], b["home"]))
                     flipped = m is not None
                 if not m:
+                    # Same rule as the slips: a bet nothing will ever match
+                    # is void at 1.00 once the grace period has passed, so
+                    # the window grades and the stake comes back.
+                    if b.get("kickoff") and b["kickoff"] < floor:
+                        b["void"] = True
+                        b["hit"] = True
+                        b["breakeven"] = 1.0
+                        b["note"] = VOID_NOTE
+                        resolved_now += 1
+                        continue
                     all_resolved = False
                     continue
                 hg, ag = (m["away_goals"], m["home_goals"]) if flipped else \
