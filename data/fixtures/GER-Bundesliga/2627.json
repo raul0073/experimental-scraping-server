@@ -2,7 +2,7 @@
   "league": "GER-Bundesliga",
   "season": "2627",
   "match_count": 306,
-  "played_count": 72,
+  "played_count": 81,
   "matches": [
     {
       "date": "2026-08-28",
@@ -946,11 +946,11 @@
       "week": 9,
       "home_team": "Hamburger SV",
       "away_team": "Gladbach",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 3,
+      "away_goals": 1,
+      "played": true,
       "venue": "Volksparkstadion",
-      "referee": null,
+      "referee": "Sven Jablonski",
       "game_id": "2026-11-06 Hamburger SV-Gladbach"
     },
     {
@@ -959,11 +959,11 @@
       "week": 9,
       "home_team": "Dortmund",
       "away_team": "Elversberg",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 1,
+      "played": true,
       "venue": "Signal Iduna Park",
-      "referee": null,
+      "referee": "Harm Osmers",
       "game_id": "2026-11-07 Dortmund-Elversberg"
     },
     {
@@ -972,11 +972,11 @@
       "week": 9,
       "home_team": "Mainz 05",
       "away_team": "Bayern Munich",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 2,
+      "played": true,
       "venue": "Mewa Arena",
-      "referee": null,
+      "referee": "Robert Schröder",
       "game_id": "2026-11-07 Mainz 05-Bayern Munich"
     },
     {
@@ -985,11 +985,11 @@
       "week": 9,
       "home_team": "Paderborn 07",
       "away_team": "Frankfurt",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 2,
+      "played": true,
       "venue": "Home Deluxe Arena",
-      "referee": null,
+      "referee": "Bastian Dankert",
       "game_id": "2026-11-07 Paderborn 07-Frankfurt"
     },
     {
@@ -998,11 +998,11 @@
       "week": 9,
       "home_team": "RB Leipzig",
       "away_team": "Augsburg",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 5,
+      "away_goals": 2,
+      "played": true,
       "venue": "Red Bull Arena",
-      "referee": null,
+      "referee": "Daniel Schlager",
       "game_id": "2026-11-07 RB Leipzig-Augsburg"
     },
     {
@@ -1011,11 +1011,11 @@
       "week": 9,
       "home_team": "Stuttgart",
       "away_team": "Werder Bremen",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 0,
+      "played": true,
       "venue": "MHPArena",
-      "referee": null,
+      "referee": "Sören Storks",
       "game_id": "2026-11-07 Stuttgart-Werder Bremen"
     },
     {
@@ -1024,11 +1024,11 @@
       "week": 9,
       "home_team": "Freiburg",
       "away_team": "Union Berlin",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 0,
+      "played": true,
       "venue": "Europa-Park Stadion",
-      "referee": null,
+      "referee": "Sascha Stegemann",
       "game_id": "2026-11-08 Freiburg-Union Berlin"
     },
     {
@@ -1037,11 +1037,11 @@
       "week": 9,
       "home_team": "Hoffenheim",
       "away_team": "Schalke 04",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 2,
+      "away_goals": 1,
+      "played": true,
       "venue": "PreZero Arena",
-      "referee": null,
+      "referee": "Martin Petersen",
       "game_id": "2026-11-08 Hoffenheim-Schalke 04"
     },
     {
@@ -1050,11 +1050,11 @@
       "week": 9,
       "home_team": "Köln",
       "away_team": "Leverkusen",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
+      "home_goals": 1,
+      "away_goals": 2,
+      "played": true,
       "venue": "RheinEnergieSTADION",
-      "referee": null,
+      "referee": "Felix Zwayer",
       "game_id": "2026-11-08 Köln-Leverkusen"
     },
     {
@@ -1292,8 +1292,21 @@
       "game_id": "2026-11-29 Hoffenheim-Augsburg"
     },
     {
+      "date": "2026-12-04",
+      "time": "20:30 (21:30)",
+      "week": 12,
+      "home_team": "Bayern Munich",
+      "away_team": "Paderborn 07",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Allianz Arena",
+      "referee": null,
+      "game_id": "2026-12-04 Bayern Munich-Paderborn 07"
+    },
+    {
       "date": "2026-12-05",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 12,
       "home_team": "Augsburg",
       "away_team": "Köln",
@@ -1306,33 +1319,7 @@
     },
     {
       "date": "2026-12-05",
-      "time": null,
-      "week": 12,
-      "home_team": "Bayern Munich",
-      "away_team": "Paderborn 07",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Allianz Arena",
-      "referee": null,
-      "game_id": "2026-12-05 Bayern Munich-Paderborn 07"
-    },
-    {
-      "date": "2026-12-05",
-      "time": null,
-      "week": 12,
-      "home_team": "Elversberg",
-      "away_team": "Stuttgart",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Ursapharm-Arena an der Kaiserlinde",
-      "referee": null,
-      "game_id": "2026-12-05 Elversberg-Stuttgart"
-    },
-    {
-      "date": "2026-12-05",
-      "time": null,
+      "time": "18:30 (19:30)",
       "week": 12,
       "home_team": "Frankfurt",
       "away_team": "Werder Bremen",
@@ -1345,7 +1332,7 @@
     },
     {
       "date": "2026-12-05",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 12,
       "home_team": "Freiburg",
       "away_team": "Hoffenheim",
@@ -1358,7 +1345,7 @@
     },
     {
       "date": "2026-12-05",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 12,
       "home_team": "Leverkusen",
       "away_team": "Gladbach",
@@ -1371,7 +1358,7 @@
     },
     {
       "date": "2026-12-05",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 12,
       "home_team": "RB Leipzig",
       "away_team": "Mainz 05",
@@ -1384,20 +1371,7 @@
     },
     {
       "date": "2026-12-05",
-      "time": null,
-      "week": 12,
-      "home_team": "Schalke 04",
-      "away_team": "Dortmund",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Veltins-Arena",
-      "referee": null,
-      "game_id": "2026-12-05 Schalke 04-Dortmund"
-    },
-    {
-      "date": "2026-12-05",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 12,
       "home_team": "Union Berlin",
       "away_team": "Hamburger SV",
@@ -1409,8 +1383,47 @@
       "game_id": "2026-12-05 Union Berlin-Hamburger SV"
     },
     {
+      "date": "2026-12-06",
+      "time": "17:30 (18:30)",
+      "week": 12,
+      "home_team": "Elversberg",
+      "away_team": "Stuttgart",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Ursapharm-Arena an der Kaiserlinde",
+      "referee": null,
+      "game_id": "2026-12-06 Elversberg-Stuttgart"
+    },
+    {
+      "date": "2026-12-06",
+      "time": "15:30 (16:30)",
+      "week": 12,
+      "home_team": "Schalke 04",
+      "away_team": "Dortmund",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Veltins-Arena",
+      "referee": null,
+      "game_id": "2026-12-06 Schalke 04-Dortmund"
+    },
+    {
+      "date": "2026-12-11",
+      "time": "20:30 (21:30)",
+      "week": 13,
+      "home_team": "Hamburger SV",
+      "away_team": "Schalke 04",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Volksparkstadion",
+      "referee": null,
+      "game_id": "2026-12-11 Hamburger SV-Schalke 04"
+    },
+    {
       "date": "2026-12-12",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 13,
       "home_team": "Dortmund",
       "away_team": "Augsburg",
@@ -1423,7 +1436,7 @@
     },
     {
       "date": "2026-12-12",
-      "time": null,
+      "time": "18:30 (19:30)",
       "week": 13,
       "home_team": "Gladbach",
       "away_team": "Frankfurt",
@@ -1436,33 +1449,7 @@
     },
     {
       "date": "2026-12-12",
-      "time": null,
-      "week": 13,
-      "home_team": "Hamburger SV",
-      "away_team": "Schalke 04",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Volksparkstadion",
-      "referee": null,
-      "game_id": "2026-12-12 Hamburger SV-Schalke 04"
-    },
-    {
-      "date": "2026-12-12",
-      "time": null,
-      "week": 13,
-      "home_team": "Hoffenheim",
-      "away_team": "Bayern Munich",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "PreZero Arena",
-      "referee": null,
-      "game_id": "2026-12-12 Hoffenheim-Bayern Munich"
-    },
-    {
-      "date": "2026-12-12",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 13,
       "home_team": "Köln",
       "away_team": "RB Leipzig",
@@ -1475,20 +1462,7 @@
     },
     {
       "date": "2026-12-12",
-      "time": null,
-      "week": 13,
-      "home_team": "Mainz 05",
-      "away_team": "Freiburg",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Mewa Arena",
-      "referee": null,
-      "game_id": "2026-12-12 Mainz 05-Freiburg"
-    },
-    {
-      "date": "2026-12-12",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 13,
       "home_team": "Paderborn 07",
       "away_team": "Elversberg",
@@ -1501,7 +1475,7 @@
     },
     {
       "date": "2026-12-12",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 13,
       "home_team": "Stuttgart",
       "away_team": "Union Berlin",
@@ -1513,8 +1487,34 @@
       "game_id": "2026-12-12 Stuttgart-Union Berlin"
     },
     {
-      "date": "2026-12-12",
-      "time": null,
+      "date": "2026-12-13",
+      "time": "17:30 (18:30)",
+      "week": 13,
+      "home_team": "Hoffenheim",
+      "away_team": "Bayern Munich",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "PreZero Arena",
+      "referee": null,
+      "game_id": "2026-12-13 Hoffenheim-Bayern Munich"
+    },
+    {
+      "date": "2026-12-13",
+      "time": "15:30 (16:30)",
+      "week": 13,
+      "home_team": "Mainz 05",
+      "away_team": "Freiburg",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Mewa Arena",
+      "referee": null,
+      "game_id": "2026-12-13 Mainz 05-Freiburg"
+    },
+    {
+      "date": "2026-12-13",
+      "time": "19:30 (20:30)",
       "week": 13,
       "home_team": "Werder Bremen",
       "away_team": "Leverkusen",
@@ -1523,11 +1523,24 @@
       "played": false,
       "venue": "Weserstadion",
       "referee": null,
-      "game_id": "2026-12-12 Werder Bremen-Leverkusen"
+      "game_id": "2026-12-13 Werder Bremen-Leverkusen"
+    },
+    {
+      "date": "2026-12-18",
+      "time": "20:30 (21:30)",
+      "week": 14,
+      "home_team": "Bayern Munich",
+      "away_team": "Werder Bremen",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Allianz Arena",
+      "referee": null,
+      "game_id": "2026-12-18 Bayern Munich-Werder Bremen"
     },
     {
       "date": "2026-12-19",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 14,
       "home_team": "Augsburg",
       "away_team": "Paderborn 07",
@@ -1540,20 +1553,7 @@
     },
     {
       "date": "2026-12-19",
-      "time": null,
-      "week": 14,
-      "home_team": "Bayern Munich",
-      "away_team": "Werder Bremen",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Allianz Arena",
-      "referee": null,
-      "game_id": "2026-12-19 Bayern Munich-Werder Bremen"
-    },
-    {
-      "date": "2026-12-19",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 14,
       "home_team": "Elversberg",
       "away_team": "Hamburger SV",
@@ -1566,20 +1566,7 @@
     },
     {
       "date": "2026-12-19",
-      "time": null,
-      "week": 14,
-      "home_team": "Freiburg",
-      "away_team": "Stuttgart",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Europa-Park Stadion",
-      "referee": null,
-      "game_id": "2026-12-19 Freiburg-Stuttgart"
-    },
-    {
-      "date": "2026-12-19",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 14,
       "home_team": "Leverkusen",
       "away_team": "Frankfurt",
@@ -1592,7 +1579,7 @@
     },
     {
       "date": "2026-12-19",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 14,
       "home_team": "Mainz 05",
       "away_team": "Köln",
@@ -1605,7 +1592,7 @@
     },
     {
       "date": "2026-12-19",
-      "time": null,
+      "time": "18:30 (19:30)",
       "week": 14,
       "home_team": "RB Leipzig",
       "away_team": "Dortmund",
@@ -1617,8 +1604,21 @@
       "game_id": "2026-12-19 RB Leipzig-Dortmund"
     },
     {
-      "date": "2026-12-19",
-      "time": null,
+      "date": "2026-12-20",
+      "time": "15:30 (16:30)",
+      "week": 14,
+      "home_team": "Freiburg",
+      "away_team": "Stuttgart",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Europa-Park Stadion",
+      "referee": null,
+      "game_id": "2026-12-20 Freiburg-Stuttgart"
+    },
+    {
+      "date": "2026-12-20",
+      "time": "19:30 (20:30)",
       "week": 14,
       "home_team": "Schalke 04",
       "away_team": "Gladbach",
@@ -1627,11 +1627,11 @@
       "played": false,
       "venue": "Veltins-Arena",
       "referee": null,
-      "game_id": "2026-12-19 Schalke 04-Gladbach"
+      "game_id": "2026-12-20 Schalke 04-Gladbach"
     },
     {
-      "date": "2026-12-19",
-      "time": null,
+      "date": "2026-12-20",
+      "time": "17:30 (18:30)",
       "week": 14,
       "home_team": "Union Berlin",
       "away_team": "Hoffenheim",
@@ -1640,11 +1640,11 @@
       "played": false,
       "venue": "Stadion An der Alten Försterei",
       "referee": null,
-      "game_id": "2026-12-19 Union Berlin-Hoffenheim"
+      "game_id": "2026-12-20 Union Berlin-Hoffenheim"
     },
     {
-      "date": "2027-01-09",
-      "time": null,
+      "date": "2027-01-08",
+      "time": "20:30 (21:30)",
       "week": 15,
       "home_team": "Dortmund",
       "away_team": "Mainz 05",
@@ -1653,11 +1653,11 @@
       "played": false,
       "venue": "Signal Iduna Park",
       "referee": null,
-      "game_id": "2027-01-09 Dortmund-Mainz 05"
+      "game_id": "2027-01-08 Dortmund-Mainz 05"
     },
     {
       "date": "2027-01-09",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 15,
       "home_team": "Frankfurt",
       "away_team": "Schalke 04",
@@ -1670,7 +1670,7 @@
     },
     {
       "date": "2027-01-09",
-      "time": null,
+      "time": "18:30 (19:30)",
       "week": 15,
       "home_team": "Gladbach",
       "away_team": "Bayern Munich",
@@ -1683,20 +1683,7 @@
     },
     {
       "date": "2027-01-09",
-      "time": null,
-      "week": 15,
-      "home_team": "Hamburger SV",
-      "away_team": "Leverkusen",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Volksparkstadion",
-      "referee": null,
-      "game_id": "2027-01-09 Hamburger SV-Leverkusen"
-    },
-    {
-      "date": "2027-01-09",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 15,
       "home_team": "Hoffenheim",
       "away_team": "Elversberg",
@@ -1709,7 +1696,7 @@
     },
     {
       "date": "2027-01-09",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 15,
       "home_team": "Köln",
       "away_team": "Freiburg",
@@ -1722,7 +1709,7 @@
     },
     {
       "date": "2027-01-09",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 15,
       "home_team": "Paderborn 07",
       "away_team": "RB Leipzig",
@@ -1735,7 +1722,7 @@
     },
     {
       "date": "2027-01-09",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 15,
       "home_team": "Stuttgart",
       "away_team": "Augsburg",
@@ -1747,8 +1734,21 @@
       "game_id": "2027-01-09 Stuttgart-Augsburg"
     },
     {
-      "date": "2027-01-09",
-      "time": null,
+      "date": "2027-01-10",
+      "time": "17:30 (18:30)",
+      "week": 15,
+      "home_team": "Hamburger SV",
+      "away_team": "Leverkusen",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Volksparkstadion",
+      "referee": null,
+      "game_id": "2027-01-10 Hamburger SV-Leverkusen"
+    },
+    {
+      "date": "2027-01-10",
+      "time": "15:30 (16:30)",
       "week": 15,
       "home_team": "Werder Bremen",
       "away_team": "Union Berlin",
@@ -1757,11 +1757,11 @@
       "played": false,
       "venue": "Weserstadion",
       "referee": null,
-      "game_id": "2027-01-09 Werder Bremen-Union Berlin"
+      "game_id": "2027-01-10 Werder Bremen-Union Berlin"
     },
     {
-      "date": "2027-01-13",
-      "time": null,
+      "date": "2027-01-12",
+      "time": "20:30 (21:30)",
       "week": 16,
       "home_team": "Augsburg",
       "away_team": "Gladbach",
@@ -1770,11 +1770,50 @@
       "played": false,
       "venue": "WWK Arena",
       "referee": null,
-      "game_id": "2027-01-13 Augsburg-Gladbach"
+      "game_id": "2027-01-12 Augsburg-Gladbach"
+    },
+    {
+      "date": "2027-01-12",
+      "time": "20:30 (21:30)",
+      "week": 16,
+      "home_team": "Köln",
+      "away_team": "Dortmund",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "RheinEnergieSTADION",
+      "referee": null,
+      "game_id": "2027-01-12 Köln-Dortmund"
+    },
+    {
+      "date": "2027-01-12",
+      "time": "20:30 (21:30)",
+      "week": 16,
+      "home_team": "Mainz 05",
+      "away_team": "Hoffenheim",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Mewa Arena",
+      "referee": null,
+      "game_id": "2027-01-12 Mainz 05-Hoffenheim"
+    },
+    {
+      "date": "2027-01-12",
+      "time": "18:30 (19:30)",
+      "week": 16,
+      "home_team": "RB Leipzig",
+      "away_team": "Stuttgart",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Red Bull Arena",
+      "referee": null,
+      "game_id": "2027-01-12 RB Leipzig-Stuttgart"
     },
     {
       "date": "2027-01-13",
-      "time": null,
+      "time": "20:30 (21:30)",
       "week": 16,
       "home_team": "Bayern Munich",
       "away_team": "Leverkusen",
@@ -1787,7 +1826,7 @@
     },
     {
       "date": "2027-01-13",
-      "time": null,
+      "time": "18:30 (19:30)",
       "week": 16,
       "home_team": "Elversberg",
       "away_team": "Frankfurt",
@@ -1800,7 +1839,7 @@
     },
     {
       "date": "2027-01-13",
-      "time": null,
+      "time": "20:30 (21:30)",
       "week": 16,
       "home_team": "Freiburg",
       "away_team": "Hamburger SV",
@@ -1813,59 +1852,7 @@
     },
     {
       "date": "2027-01-13",
-      "time": null,
-      "week": 16,
-      "home_team": "Köln",
-      "away_team": "Dortmund",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "RheinEnergieSTADION",
-      "referee": null,
-      "game_id": "2027-01-13 Köln-Dortmund"
-    },
-    {
-      "date": "2027-01-13",
-      "time": null,
-      "week": 16,
-      "home_team": "Mainz 05",
-      "away_team": "Hoffenheim",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Mewa Arena",
-      "referee": null,
-      "game_id": "2027-01-13 Mainz 05-Hoffenheim"
-    },
-    {
-      "date": "2027-01-13",
-      "time": null,
-      "week": 16,
-      "home_team": "RB Leipzig",
-      "away_team": "Stuttgart",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Red Bull Arena",
-      "referee": null,
-      "game_id": "2027-01-13 RB Leipzig-Stuttgart"
-    },
-    {
-      "date": "2027-01-13",
-      "time": null,
-      "week": 16,
-      "home_team": "Schalke 04",
-      "away_team": "Werder Bremen",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "Veltins-Arena",
-      "referee": null,
-      "game_id": "2027-01-13 Schalke 04-Werder Bremen"
-    },
-    {
-      "date": "2027-01-13",
-      "time": null,
+      "time": "20:30 (21:30)",
       "week": 16,
       "home_team": "Union Berlin",
       "away_team": "Paderborn 07",
@@ -1877,8 +1864,34 @@
       "game_id": "2027-01-13 Union Berlin-Paderborn 07"
     },
     {
+      "date": "2027-01-14",
+      "time": "20:30 (21:30)",
+      "week": 16,
+      "home_team": "Schalke 04",
+      "away_team": "Werder Bremen",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "Veltins-Arena",
+      "referee": null,
+      "game_id": "2027-01-14 Schalke 04-Werder Bremen"
+    },
+    {
+      "date": "2027-01-15",
+      "time": "20:30 (21:30)",
+      "week": 17,
+      "home_team": "Stuttgart",
+      "away_team": "Mainz 05",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "MHPArena",
+      "referee": null,
+      "game_id": "2027-01-15 Stuttgart-Mainz 05"
+    },
+    {
       "date": "2027-01-16",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 17,
       "home_team": "Dortmund",
       "away_team": "Freiburg",
@@ -1891,7 +1904,7 @@
     },
     {
       "date": "2027-01-16",
-      "time": null,
+      "time": "18:30 (19:30)",
       "week": 17,
       "home_team": "Frankfurt",
       "away_team": "Bayern Munich",
@@ -1904,7 +1917,7 @@
     },
     {
       "date": "2027-01-16",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 17,
       "home_team": "Gladbach",
       "away_team": "Union Berlin",
@@ -1917,7 +1930,7 @@
     },
     {
       "date": "2027-01-16",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 17,
       "home_team": "Hamburger SV",
       "away_team": "Augsburg",
@@ -1930,7 +1943,7 @@
     },
     {
       "date": "2027-01-16",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 17,
       "home_team": "Hoffenheim",
       "away_team": "RB Leipzig",
@@ -1943,20 +1956,7 @@
     },
     {
       "date": "2027-01-16",
-      "time": null,
-      "week": 17,
-      "home_team": "Leverkusen",
-      "away_team": "Schalke 04",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "BayArena",
-      "referee": null,
-      "game_id": "2027-01-16 Leverkusen-Schalke 04"
-    },
-    {
-      "date": "2027-01-16",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 17,
       "home_team": "Paderborn 07",
       "away_team": "Köln",
@@ -1968,21 +1968,21 @@
       "game_id": "2027-01-16 Paderborn 07-Köln"
     },
     {
-      "date": "2027-01-16",
-      "time": null,
+      "date": "2027-01-17",
+      "time": "17:30 (18:30)",
       "week": 17,
-      "home_team": "Stuttgart",
-      "away_team": "Mainz 05",
+      "home_team": "Leverkusen",
+      "away_team": "Schalke 04",
       "home_goals": null,
       "away_goals": null,
       "played": false,
-      "venue": "MHPArena",
+      "venue": "BayArena",
       "referee": null,
-      "game_id": "2027-01-16 Stuttgart-Mainz 05"
+      "game_id": "2027-01-17 Leverkusen-Schalke 04"
     },
     {
-      "date": "2027-01-16",
-      "time": null,
+      "date": "2027-01-17",
+      "time": "15:30 (16:30)",
       "week": 17,
       "home_team": "Werder Bremen",
       "away_team": "Elversberg",
@@ -1991,24 +1991,24 @@
       "played": false,
       "venue": "Weserstadion",
       "referee": null,
-      "game_id": "2027-01-16 Werder Bremen-Elversberg"
+      "game_id": "2027-01-17 Werder Bremen-Elversberg"
     },
     {
-      "date": "2027-01-23",
-      "time": null,
+      "date": "2027-01-22",
+      "time": "20:30 (21:30)",
       "week": 18,
-      "home_team": "Frankfurt",
-      "away_team": "Union Berlin",
+      "home_team": "Werder Bremen",
+      "away_team": "Freiburg",
       "home_goals": null,
       "away_goals": null,
       "played": false,
-      "venue": "Deutsche Bank Park",
+      "venue": "Weserstadion",
       "referee": null,
-      "game_id": "2027-01-23 Frankfurt-Union Berlin"
+      "game_id": "2027-01-22 Werder Bremen-Freiburg"
     },
     {
       "date": "2027-01-23",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 18,
       "home_team": "Gladbach",
       "away_team": "RB Leipzig",
@@ -2021,7 +2021,7 @@
     },
     {
       "date": "2027-01-23",
-      "time": null,
+      "time": "18:30 (19:30)",
       "week": 18,
       "home_team": "Hamburger SV",
       "away_team": "Dortmund",
@@ -2034,33 +2034,7 @@
     },
     {
       "date": "2027-01-23",
-      "time": null,
-      "week": 18,
-      "home_team": "Hoffenheim",
-      "away_team": "Köln",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "PreZero Arena",
-      "referee": null,
-      "game_id": "2027-01-23 Hoffenheim-Köln"
-    },
-    {
-      "date": "2027-01-23",
-      "time": null,
-      "week": 18,
-      "home_team": "Leverkusen",
-      "away_team": "Elversberg",
-      "home_goals": null,
-      "away_goals": null,
-      "played": false,
-      "venue": "BayArena",
-      "referee": null,
-      "game_id": "2027-01-23 Leverkusen-Elversberg"
-    },
-    {
-      "date": "2027-01-23",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 18,
       "home_team": "Paderborn 07",
       "away_team": "Mainz 05",
@@ -2073,7 +2047,7 @@
     },
     {
       "date": "2027-01-23",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 18,
       "home_team": "Schalke 04",
       "away_team": "Augsburg",
@@ -2086,7 +2060,7 @@
     },
     {
       "date": "2027-01-23",
-      "time": null,
+      "time": "15:30 (16:30)",
       "week": 18,
       "home_team": "Stuttgart",
       "away_team": "Bayern Munich",
@@ -2098,17 +2072,43 @@
       "game_id": "2027-01-23 Stuttgart-Bayern Munich"
     },
     {
-      "date": "2027-01-23",
-      "time": null,
+      "date": "2027-01-24",
+      "time": "15:30 (16:30)",
       "week": 18,
-      "home_team": "Werder Bremen",
-      "away_team": "Freiburg",
+      "home_team": "Frankfurt",
+      "away_team": "Union Berlin",
       "home_goals": null,
       "away_goals": null,
       "played": false,
-      "venue": "Weserstadion",
+      "venue": "Deutsche Bank Park",
       "referee": null,
-      "game_id": "2027-01-23 Werder Bremen-Freiburg"
+      "game_id": "2027-01-24 Frankfurt-Union Berlin"
+    },
+    {
+      "date": "2027-01-24",
+      "time": "19:30 (20:30)",
+      "week": 18,
+      "home_team": "Hoffenheim",
+      "away_team": "Köln",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "PreZero Arena",
+      "referee": null,
+      "game_id": "2027-01-24 Hoffenheim-Köln"
+    },
+    {
+      "date": "2027-01-24",
+      "time": "17:30 (18:30)",
+      "week": 18,
+      "home_team": "Leverkusen",
+      "away_team": "Elversberg",
+      "home_goals": null,
+      "away_goals": null,
+      "played": false,
+      "venue": "BayArena",
+      "referee": null,
+      "game_id": "2027-01-24 Leverkusen-Elversberg"
     },
     {
       "date": "2027-01-30",
