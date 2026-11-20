@@ -7,6 +7,29 @@ _Always up to date. What's done, what's in flight, what's next. Spec: `projectIn
 **LIVE, FIVE LEAGUES, 2026-09-23.** predictorous.com serves teams, players
 and managers for ENG/ESP/ITA/GER/FRA. Commit `cb9c74a` pushed.
 
+## The results-page numbers ride with every draw candidate (2026-11-20)
+
+`services/predictions/form_sheet.py` computes, from the Understat files
+already on disk, what the user opened a stats site for: this season's home
+record at home and away record away (W-D-L, goals, points a game), the
+season record and draw share, the last eight with scores, draws and goals a
+game over those eight. `weekly_picks` attaches it as `sheet` to the eight
+draw candidates and the watchlist, after the booked-round restore so a
+committed round carries it too. The betting page shows it as a closed
+`<details>` under each ticket card, candidate row and watchlist card
+(`FormSheet` in Picks.tsx); `api.ts` types it. Shown, never ranked on - see
+the window experiment above. Each sheet states the date of the last result
+it knows (`through`), because of the next entry.
+
+**Found on the way: Understat has been dark since 2026-11-01.** understat.com
+answers every URL with a "We will come back soon" page. `run_weekly`'s
+understat steps have logged `WARN understat <league>: Expecting value: line
+1 column 1` on every run since, and the sources step passed anyway. Every
+Understat file stops at 2026-10-31, so the form model's xG, the Elo arm, the
+classifier's rolling draw rate and goal volume, and the standings context
+have all been priced two rounds stale on 11-02, 11-04, 11-09 and today -
+including the 2026-11-20 slip. Not yet fixed; see "Next up".
+
 ## Which window should the draw classifier read? Measured: the one it has (2026-11-20)
 
 **The question.** A results page broke this week's 30.74% tie between

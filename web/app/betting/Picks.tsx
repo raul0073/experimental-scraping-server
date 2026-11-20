@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 
 import { leagueShort } from "@/lib/league";
 import { setStored, useStored } from "@/lib/useStored";
@@ -40,6 +40,10 @@ type Pick = Weekly["draw_picks"][number];
 /** The watchlist is NOT a Pick, and the types say so: no rank, no pick_type,
  *  because it is never ranked and never committed. */
 type Watch = NonNullable<Weekly["draw_watchlist"]>[number];
+type Sheet = NonNullable<Pick["sheet"]>;
+type SideSheet = Sheet["home"];
+type FormRecord = SideSheet["venue"];
+type FormGame = SideSheet["last8"][number];
 type Probs = Fixture["probabilities"];
 type Side = keyof Probs;
 type Strategy = NonNullable<Weekly["strategy"]>;
@@ -398,6 +402,7 @@ function PickCard({ p, rank }: { p: Pick; rank: number }) {
           </span>
         )}
       </div>
+      <FormSheet sheet={p.sheet} />
     </li>
   );
 }
@@ -850,6 +855,77 @@ function Trixy({
 
 // ------------------------------------------------------ the candidate pool
 
+const FORM_TONE: Record<FormGame["r"], string> = {
+  W: "bg-[#e8f3ec] text-[#1f6b3d]",
+  D: "bg-[#fbf3d5] text-[#7a5a00]",
+  L: "bg-[#f6eaea] text-[#8a2b2b]",
+};
+
+/** THE RESULTS-PAGE NUMBERS, next to the candidate. On 2026-11-20 a tie
+ *  between two draw candidates was settled by opening a stats site: home
+ *  record at home, away record away, draws this season, the last eight with
+ *  scores, goals a game. All of it is on disk, so it now rides with every
+ *  draw candidate and the watchlist.
+ *
+ *  SHOWN, NOT RANKED ON. experiment_draw_window measured the same day that
+ *  reading draw rate and goal volume over eight matches, or by venue,
+ *  predicts draws no better than the classifier's own 38-match window, and
+ *  that the eight-match venue split is measurably worse. The sheet is for a
+ *  human comparing two candidates the model has level, which is the one
+ *  place these numbers earned their keep. Closed by default so the board
+ *  stays a board. */
+function FormSheet({ sheet }: { sheet?: Sheet | null }) {
+  if (!sheet) return null;
+  const sides: [string, SideSheet][] = [
+    ["at home", sheet.home],
+    ["away", sheet.away],
+  ];
+  const rec = (r: FormRecord) => `${r.w}-${r.d}-${r.l}, ${r.gf}:${r.ga}`;
+  const gpg = (v: number | null) => (v == null ? "—" : v.toFixed(1));
+  return (
+    <details className="mt-2 text-[11.5px] text-ink-2">
+      <summary className="num cursor-pointer select-none text-ink-3">
+        form · draws {sheet.home.overall.d}/{sheet.home.overall.gp} v{" "}
+        {sheet.away.overall.d}/{sheet.away.overall.gp} · last 8 goals a game{" "}
+        {gpg(sheet.home.last8_goals_pg)} / {gpg(sheet.away.last8_goals_pg)}
+        {sheet.through && (
+          <span className="text-ink-3"> · results through {sheet.through}</span>
+        )}
+      </summary>
+      <div className="mt-1.5 grid gap-2 sm:grid-cols-2">
+        {sides.map(([where, s]) => (
+          <div
+            key={where}
+            className="rounded-lg border border-line bg-[#fafbfb] p-2"
+          >
+            <div className="font-medium text-ink">
+              {s.team} <span className="font-normal text-ink-3">{where}</span>
+            </div>
+            <div className="num">
+              {rec(s.venue)} in {s.venue.gp} · {s.venue.ppg.toFixed(2)} ppg
+            </div>
+            <div className="num text-ink-3">
+              season {rec(s.overall)} · draws {pct(s.overall.draw_pct)} · last
+              8: {s.last8_draws} draws, {gpg(s.last8_goals_pg)} goals a game
+            </div>
+            <div className="mt-1 flex flex-wrap gap-1">
+              {s.last8.map((g) => (
+                <span
+                  key={`${g.date}-${g.opp}`}
+                  className={`num rounded px-1.5 py-0.5 ${FORM_TONE[g.r]}`}
+                  title={`${g.date} · ${g.at === "H" ? "v" : "at"} ${g.opp}`}
+                >
+                  {g.gf}-{g.ga}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </details>
+  );
+}
+
 /** THE POOL THE FOUR CAME FROM. draw_candidates is the top 8: the first four
  *  are the ticket and get ledger-graded, 5-8 exist so a better-priced
  *  alternate can be swapped in by hand. Only the ones past the ticket are
@@ -875,27 +951,36 @@ function Candidates({ rows }: { rows: Pick[] }) {
         </thead>
         <tbody>
           {rows.map((p) => (
-            <tr key={fixtureKey(p)} className="border-t border-line">
-              <td className="num py-2 pl-3 pr-2 text-ink-3">{p.rank}</td>
-              <td className="py-2 pr-3">
-                {p.home} <span className="text-ink-3">v</span> {p.away}
-              </td>
-              <td className="px-2 py-2 text-[12px] text-ink-2">
-                {leagueShort(p.league)}
-              </td>
-              <td className="num px-2 py-2 text-[12px] text-ink-2">
-                {day(p.kickoff)}
-              </td>
-              <td className="px-2 py-2 text-center">
-                <Tier tier={p.tier} />
-              </td>
-              <td className="num px-2 py-2 text-right font-semibold">
-                {pct(p.pick_prob)}
-              </td>
-              <td className="num py-2 pl-2 pr-3 text-right">
-                {fairStr(p.pick_prob)}
-              </td>
-            </tr>
+            <Fragment key={fixtureKey(p)}>
+              <tr className="border-t border-line">
+                <td className="num py-2 pl-3 pr-2 text-ink-3">{p.rank}</td>
+                <td className="py-2 pr-3">
+                  {p.home} <span className="text-ink-3">v</span> {p.away}
+                </td>
+                <td className="px-2 py-2 text-[12px] text-ink-2">
+                  {leagueShort(p.league)}
+                </td>
+                <td className="num px-2 py-2 text-[12px] text-ink-2">
+                  {day(p.kickoff)}
+                </td>
+                <td className="px-2 py-2 text-center">
+                  <Tier tier={p.tier} />
+                </td>
+                <td className="num px-2 py-2 text-right font-semibold">
+                  {pct(p.pick_prob)}
+                </td>
+                <td className="num py-2 pl-2 pr-3 text-right">
+                  {fairStr(p.pick_prob)}
+                </td>
+              </tr>
+              {p.sheet && (
+                <tr>
+                  <td colSpan={7} className="px-3 pb-2 pt-0">
+                    <FormSheet sheet={p.sheet} />
+                  </td>
+                </tr>
+              )}
+            </Fragment>
           ))}
         </tbody>
       </table>
@@ -930,6 +1015,7 @@ function Watchlist({ rows }: { rows: Watch[] }) {
             {leagueShort(p.league)} · wk {p.week} · {day(p.kickoff)} · fair
             price {fairStr(p.pick_prob)}
           </div>
+          <FormSheet sheet={p.sheet} />
         </li>
       ))}
     </ul>

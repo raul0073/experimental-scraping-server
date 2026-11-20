@@ -557,6 +557,19 @@ class PredictionService:
                 away_picks = restore(booked.get("away", []))
                 draw_watchlist = []
 
+        # THE RESULTS-PAGE NUMBERS RIDE WITH EVERY DRAW CANDIDATE: home record
+        # at home, away record away, draws this season, the last eight with
+        # scores, goals a game. Shown, not ranked on - experiment_draw_window
+        # (2026-11-20) measured that reading these over eight matches or by
+        # venue predicts draws no better than the classifier's own window.
+        # Attached AFTER the booked-round restore so a committed round carries
+        # them too (restore() rebuilds rows from the ledger, which has none).
+        from services.predictions.form_sheet import form_sheet
+        _sheets: Dict[str, Any] = {}
+        for p in (*draw_candidates, *draw_watchlist):
+            p["sheet"] = form_sheet(p["league"], p["home"], p["away"], p.get("kickoff"),
+                                    SEASON, HISTORY_SEASONS, cache=_sheets)
+
         result = {
             "season": SEASON,
             "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),

@@ -94,9 +94,45 @@ export type Fixture = {
   outcome?: Side;
 };
 
+/** A results-page record: played, won, drawn, lost, for, against, points a
+ *  game, and the draw share as a fraction. */
+export type FormRecord = {
+  gp: number; w: number; d: number; l: number; gf: number; ga: number;
+  ppg: number; draw_pct: number;
+};
+/** One past match from the team's point of view. `at` is where THEY played. */
+export type FormGame = {
+  date: string; opp: string; at: "H" | "A"; gf: number; ga: number;
+  r: "W" | "D" | "L";
+};
+export type SideSheet = {
+  team: string;
+  /** This season at this venue: the home side at home, the away side away. */
+  venue: FormRecord;
+  /** This season, all matches. */
+  overall: FormRecord;
+  /** Most recent last, across the season boundary when the season is young. */
+  last8: FormGame[];
+  last8_draws: number;
+  last8_goals_pg: number | null;
+};
+/** THE RESULTS-PAGE NUMBERS, next to a draw candidate. Shown, never ranked
+ *  on: experiment_draw_window (2026-11-20) measured that these predict
+ *  draws no better than the classifier's own window. Present on draw
+ *  candidates and the watchlist; absent elsewhere. */
+export type Sheet = {
+  season: string;
+  /** The last result these numbers know about, "YYYY-MM-DD". Understat
+   *  went dark on 2026-11-01 and the pipeline only warned; a sheet that
+   *  does not say how old it is reads as current. */
+  through: string | null;
+  home: SideSheet;
+  away: SideSheet;
+};
+
 /** A fixture carrying the probability it was chosen on. The watchlist stops
  *  here: it is low-confidence, so it is never ranked and never committed. */
-export type Watch = Fixture & { pick_prob: number };
+export type Watch = Fixture & { pick_prob: number; sheet?: Sheet | null };
 
 /** A ranked, committable pick.
  *
