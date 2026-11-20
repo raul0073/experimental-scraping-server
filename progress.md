@@ -7,6 +7,36 @@ _Always up to date. What's done, what's in flight, what's next. Spec: `projectIn
 **LIVE, FIVE LEAGUES, 2026-09-23.** predictorous.com serves teams, players
 and managers for ENG/ESP/ITA/GER/FRA. Commit `cb9c74a` pushed.
 
+## Which window should the draw classifier read? Measured: the one it has (2026-11-20)
+
+**The question.** A results page broke this week's 30.74% tie between
+Alaves v Deportivo and Lorient v Rennes by eye: Deportivo's 6 draws in 12
+and 4 in 8, Rennes' 5.25-goal away games with no draw in four. The
+classifier already reads both signals (`drawrate_h/a`, `goals_total_h/a`)
+but over 38 matches, all venues mixed, decay 0.985 - near enough a flat
+season - while the page read eight matches split by venue. Which reading
+predicts draws? `scripts/experiment_draw_window.py`: 13,765 fixtures of
+1819..2526 across five leagues, walk-forward (classifier trained on earlier
+seasons only, boosts and rho from the season before, the same fit as
+DrawModel.train), seventeen windows. Report: `data/reports/
+experiment_draw_window.md`.
+
+**The answer: nothing beats 38/0.985, and short windows are worse.** Every
+variant sits within 0.0005 nats of ship on draw log-loss. The eight-match
+and five-match windows, flat or decayed, venue-split or not, lose to ship
+with paired-bootstrap P(better) of 0.01-0.04; the only variants that edge
+ship do so by 0.00002-0.00004 nats at P 0.54-0.75, which is a coin. Draws
+found in the top 10% range 30.3-31.9% and top-4-per-week 29.8-32.3% with
+roughly 1.2pp of noise on each, i.e. indistinguishable. The venue-split
+eight-match reading the stats page offers - the one that felt decisive in
+the screenshots - is the SECOND-WORST variant on log-loss (P better 0.024)
+and 30.8% on the product metric against ship's 31.3%.
+
+**So.** The classifier keeps its window. The page's numbers are a noisier
+view of inputs the model already weighs; they are worth SEEING next to a
+candidate (that is the form sheet below), not worth refitting on. The
+tie-break stays the form arm's classifier, as committed in b2d75a7.
+
 ## The draw ticket is ranked by the number the site shows (2026-11-20)
 
 **Found because the user asked twice.** Frankfurt v Hoffenheim stood at 31%

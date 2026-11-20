@@ -1,0 +1,266 @@
+{
+  "generated": "2026-11-20T18:34:17",
+  "eval_seasons": [
+    "1819",
+    "1920",
+    "2021",
+    "2122",
+    "2223",
+    "2324",
+    "2425",
+    "2526"
+  ],
+  "variants": {
+    "ship  w38 d.985": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55892,
+      "brier": 0.18664,
+      "top10_hit": 0.309,
+      "top4_week_hit": 0.3133,
+      "top4_weeks": 300,
+      "calls_per_week": 3.56,
+      "calls_hit": 0.3082
+    },
+    "flat  w38": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55894,
+      "brier": 0.18664,
+      "top10_hit": 0.3098,
+      "top4_week_hit": 0.3175,
+      "top4_weeks": 300,
+      "calls_per_week": 3.58,
+      "calls_hit": 0.3083,
+      "vs_ship": {
+        "mean_gain": -2e-05,
+        "p_better": 0.209
+      }
+    },
+    "w19 d.985": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55893,
+      "brier": 0.18664,
+      "top10_hit": 0.3039,
+      "top4_week_hit": 0.3142,
+      "top4_weeks": 300,
+      "calls_per_week": 3.62,
+      "calls_hit": 0.3071,
+      "vs_ship": {
+        "mean_gain": -0.0,
+        "p_better": 0.4798
+      }
+    },
+    "w12 d.985": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55903,
+      "brier": 0.18668,
+      "top10_hit": 0.3076,
+      "top4_week_hit": 0.3192,
+      "top4_weeks": 300,
+      "calls_per_week": 3.31,
+      "calls_hit": 0.304,
+      "vs_ship": {
+        "mean_gain": -0.00011,
+        "p_better": 0.226
+      }
+    },
+    "w8  d.985": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55926,
+      "brier": 0.18676,
+      "top10_hit": 0.3083,
+      "top4_week_hit": 0.3217,
+      "top4_weeks": 300,
+      "calls_per_week": 3.23,
+      "calls_hit": 0.3111,
+      "vs_ship": {
+        "mean_gain": -0.00034,
+        "p_better": 0.0398
+      }
+    },
+    "w5  d.985": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.5594,
+      "brier": 0.18681,
+      "top10_hit": 0.3098,
+      "top4_week_hit": 0.3092,
+      "top4_weeks": 300,
+      "calls_per_week": 3.19,
+      "calls_hit": 0.3136,
+      "vs_ship": {
+        "mean_gain": -0.00048,
+        "p_better": 0.0097
+      }
+    },
+    "flat  w8": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55926,
+      "brier": 0.18676,
+      "top10_hit": 0.3112,
+      "top4_week_hit": 0.3225,
+      "top4_weeks": 300,
+      "calls_per_week": 3.23,
+      "calls_hit": 0.3094,
+      "vs_ship": {
+        "mean_gain": -0.00034,
+        "p_better": 0.0415
+      }
+    },
+    "flat  w5": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55939,
+      "brier": 0.18681,
+      "top10_hit": 0.309,
+      "top4_week_hit": 0.3067,
+      "top4_weeks": 300,
+      "calls_per_week": 3.19,
+      "calls_hit": 0.3154,
+      "vs_ship": {
+        "mean_gain": -0.00047,
+        "p_better": 0.0103
+      }
+    },
+    "decay .95 uncapped": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55888,
+      "brier": 0.18662,
+      "top10_hit": 0.3032,
+      "top4_week_hit": 0.3183,
+      "top4_weeks": 300,
+      "calls_per_week": 3.62,
+      "calls_hit": 0.3129,
+      "vs_ship": {
+        "mean_gain": 4e-05,
+        "p_better": 0.7478
+      }
+    },
+    "decay .90 uncapped": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.559,
+      "brier": 0.18666,
+      "top10_hit": 0.312,
+      "top4_week_hit": 0.3117,
+      "top4_weeks": 300,
+      "calls_per_week": 3.5,
+      "calls_hit": 0.3021,
+      "vs_ship": {
+        "mean_gain": -8e-05,
+        "p_better": 0.2455
+      }
+    },
+    "decay .80 uncapped": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55921,
+      "brier": 0.18674,
+      "top10_hit": 0.3076,
+      "top4_week_hit": 0.3117,
+      "top4_weeks": 300,
+      "calls_per_week": 3.17,
+      "calls_hit": 0.3065,
+      "vs_ship": {
+        "mean_gain": -0.00029,
+        "p_better": 0.0423
+      }
+    },
+    "venue w38 d.985": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.5589,
+      "brier": 0.18662,
+      "top10_hit": 0.3185,
+      "top4_week_hit": 0.3125,
+      "top4_weeks": 300,
+      "calls_per_week": 3.53,
+      "calls_hit": 0.3058,
+      "vs_ship": {
+        "mean_gain": 2e-05,
+        "p_better": 0.5417
+      }
+    },
+    "venue w12 d.985": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55901,
+      "brier": 0.18667,
+      "top10_hit": 0.3105,
+      "top4_week_hit": 0.3067,
+      "top4_weeks": 300,
+      "calls_per_week": 3.61,
+      "calls_hit": 0.3028,
+      "vs_ship": {
+        "mean_gain": -9e-05,
+        "p_better": 0.263
+      }
+    },
+    "venue w8  d.985": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55919,
+      "brier": 0.18673,
+      "top10_hit": 0.3076,
+      "top4_week_hit": 0.3083,
+      "top4_weeks": 300,
+      "calls_per_week": 3.17,
+      "calls_hit": 0.2965,
+      "vs_ship": {
+        "mean_gain": -0.00027,
+        "p_better": 0.024
+      }
+    },
+    "venue w6  d.985": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55914,
+      "brier": 0.18671,
+      "top10_hit": 0.3032,
+      "top4_week_hit": 0.2983,
+      "top4_weeks": 300,
+      "calls_per_week": 3.01,
+      "calls_hit": 0.2959,
+      "vs_ship": {
+        "mean_gain": -0.00022,
+        "p_better": 0.0643
+      }
+    },
+    "season-to-date flat": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55907,
+      "brier": 0.1867,
+      "top10_hit": 0.3112,
+      "top4_week_hit": 0.3108,
+      "top4_weeks": 300,
+      "calls_per_week": 3.51,
+      "calls_hit": 0.3113,
+      "vs_ship": {
+        "mean_gain": -0.00015,
+        "p_better": 0.1807
+      }
+    },
+    "season-to-date venue": {
+      "n": 13765,
+      "draw_rate": 0.2529,
+      "log_loss": 0.55912,
+      "brier": 0.18671,
+      "top10_hit": 0.309,
+      "top4_week_hit": 0.3183,
+      "top4_weeks": 300,
+      "calls_per_week": 3.61,
+      "calls_hit": 0.3061,
+      "vs_ship": {
+        "mean_gain": -0.0002,
+        "p_better": 0.194
+      }
+    }
+  }
+}
