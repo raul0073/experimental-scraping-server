@@ -7,6 +7,37 @@ _Always up to date. What's done, what's in flight, what's next. Spec: `projectIn
 **LIVE, FIVE LEAGUES, 2026-09-23.** predictorous.com serves teams, players
 and managers for ENG/ESP/ITA/GER/FRA. Commit `cb9c74a` pushed.
 
+## The draw ticket is ranked by the number the site shows (2026-11-20)
+
+**Found because the user asked twice.** Frankfurt v Hoffenheim stood at 31%
+with an X on the site and was not on the draw slip; Troyes v Le Havre was the
+round's top draw at 32% and was not on it either. Two things were true at
+once. The site was eleven days stale (the 2026-11-09 commit that switched the
+published triplet from the Elo layer to the plain blend was never deployed
+until today's publish; under the blend neither game clears 31%). And the
+ticket was ranked on a DIFFERENT number from the one displayed:
+`weekly_picks` scored draws on `p_draw_classifier`, the form arm's classifier
+alone, while the published triplet carried the blend. The 2026-09-23
+walk-forward had already measured the form arm as the worse draw ranker
+(30.9% found at the top 10% against 31.6% for the blend); the ranking line
+was simply never switched when the triplet was.
+
+**Fix.** Draw candidates rank on `probabilities["draw"]`, the published
+figure, so the card, the site and the fair price the ledgers freeze are one
+number. `pick()` grew a `tiebreak` argument: published probabilities are
+4 dp, two fixtures can tie exactly (this round: Alaves v Deportivo and Lorient
+v Rennes at 0.3074), and a stable sort was handing the place to whichever
+league sits first in `DRAW_LEAGUES`. Draw ties now go to the form arm's
+classifier, the ticket's ranking until today, so continuity holds. This
+round's slip (booked by the morning run, before the change) carries Lorient;
+the new rule picks Lorient too. `scripts/selfcheck.py` 25/25; a direct test
+of the tie shows the old sort choosing Alaves and the new one Lorient.
+`p_draw_classifier` stays in every prediction for audit.
+
+**Not done.** Ledger rows booked under the old ranking keep their old
+`pick_prob`; the betting card still flags a pick whose stated probability
+differs from the triplet, which from now on only legacy rows do.
+
 ## THE RECORD, SCORED PROPERLY — and four things it was hiding (2026-11-09)
 
 Branch `showcase/track-record-market-benchmark`. The occasion: the project

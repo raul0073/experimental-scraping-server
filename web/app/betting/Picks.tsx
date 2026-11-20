@@ -312,15 +312,14 @@ function WindowStrip({
 
 /** One pick, with everything needed to argue with it.
  *
- *  THE TICKET NUMBER AND THE TRIPLET ARE NOT ALWAYS THE SAME NUMBER, and
- *  hiding that would be the dishonest move. Draw picks are ranked on
- *  `p_draw_classifier` — the arm that ranks draws best — while the published
- *  triplet hands the draw to that classifier only after the home:away ratio
- *  has been blended, so the two can disagree by a couple of points. Torino v
- *  Udinese is 33.4% on the ticket against 31.1% in the triplet. The pick
- *  probability is therefore stated as its own figure, the triplet sits beside
- *  it, and when they diverge the card says so rather than quietly printing
- *  whichever number flatters the pick.
+ *  THE TICKET NUMBER IS THE TRIPLET'S NUMBER. Since 2026-11-20 every pick
+ *  is ranked on the published probability of its side, so the figure on the
+ *  card, the triplet beside it and the fair price the ledgers freeze are one
+ *  number. Before that, draw picks were ranked on the form arm's classifier
+ *  alone and could sit a couple of points off the triplet (Torino v Udinese
+ *  was 33.4% on the ticket against 31.1% in the triplet), which is why the
+ *  card still states the pick probability as its own figure and flags a
+ *  divergence: rows booked under the old ranking keep their old number.
  */
 function PickCard({ p, rank }: { p: Pick; rank: number }) {
   const side: Side = p.pick_type;

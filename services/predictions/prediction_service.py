@@ -463,7 +463,7 @@ class PredictionService:
                     p["in_window"] = True  # each league shows ONLY its own next round
                 preds[league] = rows
 
-        def pick(leagues, score_fn, n, pick_type):
+        def pick(leagues, score_fn, n, pick_type, tiebreak=None):
             # p.get("score") means the fixture has been played. A booked round
             # keeps its finished games on the board so it stays whole while it
             # resolves, and a fresh ranking must never reach for one: picking
@@ -471,7 +471,14 @@ class PredictionService:
             pool = [p for lg in leagues for p in preds[lg]
                     if p["confidence"] == "normal" and p["in_window"]
                     and not p.get("score") and score_fn(p) is not None]
-            pool.sort(key=score_fn, reverse=True)
+            # A DEAD TIE IS NOT SETTLED BY LIST ORDER. Published probabilities
+            # are rounded to 4 dp, so two fixtures can tie exactly (2026-11-20:
+            # Alaves v Deportivo and Lorient v Rennes, both 0.3074), and a
+            # stable sort would then hand the ticket place to whichever league
+            # sits first in the pool. The caller names the second-best evidence
+            # instead; without one the tie stands as the pool orders it.
+            pool.sort(key=lambda p: (score_fn(p), tiebreak(p) if tiebreak else 0.0),
+                      reverse=True)
             picks = []
             used_teams: set = set()
             for p in pool:
@@ -487,11 +494,19 @@ class PredictionService:
             return picks
 
         # top 8 candidates; the first 4 are the official ticket (ledger-graded),
-        # 5-8 exist so the user can swap in better-priced alternatives
-        draw_candidates = pick(DRAW_LEAGUES,
-                               lambda p: p["p_draw_classifier"] if p["p_draw_classifier"] is not None
-                               else p["probabilities"]["draw"],
-                               N_DRAWS * 2, "draw")
+        # 5-8 exist so the user can swap in better-priced alternatives.
+        # RANKED BY THE PUBLISHED DRAW, the same number the site shows and
+        # the fair price the ledgers freeze. Until 2026-11-20 this ranked on
+        # p_draw_classifier - the form arm alone - which the 2026-09-23
+        # walk-forward found ranks draws worse than the blend (30.9% against
+        # 31.6% found at the top 10%), and which let the ticket skip a game
+        # the site itself called a draw. One number, everywhere. Ties on that
+        # number go to the form arm's classifier - the ticket's ranking until
+        # today, so a tie is settled by the second-best evidence and the
+        # ordering stays continuous with every slip booked before.
+        draw_candidates = pick(DRAW_LEAGUES, lambda p: p["probabilities"]["draw"],
+                               N_DRAWS * 2, "draw",
+                               tiebreak=lambda p: p.get("p_draw_classifier") or 0.0)
         draw_picks = draw_candidates[:N_DRAWS]
         home_picks = pick(HOME_LEAGUES, lambda p: p["probabilities"]["home"],
                           N_HOME, "home")
