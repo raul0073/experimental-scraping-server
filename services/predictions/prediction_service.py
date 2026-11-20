@@ -273,7 +273,9 @@ class PredictionService:
                 "home": m["home_team"],
                 "away": m["away_team"],
                 "xg": {m["home_team"]: round(lam_h, 2), m["away_team"]: round(lam_a, 2)},
-                # official triplet: blended H:A ratio, Elo-arm classifier draw
+                # official triplet: the plain average of the two arms (since
+                # 2026-11-09; the Elo-arm draw layer before that). The draw
+                # ticket ranks on this field's draw.
                 "probabilities": probs_unified,
                 # both arms kept so a fixture can be audited after the fact —
                 # "why did it say that" needs the inputs, not just the output

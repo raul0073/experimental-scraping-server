@@ -389,8 +389,9 @@ function PickCard({ p, rank }: { p: Pick; rank: number }) {
           <span
             className="num"
             title={
-              `ranked on ${pct(prob)} — the draw classifier, the arm that ranks ` +
-              `draws best. The published triplet has ${pct(inTriplet)}.`
+              `ranked on ${pct(prob)} — this row was booked before 2026-11-20, ` +
+              `when the ticket ranked on the form arm's draw classifier. ` +
+              `The published triplet has ${pct(inTriplet)}; new picks rank on it.`
             }
           >
             ticket {pct(prob)} · triplet {pct(inTriplet)}
@@ -1270,7 +1271,7 @@ export function Picks() {
       >
         <PickGroup
           title="Draws"
-          note="The ticket, and the only board the slip pot bets. Ranked by the draw classifier — the arm that ranks draws best — across the five leagues, normal confidence only."
+          note="The ticket, and the only board the slip pot bets. Ranked by the published draw probability — the same number the site shows — across the five leagues, normal confidence only; an exact tie goes to the form arm's classifier."
           picks={draws}
         />
         <PickGroup
