@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-20T16:09:47+00:00",
- "as_of": "2026-11-20",
+ "generated": "2026-11-24T09:17:07+00:00",
+ "as_of": "2026-11-24",
  "source": "football-data.co.uk",
  "source_url": "https://www.football-data.co.uk/mmz4281/{season}/{code}.csv",
  "margin_method": "normalise",
@@ -14,7 +14,7 @@
   "live": {
    "pinnacle_closing": 0,
    "pinnacle": 0,
-   "average_closing": 499,
+   "average_closing": 547,
    "average": 0
   },
   "historical": {
@@ -26,15 +26,15 @@
   "all": {
    "pinnacle_closing": 10608,
    "pinnacle": 4,
-   "average_closing": 1196,
+   "average_closing": 1244,
    "average": 0
   }
  },
  "live": {
   "join": {
-   "graded": 501,
-   "joined": 499,
-   "rate": 0.996,
+   "graded": 549,
+   "joined": 547,
+   "rate": 0.9964,
    "unjoined": [
     {
      "league": "ESP-La Liga",
@@ -54,28 +54,28 @@
   },
   "splits": {
    "live": {
-    "n": 353,
+    "n": 401,
     "model": {
-     "log_loss": 0.9715,
-     "brier": 0.5755,
-     "accuracy": 0.5524
+     "log_loss": 0.9757,
+     "brier": 0.5784,
+     "accuracy": 0.5511
     },
     "market": {
-     "log_loss": 0.9298,
-     "brier": 0.5478,
-     "accuracy": 0.5751
+     "log_loss": 0.9373,
+     "brier": 0.5531,
+     "accuracy": 0.5686
     },
     "uniform": {
      "log_loss": 1.0986,
      "brier": 0.6667,
-     "accuracy": 0.4703
+     "accuracy": 0.4713
     },
     "base_rate": {
-     "log_loss": 1.0513,
-     "brier": 0.6347,
-     "accuracy": 0.4703
+     "log_loss": 1.0519,
+     "brier": 0.6349,
+     "accuracy": 0.4713
     },
-    "gap": 0.0417
+    "gap": 0.0384
    },
    "reconstructed": {
     "n": 146,
@@ -102,100 +102,100 @@
     "gap": 0.0126
    },
    "all": {
-    "n": 499,
+    "n": 547,
     "model": {
-     "log_loss": 0.9772,
-     "brier": 0.5796,
-     "accuracy": 0.5531
+     "log_loss": 0.9798,
+     "brier": 0.5814,
+     "accuracy": 0.5521
     },
     "market": {
-     "log_loss": 0.944,
-     "brier": 0.5577,
-     "accuracy": 0.5651
+     "log_loss": 0.9482,
+     "brier": 0.5607,
+     "accuracy": 0.5612
     },
     "uniform": {
      "log_loss": 1.0986,
      "brier": 0.6667,
-     "accuracy": 0.4549
+     "accuracy": 0.457
     },
     "base_rate": {
-     "log_loss": 1.0597,
-     "brier": 0.6406,
-     "accuracy": 0.4549
+     "log_loss": 1.0595,
+     "brier": 0.6403,
+     "accuracy": 0.457
     },
-    "gap": 0.0332
+    "gap": 0.0316
    }
   },
   "by_league": {
    "ENG-Premier League": {
-    "n": 100,
+    "n": 110,
     "model": {
-     "log_loss": 1.0055,
-     "brier": 0.6025,
+     "log_loss": 1.0163,
+     "brier": 0.6102,
      "accuracy": 0.5
     },
     "market": {
-     "log_loss": 1.0108,
-     "brier": 0.6047,
-     "accuracy": 0.48
+     "log_loss": 1.024,
+     "brier": 0.6148,
+     "accuracy": 0.4818
     },
-    "gap": -0.0053
+    "gap": -0.0077
    },
    "ESP-La Liga": {
-    "n": 118,
+    "n": 128,
     "model": {
-     "log_loss": 0.9677,
-     "brier": 0.5734,
-     "accuracy": 0.5254
+     "log_loss": 0.9649,
+     "brier": 0.571,
+     "accuracy": 0.5312
     },
     "market": {
-     "log_loss": 0.9037,
-     "brier": 0.5318,
-     "accuracy": 0.5763
+     "log_loss": 0.9077,
+     "brier": 0.5339,
+     "accuracy": 0.5703
     },
-    "gap": 0.064
+    "gap": 0.0572
    },
    "ITA-Serie A": {
-    "n": 110,
+    "n": 120,
     "model": {
-     "log_loss": 0.938,
-     "brier": 0.5492,
-     "accuracy": 0.6
+     "log_loss": 0.9273,
+     "brier": 0.5419,
+     "accuracy": 0.6083
     },
     "market": {
-     "log_loss": 0.9041,
-     "brier": 0.5252,
-     "accuracy": 0.6364
+     "log_loss": 0.8937,
+     "brier": 0.5185,
+     "accuracy": 0.6333
     },
-    "gap": 0.0339
+    "gap": 0.0336
    },
    "GER-Bundesliga": {
-    "n": 81,
-    "model": {
-     "log_loss": 0.9916,
-     "brier": 0.5908,
-     "accuracy": 0.5556
-    },
-    "market": {
-     "log_loss": 0.9696,
-     "brier": 0.5778,
-     "accuracy": 0.5679
-    },
-    "gap": 0.022
-   },
-   "FRA-Ligue 1": {
     "n": 90,
     "model": {
-     "log_loss": 0.9931,
-     "brier": 0.5896,
-     "accuracy": 0.5889
-    },
-    "market": {
-     "log_loss": 0.9482,
-     "brier": 0.5611,
+     "log_loss": 0.9965,
+     "brier": 0.5943,
      "accuracy": 0.5556
     },
-    "gap": 0.0449
+    "market": {
+     "log_loss": 0.9685,
+     "brier": 0.576,
+     "accuracy": 0.5778
+    },
+    "gap": 0.028
+   },
+   "FRA-Ligue 1": {
+    "n": 99,
+    "model": {
+     "log_loss": 1.0068,
+     "brier": 0.5989,
+     "accuracy": 0.5657
+    },
+    "market": {
+     "log_loss": 0.9642,
+     "brier": 0.5728,
+     "accuracy": 0.5354
+    },
+    "gap": 0.0426
    }
   },
   "disagreement": {
@@ -203,30 +203,30 @@
    "buckets": [
     {
      "bucket": "<0.05",
-     "n": 153,
-     "model_log_loss": 0.9423,
-     "market_log_loss": 0.9349,
+     "n": 174,
+     "model_log_loss": 0.9505,
+     "market_log_loss": 0.9417,
      "better": "market"
     },
     {
      "bucket": "0.05–0.10",
-     "n": 169,
-     "model_log_loss": 1.0556,
-     "market_log_loss": 1.0495,
+     "n": 181,
+     "model_log_loss": 1.0633,
+     "market_log_loss": 1.0568,
      "better": "market"
     },
     {
      "bucket": "0.10–0.15",
-     "n": 110,
-     "model_log_loss": 0.9295,
-     "market_log_loss": 0.8727,
+     "n": 122,
+     "model_log_loss": 0.9232,
+     "market_log_loss": 0.8694,
      "better": "market"
     },
     {
      "bucket": "≥0.15",
-     "n": 67,
-     "model_log_loss": 0.9377,
-     "market_log_loss": 0.8156,
+     "n": 70,
+     "model_log_loss": 0.9352,
+     "market_log_loss": 0.8208,
      "better": "market"
     }
    ],
@@ -1783,6 +1783,37 @@
     },
     {
      "league": "FRA-Ligue 1",
+     "kickoff": "2026-11-22",
+     "home": "Lorient",
+     "away": "Rennes",
+     "retro": false,
+     "model": {
+      "home": 0.388,
+      "draw": 0.3,
+      "away": 0.312
+     },
+     "market": {
+      "home": 0.243,
+      "draw": 0.282,
+      "away": 0.475
+     },
+     "fair": {
+      "home": 2.58,
+      "draw": 3.33,
+      "away": 3.2
+     },
+     "odds": {
+      "home": 3.86,
+      "draw": 3.32,
+      "away": 1.97
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.163,
+     "result": "draw",
+     "better": "model"
+    },
+    {
+     "league": "FRA-Ligue 1",
      "kickoff": "2026-09-11",
      "home": "Rennes",
      "away": "Marseille",
@@ -1999,6 +2030,37 @@
      "better": "market"
     },
     {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-11-23",
+     "home": "Monza",
+     "away": "Fiorentina",
+     "retro": false,
+     "model": {
+      "home": 0.362,
+      "draw": 0.311,
+      "away": 0.328
+     },
+     "market": {
+      "home": 0.262,
+      "draw": 0.252,
+      "away": 0.486
+     },
+     "fair": {
+      "home": 2.77,
+      "draw": 3.22,
+      "away": 3.05
+     },
+     "odds": {
+      "home": 3.6,
+      "draw": 3.74,
+      "away": 1.94
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.158,
+     "result": "home",
+     "better": "model"
+    },
+    {
      "league": "FRA-Ligue 1",
      "kickoff": "2026-10-30",
      "home": "Le Havre",
@@ -2119,6 +2181,37 @@
      },
      "odds_column": "average_closing",
      "max_diff": 0.155,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-11-21",
+     "home": "Real Madrid",
+     "away": "Celta Vigo",
+     "retro": false,
+     "model": {
+      "home": 0.66,
+      "draw": 0.203,
+      "away": 0.137
+     },
+     "market": {
+      "home": 0.813,
+      "draw": 0.119,
+      "away": 0.069
+     },
+     "fair": {
+      "home": 1.52,
+      "draw": 4.92,
+      "away": 7.31
+     },
+     "odds": {
+      "home": 1.16,
+      "draw": 7.94,
+      "away": 13.75
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.153,
      "result": "home",
      "better": "market"
     },
@@ -2617,6 +2710,37 @@
      "max_diff": 0.143,
      "result": "draw",
      "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-11-21",
+     "home": "Monaco",
+     "away": "Auxerre",
+     "retro": false,
+     "model": {
+      "home": 0.544,
+      "draw": 0.245,
+      "away": 0.21
+     },
+     "market": {
+      "home": 0.686,
+      "draw": 0.192,
+      "away": 0.121
+     },
+     "fair": {
+      "home": 1.84,
+      "draw": 4.07,
+      "away": 4.76
+     },
+     "odds": {
+      "home": 1.37,
+      "draw": 4.89,
+      "away": 7.76
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.142,
+     "result": "draw",
+     "better": "model"
     },
     {
      "league": "FRA-Ligue 1",
@@ -3580,6 +3704,37 @@
      "better": "model"
     },
     {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-11-21",
+     "home": "Union Berlin",
+     "away": "RB Leipzig",
+     "retro": false,
+     "model": {
+      "home": 0.227,
+      "draw": 0.254,
+      "away": 0.518
+     },
+     "market": {
+      "home": 0.159,
+      "draw": 0.195,
+      "away": 0.646
+     },
+     "fair": {
+      "home": 4.4,
+      "draw": 3.93,
+      "away": 1.93
+     },
+     "odds": {
+      "home": 5.89,
+      "draw": 4.81,
+      "away": 1.45
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.128,
+     "result": "away",
+     "better": "market"
+    },
+    {
      "league": "FRA-Ligue 1",
      "kickoff": "2026-09-12",
      "home": "Strasbourg",
@@ -4200,6 +4355,37 @@
      "better": "model"
     },
     {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-11-20",
+     "home": "Athletic Club",
+     "away": "Espanyol",
+     "retro": false,
+     "model": {
+      "home": 0.549,
+      "draw": 0.263,
+      "away": 0.188
+     },
+     "market": {
+      "home": 0.67,
+      "draw": 0.199,
+      "away": 0.131
+     },
+     "fair": {
+      "home": 1.82,
+      "draw": 3.8,
+      "away": 5.31
+     },
+     "odds": {
+      "home": 1.4,
+      "draw": 4.71,
+      "away": 7.19
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.122,
+     "result": "away",
+     "better": "model"
+    },
+    {
      "league": "ENG-Premier League",
      "kickoff": "2026-09-05",
      "home": "Newcastle",
@@ -4262,6 +4448,37 @@
      "better": "market"
     },
     {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-11-22",
+     "home": "Getafe",
+     "away": "Atlético Madrid",
+     "retro": false,
+     "model": {
+      "home": 0.248,
+      "draw": 0.259,
+      "away": 0.494
+     },
+     "market": {
+      "home": 0.148,
+      "draw": 0.239,
+      "away": 0.614
+     },
+     "fair": {
+      "home": 4.04,
+      "draw": 3.87,
+      "away": 2.03
+     },
+     "odds": {
+      "home": 6.36,
+      "draw": 3.93,
+      "away": 1.53
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.12,
+     "result": "away",
+     "better": "market"
+    },
+    {
      "league": "FRA-Ligue 1",
      "kickoff": "2026-09-19",
      "home": "Paris FC",
@@ -4286,6 +4503,37 @@
       "home": 1.79,
       "draw": 3.88,
       "away": 4.07
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.119,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-11-21",
+     "home": "Leverkusen",
+     "away": "Paderborn 07",
+     "retro": false,
+     "model": {
+      "home": 0.617,
+      "draw": 0.237,
+      "away": 0.146
+     },
+     "market": {
+      "home": 0.735,
+      "draw": 0.152,
+      "away": 0.113
+     },
+     "fair": {
+      "home": 1.62,
+      "draw": 4.21,
+      "away": 6.85
+     },
+     "odds": {
+      "home": 1.28,
+      "draw": 6.2,
+      "away": 8.34
      },
      "odds_column": "average_closing",
      "max_diff": 0.119,
@@ -4324,6 +4572,37 @@
      "better": "model"
     },
     {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-11-22",
+     "home": "Hull City",
+     "away": "Brighton",
+     "retro": false,
+     "model": {
+      "home": 0.22,
+      "draw": 0.26,
+      "away": 0.52
+     },
+     "market": {
+      "home": 0.15,
+      "draw": 0.211,
+      "away": 0.639
+     },
+     "fair": {
+      "home": 4.55,
+      "draw": 3.85,
+      "away": 1.92
+     },
+     "odds": {
+      "home": 6.31,
+      "draw": 4.47,
+      "away": 1.48
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.118,
+     "result": "home",
+     "better": "model"
+    },
+    {
      "league": "ESP-La Liga",
      "kickoff": "2026-08-27",
      "home": "Barcelona",
@@ -4352,6 +4631,37 @@
      "odds_column": "average_closing",
      "max_diff": 0.118,
      "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "ITA-Serie A",
+     "kickoff": "2026-11-21",
+     "home": "Parma",
+     "away": "Roma",
+     "retro": false,
+     "model": {
+      "home": 0.134,
+      "draw": 0.204,
+      "away": 0.662
+     },
+     "market": {
+      "home": 0.082,
+      "draw": 0.139,
+      "away": 0.779
+     },
+     "fair": {
+      "home": 7.45,
+      "draw": 4.9,
+      "away": 1.51
+     },
+     "odds": {
+      "home": 11.53,
+      "draw": 6.79,
+      "away": 1.21
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.118,
+     "result": "away",
      "better": "market"
     },
     {
@@ -5099,6 +5409,37 @@
      "better": "market"
     },
     {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-11-21",
+     "home": "Tottenham",
+     "away": "Ipswich Town",
+     "retro": false,
+     "model": {
+      "home": 0.533,
+      "draw": 0.24,
+      "away": 0.227
+     },
+     "market": {
+      "home": 0.641,
+      "draw": 0.202,
+      "away": 0.157
+     },
+     "fair": {
+      "home": 1.88,
+      "draw": 4.16,
+      "away": 4.41
+     },
+     "odds": {
+      "home": 1.47,
+      "draw": 4.67,
+      "away": 6.0
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.108,
+     "result": "home",
+     "better": "market"
+    },
+    {
      "league": "GER-Bundesliga",
      "kickoff": "2026-09-05",
      "home": "Hoffenheim",
@@ -5254,6 +5595,37 @@
      "better": "market"
     },
     {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-11-22",
+     "home": "Liverpool",
+     "away": "Manchester Utd",
+     "retro": false,
+     "model": {
+      "home": 0.429,
+      "draw": 0.261,
+      "away": 0.31
+     },
+     "market": {
+      "home": 0.536,
+      "draw": 0.229,
+      "away": 0.235
+     },
+     "fair": {
+      "home": 2.33,
+      "draw": 3.83,
+      "away": 3.22
+     },
+     "odds": {
+      "home": 1.76,
+      "draw": 4.12,
+      "away": 4.01
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.107,
+     "result": "home",
+     "better": "market"
+    },
+    {
      "league": "FRA-Ligue 1",
      "kickoff": "2026-10-25",
      "home": "PSG",
@@ -5309,6 +5681,37 @@
       "home": 2.15,
       "draw": 2.85,
       "away": 4.08
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.106,
+     "result": "home",
+     "better": "model"
+    },
+    {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-11-22",
+     "home": "Racing Sant",
+     "away": "Real Sociedad",
+     "retro": false,
+     "model": {
+      "home": 0.377,
+      "draw": 0.276,
+      "away": 0.347
+     },
+     "market": {
+      "home": 0.305,
+      "draw": 0.241,
+      "away": 0.454
+     },
+     "fair": {
+      "home": 2.65,
+      "draw": 3.63,
+      "away": 2.88
+     },
+     "odds": {
+      "home": 3.08,
+      "draw": 3.89,
+      "away": 2.07
      },
      "odds_column": "average_closing",
      "max_diff": 0.106,
@@ -5533,6 +5936,37 @@
      "better": "model"
     },
     {
+     "league": "ESP-La Liga",
+     "kickoff": "2026-11-22",
+     "home": "Barcelona",
+     "away": "Villarreal",
+     "retro": false,
+     "model": {
+      "home": 0.691,
+      "draw": 0.168,
+      "away": 0.141
+     },
+     "market": {
+      "home": 0.794,
+      "draw": 0.115,
+      "away": 0.091
+     },
+     "fair": {
+      "home": 1.45,
+      "draw": 5.95,
+      "away": 7.1
+     },
+     "odds": {
+      "home": 1.19,
+      "draw": 8.24,
+      "away": 10.41
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.103,
+     "result": "home",
+     "better": "market"
+    },
+    {
      "league": "GER-Bundesliga",
      "kickoff": "2026-11-01",
      "home": "Frankfurt",
@@ -5720,6 +6154,37 @@
     },
     {
      "league": "GER-Bundesliga",
+     "kickoff": "2026-11-22",
+     "home": "Werder Bremen",
+     "away": "Hamburger SV",
+     "retro": false,
+     "model": {
+      "home": 0.489,
+      "draw": 0.255,
+      "away": 0.256
+     },
+     "market": {
+      "home": 0.591,
+      "draw": 0.224,
+      "away": 0.186
+     },
+     "fair": {
+      "home": 2.04,
+      "draw": 3.92,
+      "away": 3.91
+     },
+     "odds": {
+      "home": 1.59,
+      "draw": 4.2,
+      "away": 5.06
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.102,
+     "result": "home",
+     "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
      "kickoff": "2026-10-24",
      "home": "Köln",
      "away": "Schalke 04",
@@ -5903,6 +6368,37 @@
      "max_diff": 0.097,
      "result": "away",
      "better": "market"
+    },
+    {
+     "league": "ENG-Premier League",
+     "kickoff": "2026-11-21",
+     "home": "Aston Villa",
+     "away": "Sunderland",
+     "retro": false,
+     "model": {
+      "home": 0.457,
+      "draw": 0.279,
+      "away": 0.264
+     },
+     "market": {
+      "home": 0.554,
+      "draw": 0.241,
+      "away": 0.205
+     },
+     "fair": {
+      "home": 2.19,
+      "draw": 3.58,
+      "away": 3.79
+     },
+     "odds": {
+      "home": 1.7,
+      "draw": 3.91,
+      "away": 4.6
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.097,
+     "result": "draw",
+     "better": "model"
     },
     {
      "league": "GER-Bundesliga",
@@ -6150,6 +6646,37 @@
      "odds_column": "average_closing",
      "max_diff": 0.094,
      "result": "away",
+     "better": "market"
+    },
+    {
+     "league": "FRA-Ligue 1",
+     "kickoff": "2026-11-22",
+     "home": "Paris FC",
+     "away": "Angers",
+     "retro": false,
+     "model": {
+      "home": 0.625,
+      "draw": 0.225,
+      "away": 0.15
+     },
+     "market": {
+      "home": 0.718,
+      "draw": 0.173,
+      "away": 0.109
+     },
+     "fair": {
+      "home": 1.6,
+      "draw": 4.45,
+      "away": 6.64
+     },
+     "odds": {
+      "home": 1.31,
+      "draw": 5.45,
+      "away": 8.63
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.094,
+     "result": "home",
      "better": "market"
     },
     {
@@ -6771,6 +7298,37 @@
      "max_diff": 0.086,
      "result": "away",
      "better": "market"
+    },
+    {
+     "league": "GER-Bundesliga",
+     "kickoff": "2026-11-21",
+     "home": "Schalke 04",
+     "away": "Stuttgart",
+     "retro": false,
+     "model": {
+      "home": 0.19,
+      "draw": 0.267,
+      "away": 0.543
+     },
+     "market": {
+      "home": 0.275,
+      "draw": 0.243,
+      "away": 0.481
+     },
+     "fair": {
+      "home": 5.27,
+      "draw": 3.75,
+      "away": 1.84
+     },
+     "odds": {
+      "home": 3.41,
+      "draw": 3.86,
+      "away": 1.95
+     },
+     "odds_column": "average_closing",
+     "max_diff": 0.086,
+     "result": "draw",
+     "better": "model"
     },
     {
      "league": "FRA-Ligue 1",
@@ -7429,13 +7987,13 @@
    "home": [
     5,
     9,
-    17,
-    61,
-    79,
-    114,
-    96,
-    77,
-    32,
+    18,
+    68,
+    87,
+    124,
+    110,
+    83,
+    34,
     7,
     2,
     0
@@ -7446,9 +8004,9 @@
     0,
     0,
     3,
-    85,
-    266,
-    132,
+    92,
+    295,
+    144,
     13,
     0,
     0,
@@ -7457,12 +8015,12 @@
    "away": [
     2,
     5,
-    26,
-    40,
-    81,
-    102,
-    139,
-    78,
+    28,
+    45,
+    84,
+    119,
+    150,
+    88,
     17,
     8,
     1,

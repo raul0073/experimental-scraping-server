@@ -1,16 +1,16 @@
 # Versus the market
 
-generated 2026-11-20T16:09:47+00:00 · source football-data.co.uk · margin removal: **normalise**
+generated 2026-11-24T09:17:07+00:00 · source football-data.co.uk · margin removal: **normalise**
 
 Margin method on 11,309 joined historical rows: normalise 0.9655, Shin 0.9654. Shin changes market log loss by +0.0001 nats, inside the ±0.002 band where the simpler method is preferred
 
-Odds column used, live rows: pinnacle_closing 0, pinnacle 0, average_closing 499, average 0  
+Odds column used, live rows: pinnacle_closing 0, pinnacle 0, average_closing 547, average 0  
 Odds column used, historical rows: pinnacle_closing 10,608, pinnacle 4, average_closing 697, average 0  
-Odds column used, all rows: pinnacle_closing 10,608, pinnacle 4, average_closing 1,196, average 0  
+Odds column used, all rows: pinnacle_closing 10,608, pinnacle 4, average_closing 1,244, average 0  
 
 ## Live record
 
-Graded rows 501, joined 499 (99.6%).
+Graded rows 549, joined 547 (99.6%).
 
 Unjoined:
 
@@ -21,28 +21,28 @@ Unjoined:
 
 | split | n | model LL | market LL | gap | uniform LL | base-rate LL | Brier m / mkt | acc m / mkt |
 |---|---|---|---|---|---|---|---|---|
-| live | 353 | 0.9715 | 0.9298 | 0.0417 | 1.0986 | 1.0513 | 0.5755 / 0.5478 | 55.2% / 57.5% |
+| live | 401 | 0.9757 | 0.9373 | 0.0384 | 1.0986 | 1.0519 | 0.5784 / 0.5531 | 55.1% / 56.9% |
 | reconstructed | 146 | 0.9909 | 0.9783 | 0.0126 | 1.0986 | 1.0763 | 0.5897 / 0.5817 | 55.5% / 54.1% |
-| all | 499 | 0.9772 | 0.9440 | 0.0332 | 1.0986 | 1.0597 | 0.5796 / 0.5577 | 55.3% / 56.5% |
+| all | 547 | 0.9798 | 0.9482 | 0.0316 | 1.0986 | 1.0595 | 0.5814 / 0.5607 | 55.2% / 56.1% |
 
 ### By league (all joined graded rows)
 
 | league | n | model LL | market LL | gap |
 |---|---|---|---|---|
-| ENG-Premier League | 100 | 1.0055 | 1.0108 | -0.0053 |
-| ESP-La Liga | 118 | 0.9677 | 0.9037 | 0.0640 |
-| ITA-Serie A | 110 | 0.9380 | 0.9041 | 0.0339 |
-| GER-Bundesliga | 81 | 0.9916 | 0.9696 | 0.0220 |
-| FRA-Ligue 1 | 90 | 0.9931 | 0.9482 | 0.0449 |
+| ENG-Premier League | 110 | 1.0163 | 1.0240 | -0.0077 |
+| ESP-La Liga | 128 | 0.9649 | 0.9077 | 0.0572 |
+| ITA-Serie A | 120 | 0.9273 | 0.8937 | 0.0336 |
+| GER-Bundesliga | 90 | 0.9965 | 0.9685 | 0.0280 |
+| FRA-Ligue 1 | 99 | 1.0068 | 0.9642 | 0.0426 |
 
 ### Disagreement
 
 | max |model − market| | n | model LL | market LL | better |
 |---|---|---|---|---|
-| <0.05 | 153 | 0.9423 | 0.9349 | market |
-| 0.05–0.10 | 169 | 1.0556 | 1.0495 | market |
-| 0.10–0.15 | 110 | 0.9295 | 0.8727 | market |
-| ≥0.15 | 67 | 0.9377 | 0.8156 | market |
+| <0.05 | 174 | 0.9505 | 0.9417 | market |
+| 0.05–0.10 | 181 | 1.0633 | 1.0568 | market |
+| 0.10–0.15 | 122 | 0.9232 | 0.8694 | market |
+| ≥0.15 | 70 | 0.9352 | 0.8208 | market |
 
 Rows above 0.08 (graded only):
 
@@ -98,6 +98,7 @@ Rows above 0.08 (graded only):
 | GER-Bundesliga | 2026-10-10 | Augsburg | Bayern Munich | False | 0.149/0.193/0.658 | 0.071/0.104/0.826 | 0.168 | draw | model |
 | GER-Bundesliga | 2026-09-05 | Paderborn 07 | Freiburg | True | 0.388/0.289/0.323 | 0.263/0.247/0.490 | 0.167 | away | market |
 | ENG-Premier League | 2026-09-13 | Coventry City | Brighton | False | 0.350/0.320/0.330 | 0.255/0.250/0.495 | 0.165 | away | market |
+| FRA-Ligue 1 | 2026-11-22 | Lorient | Rennes | False | 0.388/0.300/0.312 | 0.243/0.282/0.475 | 0.163 | draw | model |
 | FRA-Ligue 1 | 2026-09-11 | Rennes | Marseille | False | 0.317/0.299/0.384 | 0.477/0.244/0.278 | 0.161 | home | market |
 | ITA-Serie A | 2026-08-28 | Milan | Venezia | True | 0.478/0.286/0.236 | 0.639/0.213/0.149 | 0.161 | home | market |
 | ENG-Premier League | 2026-08-22 | Ipswich Town | Sunderland | True | 0.493/0.273/0.234 | 0.333/0.293/0.374 | 0.160 | home | model |
@@ -105,10 +106,12 @@ Rows above 0.08 (graded only):
 | ESP-La Liga | 2026-10-17 | Real Betis | Barcelona | False | 0.248/0.239/0.512 | 0.156/0.173/0.671 | 0.159 | away | market |
 | FRA-Ligue 1 | 2026-11-08 | Le Mans | Monaco | False | 0.292/0.284/0.425 | 0.179/0.238/0.584 | 0.159 | draw | model |
 | ESP-La Liga | 2026-08-22 | Espanyol | Real Madrid | True | 0.212/0.268/0.520 | 0.128/0.193/0.678 | 0.158 | away | market |
+| ITA-Serie A | 2026-11-23 | Monza | Fiorentina | False | 0.362/0.311/0.328 | 0.262/0.252/0.486 | 0.158 | home | model |
 | FRA-Ligue 1 | 2026-10-30 | Le Havre | PSG | False | 0.186/0.232/0.581 | 0.107/0.154/0.739 | 0.157 | away | market |
 | ESP-La Liga | 2026-11-07 | Osasuna | Athletic Club | False | 0.380/0.303/0.317 | 0.244/0.282/0.474 | 0.157 | draw | model |
 | ESP-La Liga | 2026-10-25 | Real Sociedad | Levante | False | 0.465/0.271/0.264 | 0.622/0.199/0.180 | 0.156 | home | market |
 | ESP-La Liga | 2026-10-10 | Real Madrid | Villarreal | False | 0.559/0.236/0.205 | 0.713/0.162/0.124 | 0.155 | home | market |
+| ESP-La Liga | 2026-11-21 | Real Madrid | Celta Vigo | False | 0.660/0.203/0.137 | 0.813/0.119/0.069 | 0.153 | home | market |
 | GER-Bundesliga | 2026-11-07 | Mainz 05 | Bayern Munich | False | 0.206/0.197/0.597 | 0.108/0.143/0.749 | 0.152 | away | market |
 | GER-Bundesliga | 2026-09-05 | Leverkusen | Union Berlin | True | 0.548/0.262/0.191 | 0.700/0.173/0.127 | 0.152 | home | market |
 | ESP-La Liga | 2026-10-17 | Espanyol | Atlético Madrid | False | 0.306/0.276/0.417 | 0.192/0.239/0.569 | 0.152 | away | market |
@@ -125,6 +128,7 @@ Rows above 0.08 (graded only):
 | ENG-Premier League | 2026-08-21 | Arsenal | Coventry City | True | 0.645/0.222/0.133 | 0.791/0.141/0.068 | 0.146 | home | market |
 | ESP-La Liga | 2026-08-17 | Dep. A Coruña | Elche | True | 0.577/0.228/0.195 | 0.432/0.300/0.268 | 0.145 | draw | market |
 | FRA-Ligue 1 | 2026-08-22 | Le Mans | Brest | True | 0.519/0.244/0.236 | 0.376/0.283/0.341 | 0.143 | draw | market |
+| FRA-Ligue 1 | 2026-11-21 | Monaco | Auxerre | False | 0.544/0.245/0.210 | 0.686/0.192/0.121 | 0.142 | draw | model |
 | FRA-Ligue 1 | 2026-10-10 | Lorient | Paris FC | False | 0.361/0.327/0.312 | 0.256/0.291/0.453 | 0.141 | home | model |
 | ESP-La Liga | 2026-09-17 | Málaga | Villarreal | False | 0.347/0.337/0.316 | 0.278/0.266/0.457 | 0.141 | away | market |
 | ESP-La Liga | 2026-09-05 | Villarreal | Dep. A Coruña | True | 0.516/0.265/0.219 | 0.656/0.202/0.141 | 0.140 | away | model |
@@ -156,6 +160,7 @@ Rows above 0.08 (graded only):
 | ENG-Premier League | 2026-10-31 | Hull City | Ipswich Town | False | 0.420/0.311/0.270 | 0.325/0.277/0.398 | 0.129 | draw | model |
 | GER-Bundesliga | 2026-08-29 | Elversberg | Leverkusen | True | 0.281/0.251/0.468 | 0.188/0.216/0.596 | 0.128 | home | model |
 | FRA-Ligue 1 | 2026-09-13 | Le Mans | Lens | False | 0.264/0.279/0.457 | 0.196/0.219/0.585 | 0.128 | draw | model |
+| GER-Bundesliga | 2026-11-21 | Union Berlin | RB Leipzig | False | 0.227/0.254/0.518 | 0.159/0.195/0.646 | 0.128 | away | market |
 | FRA-Ligue 1 | 2026-09-12 | Strasbourg | Monaco | False | 0.422/0.277/0.301 | 0.313/0.258/0.429 | 0.128 | draw | model |
 | FRA-Ligue 1 | 2026-09-04 | Lyon | Auxerre | True | 0.549/0.266/0.185 | 0.677/0.187/0.136 | 0.127 | home | market |
 | GER-Bundesliga | 2026-09-20 | Leverkusen | RB Leipzig | False | 0.385/0.299/0.316 | 0.512/0.216/0.272 | 0.127 | home | market |
@@ -176,11 +181,16 @@ Rows above 0.08 (graded only):
 | ENG-Premier League | 2026-10-18 | Nottingham | Arsenal | False | 0.224/0.267/0.508 | 0.143/0.226/0.631 | 0.123 | away | market |
 | ESP-La Liga | 2026-08-28 | Alavés | Villarreal | True | 0.389/0.317/0.294 | 0.310/0.273/0.416 | 0.122 | home | model |
 | ESP-La Liga | 2026-08-27 | Celta Vigo | Osasuna | True | 0.387/0.328/0.285 | 0.510/0.287/0.204 | 0.122 | away | model |
+| ESP-La Liga | 2026-11-20 | Athletic Club | Espanyol | False | 0.549/0.263/0.188 | 0.670/0.199/0.131 | 0.122 | away | model |
 | ENG-Premier League | 2026-09-05 | Newcastle | Bournemouth | True | 0.325/0.333/0.342 | 0.446/0.260/0.294 | 0.121 | draw | model |
 | ENG-Premier League | 2026-09-20 | Bournemouth | Liverpool | False | 0.373/0.308/0.319 | 0.303/0.258/0.439 | 0.120 | away | market |
+| ESP-La Liga | 2026-11-22 | Getafe | Atlético Madrid | False | 0.248/0.259/0.494 | 0.148/0.239/0.614 | 0.120 | away | market |
 | FRA-Ligue 1 | 2026-09-19 | Paris FC | Strasbourg | False | 0.407/0.302/0.291 | 0.526/0.243/0.231 | 0.119 | home | market |
+| GER-Bundesliga | 2026-11-21 | Leverkusen | Paderborn 07 | False | 0.617/0.237/0.146 | 0.735/0.152/0.113 | 0.119 | home | market |
 | FRA-Ligue 1 | 2026-09-19 | Le Mans | Lorient | False | 0.446/0.296/0.259 | 0.328/0.295/0.377 | 0.119 | home | model |
+| ENG-Premier League | 2026-11-22 | Hull City | Brighton | False | 0.220/0.260/0.520 | 0.150/0.211/0.639 | 0.118 | home | model |
 | ESP-La Liga | 2026-08-27 | Barcelona | Athletic Club | True | 0.654/0.205/0.141 | 0.771/0.142/0.087 | 0.118 | home | market |
+| ITA-Serie A | 2026-11-21 | Parma | Roma | False | 0.134/0.204/0.662 | 0.082/0.139/0.779 | 0.118 | away | market |
 | FRA-Ligue 1 | 2026-09-12 | Auxerre | Nice | False | 0.427/0.303/0.270 | 0.330/0.283/0.387 | 0.117 | home | model |
 | ENG-Premier League | 2026-11-06 | Everton | Coventry City | False | 0.452/0.301/0.247 | 0.569/0.236/0.196 | 0.117 | home | market |
 | ESP-La Liga | 2026-08-23 | Getafe | Racing Sant | True | 0.299/0.339/0.362 | 0.416/0.308/0.276 | 0.117 | home | market |
@@ -205,13 +215,16 @@ Rows above 0.08 (graded only):
 | ESP-La Liga | 2026-10-26 | Sevilla | Osasuna | False | 0.381/0.303/0.316 | 0.490/0.281/0.229 | 0.110 | home | market |
 | ESP-La Liga | 2026-08-15 | Alavés | Getafe | True | 0.516/0.289/0.195 | 0.407/0.342/0.252 | 0.109 | home | model |
 | ITA-Serie A | 2026-11-01 | Frosinone | Torino | False | 0.346/0.299/0.355 | 0.455/0.240/0.305 | 0.109 | home | market |
+| ENG-Premier League | 2026-11-21 | Tottenham | Ipswich Town | False | 0.533/0.240/0.227 | 0.641/0.202/0.157 | 0.108 | home | market |
 | GER-Bundesliga | 2026-09-05 | Hoffenheim | Dortmund | True | 0.280/0.297/0.423 | 0.388/0.248/0.364 | 0.108 | away | model |
 | ITA-Serie A | 2026-09-20 | Milan | Lecce | False | 0.662/0.215/0.122 | 0.771/0.154/0.075 | 0.108 | home | market |
 | ESP-La Liga | 2026-08-19 | Atlético Madrid | Málaga | True | 0.538/0.232/0.230 | 0.646/0.209/0.144 | 0.108 | home | market |
 | ENG-Premier League | 2026-10-24 | Aston Villa | Manchester City | False | 0.274/0.254/0.473 | 0.210/0.209/0.581 | 0.108 | home | model |
 | FRA-Ligue 1 | 2026-10-11 | Nice | Strasbourg | False | 0.342/0.322/0.337 | 0.449/0.256/0.296 | 0.107 | home | market |
+| ENG-Premier League | 2026-11-22 | Liverpool | Manchester Utd | False | 0.429/0.261/0.310 | 0.536/0.229/0.235 | 0.107 | home | market |
 | FRA-Ligue 1 | 2026-10-25 | PSG | Lyon | False | 0.607/0.228/0.165 | 0.714/0.168/0.118 | 0.107 | home | market |
 | ESP-La Liga | 2026-08-31 | Osasuna | Getafe | True | 0.545/0.284/0.172 | 0.438/0.331/0.231 | 0.106 | home | model |
+| ESP-La Liga | 2026-11-22 | Racing Sant | Real Sociedad | False | 0.377/0.276/0.347 | 0.305/0.241/0.454 | 0.106 | home | model |
 | GER-Bundesliga | 2026-10-16 | Frankfurt | Köln | False | 0.434/0.264/0.303 | 0.540/0.220/0.240 | 0.106 | home | market |
 | FRA-Ligue 1 | 2026-10-17 | Troyes | Lens | False | 0.156/0.209/0.634 | 0.225/0.246/0.529 | 0.105 | away | model |
 | FRA-Ligue 1 | 2026-11-08 | Lens | Marseille | False | 0.534/0.242/0.223 | 0.429/0.259/0.312 | 0.105 | away | market |
@@ -219,18 +232,21 @@ Rows above 0.08 (graded only):
 | GER-Bundesliga | 2026-09-06 | Hamburger SV | Mainz 05 | True | 0.228/0.295/0.477 | 0.333/0.272/0.395 | 0.105 | away | model |
 | FRA-Ligue 1 | 2026-09-06 | Troyes | Strasbourg | True | 0.389/0.331/0.279 | 0.341/0.275/0.384 | 0.105 | away | market |
 | FRA-Ligue 1 | 2026-10-18 | Lyon | Nice | False | 0.580/0.248/0.172 | 0.476/0.255/0.269 | 0.104 | home | model |
+| ESP-La Liga | 2026-11-22 | Barcelona | Villarreal | False | 0.691/0.168/0.141 | 0.794/0.115/0.091 | 0.103 | home | market |
 | GER-Bundesliga | 2026-11-01 | Frankfurt | Hamburger SV | False | 0.529/0.245/0.226 | 0.632/0.196/0.171 | 0.103 | home | market |
 | ENG-Premier League | 2026-08-22 | Nottingham | Leeds United | True | 0.282/0.325/0.393 | 0.385/0.295/0.321 | 0.103 | away | model |
 | ESP-La Liga | 2026-09-15 | Rayo Vallecano | Espanyol | False | 0.525/0.269/0.206 | 0.423/0.291/0.286 | 0.103 | home | model |
 | ENG-Premier League | 2026-10-12 | Coventry City | Newcastle | False | 0.314/0.309/0.377 | 0.267/0.254/0.479 | 0.102 | home | model |
 | ITA-Serie A | 2026-08-30 | Napoli | Como | True | 0.309/0.333/0.358 | 0.412/0.308/0.280 | 0.102 | away | model |
 | FRA-Ligue 1 | 2026-09-12 | Le Havre | Angers | False | 0.446/0.304/0.250 | 0.366/0.281/0.353 | 0.102 | draw | model |
+| GER-Bundesliga | 2026-11-22 | Werder Bremen | Hamburger SV | False | 0.489/0.255/0.256 | 0.591/0.224/0.186 | 0.102 | home | market |
 | GER-Bundesliga | 2026-10-24 | Köln | Schalke 04 | False | 0.535/0.258/0.207 | 0.435/0.262/0.303 | 0.100 | draw | market |
 | ENG-Premier League | 2026-08-28 | Crystal Palace | Manchester City | True | 0.234/0.283/0.482 | 0.190/0.228/0.582 | 0.100 | away | market |
 | GER-Bundesliga | 2026-10-17 | Werder Bremen | Paderborn 07 | False | 0.462/0.302/0.236 | 0.561/0.225/0.215 | 0.099 | draw | model |
 | ESP-La Liga | 2026-09-19 | Osasuna | Rayo Vallecano | False | 0.455/0.285/0.260 | 0.357/0.295/0.348 | 0.098 | draw | market |
 | ENG-Premier League | 2026-10-31 | Aston Villa | Fulham | False | 0.385/0.303/0.312 | 0.483/0.256/0.261 | 0.098 | draw | model |
 | ITA-Serie A | 2026-11-02 | Sassuolo | Fiorentina | False | 0.363/0.311/0.326 | 0.316/0.261/0.423 | 0.097 | away | market |
+| ENG-Premier League | 2026-11-21 | Aston Villa | Sunderland | False | 0.457/0.279/0.264 | 0.554/0.241/0.205 | 0.097 | draw | model |
 | GER-Bundesliga | 2026-10-24 | Augsburg | Union Berlin | False | 0.457/0.269/0.274 | 0.554/0.227/0.219 | 0.097 | draw | model |
 | ESP-La Liga | 2026-09-20 | Dep. A Coruña | Real Betis | False | 0.299/0.310/0.392 | 0.253/0.258/0.488 | 0.097 | draw | model |
 | ESP-La Liga | 2026-09-20 | Valencia | Real Sociedad | False | 0.420/0.289/0.291 | 0.329/0.283/0.388 | 0.096 | away | market |
@@ -239,6 +255,7 @@ Rows above 0.08 (graded only):
 | ITA-Serie A | 2026-09-05 | Fiorentina | Torino | True | 0.369/0.330/0.302 | 0.463/0.283/0.253 | 0.094 | away | model |
 | GER-Bundesliga | 2026-09-19 | Hamburger SV | Köln | False | 0.260/0.310/0.430 | 0.354/0.261/0.385 | 0.094 | home | market |
 | FRA-Ligue 1 | 2026-10-23 | Brest | Nice | False | 0.494/0.272/0.234 | 0.401/0.274/0.326 | 0.094 | away | market |
+| FRA-Ligue 1 | 2026-11-22 | Paris FC | Angers | False | 0.625/0.225/0.150 | 0.718/0.173/0.109 | 0.094 | home | market |
 | ENG-Premier League | 2026-08-22 | Everton | Crystal Palace | True | 0.314/0.348/0.338 | 0.408/0.282/0.310 | 0.094 | home | market |
 | ITA-Serie A | 2026-10-17 | Roma | Genoa | False | 0.686/0.186/0.128 | 0.593/0.244/0.164 | 0.093 | home | model |
 | ESP-La Liga | 2026-11-06 | Sevilla | Alavés | False | 0.391/0.303/0.305 | 0.483/0.289/0.228 | 0.092 | draw | model |
@@ -259,6 +276,7 @@ Rows above 0.08 (graded only):
 | ENG-Premier League | 2026-10-11 | Crystal Palace | Nottingham | False | 0.375/0.332/0.294 | 0.339/0.281/0.380 | 0.086 | home | model |
 | GER-Bundesliga | 2026-10-31 | Bayern Munich | Dortmund | False | 0.621/0.183/0.196 | 0.707/0.162/0.131 | 0.086 | draw | model |
 | GER-Bundesliga | 2026-10-25 | Freiburg | Bayern Munich | False | 0.190/0.227/0.583 | 0.156/0.175/0.668 | 0.086 | away | market |
+| GER-Bundesliga | 2026-11-21 | Schalke 04 | Stuttgart | False | 0.190/0.267/0.543 | 0.275/0.243/0.481 | 0.086 | draw | model |
 | FRA-Ligue 1 | 2026-10-25 | Toulouse | Troyes | False | 0.685/0.185/0.129 | 0.600/0.223/0.178 | 0.085 | draw | market |
 | GER-Bundesliga | 2026-11-07 | Paderborn 07 | Frankfurt | False | 0.289/0.337/0.374 | 0.315/0.252/0.433 | 0.085 | draw | model |
 | ENG-Premier League | 2026-10-31 | Coventry City | Sunderland | False | 0.358/0.325/0.317 | 0.319/0.280/0.401 | 0.084 | home | model |
@@ -285,13 +303,13 @@ Rows above 0.08 (graded only):
 |---|---|---|---|
 | -0.30 | 5 | 0 | 2 |
 | -0.25 | 9 | 0 | 5 |
-| -0.20 | 17 | 0 | 26 |
-| -0.15 | 61 | 0 | 40 |
-| -0.10 | 79 | 3 | 81 |
-| -0.05 | 114 | 85 | 102 |
-| +0.00 | 96 | 266 | 139 |
-| +0.05 | 77 | 132 | 78 |
-| +0.10 | 32 | 13 | 17 |
+| -0.20 | 18 | 0 | 28 |
+| -0.15 | 68 | 0 | 45 |
+| -0.10 | 87 | 3 | 84 |
+| -0.05 | 124 | 92 | 119 |
+| +0.00 | 110 | 295 | 150 |
+| +0.05 | 83 | 144 | 88 |
+| +0.10 | 34 | 13 | 17 |
 | +0.15 | 7 | 0 | 8 |
 | +0.20 | 2 | 0 | 1 |
 | +0.25 | 0 | 0 | 0 |

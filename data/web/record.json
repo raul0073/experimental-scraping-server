@@ -1,14 +1,14 @@
 {
- "generated": "2026-11-20",
- "graded": 355,
+ "generated": "2026-11-24",
+ "graded": 403,
  "hit_rate": 52.4,
- "said_avg": 47.5,
- "exact_score": 11.0,
+ "said_avg": 47.9,
+ "exact_score": 11.2,
  "by_league": {
   "ENG-Premier League": {
-   "n": 70,
-   "hit_rate": 44.3,
-   "logloss": 1.0228,
+   "n": 80,
+   "hit_rate": 45.0,
+   "logloss": 1.0355,
    "n_reconstructed": 30,
    "reconstructed_rounds": [
     1,
@@ -16,9 +16,9 @@
    ]
   },
   "ESP-La Liga": {
-   "n": 79,
-   "hit_rate": 55.7,
-   "logloss": 0.9678,
+   "n": 89,
+   "hit_rate": 57.3,
+   "logloss": 0.9637,
    "n_reconstructed": 41,
    "reconstructed_rounds": [
     1,
@@ -26,9 +26,9 @@
    ]
   },
   "FRA-Ligue 1": {
-   "n": 63,
-   "hit_rate": 52.4,
-   "logloss": 0.924,
+   "n": 72,
+   "hit_rate": 48.6,
+   "logloss": 0.9514,
    "n_reconstructed": 27,
    "reconstructed_rounds": [
     1,
@@ -36,9 +36,9 @@
    ]
   },
   "GER-Bundesliga": {
-   "n": 63,
-   "hit_rate": 57.1,
-   "logloss": 0.9904,
+   "n": 72,
+   "hit_rate": 56.9,
+   "logloss": 0.9967,
    "n_reconstructed": 18,
    "reconstructed_rounds": [
     1,
@@ -46,9 +46,9 @@
    ]
   },
   "ITA-Serie A": {
-   "n": 80,
-   "hit_rate": 52.5,
-   "logloss": 0.9553,
+   "n": 90,
+   "hit_rate": 53.3,
+   "logloss": 0.9391,
    "n_reconstructed": 30,
    "reconstructed_rounds": [
     1,
@@ -59,27 +59,27 @@
  "calibration": [
   {
    "bucket": "30-40%",
-   "n": 116,
-   "said": 35.3,
-   "landed": 31.9
+   "n": 124,
+   "said": 35.2,
+   "landed": 32.3
   },
   {
    "bucket": "40-50%",
-   "n": 103,
-   "said": 44.8,
-   "landed": 51.5
+   "n": 118,
+   "said": 44.9,
+   "landed": 50.8
   },
   {
    "bucket": "50-60%",
-   "n": 74,
-   "said": 54.4,
-   "landed": 64.9
+   "n": 87,
+   "said": 54.5,
+   "landed": 62.1
   },
   {
    "bucket": "60-70%",
-   "n": 48,
-   "said": 64.1,
-   "landed": 70.8
+   "n": 59,
+   "said": 64.2,
+   "landed": 72.9
   },
   {
    "bucket": "70-80%",
@@ -91,46 +91,46 @@
  "levels": [
   {
    "outcome": "home",
-   "n": 355,
-   "said": 41.5,
-   "landed": 47.0,
-   "gap": -5.6,
-   "se": 2.6
+   "n": 403,
+   "said": 41.8,
+   "landed": 47.1,
+   "gap": -5.3,
+   "se": 2.5
   },
   {
    "outcome": "draw",
-   "n": 355,
-   "said": 27.0,
-   "landed": 22.3,
-   "gap": 4.7,
-   "se": 2.2
+   "n": 403,
+   "said": 26.8,
+   "landed": 22.6,
+   "gap": 4.2,
+   "se": 2.1
   },
   {
    "outcome": "away",
-   "n": 355,
-   "said": 31.6,
-   "landed": 30.7,
-   "gap": 0.9,
-   "se": 2.4
+   "n": 403,
+   "said": 31.4,
+   "landed": 30.3,
+   "gap": 1.1,
+   "se": 2.3
   }
  ],
  "scoring": {
   "model": {
-   "logloss": 0.9721,
-   "brier": 0.5759
+   "logloss": 0.9762,
+   "brier": 0.5787
   },
   "base_rate": {
-   "logloss": 1.0517,
-   "brier": 0.6349
+   "logloss": 1.0523,
+   "brier": 0.6351
   },
   "uniform": {
    "logloss": 1.0986,
    "brier": 0.6667
   },
   "base_rates": {
-   "home": 47.0,
-   "draw": 22.3,
-   "away": 30.7
+   "home": 47.1,
+   "draw": 22.6,
+   "away": 30.3
   }
  },
  "live_since": "2026-09-10",
@@ -180,13 +180,13 @@
   ]
  },
  "all": {
-  "n": 501,
-  "hit_rate": 53.3,
-  "said_avg": 47.4,
-  "exact_score": 11.0,
+  "n": 549,
+  "hit_rate": 53.2,
+  "said_avg": 47.7,
+  "exact_score": 11.1,
   "scores": {
-   "logloss": 0.9776,
-   "brier": 0.5799
+   "logloss": 0.9801,
+   "brier": 0.5816
   }
  }
 }
