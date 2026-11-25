@@ -7,6 +7,50 @@ _Always up to date. What's done, what's in flight, what's next. Spec: `projectIn
 **LIVE, FIVE LEAGUES, 2026-09-23.** predictorous.com serves teams, players
 and managers for ENG/ESP/ITA/GER/FRA. Commit `cb9c74a` pushed.
 
+## What closes the gap to the closing line? Not maths, not context (2026-11-25)
+
+The decision on the table is a paid predictor. The bar for that is the
+bookmakers' closing line, and `data/reports/market_report.md` has the
+model 0.032 nats behind it this season. Two experiments, both walk-forward
+on the 9,897 fixtures of 1920..2526 that join to football-data.co.uk
+closing odds, each candidate fitted on earlier seasons only.
+
+**`scripts/experiment_calibration.py`: the triplet is not timid.** A
+temperature, a per-league temperature, a full multinomial recalibration
+and a refit of the Elo-arm weight recover at most 0.0028 of the 0.0181-nat
+gap and no accuracy (52.6% either way; the market 54.1%). The fitted
+sharpening is ~1.1 every season. The arm-weight fit prefers 0.13-0.31 on
+the Elo arm against the 0.5 shipped - the form arm is the better of the
+two, noted, not acted on. Over eight seasons the model is roughly honest
+about what it knows; the gap is information it does not have.
+
+**`scripts/experiment_context.py`: the motivation proxies history can
+compute carry nothing.** Rest days, congestion, a European-campaign proxy
+(previous top six), points per game left to the title, to fourth and to
+the drop, dead-rubber flags, midweek, derbies - stacked on the triplet in
+the same multinomial, they LOSE to the stacker without them (paired
+bootstrap P(better) 0.013) and leave accuracy at 52.6%. Weights are small
+and change sign across seasons. Law 6 of the betting skill holds again:
+context features were rejected here once before, and are again.
+
+**The number that survived is the confident tier.** The shipped model's
+calls at >= 55% land 68.6% against a stated 64.8%; at >= 60%, 72.0%
+against 68.3%. The market's own >= 55% calls land 68.1%. On strong calls
+the model is level with the closing line today, on xG four rounds stale.
+
+**Plan as it stands (user-agreed 2026-11-25).** (1) Buy a data feed with
+lineups, injuries and per-match xG - the only input that can move the
+numbers; supplier research in flight. (2) Split the call: the predictor
+says the most likely outcome, the 31% draw rule serves the draw ticket
+only (eight seasons: 52.7% against 52.3%, so a product decision, not a
+model one). (3) Schedule the daily with alerts on failure and staleness.
+(4) A nightly candidate loop on the walk-forward harness against the
+closing line, promoting only what beats ship. (5) Forward-only motivation
+signals - lineups at kickoff minus 60, manager data, press conferences,
+real European schedules - collected from now and judged next season.
+Team-specific home advantage dropped before testing: a noisy per-club
+constant that does not describe the matchup the user actually means.
+
 ## The results-page numbers ride with every draw candidate (2026-11-20)
 
 `services/predictions/form_sheet.py` computes, from the Understat files
