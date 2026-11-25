@@ -8,6 +8,7 @@ from services.predictions.probability_service import (
     DRAW_CALL_MIN,
     MAX_GOALS,
     call_outcome,
+    in_draw_zone,
     modal_scores_by_outcome,
     outcome_probs,
     score_grid,
@@ -56,12 +57,18 @@ def test_unified_probs_without_classifier_is_the_poisson_triplet():
     assert unified_probs(poisson, None) is poisson
 
 
-def test_call_outcome_applies_draw_call_min():
-    assert call_outcome({"home": 0.45, "draw": DRAW_CALL_MIN, "away": 0.24}) == "draw"
-    assert call_outcome({"home": 0.45, "draw": DRAW_CALL_MIN - 0.001, "away": 0.24}) == "home"
+def test_call_outcome_is_the_most_likely_outcome():
+    # 2026-11-25: the call no longer bends to the draw ceiling. A 0.33 draw
+    # under a 0.40 home is called home; the ceiling survives as a flag.
+    assert call_outcome({"home": 0.45, "draw": DRAW_CALL_MIN, "away": 0.24}) == "home"
     assert call_outcome({"home": 0.30, "draw": 0.25, "away": 0.45}) == "away"
-    # the ceiling rule beats the argmax: a 0.33 draw is called over a 0.40 home
-    assert call_outcome({"home": 0.40, "draw": 0.33, "away": 0.27}) == "draw"
+    assert call_outcome({"home": 0.40, "draw": 0.33, "away": 0.27}) == "home"
+    assert call_outcome({"home": 0.33, "draw": 0.34, "away": 0.33}) == "draw"
+
+
+def test_in_draw_zone_keeps_the_ceiling_as_a_flag():
+    assert in_draw_zone({"home": 0.45, "draw": DRAW_CALL_MIN, "away": 0.24}) is True
+    assert in_draw_zone({"home": 0.45, "draw": DRAW_CALL_MIN - 0.001, "away": 0.24}) is False
 
 
 def test_modal_scores_match_their_outcome():

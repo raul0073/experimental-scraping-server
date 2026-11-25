@@ -11,6 +11,7 @@ from services.predictions.draw_model import DrawModel
 from services.predictions.form_model import FormModel
 from services.predictions.probability_service import (
     call_outcome,
+    in_draw_zone,
     modal_scores_by_outcome,
     outcome_probs,
     top_scorelines,
@@ -281,9 +282,11 @@ class PredictionService:
                 # "why did it say that" needs the inputs, not just the output
                 "probabilities_ship": probs_ship,
                 "probabilities_elo": probs_elo,
-                # the model's stated call: draw once P(draw) hits the ceiling
-                # zone (DRAW_CALL_MIN), else argmax — football has ~26% draws
+                # the model's stated call: the most likely outcome (user
+                # decision 2026-11-25). in_draw_zone keeps the old ceiling
+                # rule visible to the draw boards without steering the call.
                 "call": call_outcome(probs_unified),
+                "in_draw_zone": in_draw_zone(probs_unified),
                 "probabilities_poisson": probs,
                 "p_draw_classifier": p_draw_clf,
                 "draw_drivers": draw_drivers,

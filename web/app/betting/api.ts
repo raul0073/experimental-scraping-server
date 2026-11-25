@@ -79,8 +79,13 @@ export type Fixture = {
   top_scorelines: Scoreline[];
   /** The likeliest score for each outcome, keyed home/draw/away. */
   modal_scores: Record<Side, Scoreline>;
-  /** The model's stated call — a draw once P(draw) reaches the ceiling zone,
-   *  otherwise the argmax. It is NOT always the largest probability. */
+  /** P(draw) at or above the ceiling zone (31%). Until 2026-11-25 this was
+   *  the call rule; now it is a flag the draw boards read. */
+  in_draw_zone?: boolean;
+  /** The model's stated call. Since 2026-11-25 the most likely outcome,
+   *  full stop. Before that: a draw once P(draw) reached the ceiling zone,
+   *  otherwise the argmax, so rows priced before that date can carry a call
+   *  that is not the largest probability. */
   call: Side;
   /** "low" means the xG rests on league-average priors: shown, never picked. */
   confidence: "normal" | "low";

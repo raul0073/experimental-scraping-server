@@ -93,12 +93,25 @@ def unified_probs(poisson: Dict[str, float], p_draw_clf: float | None) -> Dict[s
 # p=0.019.
 DRAW_CALL_MIN = 0.31
 
+# 2026-11-25, USER DECISION: THE CALL IS THE MOST LIKELY OUTCOME. The
+# predictor is the product and its one job is "who wins"; the draw ceiling
+# rule above was built to feed the draw ticket, which no longer needs it -
+# the ticket ranks on P(draw) directly (prediction_service.weekly_picks).
+# Measured on the eight walk-forward seasons before switching: argmax
+# 52.7% against the ceiling rule's 52.3%, so this is a product decision
+# that costs nothing. The ceiling survives as `in_draw_zone`, a flag the
+# betting page reads; it no longer changes what the site says.
+
 
 def call_outcome(probs: Dict[str, float]) -> str:
-    """The model's single stated call for a fixture."""
-    if probs.get("draw", 0.0) >= DRAW_CALL_MIN:
-        return "draw"
+    """The model's single stated call for a fixture: the most likely outcome."""
     return max(probs, key=probs.get)
+
+
+def in_draw_zone(probs: Dict[str, float]) -> bool:
+    """P(draw) at or above the ceiling zone - the old call rule, kept as a
+    flag for the draw boards."""
+    return probs.get("draw", 0.0) >= DRAW_CALL_MIN
 
 
 def modal_scores_by_outcome(lam_home: float, lam_away: float,

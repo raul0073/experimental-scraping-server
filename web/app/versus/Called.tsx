@@ -26,16 +26,17 @@ const STYLE: Record<Outcome, { chip: string; bar: string; label: string }> = {
 
 const ORDER: Outcome[] = ["home", "draw", "away"];
 
-/** The rule that can override the highest probability, and the reason it is
- *  worth saying out loud on the page rather than only in the code.
+/** The rule that USED TO override the highest probability, kept so a reader
+ *  of an older payload is told the truth about it.
  *
- *  A pure argmax essentially never says draw — draws top out around a third
- *  while a win side spreads past that — so the call takes a draw once the
- *  calibrated draw probability reaches 0.32. It was swept on 194 graded
- *  rows, which is not many, and re-testing it is the first thing on the list
- *  once the other four leagues are on disk. Until then a reader deserves to
- *  know when the call is not simply the biggest number. */
-const DRAW_FLOOR = 32;
+ *  Until 2026-11-25 the call took a draw once the calibrated draw
+ *  probability reached the ceiling zone, because a pure argmax essentially
+ *  never says draw. On 2026-11-25 the call became the most likely outcome,
+ *  full stop: eight walk-forward seasons priced the rule at 0.4 points of
+ *  accuracy and the draw ticket ranks on P(draw) directly, so the override
+ *  bought nothing the product needs. Fresh payloads never trigger this box;
+ *  a fixture priced under the old rule still can, and then it says so. */
+const DRAW_FLOOR = 31;
 
 export function Called({ f, league }: { f: Fixture; league: string }) {
   const top = ORDER.reduce((a, b) => (f.p[b] > f.p[a] ? b : a), "home" as Outcome);
@@ -103,11 +104,11 @@ export function Called({ f, league }: { f: Fixture; league: string }) {
         <p className="mt-3 rounded-lg border border-[#e4d49a] bg-[#fdf8e7] p-2.5 text-[12px] leading-relaxed text-[#6b5606]">
           <b>The call is not the highest number here.</b>{" "}
           {o(top)} is on {Math.round(f.p[top])}% against {Math.round(f.p.draw)}%
-          for the draw, but the model states a draw once that probability
-          reaches {DRAW_FLOOR}% — because a pure pick-the-biggest almost never
-          says draw, and roughly a quarter of matches are drawn. The
-          probabilities above are untouched by that rule; only this one word
-          is.
+          for the draw, but this fixture was priced before 2026-11-25, when
+          the model stated a draw once that probability reached {DRAW_FLOOR}%.
+          Since then the call is simply the most likely outcome. The
+          probabilities above were never touched by that rule; only this one
+          word was.
         </p>
       )}
     </section>
