@@ -7,6 +7,44 @@ _Always up to date. What's done, what's in flight, what's next. Spec: `projectIn
 **LIVE, FIVE LEAGUES, 2026-09-23.** predictorous.com serves teams, players
 and managers for ENG/ESP/ITA/GER/FRA. Commit `cb9c74a` pushed.
 
+## Our own xG, from the WhoScored shots (2026-11-25)
+
+**Why.** Understat has been dark since 11-01 and no soccerdata reader
+carries xG any more (supplier research: `data/reports/supplier_research_
+2026-11-25.md`). Every shot since 2023-24 is on disk with coordinates,
+body part, situation and the assist pass (spec: `data/reports/
+scout_whoscored_shots.md`, join: `scout_understat_overlap.md`).
+
+**What.** `scripts/build_shot_xg.py`: a logistic shot model on 147,028
+non-penalty, non-own-goal shots (distance, angle, body part, situation,
+big chance, first touch, volley, one-on-one, assist type, zone; penalties
+at the pooled 0.783). Hold-out 2025-26: log-loss 0.256 against 0.322 for
+the goal rate, deciles calibrated to within a point everywhere. Team-match
+totals calibrated to Understat on the 2,178 matches both cover: r 0.957-
+0.968 per league, slope 1.05-1.11, mean absolute difference 0.16-0.22 xG
+per team-match after the map. Weights in `data/models/shot_xg.json`,
+report in `data/reports/shot_xg_report.md` every run.
+
+**Where it lands.** A sidecar `data/understat/<league>/<season>.wsxg.json`
+of Understat-shaped rows for the ordered pairings Understat lacks;
+`UnderstatService.load()` appends them, Understat's own rows always win,
+and the sidecar is rebuilt daily (step "shot xg", optional, after the
+stamping pass) so it shrinks to nothing when Understat returns. Today it
+fills 118 matches, 11-01..11-23, and every league reads to its latest
+round. ppda/deep/xpts stay None (the classifier tolerates it).
+
+**What it changed this week.** Re-pricing the 11-27..30 round on fresh xG
+against the morning's stale numbers: mean largest shift 1.3 points, one
+fixture over 5, one most-likely-outcome change (Le Havre v Strasbourg,
+36/29/35 to 36/28/36). Freshness matters, not dramatically.
+
+**Known wart, pre-existing.** Understat's FRA 2627 file carries PSG v
+Rennes (the 2-2 of 08-23) dated 2027-03-06; the fill supplies the real
+08-23 row, so the pairing now appears twice with two dates. The form model
+sorts by date, so the phantom sits after every prediction date and is
+never read; the Elo walk reads both. Fix is a date guard in the Understat
+build; noted, not done.
+
 ## What closes the gap to the closing line? Not maths, not context (2026-11-25)
 
 The decision on the table is a paid predictor. The bar for that is the

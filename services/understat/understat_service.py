@@ -182,10 +182,34 @@ class UnderstatService:
 
     @staticmethod
     def load(league: str, season: str) -> Optional[Dict[str, Any]]:
+        """The season's matches, with the gaps Understat left filled from
+        the shot model.
+
+        Understat went dark on 2026-11-01 and four rounds were priced on
+        xG that stopped on 10-31. scripts/build_shot_xg.py writes a sidecar
+        <season>.wsxg.json of Understat-shaped rows for matches WhoScored
+        has and Understat lacks; they are appended here, so every consumer
+        sees a complete season without knowing a row's source. Understat's
+        own rows always win: a pairing present in the main file is never
+        taken from the sidecar, and the sidecar is rebuilt daily so it
+        shrinks to nothing when Understat returns. Rows carry
+        source="whoscored_shot_xg" for anyone who wants to tell."""
         path = UnderstatService.out_path(league, season)
         if not path.exists():
             return None
-        return json.loads(path.read_text(encoding="utf-8"))
+        data = json.loads(path.read_text(encoding="utf-8"))
+        side = path.with_name(f"{season}.wsxg.json")
+        if side.exists():
+            try:
+                extra = json.loads(side.read_text(encoding="utf-8")).get("matches", [])
+            except (OSError, ValueError):
+                extra = []
+            have = {(m["home_team"], m["away_team"]) for m in data.get("matches", [])}
+            added = [m for m in extra if (m["home_team"], m["away_team"]) not in have]
+            if added:
+                data["matches"] = sorted(data.get("matches", []) + added, key=lambda m: m["date"])
+                data["filled_from_shot_xg"] = len(added)
+        return data
 
 
 def load_name_map() -> Dict[str, Dict[str, str]]:

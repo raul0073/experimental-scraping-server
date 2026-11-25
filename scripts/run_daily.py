@@ -799,6 +799,18 @@ def main() -> int:
     if fresh:
         stamp_pass("today", fresh)
 
+    # ---- 1c. xG FOR WHAT UNDERSTAT DOES NOT HAVE ---------------------------
+    # Understat went dark on 2026-11-01 and four rounds were priced on xG
+    # that stopped on 10-31, with the sources step passing on a WARN. The
+    # shot model prices every match in the events above and writes a
+    # sidecar per league-season for the matches Understat lacks;
+    # UnderstatService.load appends them. Runs every day, fresh or quiet:
+    # it is how Understat's return is noticed too (the sidecars shrink).
+    # Optional: a failure here leaves yesterday's sidecars, which is the
+    # last good answer, and must not stop results and injuries shipping.
+    run("shot xg (fills what Understat lacks)", script("build_shot_xg.py"),
+        optional=True)
+
     # ---- 2. RATINGS, rebuilt on what was just fetched ---------------------
     # Everything the predictor reads must be refitted before it runs: the
     # form/team layer, the injuries it deducts, and the Elo arm that now
