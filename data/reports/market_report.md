@@ -1,6 +1,6 @@
 # Versus the market
 
-generated 2026-11-24T09:17:07+00:00 · source football-data.co.uk · margin removal: **normalise**
+generated 2026-11-27T13:38:57+00:00 · source football-data.co.uk · margin removal: **normalise**
 
 Margin method on 11,309 joined historical rows: normalise 0.9655, Shin 0.9654. Shin changes market log loss by +0.0001 nats, inside the ±0.002 band where the simpler method is preferred
 
