@@ -407,6 +407,65 @@ function PickCard({ p, rank }: { p: Pick; rank: number }) {
   );
 }
 
+const KEY_ACCA_PRICE = "betting.acca.bookPrice";
+
+/** THE BOOK'S PRICE AGAINST THE MODEL'S. On 2026-11-27 Winner paid 2.07 for
+ *  a 4-fold the model priced at 3.66: four short favourites each shaded 5
+ *  to 20% below fair, multiplied. At that price the ticket needs to land
+ *  48% of the time; the model says 27%, history says a third. The board
+ *  cannot know a book's price - the project never ingests odds - so the
+ *  user types it and the board answers the only question that matters:
+ *  what hit rate does this price need, and is that above what we expect.
+ *  The eight-season accumulator result was at 3-5% margin books; Winner's
+ *  margin on this ticket was 43%, and the same model gives the opposite
+ *  answer at that price. */
+function AccaPrice({ pAll, fair }: { pAll: number; fair: number }) {
+  const raw = useStored(KEY_ACCA_PRICE, "");
+  const price = Number(raw);
+  const ok = Number.isFinite(price) && price > 1;
+  const need = ok ? 1 / price : null;
+  const evModel = ok ? price * pAll - 1 : null;
+  const evHistory = ok ? price * 0.36 - 1 : null;
+  return (
+    <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-lg border border-line bg-[#fafbfb] px-3 py-2 text-[12px] text-ink-2">
+      <label className="flex items-baseline gap-2">
+        <span className="text-ink-3">your book pays</span>
+        <input
+          inputMode="decimal"
+          placeholder={fair.toFixed(2)}
+          value={raw}
+          onChange={(e) => setStored(KEY_ACCA_PRICE, e.target.value)}
+          className="num w-20 rounded border border-line bg-card px-2 py-0.5 text-[12.5px]"
+        />
+      </label>
+      {ok && need !== null && evModel !== null && evHistory !== null ? (
+        <>
+          <span className="num">
+            needs {pct(need)} to break even · model says {pct(pAll)} · history
+            about a third
+          </span>
+          <span
+            className={`num font-semibold ${evModel >= 0 ? "text-[#1f6b3d]" : "text-[#8a2b2b]"}`}
+          >
+            {evModel >= 0 ? "+" : ""}
+            {(evModel * 100).toFixed(0)}% a ticket at the model&apos;s number,{" "}
+            {evHistory >= 0 ? "+" : ""}
+            {(evHistory * 100).toFixed(0)}% at history&apos;s
+          </span>
+          <span className="text-ink-3">
+            ({pct(price / fair)} of fair)
+          </span>
+        </>
+      ) : (
+        <span className="text-ink-3">
+          fair is {fair.toFixed(2)}; a book paying less than that needs more
+          than the model&apos;s {pct(pAll)} to break even
+        </span>
+      )}
+    </div>
+  );
+}
+
 function PickGroup({
   title,
   note,
@@ -1374,12 +1433,16 @@ export function Picks() {
             }
             picks={w.acca.legs}
           />
-        ) : (
+        ) : null}
+        {w.acca && w.acca.n > 0 && w.acca.p_all && w.acca.fair ? (
+          <AccaPrice pAll={w.acca.p_all} fair={w.acca.fair} />
+        ) : null}
+        {!w.acca ? (
           <p className="text-[12.5px] text-ink-3">
             Best bets: the API serving this page predates the accumulator
             board; restart main.py.
           </p>
-        )}
+        ) : null}
         <PickGroup
           title="Draws"
           note="The ticket, and the only board the slip pot bets. Ranked by the published draw probability — the same number the site shows — across the five leagues, normal confidence only; an exact tie goes to the form arm's classifier."
