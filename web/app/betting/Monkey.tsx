@@ -633,13 +633,14 @@ function GoldPot({ g }: { g: Gold }) {
 
       <p className="mt-2 max-w-3xl text-[13px] leading-relaxed text-ink-2">
         Since 27 November this pot bets one accumulator a week: the strongest
-        calls at or above {pct(g.tickets.floor)}, any side, no team twice,
-        capped at {g.tickets.cap} legs, one unit, paying the product of the
-        legs&apos; fair prices only when every leg lands. Eight seasons said a
-        4-fold of these lands one week in three against the 27% the model
-        claims, and that five legs or more lose money at the book. Rows before
-        that date are the old singles book, kept as they were.
-        {g.tickets.graded > 0 && (
+        calls at or above {pct(g.tickets?.floor ?? 0.55)}, any side, no team
+        twice, capped at {g.tickets?.cap ?? 4} legs, one unit, paying the
+        product of the legs&apos; fair prices only when every leg lands. Eight
+        seasons said a 4-fold of these lands one week in three against the
+        27% the model claims, and that five legs or more lose money at the
+        book. Rows before that date are the old singles book, kept as they
+        were.
+        {g.tickets && g.tickets.graded > 0 && (
           <>
             {" "}
             So far {g.tickets.landed} of {g.tickets.graded} tickets landed
@@ -647,6 +648,13 @@ function GoldPot({ g }: { g: Gold }) {
               ` against ${pct(g.tickets.expected_rate)} expected`}
             ; {g.tickets.legs_landed} of {g.tickets.legs_graded} legs.
           </>
+        )}
+        {!g.tickets && (
+          <span className="text-ink-3">
+            {" "}
+            (The API serving this page predates the accumulator book; restart
+            main.py.)
+          </span>
         )}
       </p>
 

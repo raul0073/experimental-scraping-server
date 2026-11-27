@@ -281,7 +281,7 @@ export type Weekly = {
    *  said four is the cap: a 4-fold of these lands 3.1 of 4 legs and the
    *  ticket one week in three; five legs or more lose at the book. While the
    *  round is booked these are the gold ledger's legs, never a re-ranking. */
-  acca: {
+  acca?: {
     legs: Pick[];
     n: number;
     cap: number;
@@ -483,7 +483,8 @@ export type GoldTickets = {
 };
 
 export type Gold = {
-  tickets: GoldTickets;
+  /** Absent from a payload served by an API older than 2026-11-27. */
+  tickets?: GoldTickets;
   start_pot: number;
   pot: number;
   staked: number;

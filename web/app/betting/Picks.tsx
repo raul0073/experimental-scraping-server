@@ -1361,18 +1361,25 @@ export function Picks() {
             three against 27% stated, and from five legs the return at the
             book goes negative. The one-in-three is written on the board so
             nobody reads a 4-fold as a sure thing. */}
-        <PickGroup
-          title={`Best bets · ${w.acca.n}-fold`}
-          note={
-            w.acca.n === 0
-              ? `No call reaches ${pct(w.acca.floor)} this window, so no ticket.`
-              : `The strongest ${w.acca.n} calls at or above ${pct(w.acca.floor)}, any side, no team twice, capped at ${w.acca.cap}. ` +
-                `One line: fair price ${w.acca.fair?.toFixed(2)}, lands ${pct(w.acca.p_all ?? 0)} of weeks by the model's own numbers ` +
-                `(historically a third, the strongest calls run ahead of their stated odds); on average ${w.acca.expected_legs} of ${w.acca.n} legs land. ` +
-                (w.acca.booked ? "This is the gold ledger's booked ticket." : "The gold pot books this at one unit a week.")
-          }
-          picks={w.acca.legs}
-        />
+        {w.acca ? (
+          <PickGroup
+            title={`Best bets · ${w.acca.n}-fold`}
+            note={
+              w.acca.n === 0
+                ? `No call reaches ${pct(w.acca.floor)} this window, so no ticket.`
+                : `The strongest ${w.acca.n} calls at or above ${pct(w.acca.floor)}, any side, no team twice, capped at ${w.acca.cap}. ` +
+                  `One line: fair price ${w.acca.fair?.toFixed(2)}, lands ${pct(w.acca.p_all ?? 0)} of weeks by the model's own numbers ` +
+                  `(historically a third, the strongest calls run ahead of their stated odds); on average ${w.acca.expected_legs} of ${w.acca.n} legs land. ` +
+                  (w.acca.booked ? "This is the gold ledger's booked ticket." : "The gold pot books this at one unit a week.")
+            }
+            picks={w.acca.legs}
+          />
+        ) : (
+          <p className="text-[12.5px] text-ink-3">
+            Best bets: the API serving this page predates the accumulator
+            board; restart main.py.
+          </p>
+        )}
         <PickGroup
           title="Draws"
           note="The ticket, and the only board the slip pot bets. Ranked by the published draw probability — the same number the site shows — across the five leagues, normal confidence only; an exact tie goes to the form arm's classifier."
