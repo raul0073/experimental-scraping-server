@@ -1794,7 +1794,7 @@ export function Picks() {
         ) : null}
         <PickGroup
           title="Draws"
-          note="The ticket, and the only board the slip pot bets. Ranked by the published draw probability — the same number the site shows — across the five leagues, normal confidence only; an exact tie goes to the form arm's classifier."
+          note={`The ticket, and the only board the slip pot bets. Ranked by the published draw probability — the same number the site shows — across the five leagues, normal confidence only; an exact tie goes to the form arm's classifier. Since 27 November a leg under 30% does not make the ticket: four qualifying draws play שיטה 2/4, three play as singles, fewer sit the week out${draws.length < 4 ? ` — ${draws.length} qualify this round` : ""}.`}
           picks={draws}
           book={{ defaultK: 2, store: `betting.book.${w.booked ?? w.window?.start}.draws` }}
         />

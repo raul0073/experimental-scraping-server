@@ -94,6 +94,18 @@ def _ge(d: List[float], k: int) -> float:
     return sum(d[k:])
 
 
+# THE FLOOR (user decision 2026-11-27). scripts/experiment_strategies.py,
+# 292 walk-forward weeks of 1819..2526: among the top-four draw picks, legs
+# stated 28-30% landed 24% and legs at 32%+ landed 35%. Betting only the
+# weeks with enough draws at 30%+ lifted the 2/4 from +6% to +25% at
+# closing prices (six seasons of eight up) and the one-in-ten bad season
+# from ~400 to ~700 on a 1,000 bankroll. weekly_picks cuts the ticket at
+# this floor; here the structure follows the count: four legs play שיטה
+# 2/4, three play as singles (the best worst-case of the grid), fewer sit
+# the week out. The ranked catalog stays visible as the alternatives.
+DRAW_FLOOR = 0.30
+
+
 def advise(weekly: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     draws = weekly.get("draw_picks") or []
     if len(draws) < 3:
@@ -218,6 +230,11 @@ def advise(weekly: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         ("פטנט", "Patent — top 3 draws, 7 lines", 3, [1, 2, 3],
          "Trixi + 3 singles. Softer floor than Trixi: one hit already "
          "returns something, paid for with three extra lines."),
+        ("סינגלים", "singles — the 3 draws, 3 lines", 3, [1],
+         "three separate bets, one on each draw. No structure: each leg pays "
+         "its own fair price, one hit returns a third of the stake, two hits "
+         "profit. The quietest shape on the grid, and what the floor plays "
+         "when only three draws qualify."),
         ("שיטה 2/3", "system 2/3 — top-3 draws, pairs", 3, [2],
          "three draws, every pair a line (3 lines); profit at 2 hits."),
         ("שיטה 2/4", "system 2/4 — 4 draws, pairs only", 4, [2],
@@ -311,8 +328,15 @@ def advise(weekly: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     # better risk, and P(return) is a comfort rather than a result.
     candidates.sort(key=lambda c: (c["p_profit"], -c["lines"], c["p_return"]),
                     reverse=True)
-    slip = candidates[0]
-    slip["mandate"] = None
+    # THE FLOOR DECIDES THE SHAPE, the ranking shows the field. weekly_picks
+    # already cut the ticket at DRAW_FLOOR, so len(draws) is the count of
+    # qualifying legs: four -> שיטה 2/4, three -> singles. Measured, not
+    # chosen by taste: on the eight seasons the floored 2/4 had the best
+    # median season and the floored singles the best worst case.
+    want = "שיטה 2/4" if len(draws) >= 4 else "סינגלים"
+    slip = next((c for c in candidates if c["title_he"] == want), candidates[0])
+    slip["mandate"] = (f"floor {DRAW_FLOOR:.0%}: {len(draws)} draws qualify -> {want}"
+                       if len(draws) >= 3 else None)
     slip["ranked_on"] = "p_profit"
     slip["alternatives"] = [
         {"title_he": c["title_he"], "title_en": c["title_en"], "lines": c["lines"],
@@ -322,14 +346,13 @@ def advise(weekly: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     lines = []
     lines.append(f"The draw board is {board} this week (top-4 average "
                  f"{board_avg:.1%} against a ~32% ceiling).")
-    lines.append(f"MANDATE: this pot bets one instrument — the draw system. "
-                 f"{slip['title_he']} ({slip['p_profit']:.0%} profit-weeks) is the "
-                 f"default every round, not a weekly beauty contest: at fair prices "
-                 f"all shapes are EV-0, and the draw system is the one that pays at "
-                 f"2 of 4 with a real tail (a draw pair returns ~9-10x a line). "
-                 f"Pure-favorite forms are off-mandate — they need 3 of 4 to profit, "
-                 f"cap out near the stake, and duplicate the GOLD pot, which already "
-                 f"measures those favorites as singles.")
+    lines.append(f"FLOOR: only draws at {DRAW_FLOOR:.0%} or more make the ticket; "
+                 f"{len(draws)} qualify this round, so the shape is {slip['title_he']} "
+                 f"({slip['p_profit']:.0%} profit-weeks). Four qualifying draws play "
+                 f"שיטה 2/4, three play as singles, fewer sit the week out. Measured "
+                 f"on eight seasons: legs under 30% landed 24%, the floored 2/4 ran "
+                 f"+25% at closing prices with six seasons of eight up. Pure-favorite "
+                 f"forms stay off this slip: at Winner's prices every one of them loses.")
     if banker:
         lines.append(
             f"Bankers ({', '.join(f'{b['team']} {b['prob']:.0%}' for b in bankers)}) "

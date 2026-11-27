@@ -514,7 +514,16 @@ class PredictionService:
         draw_candidates = pick(DRAW_LEAGUES, lambda p: p["probabilities"]["draw"],
                                N_DRAWS * 2, "draw",
                                tiebreak=lambda p: p.get("p_draw_classifier") or 0.0)
-        draw_picks = draw_candidates[:N_DRAWS]
+        # THE FLOOR (user decision 2026-11-27, scripts/experiment_strategies.py):
+        # a draw leg below 30% stated is not on the ticket. Among the top-four
+        # draw picks over eight seasons, legs stated 28-30% landed 24% while
+        # legs at 32%+ landed 35%; betting only the weeks with enough draws at
+        # 30%+ lifted the 2/4 from +6% to +25% at closing prices, six seasons
+        # of eight up. The ticket is whatever qualifies, up to N_DRAWS; the
+        # advisor plays 2/4 on four, singles on three, and sits out under
+        # three. The eight candidates stay on the board regardless.
+        from services.predictions.strategy_advisor import DRAW_FLOOR
+        draw_picks = [p for p in draw_candidates if p["pick_prob"] >= DRAW_FLOOR][:N_DRAWS]
         home_picks = pick(HOME_LEAGUES, lambda p: p["probabilities"]["home"],
                           N_HOME, "home")
         away_picks = pick(AWAY_LEAGUES, lambda p: p["probabilities"]["away"],

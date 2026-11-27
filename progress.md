@@ -7,6 +7,40 @@ _Always up to date. What's done, what's in flight, what's next. Spec: `projectIn
 **LIVE, FIVE LEAGUES, 2026-09-23.** predictorous.com serves teams, players
 and managers for ENG/ESP/ITA/GER/FRA. Commit `cb9c74a` pushed.
 
+## The draw ticket has a floor: 30%, 2/4 on four, singles on three (2026-11-27)
+
+**The search.** `scripts/experiment_strategies.py`: 200 strategies (draw
+pools of 3-6 with floors 0/.30/.31/.32, strongest-call pools of 2-5 with
+floors .55/.60/.65, every structure from singles to the n-fold, 60 a week
+or 10 a line) over the 292 walk-forward weeks, ranked by expected log
+growth over bootstrapped 34-week seasons from 1,000, at closing prices and
+at a Winner-like regime assumed from the eight prices seen today (draws
+x1.03, favourites x0.87, the rest x0.92 of closing). Report:
+`data/reports/experiment_strategies.md`.
+
+**What it found.** Among the top-four draw picks, legs stated 28-30%
+landed 24% (n=241; the thin-week fillers), legs at 32%+ landed 35%.
+Betting only weeks with enough draws at 30%+: the 2/4 goes from +5.9% to
++25.4% at closing (90% range +1..+52, six seasons of eight up, 171 of 292
+weeks bet), median season end 1,341 against 1,195 at Winner-like prices
+and the one-in-ten bad season 687 against 401. Three floored draws as
+singles: +12% at closing with the tightest interval (+1..+22), best worst
+case (10th percentile 872). Every favourites structure loses at
+Winner-like prices (singles -13%, 4-fold -40%). Caveats stated to the
+user: the leader of a 200-cell grid is partly luck; the floor's benefit
+is mostly from NOT betting the weak legs (about 94% confidence, not 99);
+the Winner regime is an assumption from eight prices.
+
+**Applied (user: "apply the floor").** `weekly_picks` cuts `draw_picks`
+at `DRAW_FLOOR = 0.30` (strategy_advisor.py); the eight candidates stay on
+the board. `advise()` plays שיטה 2/4 on four qualifying legs, the new
+"סינגלים" form on three (k=[1], three lines), and returns None under
+three, so no slip is booked and the week is sat out; `mandate` names the
+rule. The Draws board note says so and shows how many qualify. selfcheck
+25/25. This round: four qualify (32.2/32.0/31.7/31.6), שיטה 2/4 as before.
+Not yet done: a selfcheck case that forces a three-leg and a two-leg week
+through the advisor.
+
 ## "Your book pays" on every board, and the review fixes (2026-11-27)
 
 **Why.** Winner paid 2.07 for the 4-fold the model priced at 3.66 - four
