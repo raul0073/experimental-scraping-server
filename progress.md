@@ -7,6 +7,44 @@ _Always up to date. What's done, what's in flight, what's next. Spec: `projectIn
 **LIVE, FIVE LEAGUES, 2026-09-23.** predictorous.com serves teams, players
 and managers for ENG/ESP/ITA/GER/FRA. Commit `cb9c74a` pushed.
 
+## "Your book pays" on every board, and the review fixes (2026-11-27)
+
+**Why.** Winner paid 2.07 for the 4-fold the model priced at 3.66 - four
+short favourites each shaded 5-20% under fair, multiplied. The eight-season
+accumulator result was at 3-5% margin books; at Winner's prices the same
+ticket needs 48% to break even against 27% stated. The user bets systems
+and accumulators, so a leg's price only matters through the whole ticket.
+
+**Built (Picks.tsx).** `BoardBook` under every board - Best bets, Draws,
+Home wins, Away wins - and `SlipBook` under the Winner form: a box per leg
+prefilled with fair, a structure switch (singles, every k-of-n שיטה, one
+n-fold), and the whole ticket at those prices: total odds or max win,
+expected return, week in profit, anything back, each against fair; a
+verdict (take / marginal / pass) by law 5 of the betting skill: take iff
+the book returns at least the stake at the model's probabilities; within
+five points under is marginal, a maybe on favourites (which run ahead of
+their stated odds) and a pass on draws. Prices live in the browser per
+board and window; no odds are ingested. The form sheet is open by default
+and laid out as a table, newest result first.
+
+**Review fixes (four lenses on 83ec4ac and 128475a).** `_pending_window`
+and `_last_bet_end` read gold rows of both shapes (an accumulator row kept
+no kickoffs in `bets`, so a pending ticket never held the window and a
+second could be booked); the booked acca restore survives a void leg (no
+score), a leg whose fixture left the slate (card fields defaulted) and a
+flipped pairing, and never lets the live score pose as a verdict before
+the grader runs; the degenerate payload carries an empty `acca`;
+`simulate_season._gold_projection` and selfcheck's real-ledger case read
+both shapes (the first graded ticket would have killed the season
+simulation silently); `UnderstatService.load` drops a played match dated
+after today (the FRA PSG v Rennes phantom of 2027-03-06, which the
+sidecar's real 08-23 row had turned into a duplicate feeding the Elo
+table); `history_service` records `real_xg_source` when a backfilled xG
+came from the shot model; the shot model's through-ball qualifier is
+spelled `Throughball` (the feature was constant zero) and a side with no
+shots is xG 0, not a dropped match. Both last two take effect on the next
+daily rebuild of the model and sidecars.
+
 ## The gold pot bets one accumulator a week; the cap is four (2026-11-27)
 
 **Asked.** How many legs of an accumulator of the model's best calls land,

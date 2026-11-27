@@ -99,7 +99,7 @@ class HistoryService:
                 for m in us["matches"]:
                     if m.get("home_xg") is not None:
                         xg_res[(league, m["home_team"], m["away_team"])] = (
-                            m["home_xg"], m["away_xg"])
+                            m["home_xg"], m["away_xg"], m.get("source"))
 
         graded = 0
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
@@ -125,9 +125,14 @@ class HistoryService:
             xg = xg_res.get(key)
             if not xg and flipped:
                 pair = xg_res.get((r["league"], r["away"], r["home"]))
-                xg = (pair[1], pair[0]) if pair else None
+                xg = (pair[1], pair[0], pair[2] if len(pair) > 2 else None) if pair else None
             if xg:
                 r["real_xg"] = [round(xg[0], 2), round(xg[1], 2)]
+                # provenance: since 2026-11-25 a match Understat lacks gets
+                # its xG from the shot model (source "whoscored_shot_xg");
+                # the record says which it was rather than passing it off
+                if len(xg) > 2 and xg[2]:
+                    r["real_xg_source"] = xg[2]
                 r["xg_hit"] = (abs(r["pred_xg"][0] - xg[0]) <= XG_TOL
                                and abs(r["pred_xg"][1] - xg[1]) <= XG_TOL)
             else:
@@ -141,9 +146,14 @@ class HistoryService:
             xg = xg_res.get((r["league"], r["home"], r["away"]))
             if not xg:
                 pair = xg_res.get((r["league"], r["away"], r["home"]))
-                xg = (pair[1], pair[0]) if pair else None
+                xg = (pair[1], pair[0], pair[2] if len(pair) > 2 else None) if pair else None
             if xg:
                 r["real_xg"] = [round(xg[0], 2), round(xg[1], 2)]
+                # provenance: since 2026-11-25 a match Understat lacks gets
+                # its xG from the shot model (source "whoscored_shot_xg");
+                # the record says which it was rather than passing it off
+                if len(xg) > 2 and xg[2]:
+                    r["real_xg_source"] = xg[2]
                 r["xg_hit"] = (abs(r["pred_xg"][0] - xg[0]) <= XG_TOL
                                and abs(r["pred_xg"][1] - xg[1]) <= XG_TOL)
                 r["perfect"] = bool(r["score_hit"] and r["xg_hit"])

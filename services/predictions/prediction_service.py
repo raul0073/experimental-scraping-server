@@ -312,7 +312,7 @@ class PredictionService:
                 (Path("data/slips/slips.jsonl"),
                  lambda r: [l.get("kickoff") for l in r.get("legs", [])]),
                 (Path("data/slips/gold.jsonl"),
-                 lambda r: [b.get("kickoff") for b in r.get("bets", [])])):
+                 lambda r: [b.get("kickoff") for b in (r.get("legs") or r.get("bets") or [])])):
             if not path.exists():
                 continue
             for line in path.read_text(encoding="utf-8").splitlines():
@@ -362,7 +362,7 @@ class PredictionService:
                 (Path("data/slips/slips.jsonl"),
                  lambda r: [l.get("kickoff") for l in r.get("legs", [])]),
                 (Path("data/slips/gold.jsonl"),
-                 lambda r: [b.get("kickoff") for b in r.get("bets", [])])):
+                 lambda r: [b.get("kickoff") for b in (r.get("legs") or r.get("bets") or [])])):
             if not path.exists():
                 continue
             for line in path.read_text(encoding="utf-8").splitlines():
@@ -450,6 +450,8 @@ class PredictionService:
             if not starts:
                 return {"season": SEASON, "window": None, "weeks": {},
                         "draw_picks": [], "draw_candidates": [], "home_win_picks": [],
+                        "acca": {"legs": [], "n": 0, "cap": 4, "floor": 0.55, "booked": False,
+                                 "p_all": None, "fair": None, "expected_legs": 0.0},
                         "trixy": None, "all_predictions": {}, "strategy": None}
             earliest = min(starts)
             # only leagues whose round STARTS with the pack join this window
@@ -588,12 +590,36 @@ class PredictionService:
                 if r.get("window") == pending["window"] and r.get("type") == "acca":
                     live_by = {(p["home"], p["away"]): p for ps in preds.values() for p in ps}
                     for i, l in enumerate(r["legs"]):
-                        live = live_by.get((l["home"], l["away"]), {})
-                        acca_legs.append({**live, "league": l["league_full"], "home": l["home"],
+                        live = live_by.get((l["home"], l["away"])) \
+                            or live_by.get((l["away"], l["home"])) or {}
+                        # the live row's result and verdict are NOT the
+                        # ledger's: between a kickoff and the grader's pass
+                        # a leg carried the live score with no hit, and the
+                        # card rendered it as missed. Only the ledger says.
+                        base = {k: v for k, v in live.items() if k not in ("score", "outcome", "hit")}
+                        # a leg whose fixture left the slate (postponed out of
+                        # the span, renamed) still needs what the card reads
+                        side = l["side"]
+                        rest = (1 - l["prob"]) / 2
+                        base.setdefault("probabilities", {s: (l["prob"] if s == side else rest)
+                                                          for s in ("home", "draw", "away")})
+                        base.setdefault("tier", "gold" if l["prob"] >= GOLD_P else "silver")
+                        base.setdefault("xg", {})
+                        base.setdefault("week", 0)
+                        base.setdefault("confidence", "normal")
+                        base.setdefault("season", r.get("season", SEASON))
+                        base.setdefault("modal_scores", {})
+                        base.setdefault("top_scorelines", [])
+                        base.setdefault("why", {})
+                        settled = {}
+                        if "hit" in l:
+                            settled = {"hit": l["hit"]}
+                            if l.get("score"):          # a void leg has no score
+                                settled["score"] = l["score"]
+                        acca_legs.append({**base, "league": l["league_full"], "home": l["home"],
                                           "away": l["away"], "kickoff": l["kickoff"],
-                                          "rank": i + 1, "pick_type": l["side"],
-                                          "pick_prob": l["prob"], "in_window": True,
-                                          **({"score": l["score"], "hit": l["hit"]} if "hit" in l else {})})
+                                          "rank": i + 1, "pick_type": side,
+                                          "pick_prob": l["prob"], "in_window": True, **settled})
                     break
         acca_booked = bool(acca_legs)
         if not acca_legs:

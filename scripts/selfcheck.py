@@ -652,7 +652,7 @@ def grade_real_copies(sb):
             stuck.append(f"slip {r['window']}")
     for r in sb.read_jsonl(LEDGER_FILES["gold"]):
         if r["status"] == "pending" and all(resolved(b["league_full"], b["home"], b["away"])
-                                            for b in r["bets"]):
+                                            for b in (r.get("legs") or r.get("bets") or [])):
             stuck.append(f"gold {r['window']}")
     check(not stuck, f"{len(stuck)} resolved row(s) still pending: {stuck[:4]}")
     n = {k: len(sb.read_jsonl(v)) for k, v in LEDGER_FILES.items()}

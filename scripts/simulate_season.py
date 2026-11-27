@@ -288,7 +288,7 @@ def _gold_projection(gold_parts, sims):
     # Gate A: when does GRADED evidence reach n=150? (already-graded ledger
     # bets + certified future legs in kickoff order)
     already = sum(1 for r in GoldLedger._read() if r["status"] == "graded"
-                  for _ in r["bets"])
+                  for _ in (r.get("legs") or r.get("bets") or []))
     need = max(0, 150 - already)
     gate_date = str(dates[need - 1]) if 0 < need <= n else (
         "already reached" if need == 0 else None)

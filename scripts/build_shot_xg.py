@@ -73,7 +73,7 @@ CALIB_SEASONS = ["2526", "2627"]     # where Understat and WhoScored overlap
 BODY = ["Head", "LeftFoot", "RightFoot", "OtherBodyPart"]
 SIT = ["RegularPlay", "FromCorner", "SetPiece", "DirectFreekick", "Penalty", "FastBreak", "ThrowinSetPiece"]
 FLAGS = ["OwnGoal", "Penalty", "BigChance", "FirstTouch", "Volley", "OneOnOne", "Assisted", "IndividualPlay"]
-ASSIST = ["Cross", "ThroughBall", "Chipped", "Longball"]
+ASSIST = ["Cross", "Throughball", "Chipped", "Longball"]   # WhoScored spells it Throughball
 ZONES = ["SmallBoxCentre", "SmallBoxLeft", "SmallBoxRight", "BoxCentre", "BoxLeft", "BoxRight",
          "DeepBoxLeft", "DeepBoxRight", "OutOfBoxCentre", "OutOfBoxLeft", "OutOfBoxRight",
          "OutOfBoxDeepLeft", "OutOfBoxDeepRight", "ThirtyFivePlusCentre", "ThirtyFivePlusLeft", "ThirtyFivePlusRight"]
@@ -315,10 +315,11 @@ def main() -> int:
                     unmapped.add(d["away"])
                 m = us_rows.get((d["date"], h, a)) if h and a else None
                 th, ta = by_game.get((gid, d["home"])), by_game.get((gid, d["away"]))
-                if m is None or th is None or ta is None:
+                if m is None:
                     continue
-                pairs.append((th.xg, float(m["home_xg"])))
-                pairs.append((ta.xg, float(m["away_xg"])))
+                # a side with no shot at all has xG 0, not a missing match
+                pairs.append(((th.xg if th is not None else 0.0), float(m["home_xg"])))
+                pairs.append(((ta.xg if ta is not None else 0.0), float(m["away_xg"])))
         if len(pairs) >= 50:
             x, yv = np.array(pairs).T
             slope, intercept = np.polyfit(x, yv, 1)
@@ -354,15 +355,15 @@ def main() -> int:
                 if not h or not a or (h, a) in have:
                     continue
                 th, ta = by_game.get((gid, d["home"])), by_game.get((gid, d["away"]))
-                if th is None or ta is None:
-                    continue
-                hx = max(c["slope"] * th.xg + c["intercept"], 0.02)
-                ax = max(c["slope"] * ta.xg + c["intercept"], 0.02)
+                th_xg, th_pen = (th.xg, th.pen_xg) if th is not None else (0.0, 0.0)
+                ta_xg, ta_pen = (ta.xg, ta.pen_xg) if ta is not None else (0.0, 0.0)
+                hx = max(c["slope"] * th_xg + c["intercept"], 0.02)
+                ax = max(c["slope"] * ta_xg + c["intercept"], 0.02)
                 rows.append({"date": d["date"], "understat_date": d["date"], "home_team": h, "away_team": a,
                              "home_goals": d["hg"], "away_goals": d["ag"],
                              "home_xg": round(hx, 4), "away_xg": round(ax, 4),
-                             "home_npxg": round(max(hx - c["slope"] * th.pen_xg, 0.02), 4),
-                             "away_npxg": round(max(ax - c["slope"] * ta.pen_xg, 0.02), 4),
+                             "home_npxg": round(max(hx - c["slope"] * th_pen, 0.02), 4),
+                             "away_npxg": round(max(ax - c["slope"] * ta_pen, 0.02), 4),
                              "home_ppda": None, "away_ppda": None, "home_deep": None, "away_deep": None,
                              "home_xpts": None, "away_xpts": None, "understat_game_id": None,
                              "source": "whoscored_shot_xg", "ws_game_id": gid})

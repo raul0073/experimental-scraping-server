@@ -198,6 +198,18 @@ class UnderstatService:
         if not path.exists():
             return None
         data = json.loads(path.read_text(encoding="utf-8"))
+        # A PLAYED MATCH DATED IN THE FUTURE IS A PHANTOM. Understat's FRA 2627
+        # file carries PSG v Rennes (the 2-2 of 2026-08-23) dated 2027-03-06;
+        # with the shot model supplying the real 08-23 row the pairing then
+        # appeared twice and the phantom fed the Elo table as Ligue 1's most
+        # recent match. A result cannot postdate today.
+        from datetime import date as _date
+        today = _date.today().isoformat()
+        kept = [m for m in data.get("matches", [])
+                if not (m.get("home_goals") is not None and str(m.get("date", ""))[:10] > today)]
+        if len(kept) != len(data.get("matches", [])):
+            data["phantoms_dropped"] = len(data["matches"]) - len(kept)
+            data["matches"] = kept
         side = path.with_name(f"{season}.wsxg.json")
         if side.exists():
             try:

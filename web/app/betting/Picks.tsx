@@ -1,6 +1,12 @@
 "use client";
 
-import { Fragment, useCallback, useEffect, useState } from "react";
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 
 import { leagueShort } from "@/lib/league";
 import { setStored, useStored } from "@/lib/useStored";
@@ -407,61 +413,161 @@ function PickCard({ p, rank }: { p: Pick; rank: number }) {
   );
 }
 
-const KEY_ACCA_PRICE = "betting.acca.bookPrice";
+/** Every hit pattern of a k-of-n system at the model's probabilities: what
+ *  it pays at the book's prices and at fair. Pure; shared by every board. */
+function bookMath(
+  legs: { prob: number; fair: number }[],
+  prices: (number | null)[],
+  k: number,
+) {
+  const n = legs.length;
+  const price = (i: number) => prices[i] ?? legs[i].fair;
+  const lines: number[][] = [];
+  const pick = (start: number, acc: number[]) => {
+    if (acc.length === k) {
+      lines.push([...acc]);
+      return;
+    }
+    for (let i = start; i < n; i++) pick(i + 1, [...acc, i]);
+  };
+  pick(0, []);
+  const stake = lines.length;
+  let evBook = 0;
+  let evFair = 0;
+  let pProfitBook = 0;
+  let pProfitFair = 0;
+  let pAnyBook = 0;
+  for (let mask = 0; mask < 1 << n; mask++) {
+    let p = 1;
+    for (let i = 0; i < n; i++) p *= mask & (1 << i) ? legs[i].prob : 1 - legs[i].prob;
+    let rb = 0;
+    let rf = 0;
+    for (const line of lines) {
+      if (line.every((i) => mask & (1 << i))) {
+        rb += line.reduce((m, i) => m * price(i), 1);
+        rf += line.reduce((m, i) => m * legs[i].fair, 1);
+      }
+    }
+    evBook += p * rb;
+    evFair += p * rf;
+    if (rb > stake) pProfitBook += p;
+    if (rf > stake) pProfitFair += p;
+    if (rb > 0) pAnyBook += p;
+  }
+  const maxBook = lines.reduce((s, line) => s + line.reduce((m, i) => m * price(i), 1), 0);
+  const maxFair = lines.reduce((s, line) => s + line.reduce((m, i) => m * legs[i].fair, 1), 0);
+  return { stake, lines: lines.length, maxBook, maxFair, evBook, evFair, pProfitBook, pProfitFair, pAnyBook };
+}
 
-/** THE BOOK'S PRICE AGAINST THE MODEL'S. On 2026-11-27 Winner paid 2.07 for
- *  a 4-fold the model priced at 3.66: four short favourites each shaded 5
- *  to 20% below fair, multiplied. At that price the ticket needs to land
- *  48% of the time; the model says 27%, history says a third. The board
- *  cannot know a book's price - the project never ingests odds - so the
- *  user types it and the board answers the only question that matters:
- *  what hit rate does this price need, and is that above what we expect.
- *  The eight-season accumulator result was at 3-5% margin books; Winner's
- *  margin on this ticket was 43%, and the same model gives the opposite
- *  answer at that price. */
-function AccaPrice({ pAll, fair }: { pAll: number; fair: number }) {
-  const raw = useStored(KEY_ACCA_PRICE, "");
-  const price = Number(raw);
-  const ok = Number.isFinite(price) && price > 1;
-  const need = ok ? 1 / price : null;
-  const evModel = ok ? price * pAll - 1 : null;
-  const evHistory = ok ? price * 0.36 - 1 : null;
+/** "YOUR BOOK PAYS", on every board. The user bets systems and accumulators,
+ *  so a leg's price only matters through the whole ticket: one shaded leg
+ *  taxes every line it sits in. Per board the user types each leg's price
+ *  as the book shows it (fair is the placeholder), picks the structure
+ *  (k of n: 1 = singles, n = one accumulator, the Winner שיטה in between),
+ *  and gets the whole ticket's numbers at those prices against at fair,
+ *  and a verdict. Prices are kept per board and window in the browser;
+ *  nothing is sent anywhere and no odds are ingested. */
+function BoardBook({ legs, defaultK, store }: { legs: Pick[]; defaultK: number; store: string }) {
+  const n = legs.length;
+  const rawPrices = useStored(`${store}.prices`, "{}");
+  const rawK = useStored(`${store}.k`, "");
+  let saved: Record<string, string> = {};
+  try {
+    saved = JSON.parse(rawPrices) as Record<string, string>;
+  } catch {
+    saved = {};
+  }
+  const k = Math.min(n, Math.max(1, Number(rawK) || Math.min(defaultK, n)));
+  const prices = legs.map((l) => {
+    const v = Number(saved[fixtureKey(l)]);
+    return Number.isFinite(v) && v > 1 ? v : null;
+  });
+  const typed = prices.filter((p) => p !== null).length;
+  const m = bookMath(
+    legs.map((l) => ({ prob: l.pick_prob, fair: 1 / l.pick_prob })),
+    prices,
+    k,
+  );
+  const ev = (m.evBook - m.stake) / m.stake;
+  const set = (key: string, v: string) => setStored(`${store}.prices`, JSON.stringify({ ...saved, [key]: v }));
+  const structure = k === 1 ? "singles" : k === n ? `${n}-fold` : `system ${k}/${n}`;
   return (
-    <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-lg border border-line bg-[#fafbfb] px-3 py-2 text-[12px] text-ink-2">
-      <label className="flex items-baseline gap-2">
-        <span className="text-ink-3">your book pays</span>
-        <input
-          inputMode="decimal"
-          placeholder={fair.toFixed(2)}
-          value={raw}
-          onChange={(e) => setStored(KEY_ACCA_PRICE, e.target.value)}
-          className="num w-20 rounded border border-line bg-card px-2 py-0.5 text-[12.5px]"
-        />
-      </label>
-      {ok && need !== null && evModel !== null && evHistory !== null ? (
-        <>
-          <span className="num">
-            needs {pct(need)} to break even · model says {pct(pAll)} · history
-            about a third
-          </span>
-          <span
-            className={`num font-semibold ${evModel >= 0 ? "text-[#1f6b3d]" : "text-[#8a2b2b]"}`}
-          >
-            {evModel >= 0 ? "+" : ""}
-            {(evModel * 100).toFixed(0)}% a ticket at the model&apos;s number,{" "}
-            {evHistory >= 0 ? "+" : ""}
-            {(evHistory * 100).toFixed(0)}% at history&apos;s
-          </span>
-          <span className="text-ink-3">
-            ({pct(price / fair)} of fair)
-          </span>
-        </>
-      ) : (
-        <span className="text-ink-3">
-          fair is {fair.toFixed(2)}; a book paying less than that needs more
-          than the model&apos;s {pct(pAll)} to break even
+    <div className="mt-2 rounded-lg border border-line bg-[#fafbfb] p-3 text-[12px] text-ink-2">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <span className="font-medium text-ink">Your book pays</span>
+        <span className="flex items-baseline gap-1.5 text-ink-3">
+          structure
+          {Array.from({ length: n }, (_, i) => i + 1).map((kk) => (
+            <button
+              key={kk}
+              onClick={() => setStored(`${store}.k`, String(kk))}
+              className={`num rounded border px-1.5 py-0.5 ${
+                kk === k ? "border-ink bg-card text-ink" : "border-line text-ink-3"
+              }`}
+              title={kk === 1 ? "singles" : kk === n ? `one ${n}-fold` : `every ${kk}-combination (שיטה ${kk}/${n})`}
+            >
+              {kk === 1 ? "1s" : kk === n ? `${n}-fold` : `${kk}/${n}`}
+            </button>
+          ))}
         </span>
-      )}
+      </div>
+      <div className="mt-2 grid gap-x-4 gap-y-1.5 sm:grid-cols-2">
+        {legs.map((l, i) => (
+          <label key={fixtureKey(l)} className="flex items-baseline justify-between gap-2">
+            <span className="truncate">
+              <span className="num text-ink-3">{l.pick_type === "home" ? "1" : l.pick_type === "draw" ? "X" : "2"}</span>{" "}
+              {l.home} v {l.away}
+            </span>
+            <span className="num flex items-baseline gap-1.5 text-ink-3">
+              fair {(1 / l.pick_prob).toFixed(2)}
+              <input
+                inputMode="decimal"
+                placeholder={(1 / l.pick_prob).toFixed(2)}
+                value={saved[fixtureKey(l)] ?? ""}
+                onChange={(e) => set(fixtureKey(l), e.target.value)}
+                className="num w-16 rounded border border-line bg-card px-1.5 py-0.5 text-[12px] text-ink"
+              />
+              {prices[i] !== null && (
+                <span className={prices[i]! >= 1 / l.pick_prob ? "text-[#1f6b3d]" : "text-[#8a2b2b]"}>
+                  {pct(prices[i]! * l.pick_prob)}
+                </span>
+              )}
+            </span>
+          </label>
+        ))}
+      </div>
+      <div className="num mt-2.5 flex flex-wrap gap-x-4 gap-y-1 border-t border-line pt-2">
+        <span>
+          {structure} · {m.lines} line{m.lines === 1 ? "" : "s"} ·{" "}
+          {k === n ? "total odds" : "max win"}{" "}
+          <b className="font-semibold text-ink">{m.maxBook.toFixed(2)}</b>
+          {typed > 0 && <span className="text-ink-3"> (fair {m.maxFair.toFixed(2)})</span>}
+          {k === n && <span className="text-ink-3"> · lands {pct(m.pAnyBook)}</span>}
+        </span>
+        <span>
+          expected return{" "}
+          <b className={`font-semibold ${ev >= 0 ? "text-[#1f6b3d]" : "text-[#8a2b2b]"}`}>
+            {ev >= 0 ? "+" : ""}
+            {(ev * 100).toFixed(0)}%
+          </b>
+          {typed > 0 && (
+            <span className="text-ink-3">
+              {" "}
+              (fair {m.evFair >= m.stake ? "+" : ""}
+              {(((m.evFair - m.stake) / m.stake) * 100).toFixed(0)}%)
+            </span>
+          )}
+        </span>
+        <span>
+          week in profit <b className="font-semibold text-ink">{pct(m.pProfitBook)}</b>
+          {typed > 0 && <span className="text-ink-3"> (fair {pct(m.pProfitFair)})</span>}
+        </span>
+        <span>
+          anything back <b className="font-semibold text-ink">{pct(m.pAnyBook)}</b>
+        </span>
+        {typed > 0 && typed < n && <span className="text-ink-3">{n - typed} leg(s) still at fair</span>}
+      </div>
+      <Verdict ev={ev} typed={typed > 0} />
     </div>
   );
 }
@@ -470,10 +576,14 @@ function PickGroup({
   title,
   note,
   picks,
+  book,
 }: {
   title: string;
   note: string;
   picks: Pick[];
+  /** Attach "your book pays" to this board: the default structure (k of n)
+   *  and a storage key for the typed prices. */
+  book?: { defaultK: number; store: string };
 }) {
   return (
     <div className="mt-5 first:mt-0">
@@ -492,6 +602,9 @@ function PickGroup({
             <PickCard key={fixtureKey(p)} p={p} rank={p.rank ?? i + 1} />
           ))}
         </ul>
+      )}
+      {book && picks.length >= 1 && (
+        <BoardBook legs={picks} defaultK={book.defaultK} store={book.store} />
       )}
     </div>
   );
@@ -722,6 +835,171 @@ function Options({ options }: { options: Strategy["options"] }) {
   );
 }
 
+/** THE SLIP AT THE BOOK'S PRICES. A system pays every winning line at the
+ *  product of ITS legs' prices, so one shaded leg taxes every line it sits
+ *  in and the only honest number is the whole ticket's. The user types each
+ *  leg's price as the book shows it (fair is the placeholder); the board
+ *  enumerates every hit pattern at the model's probabilities and reports
+ *  the max win, the expected return and the chance of ending the week up,
+ *  at those prices against at fair. Prices are kept per window in the
+ *  browser; nothing is sent anywhere and no odds are ingested. */
+function SlipBook({ slip }: { slip: Slip }) {
+  const key = `betting.slip.book.${slip.legs.map((l) => l.fixture).join("|")}`;
+  const raw = useStored(key, "{}");
+  let saved: Record<string, string> = {};
+  try {
+    saved = JSON.parse(raw) as Record<string, string>;
+  } catch {
+    saved = {};
+  }
+  const legs = slip.legs;
+  const k = slip.k;
+  const prices = legs.map((l) => {
+    const v = Number(saved[l.fixture]);
+    return Number.isFinite(v) && v > 1 ? v : null;
+  });
+  const typed = prices.filter((p) => p !== null).length;
+  const price = (i: number) => prices[i] ?? legs[i].breakeven;
+
+  // every hit pattern, lines won, return at book and at fair
+  const n = legs.length;
+  const lines: number[][] = [];
+  const pick = (start: number, acc: number[]) => {
+    if (acc.length === k) {
+      lines.push([...acc]);
+      return;
+    }
+    for (let i = start; i < n; i++) pick(i + 1, [...acc, i]);
+  };
+  pick(0, []);
+  const stake = lines.length;
+  let evBook = 0;
+  let evFair = 0;
+  let pProfitBook = 0;
+  let pProfitFair = 0;
+  for (let mask = 0; mask < 1 << n; mask++) {
+    let p = 1;
+    for (let i = 0; i < n; i++) p *= mask & (1 << i) ? legs[i].prob : 1 - legs[i].prob;
+    let rb = 0;
+    let rf = 0;
+    for (const line of lines) {
+      if (line.every((i) => mask & (1 << i))) {
+        rb += line.reduce((m, i) => m * price(i), 1);
+        rf += line.reduce((m, i) => m * legs[i].breakeven, 1);
+      }
+    }
+    evBook += p * rb;
+    evFair += p * rf;
+    if (rb > stake) pProfitBook += p;
+    if (rf > stake) pProfitFair += p;
+  }
+  const maxBook = lines.reduce((s, line) => s + line.reduce((m, i) => m * price(i), 1), 0);
+  const maxFair = lines.reduce((s, line) => s + line.reduce((m, i) => m * legs[i].breakeven, 1), 0);
+
+  const set = (fixture: string, v: string) => {
+    const next = { ...saved, [fixture]: v };
+    setStored(key, JSON.stringify(next));
+  };
+
+  return (
+    <div className="mt-3 rounded-lg border border-line bg-[#fafbfb] p-3 text-[12px] text-ink-2">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <span className="font-medium text-ink">At your book&apos;s prices</span>
+        <span className="text-ink-3">
+          type each leg as the book shows it; blank means fair
+        </span>
+      </div>
+      <div className="mt-2 grid gap-x-4 gap-y-1.5 sm:grid-cols-2">
+        {legs.map((l) => (
+          <label key={l.fixture} className="flex items-baseline justify-between gap-2">
+            <span className="truncate">
+              <span className="num text-ink-3">{l.mark}</span> {l.fixture}
+            </span>
+            <span className="num flex items-baseline gap-1.5 text-ink-3">
+              fair {l.breakeven.toFixed(2)}
+              <input
+                inputMode="decimal"
+                placeholder={l.breakeven.toFixed(2)}
+                value={saved[l.fixture] ?? ""}
+                onChange={(e) => set(l.fixture, e.target.value)}
+                className="num w-16 rounded border border-line bg-card px-1.5 py-0.5 text-[12px] text-ink"
+              />
+            </span>
+          </label>
+        ))}
+      </div>
+      <div className="num mt-2.5 flex flex-wrap gap-x-4 gap-y-1 border-t border-line pt-2">
+        <span>
+          {stake} lines · max win{" "}
+          <b className="font-semibold text-ink">{maxBook.toFixed(1)}</b>
+          {typed > 0 && <span className="text-ink-3"> (fair {maxFair.toFixed(1)})</span>}
+        </span>
+        <span>
+          expected return{" "}
+          <b className={`font-semibold ${evBook >= stake ? "text-[#1f6b3d]" : "text-[#8a2b2b]"}`}>
+            {evBook >= stake ? "+" : ""}
+            {(((evBook - stake) / stake) * 100).toFixed(0)}%
+          </b>
+          {typed > 0 && (
+            <span className="text-ink-3">
+              {" "}
+              (fair {evFair >= stake ? "+" : ""}
+              {(((evFair - stake) / stake) * 100).toFixed(0)}%)
+            </span>
+          )}
+        </span>
+        <span>
+          week in profit{" "}
+          <b className="font-semibold text-ink">{pct(pProfitBook)}</b>
+          {typed > 0 && <span className="text-ink-3"> (fair {pct(pProfitFair)})</span>}
+        </span>
+        {typed > 0 && typed < n && (
+          <span className="text-ink-3">{n - typed} leg(s) still at fair</span>
+        )}
+      </div>
+      <Verdict ev={(evBook - stake) / stake} typed={typed > 0} />
+    </div>
+  );
+}
+
+/** ONE WORD, because that is what the user asked for. The rule is law 5 of
+ *  the betting skill: a ticket is worth taking iff, at the model's own
+ *  probabilities, the book's prices return at least the stake. Within five
+ *  points under is "marginal": the model's strongest calls have run a few
+ *  points ahead of their stated odds, draws have not, so marginal on a
+ *  favourites ticket is a maybe and marginal on draws is a pass. Below that,
+ *  no structure rescues it (law 5 again: systems reshape variance, they do
+ *  not create value from negative legs). */
+function Verdict({ ev, typed }: { ev: number; typed: boolean }) {
+  if (!typed) {
+    return (
+      <p className="mt-2 text-[12px] text-ink-3">
+        Verdict waits for the book&apos;s prices. At fair this ticket is a
+        coin at even money; every shaded leg moves it below that.
+      </p>
+    );
+  }
+  const take = ev >= 0;
+  const marginal = !take && ev >= -0.05;
+  return (
+    <p
+      className={`mt-2 rounded-md px-2.5 py-1.5 text-[12.5px] font-medium ${
+        take
+          ? "bg-[#e8f3ec] text-[#1f6b3d]"
+          : marginal
+            ? "bg-[#fbf3d5] text-[#7a5a00]"
+            : "bg-[#f6eaea] text-[#8a2b2b]"
+      }`}
+    >
+      {take
+        ? `Take it: the book pays at least fair, ${(ev * 100).toFixed(0) === "0" ? "level" : `+${(ev * 100).toFixed(0)}%`} expected on the stake.`
+        : marginal
+          ? `Marginal: ${(ev * 100).toFixed(0)}% expected. Only if these are favourites, which have run ahead of their stated odds; on draws, pass.`
+          : `Pass: ${(ev * 100).toFixed(0)}% expected at these prices. No structure turns shaded legs into value.`}
+    </p>
+  );
+}
+
 function WinnerForm({ s }: { s: Strategy }) {
   const slip = s.slip;
   const legs = slip.legs;
@@ -808,6 +1086,7 @@ function WinnerForm({ s }: { s: Strategy }) {
             {legs.length} legs. A line that lands pays the product of its
             legs&apos; fair prices, against {slip.lines} units staked.
           </p>
+          <SlipBook slip={slip} />
         </div>
 
         <div className="space-y-3">
@@ -939,48 +1218,77 @@ function FormSheet({ sheet }: { sheet?: Sheet | null }) {
     ["at home", sheet.home],
     ["away", sheet.away],
   ];
-  const rec = (r: FormRecord) => `${r.w}-${r.d}-${r.l}, ${r.gf}:${r.ga}`;
   const gpg = (v: number | null) => (v == null ? "—" : v.toFixed(1));
+  const wdl = (r: FormRecord) => (
+    <span className="num">
+      <b className="font-semibold text-[#1f6b3d]">{r.w}</b>-
+      <b className="font-semibold text-[#7a5a00]">{r.d}</b>-
+      <b className="font-semibold text-[#8a2b2b]">{r.l}</b>
+    </span>
+  );
+  // a plain render helper, not a component: a component created during
+  // render remounts on every render (react-hooks/static-components)
+  const row = (label: string, cell: (s: SideSheet) => ReactNode) => (
+    <tr key={label} className="border-t border-line">
+      <td className="py-1 pr-2 text-ink-3">{label}</td>
+      {sides.map(([where, s]) => (
+        <td key={where} className="num py-1 pr-2">
+          {cell(s)}
+        </td>
+      ))}
+    </tr>
+  );
   return (
-    <details className="mt-2 text-[11.5px] text-ink-2">
+    <details open className="mt-2 text-[11.5px] text-ink-2">
       <summary className="num cursor-pointer select-none text-ink-3">
-        form · draws {sheet.home.overall.d}/{sheet.home.overall.gp} v{" "}
-        {sheet.away.overall.d}/{sheet.away.overall.gp} · last 8 goals a game{" "}
-        {gpg(sheet.home.last8_goals_pg)} / {gpg(sheet.away.last8_goals_pg)}
-        {sheet.through && (
-          <span className="text-ink-3"> · results through {sheet.through}</span>
-        )}
+        form
+        {sheet.through && <> · results through {sheet.through}</>}
       </summary>
-      <div className="mt-1.5 grid gap-2 sm:grid-cols-2">
-        {sides.map(([where, s]) => (
-          <div
-            key={where}
-            className="rounded-lg border border-line bg-[#fafbfb] p-2"
-          >
-            <div className="font-medium text-ink">
-              {s.team} <span className="font-normal text-ink-3">{where}</span>
-            </div>
-            <div className="num">
-              {rec(s.venue)} in {s.venue.gp} · {s.venue.ppg.toFixed(2)} ppg
-            </div>
-            <div className="num text-ink-3">
-              season {rec(s.overall)} · draws {pct(s.overall.draw_pct)} · last
-              8: {s.last8_draws} draws, {gpg(s.last8_goals_pg)} goals a game
-            </div>
-            <div className="mt-1 flex flex-wrap gap-1">
-              {s.last8.map((g) => (
-                <span
-                  key={`${g.date}-${g.opp}`}
-                  className={`num rounded px-1.5 py-0.5 ${FORM_TONE[g.r]}`}
-                  title={`${g.date} · ${g.at === "H" ? "v" : "at"} ${g.opp}`}
-                >
-                  {g.gf}-{g.ga}
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
+      <table className="mt-1.5 w-full border-collapse text-[11.5px]">
+        <thead>
+          <tr>
+            <th className="w-[26%] py-1 pr-2 text-left font-normal text-ink-3"> </th>
+            {sides.map(([where, s]) => (
+              <th key={where} className="py-1 pr-2 text-left font-medium text-ink">
+                {s.team} <span className="font-normal text-ink-3">{where}</span>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {row("this season, there", (s) => (
+              <>
+                {wdl(s.venue)} <span className="text-ink-3">in {s.venue.gp}</span> · {s.venue.gf}:{s.venue.ga} ·{" "}
+                {s.venue.ppg.toFixed(2)} ppg
+              </>
+            ))}
+          {row("this season, all", (s) => (
+              <>
+                {wdl(s.overall)} · {s.overall.gf}:{s.overall.ga} · draws{" "}
+                <b className="font-semibold text-ink">{pct(s.overall.draw_pct)}</b>
+              </>
+            ))}
+          {row("last 8", (s) => (
+              <>
+                <b className="font-semibold text-ink">{s.last8_draws}</b> draw{s.last8_draws === 1 ? "" : "s"} ·{" "}
+                <b className="font-semibold text-ink">{gpg(s.last8_goals_pg)}</b> goals a game
+              </>
+            ))}
+          {row("newest first", (s) => (
+              <span className="flex flex-wrap gap-1">
+                {[...s.last8].reverse().map((g) => (
+                  <span
+                    key={`${g.date}-${g.opp}`}
+                    className={`num rounded px-1.5 py-0.5 ${FORM_TONE[g.r]}`}
+                    title={`${g.date} · ${g.at === "H" ? "home v" : "away at"} ${g.opp}`}
+                  >
+                    <span className="opacity-60">{g.at}</span> {g.gf}-{g.ga}
+                  </span>
+                ))}
+              </span>
+            ))}
+        </tbody>
+      </table>
     </details>
   );
 }
@@ -1432,10 +1740,8 @@ export function Picks() {
                   (w.acca.booked ? "This is the gold ledger's booked ticket." : "The gold pot books this at one unit a week.")
             }
             picks={w.acca.legs}
+            book={{ defaultK: w.acca.n, store: `betting.book.${w.booked ?? w.window?.start}.acca` }}
           />
-        ) : null}
-        {w.acca && w.acca.n > 0 && w.acca.p_all && w.acca.fair ? (
-          <AccaPrice pAll={w.acca.p_all} fair={w.acca.fair} />
         ) : null}
         {!w.acca ? (
           <p className="text-[12.5px] text-ink-3">
@@ -1447,16 +1753,19 @@ export function Picks() {
           title="Draws"
           note="The ticket, and the only board the slip pot bets. Ranked by the published draw probability — the same number the site shows — across the five leagues, normal confidence only; an exact tie goes to the form arm's classifier."
           picks={draws}
+          book={{ defaultK: 2, store: `betting.book.${w.booked ?? w.window?.start}.draws` }}
         />
         <PickGroup
           title="Home wins"
           note="Ranked on P(home) from the published triplet."
           picks={homes}
+          book={{ defaultK: homes.length, store: `betting.book.${w.booked ?? w.window?.start}.home` }}
         />
         <PickGroup
           title="Away wins"
           note="Ranked on P(away). The pool is deliberately wide — a strong away favourite is tier-gold exactly the way a home one is."
           picks={aways}
+          book={{ defaultK: aways.length, store: `betting.book.${w.booked ?? w.window?.start}.away` }}
         />
       </Section>
 
