@@ -437,9 +437,17 @@ function bookMath(
   let pProfitBook = 0;
   let pProfitFair = 0;
   let pAnyBook = 0;
+  // by number of legs landed: probability, and the return at book averaged
+  // over which legs they were (prices differ, so it is an average)
+  const byHits: { p: number; ret: number }[] = Array.from({ length: n + 1 }, () => ({ p: 0, ret: 0 }));
   for (let mask = 0; mask < 1 << n; mask++) {
     let p = 1;
-    for (let i = 0; i < n; i++) p *= mask & (1 << i) ? legs[i].prob : 1 - legs[i].prob;
+    let hits = 0;
+    for (let i = 0; i < n; i++) {
+      const on = (mask & (1 << i)) !== 0;
+      p *= on ? legs[i].prob : 1 - legs[i].prob;
+      if (on) hits++;
+    }
     let rb = 0;
     let rf = 0;
     for (const line of lines) {
@@ -453,10 +461,13 @@ function bookMath(
     if (rb > stake) pProfitBook += p;
     if (rf > stake) pProfitFair += p;
     if (rb > 0) pAnyBook += p;
+    byHits[hits].p += p;
+    byHits[hits].ret += p * rb;
   }
+  for (const h of byHits) h.ret = h.p > 0 ? h.ret / h.p : 0;
   const maxBook = lines.reduce((s, line) => s + line.reduce((m, i) => m * price(i), 1), 0);
   const maxFair = lines.reduce((s, line) => s + line.reduce((m, i) => m * legs[i].fair, 1), 0);
-  return { stake, lines: lines.length, maxBook, maxFair, evBook, evFair, pProfitBook, pProfitFair, pAnyBook };
+  return { stake, lines: lines.length, maxBook, maxFair, evBook, evFair, pProfitBook, pProfitFair, pAnyBook, byHits };
 }
 
 /** "YOUR BOOK PAYS", on every board. The user bets systems and accumulators,
@@ -583,6 +594,21 @@ function BoardBook({ legs, defaultK, store }: { legs: Pick[]; defaultK: number; 
           anything back <b className="font-semibold text-ink">{pct(m.pAnyBook)}</b>
         </span>
         {typed > 0 && typed < n && <span className="text-ink-3">{n - typed} leg(s) still at fair</span>}
+      </div>
+      {/* the week, hit by hit: this is what "38% anything back" means -
+          the chance of each count of legs landing and what that returns
+          on the stake. No adding percentages across rows. */}
+      <div className="num mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[11.5px] text-ink-3">
+        {m.byHits.map((h, hits) => (
+          <span key={hits}>
+            {hits} land{hits === 1 ? "s" : ""}{" "}
+            <b className="font-semibold text-ink">{pct(h.p)}</b> →{" "}
+            <b className={`font-semibold ${h.ret > m.stake ? "text-[#1f6b3d]" : h.ret > 0 ? "text-[#7a5a00]" : "text-ink-3"}`}>
+              {h.ret.toFixed(1)}
+            </b>
+            <span> on {m.stake}</span>
+          </span>
+        ))}
       </div>
       <Verdict ev={ev} typed={typed > 0} />
     </div>
