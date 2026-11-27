@@ -1753,6 +1753,60 @@ export function Picks() {
     <div>
       <WindowStrip w={w} onReload={load} busy={busy} />
 
+      {/* THE ADVISOR'S CALL, FIRST. The rule (user decision 2026-11-27) in
+          one box: only draws at 30%+ make the ticket, four play שיטה 2/4,
+          three play as singles, fewer sit the week out. The rest of the tab
+          is the evidence; this is the decision. */}
+      <div
+        className={`mt-4 rounded-xl border px-4 py-3 ${
+          draws.length >= 3
+            ? "border-[#cfe3d6] bg-[#eef7f1]"
+            : "border-[#e4d49a] bg-[#fdf8e7]"
+        }`}
+      >
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span className="text-[11px] uppercase tracking-wider text-ink-3">
+            The advisor
+          </span>
+          <span className="text-[16px] font-semibold">
+            {draws.length >= 4
+              ? "Four draws qualify → שיטה 2/4, six lines"
+              : draws.length === 3
+                ? "Three draws qualify → three singles"
+                : `${draws.length === 0 ? "No" : draws.length} draw${draws.length === 1 ? "" : "s"} qualify → no bet this week`}
+          </span>
+          {strategy && (
+            <span className="num text-[12.5px] text-ink-2">
+              profit from {profitFrom ?? "—"} hit{profitFrom === 1 ? "" : "s"} ·{" "}
+              {pct(strategy.slip.p_profit)} of weeks
+            </span>
+          )}
+        </div>
+        <p className="mt-1 text-[12.5px] leading-relaxed text-ink-2">
+          The rule: draws at 30% or more, highest first, no team twice, at most
+          four. Four play שיטה 2/4. Three play as singles. Two or fewer, the pot
+          sits out.{" "}
+          {draws.length >= 3 ? (
+            <>
+              This week&apos;s legs:{" "}
+              {draws.map((p, i) => (
+                <span key={fixtureKey(p)} className="num">
+                  {i > 0 && " · "}
+                  {p.home} v {p.away} {pct(p.pick_prob)}
+                </span>
+              ))}
+              . Type Winner&apos;s prices under the Draws board for the verdict;
+              the advisor prices at fair and never sets the stake.
+            </>
+          ) : (
+            <>
+              The candidates below show what missed the cut and by how much.
+              Nothing is booked, and the monkey&apos;s pot stays as it is.
+            </>
+          )}
+        </p>
+      </div>
+
       <Section
         title="The picks"
         lede={
@@ -1823,8 +1877,8 @@ export function Picks() {
 
       {strategy && (
         <Section
-          title="The Winner form"
-          lede="The recommended structure, the legs it is built from, what each hit count actually returns at fair prices, and the shapes it was chosen over."
+          title="The advisor's slip"
+          lede="The structure the rule picked this week, the legs it is built from, what each hit count returns at fair prices, and the shapes ranked underneath it."
         >
           <WinnerForm s={strategy} />
         </Section>
