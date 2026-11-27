@@ -467,6 +467,23 @@ function bookMath(
  *  and gets the whole ticket's numbers at those prices against at fair,
  *  and a verdict. Prices are kept per board and window in the browser;
  *  nothing is sent anywhere and no odds are ingested. */
+/** Winner's own names for a ticket of k picks from n, so the buttons read
+ *  the way the slip does: סינגלים for each leg on its own, שיטה k/n for
+ *  every k-combination, and the one-line accumulator by its Hebrew name. */
+const FOLD_HE: Record<number, string> = {
+  2: "כפולה", 3: "שלישייה", 4: "רביעייה", 5: "חמישייה", 6: "שישייה", 7: "שביעייה", 8: "שמינייה",
+};
+function structureName(k: number, n: number): string {
+  if (k === 1) return "סינגלים";
+  if (k === n) return FOLD_HE[n] ?? `${n}-fold`;
+  return `שיטה ${k}/${n}`;
+}
+function structureHelp(k: number, n: number): string {
+  if (k === 1) return `${n} separate bets, one on each pick`;
+  if (k === n) return `one bet on all ${n} picks together; pays only if every one lands`;
+  return `every combination of ${k} of the ${n} picks, each combination a separate line; pays from ${k} hits`;
+}
+
 function BoardBook({ legs, defaultK, store }: { legs: Pick[]; defaultK: number; store: string }) {
   const n = legs.length;
   const rawPrices = useStored(`${store}.prices`, "{}");
@@ -490,7 +507,7 @@ function BoardBook({ legs, defaultK, store }: { legs: Pick[]; defaultK: number; 
   );
   const ev = (m.evBook - m.stake) / m.stake;
   const set = (key: string, v: string) => setStored(`${store}.prices`, JSON.stringify({ ...saved, [key]: v }));
-  const structure = k === 1 ? "singles" : k === n ? `${n}-fold` : `system ${k}/${n}`;
+  const structure = structureName(k, n);
   return (
     <div className="mt-2 rounded-lg border border-line bg-[#fafbfb] p-3 text-[12px] text-ink-2">
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
@@ -504,9 +521,9 @@ function BoardBook({ legs, defaultK, store }: { legs: Pick[]; defaultK: number; 
               className={`num rounded border px-1.5 py-0.5 ${
                 kk === k ? "border-ink bg-card text-ink" : "border-line text-ink-3"
               }`}
-              title={kk === 1 ? "singles" : kk === n ? `one ${n}-fold` : `every ${kk}-combination (שיטה ${kk}/${n})`}
+              title={structureHelp(kk, n)}
             >
-              {kk === 1 ? "1s" : kk === n ? `${n}-fold` : `${kk}/${n}`}
+              {structureName(kk, n)}
             </button>
           ))}
         </span>
@@ -539,7 +556,7 @@ function BoardBook({ legs, defaultK, store }: { legs: Pick[]; defaultK: number; 
       <div className="num mt-2.5 flex flex-wrap gap-x-4 gap-y-1 border-t border-line pt-2">
         <span>
           {structure} · {m.lines} line{m.lines === 1 ? "" : "s"} ·{" "}
-          {k === n ? "total odds" : "max win"}{" "}
+          {k === n ? "total odds" : "max win (every line lands)"}{" "}
           <b className="font-semibold text-ink">{m.maxBook.toFixed(2)}</b>
           {typed > 0 && <span className="text-ink-3"> (fair {m.maxFair.toFixed(2)})</span>}
           {k === n && <span className="text-ink-3"> · lands {pct(m.pAnyBook)}</span>}
