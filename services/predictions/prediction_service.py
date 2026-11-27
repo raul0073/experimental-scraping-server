@@ -573,8 +573,60 @@ class PredictionService:
             p["sheet"] = form_sheet(p["league"], p["home"], p["away"], p.get("kickoff"),
                                     SEASON, HISTORY_SEASONS, cache=_sheets)
 
+        # THE ACCUMULATOR (user decision 2026-11-27): the strongest calls of
+        # the window at or above GOLD_P, any side, no team twice, hard cap
+        # ACCA_N. Eight seasons walk-forward (experiment_accumulators.py):
+        # a 4-fold of these lands 3.1 of 4 legs, the ticket one week in
+        # three against 27% stated; five legs or more lose money at the
+        # book. Legs are Pick-shaped (pick_type, pick_prob, rank) so the
+        # page renders them like any board. While the round is booked the
+        # ticket is the gold ledger's row, never a re-ranking.
+        from services.predictions.gold_ledger import ACCA_N, GOLD_P, GoldLedger
+        acca_legs = []
+        if pending:
+            for r in GoldLedger._read():
+                if r.get("window") == pending["window"] and r.get("type") == "acca":
+                    live_by = {(p["home"], p["away"]): p for ps in preds.values() for p in ps}
+                    for i, l in enumerate(r["legs"]):
+                        live = live_by.get((l["home"], l["away"]), {})
+                        acca_legs.append({**live, "league": l["league_full"], "home": l["home"],
+                                          "away": l["away"], "kickoff": l["kickoff"],
+                                          "rank": i + 1, "pick_type": l["side"],
+                                          "pick_prob": l["prob"], "in_window": True,
+                                          **({"score": l["score"], "hit": l["hit"]} if "hit" in l else {})})
+                    break
+        acca_booked = bool(acca_legs)
+        if not acca_legs:
+            pool = sorted((p for ps in preds.values() for p in ps
+                           if p["in_window"] and p["confidence"] == "normal" and not p.get("score")),
+                          key=lambda p: -max(p["probabilities"].values()))
+            used: set = set()
+            for p in pool:
+                side = max(p["probabilities"], key=p["probabilities"].get)
+                prob = p["probabilities"][side]
+                if prob < GOLD_P:
+                    break
+                if p["home"] in used or p["away"] in used:
+                    continue
+                used.update((p["home"], p["away"]))
+                acca_legs.append({**p, "rank": len(acca_legs) + 1, "pick_type": side,
+                                  "pick_prob": round(prob, 4)})
+                if len(acca_legs) == ACCA_N:
+                    break
+        p_all = 1.0
+        for l in acca_legs:
+            p_all *= l["pick_prob"]
+        acca = {
+            "legs": acca_legs, "n": len(acca_legs), "cap": ACCA_N, "floor": GOLD_P,
+            "booked": acca_booked,
+            "p_all": round(p_all, 4) if acca_legs else None,
+            "fair": round(1 / p_all, 2) if acca_legs else None,
+            "expected_legs": round(sum(l["pick_prob"] for l in acca_legs), 2),
+        }
+
         result = {
             "season": SEASON,
+            "acca": acca,
             "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "window": {"start": window_start, "end": window_end},
             # the window this round was committed under, or None when nothing

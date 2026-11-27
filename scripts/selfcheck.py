@@ -759,11 +759,11 @@ def window_no_scored_bets(sb):
     fake = {**w, "booked": None, "window": {"start": d(1), "end": d(1)}}
     res = GoldLedger.commit(fake)
     check(res.get("committed") == 1, f"gold commit on a half-played slate refused: {res}")
-    bets = sb.read_jsonl(LEDGER_FILES["gold"])[0]["bets"]
-    check(len(bets) == len(LEAGUES), f"expected one unplayed GOLD favourite per league, got {len(bets)}")
-    check(all((b["home"], b["away"]) not in results for b in bets),
+    legs = sb.read_jsonl(LEDGER_FILES["gold"])[0]["legs"]
+    check(2 <= len(legs) <= 4, f"expected a 2-4 leg accumulator of unplayed favourites, got {len(legs)}")
+    check(all((b["home"], b["away"]) not in results for b in legs),
           "gold booked a fixture whose result it already knew")
-    return f"{len(scored)} results on the board, none bet; gold took the {len(bets)} unplayed favourites"
+    return f"{len(scored)} results on the board, none bet; gold booked a {len(legs)}-leg accumulator of unplayed favourites"
 
 
 @case("window", "a pending row that can never resolve does not freeze the window forever")
@@ -810,9 +810,14 @@ def fake_weekly(window_start: str, booked: Optional[str] = None) -> Dict[str, An
                    "season": SEASON, "week": 2, "league": lg, "xg": {}, "tier": "gold",
                    "modal_scores": {"home": ("2-0", 0.1), "draw": ("1-1", 0.1), "away": ("0-1", 0.05)},
                    "call": "home"}] for lg in LEAGUES}
+    # the week's accumulator, as weekly_picks shapes it: Pick-shaped legs
+    acca_legs = [{**preds[lg][0], "rank": i + 1, "pick_type": "home", "pick_prob": 0.62}
+                 for i, lg in enumerate(LEAGUES[:4])]
     return {"season": SEASON, "window": {"start": window_start, "end": window_start},
             "booked": booked, "draw_picks": draws, "home_win_picks": homes, "away_win_picks": [],
             "all_predictions": preds,
+            "acca": {"legs": acca_legs, "n": 4, "cap": 4, "floor": 0.55, "booked": False,
+                     "p_all": round(0.62 ** 4, 4), "fair": round(1 / 0.62 ** 4, 2), "expected_legs": 2.48},
             "strategy": {"slip": {"title_he": "שיטה 2/4", "title_en": "system 2/4", "k": [2],
                                   "lines": 6, "legs": legs, "p_profit": 0.35, "mandate": None}}}
 
@@ -859,13 +864,13 @@ def guards_accept_new(sb):
     res_g = GoldLedger.commit(fake_weekly(d(1)))
     check(res_p.get("added") == 6, f"picks: expected 6 added, got {res_p}")
     check(res_s.get("committed") == 1, f"slip refused: {res_s}")
-    check(res_g.get("committed") == 1 and res_g.get("bets") == 5, f"gold refused or short: {res_g}")
+    check(res_g.get("committed") == 1 and res_g.get("legs") == 4, f"gold refused or short: {res_g}")
     after = counts(sb)
     check(after == {"picks": before["picks"] + 6, "slips": before["slips"] + 1,
                     "gold": before["gold"] + 1}, f"row counts {before} -> {after}")
     check(all(r.get("window") == d(1) for r in sb.read_jsonl(LEDGER_FILES["picks"])[1:]),
           "committed picks do not carry the window key")
-    return f"picks +6, slip +1, gold +1 (5 bets) under {d(1)}"
+    return f"picks +6, slip +1, gold +1 (4-leg accumulator) under {d(1)}"
 
 
 @case("guards", "row counts do not grow on a refused commit (live booked round)")

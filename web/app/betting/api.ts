@@ -276,6 +276,21 @@ export type Weekly = {
   draw_watchlist?: Watch[];
   home_win_picks: Pick[];
   away_win_picks?: Pick[];
+  /** THE WEEK'S ACCUMULATOR: the strongest calls at or above `floor`, any
+   *  side, no team twice, at most `cap` legs. Eight seasons walk-forward
+   *  said four is the cap: a 4-fold of these lands 3.1 of 4 legs and the
+   *  ticket one week in three; five legs or more lose at the book. While the
+   *  round is booked these are the gold ledger's legs, never a re-ranking. */
+  acca: {
+    legs: Pick[];
+    n: number;
+    cap: number;
+    floor: number;
+    booked: boolean;
+    p_all: number | null;
+    fair: number | null;
+    expected_legs: number;
+  };
   trixy: Trixy | null;
   /** Every in-window fixture, keyed by full league name. */
   all_predictions: Record<string, Fixture[]>;
@@ -412,8 +427,9 @@ export type GoldBet = {
   home: string;
   away: string;
   fixture: string;
+  /** The side backed, or "draw" for a draw leg (accumulator rows only). */
   team: string;
-  side: "home" | "away";
+  side: "home" | "away" | "draw";
   prob: number;
   breakeven: number;
   kickoff: string;
@@ -427,7 +443,15 @@ export type GoldWeek = {
   window: string;
   unit: number;
   stake: number;
-  bets: GoldBet[];
+  /** Singles, on rows booked before 2026-11-27. Absent on accumulator rows. */
+  bets?: GoldBet[];
+  /** Since 2026-11-27 the pot books ONE accumulator a week: these legs, one
+   *  line, paying the product of the frozen breakevens only when every leg
+   *  lands. `fair` is that product; `p_all` the probability claimed. */
+  type?: "acca";
+  legs?: GoldBet[];
+  fair?: number;
+  p_all?: number;
   status: "pending" | "graded";
   pot_after: number;
   graded_at?: string;
@@ -441,7 +465,25 @@ export type GoldWeek = {
  *  exactly when realized accuracy beats the probability the model stated.
  *  `realized` against `expected` is therefore the whole reading: it is a
  *  calibration test wearing a bankroll. */
+/** The accumulator book inside the gold pot: one ticket a week since
+ *  2026-11-27, the strongest calls at or above the floor, capped. */
+export type GoldTickets = {
+  n: number;
+  graded: number;
+  landed: number;
+  landed_rate: number | null;
+  expected_rate: number | null;
+  legs_graded: number;
+  legs_landed: number;
+  legs_expected: number;
+  staked: number;
+  returned: number;
+  cap: number;
+  floor: number;
+};
+
 export type Gold = {
+  tickets: GoldTickets;
   start_pot: number;
   pot: number;
   staked: number;

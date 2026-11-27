@@ -7,6 +7,41 @@ _Always up to date. What's done, what's in flight, what's next. Spec: `projectIn
 **LIVE, FIVE LEAGUES, 2026-09-23.** predictorous.com serves teams, players
 and managers for ENG/ESP/ITA/GER/FRA. Commit `cb9c74a` pushed.
 
+## The gold pot bets one accumulator a week; the cap is four (2026-11-27)
+
+**Asked.** How many legs of an accumulator of the model's best calls land,
+where the cap should sit, and whether four draws on שיטה 2/4 is the most
+profitable structure. `scripts/experiment_accumulators.py`: 292 betting
+weeks of 1819..2526, walk-forward, one ticket a week, at fair prices and at
+the closing odds the book listed (report: `data/reports/
+experiment_accumulators.md`).
+
+**Answers.** A 4-fold of the strongest calls at >= 55% lands 3.1 of 4 legs
+on average and the whole ticket 36% of weeks against 27% stated - the
+strongest calls run five points ahead of their stated probability (top-4
+legs: stated 72%, landed 78%), the only edge in the table. Return at book
++4.8% (90% range -9.5..+18.5), worst losing run 18 weeks of stake. From
+five legs the return at book turns negative and the losing run doubles
+(36 at five, 64 at six). Draws 2/4: +5.9% at book but a 136-unit run on
+six units a week (23 weeks of stake), four losing seasons of eight, and
+the draw legs land exactly what the model says - no edge, the return is
+the book's draw prices plus variance. Neither edge is proven over 292
+weeks. Cap four; the draw system stays as the second instrument.
+
+**Built.** `weekly_picks` carries `acca`: the strongest in-window calls at
+or above GOLD_P, any side, no team twice, capped at ACCA_N=4, Pick-shaped
+legs with combined fair price, P(all) and expected legs; served from the
+gold ledger's row while the round is booked. `GoldLedger.commit` books
+that ticket as one row (`type: acca`, `legs`, `fair`, `p_all`, one UNIT)
+instead of singles; `grade` pays the product of the frozen breakevens only
+when every leg lands (draw legs grade on a draw; a void leg is 1.00);
+`summary` adds `tickets` and pools settled legs from both shapes. Old
+singles rows stay as they were. Betting page: a "Best bets · N-fold" board
+first on the Picks tab with the one-in-three written on it; the Monkey
+tab's gold rows render tickets. selfcheck 25/25 with the new semantics.
+This window's ticket: Bayern at Hamburg, Inter v Genoa, Roma v Monza,
+PSG v Lorient - fair 3.66, lands 27% by the model's numbers.
+
 ## Our own xG, from the WhoScored shots (2026-11-25)
 
 **Why.** Understat has been dark since 11-01 and no soccerdata reader
