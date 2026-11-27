@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { leagueShort } from "@/lib/league";
 
-import { getMonkey, message } from "./api";
+import { getMonkey, getWeekly, message } from "./api";
 import type {
   Block,
   Gold,
@@ -13,6 +13,7 @@ import type {
   Monkey as Book,
   MonkeyBook,
   Slip,
+  Weekly,
 } from "./api";
 
 /** The monkey's book — what following the advice would actually have done.
@@ -606,6 +607,120 @@ function GoldRow({
  *  every gold favourite at its own fair price means the pot grows if and only
  *  if realized accuracy beat the stated probability — so realized against
  *  expected is the reading, and the money is the consequence. */
+/** THE WEEK THAT IS NOT IN THE BOOKS YET. Both ledgers write their rows at
+ *  the daily run, not when the page is opened: until that run books the
+ *  window, the newest row below is last week's and this card is the only
+ *  place the Monkey says what it is about to play. Nothing here is a record;
+ *  the picks can still move until the run freezes them. */
+function ThisWeek({ w }: { w: Weekly }) {
+  if (!w.window || w.booked) return null;
+  const slip = w.strategy?.slip ?? null;
+  const acca = w.acca ?? null;
+  const draws = w.draw_picks?.length ?? 0;
+  const accaLegs = acca?.legs ?? [];
+  return (
+    <section className="mb-6 rounded-xl border border-[#e6d8b5] bg-[#fbf6e9] px-4 py-3.5 sm:px-5">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <h3 className="font-display text-[16px] tracking-[0.01em]">
+          This week is not in the books yet
+        </h3>
+        <span className="num text-[11.5px] text-ink-3">
+          window {w.window.start} → {w.window.end}
+        </span>
+      </div>
+      <p className="mt-1.5 max-w-3xl text-[12.5px] leading-relaxed text-ink-2">
+        The books write their rows at the daily run, not when this page opens.
+        Nothing has run since the last round settled, so the newest row below
+        is last week&apos;s. The next run books what stands here, at the
+        prices of that moment; until then these can still move.
+      </p>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <div className="rounded-lg border border-line bg-card px-3 py-2.5">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-3">
+            The monkey&apos;s slip
+          </div>
+          {slip ? (
+            <>
+              <div className="mt-1 text-[13px]">
+                {slip.title_he}
+                <span className="num text-ink-3">
+                  {" "}
+                  · {slip.lines} {slip.lines === 1 ? "line" : "lines"} · profit in{" "}
+                  {pct(slip.p_profit)} of weeks
+                </span>
+              </div>
+              <ul className="mt-1.5 space-y-0.5">
+                {slip.legs.map((l) => (
+                  <li key={l.fixture} className="flex items-baseline gap-2 text-[12px]">
+                    <span
+                      className={`inline-block min-w-[20px] rounded-full border px-1.5 text-center text-[10.5px] font-semibold ${
+                        MARK_STYLE[l.mark] ?? "border-line bg-card text-ink-2"
+                      }`}
+                    >
+                      {l.mark}
+                    </span>
+                    <span className="truncate">{l.fixture}</span>
+                    <span className="num ml-auto text-ink-3">{pct(l.prob)}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <div className="mt-1 text-[12.5px] text-ink-2">
+              No slip: {draws} {draws === 1 ? "draw qualifies" : "draws qualify"} at
+              the 30% floor and the advisor needs three. The pot sits this week
+              out.
+            </div>
+          )}
+        </div>
+        <div className="rounded-lg border border-line bg-card px-3 py-2.5">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-3">
+            The gold ticket
+          </div>
+          {acca && accaLegs.length >= 2 ? (
+            <>
+              <div className="mt-1 text-[13px]">
+                {accaLegs.length}-fold
+                <span className="num text-ink-3">
+                  {" "}
+                  · fair {acca.fair?.toFixed(2)} · lands{" "}
+                  {acca.p_all != null ? pct(acca.p_all) : "—"} · cap {acca.cap}
+                </span>
+              </div>
+              <ul className="mt-1.5 space-y-0.5">
+                {accaLegs.map((l) => (
+                  <li
+                    key={`${l.home}|${l.away}`}
+                    className="flex items-baseline gap-2 text-[12px]"
+                  >
+                    <span
+                      className={`inline-block min-w-[20px] rounded-full border px-1.5 text-center text-[10.5px] font-semibold ${
+                        MARK_STYLE[l.pick_type === "home" ? "1" : l.pick_type === "away" ? "2" : "X"] ??
+                        "border-line bg-card text-ink-2"
+                      }`}
+                    >
+                      {l.pick_type === "home" ? "1" : l.pick_type === "away" ? "2" : "X"}
+                    </span>
+                    <span className="truncate">
+                      {l.home} v {l.away}
+                    </span>
+                    <span className="num ml-auto text-ink-3">{pct(l.pick_prob)}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <div className="mt-1 text-[12.5px] text-ink-2">
+              No ticket: fewer than two calls at{" "}
+              {pct(acca?.floor ?? 0.55)} this week.
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function GoldPot({ g }: { g: Gold }) {
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const ordered = chronological(g.weeks);
@@ -627,7 +742,7 @@ function GoldPot({ g }: { g: Gold }) {
           The gold pot
         </h3>
         <span className="text-[12px] text-ink-3">
-          the same question asked of singles
+          one accumulator a week, graded as a ticket
         </span>
       </div>
 
@@ -669,7 +784,7 @@ function GoldPot({ g }: { g: Gold }) {
         )}
 
         <div className="num mt-1.5 text-[11px] text-ink-3">
-          over {s.n} settled singles
+          over {s.n} settled legs
           {s.pending_legs > 0 && <> · {s.pending_legs} still to play</>}
           {s.n !== g.bets_graded && (
             <>
@@ -716,7 +831,7 @@ function GoldPot({ g }: { g: Gold }) {
               Gate A
             </span>
             <span className="num text-[11.5px] text-ink-2">
-              {g.gate_a.target_n} singles at {pct(g.gate_a.target_acc)} or
+              {g.gate_a.target_n} legs at {pct(g.gate_a.target_acc)} or
               better
             </span>
             <span
@@ -742,7 +857,7 @@ function GoldPot({ g }: { g: Gold }) {
             />
           </div>
           <div className="num mt-1 text-[10.5px] text-ink-3">
-            {s.n} of {g.gate_a.target_n} singles — {(progress * 100).toFixed(0)}%
+            {s.n} of {g.gate_a.target_n} legs — {(progress * 100).toFixed(0)}%
             of the way to a sample worth judging
           </div>
         </div>
@@ -928,6 +1043,7 @@ function SlipBook({ m }: { m: Book }) {
 
 export function Monkey() {
   const [book, setBook] = useState<MonkeyBook | null>(null);
+  const [weekly, setWeekly] = useState<Weekly | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
@@ -940,6 +1056,12 @@ export function Monkey() {
       .catch((e: unknown) => {
         if (alive) setErr(message(e));
       });
+    // the unbooked week is a courtesy, never a reason to fail the page
+    getWeekly()
+      .then((r) => {
+        if (alive) setWeekly(r);
+      })
+      .catch(() => undefined);
     return () => {
       alive = false;
     };
@@ -979,6 +1101,7 @@ export function Monkey() {
 
   return (
     <div>
+      {weekly && <ThisWeek w={weekly} />}
       <SlipBook m={book.monkey} />
       <GoldPot g={book.gold} />
 

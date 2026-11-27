@@ -7,6 +7,14 @@ _Always up to date. What's done, what's in flight, what's next. Spec: `projectIn
 **LIVE, FIVE LEAGUES, 2026-09-23.** predictorous.com serves teams, players
 and managers for ENG/ESP/ITA/GER/FRA. Commit `cb9c74a` pushed.
 
+## The Monkey shows the week it has not booked yet (2026-11-27)
+
+**Why the Monkey had no slip for 11-27.** Both ledgers (slips, gold) write their rows only inside `run_weekly` at the daily run; nothing has run since 11-24, so window 2026-11-27 is unbooked and the newest Monkey row was 11-20. That is by design (the run freezes the prices), but the tab said nothing about it.
+
+**Done.** `Monkey.tsx` fetches the weekly payload beside the book and, when `booked` is null, opens with a "This week is not in the books yet" card: the window, the advisor's slip (shape, lines, legs with marks and %), the gold ticket (n-fold, fair, P(lands), legs), or the sit-out / no-ticket reason. It vanishes once the run books the window. Gold copy no longer says "singles" (Gate A counts legs; the pot is one accumulator a week). `run_weekly._notify` lists the gold n-fold with its legs instead of "N GOLD favorites".
+
+**Gold is already an accumulator with a cap**, not singles: the ledger books up to `ACCA_N=4` legs at `GOLD_P=0.55` (the cap measured in `experiment_accumulators.py`: 4-fold lands one week in three, five or more lose at the book). This week: 4-fold Bayern/Inter/Roma/PSG, fair 3.66, lands 27%. It books at the next daily run.
+
 ## The draw ticket has a floor: 30%, 2/4 on four, singles on three (2026-11-27)
 
 **The search.** `scripts/experiment_strategies.py`: 200 strategies (draw

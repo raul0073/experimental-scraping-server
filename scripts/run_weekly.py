@@ -115,12 +115,16 @@ def _notify(weekly):
     if slip:
         lines.append(f"🐒 {slip.get('title_he', '')} · {slip.get('lines', 0)} lines · "
                      f"P(profit) {slip.get('p_profit', 0):.0%}")
-    golds = [b for lg, ps in (weekly.get("all_predictions") or {}).items() for b in ps
-             if b.get("in_window") and b["confidence"] == "normal"
-             and max(b["probabilities"].values()) >= 0.55
-             and max(b["probabilities"], key=b["probabilities"].get) != "draw"]
-    if golds:
-        lines.append(f"🥇 {len(golds)} GOLD favorites (breakeven 1/p — bet only above it)")
+    # the gold pot bets one accumulator a week (2026-11-27), not singles
+    acca = weekly.get("acca") or {}
+    legs = acca.get("legs") or []
+    if len(legs) >= 2:
+        fair = acca.get("fair")
+        lines.append(f"🥇 gold {len(legs)}-fold · fair {fair:.2f}" if fair else
+                     f"🥇 gold {len(legs)}-fold")
+        for l in legs:
+            mark = {"home": "1", "away": "2"}.get(l.get("pick_type"), "X")
+            lines.append(f"  {mark} {l['home']} v {l['away']} ({l['pick_prob']:.0%})")
     return send_telegram("\n".join(lines))
 
 
